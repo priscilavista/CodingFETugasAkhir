@@ -75,7 +75,7 @@
                                 border-radius: 10px; font-weight: 4%; font-family: Calibri;"
                                 class="blue white--text justify-center align-center"
                                 depressed
-                                @click="submit"
+                                @click="login"
                                 >Masuk</v-btn
                                 >
                             </v-card-actions>
@@ -134,6 +134,26 @@ export default {
             image2: require("@/assets/pertamina.jpg"),
         }
     },
+    methods:{
+        login(){
+            var url = this.$api + "/login";
+            this.$http
+                .post(url, {email_pegawai: this.email, password: this.password})
+                .then((response) => {
+                    this.error_message = response.data.message;
+                    this.color = "green";
+                    this.snackbar = true;
+                    this.$router.push({ name: "Dashboard" });
+                })
+                .catch((error) => {
+                this.error_message = error.response.data.message;
+                this.color = "red";
+                this.snackbar = true;
+                this.load = false;
+            });
+        }
+
+    }
 }
 </script>
 

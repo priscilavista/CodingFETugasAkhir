@@ -249,7 +249,7 @@ export default {
           text: "Jabatan",
           align: "start",
           sortable: true,
-          value: "nama_role",
+          value: "role_pegawai",
         },
         { text: "Nama", value: "nama_pegawai" },
         { text: "Tanggal Lahir", value: "tanggal_lahir_pegawai" },
@@ -300,25 +300,17 @@ export default {
       }
     },
     readData() {
-      var url = this.$api + "/pegawaiRead";
+      var url = this.$api + "/pegawai/getAll";
       this.$http
-        .get(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .get(url)
         .then((response) => {
           this.pegawais = response.data.data;
         });
     },
     readDataRemove() {
-      var url = this.$api + "/pegawaiRemove";
+      var url = this.$api + "/pegawai/getAll";
       this.$http
-        .get(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .get(url)
         .then((response) => {
           this.pegawaisR = response.data.data;
         });
@@ -496,8 +488,8 @@ export default {
       localStorage.setItem("reloaded", "1");
       location.reload();
     }
-    this.readDataRemove();
-    this.updateTemp();
+    this.readData();
+    // this.updateTemp();
   },
 };
 </script>
