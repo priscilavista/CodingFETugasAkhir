@@ -175,7 +175,7 @@
               label="Kelurahan"
               required
             ></v-select>
-            <v-select
+            <!-- <v-select
               :rules="padukuhanRules"
               v-model="form.padukuhan_pangkalan"
               :items="padukuhan"
@@ -183,7 +183,7 @@
               item-value="id_padukuhan"
               label="Padukuhan"
               required
-            ></v-select>
+            ></v-select> -->
             <v-text-field
               :rules="alamatRules"
               v-model="form.alamat_pangkalan"
@@ -386,19 +386,19 @@ export default {
         }
       });
     },
-    readPadukuhan() {
-      var url = this.$api + "/padukuhanRead/" + this.form.kelurahan_pangkalan;
-      this.$http.get(url).then((response) => {
-        // this.role = response.data.data;
-        let temp = response.data.data;
-        this.form_padukuhan.id_padukuhan = temp.map((v) => v.id_padukuhan);
-        this.form_padukuhan.nama_padukuhan = temp.map((v) => v.nama_padukuhan);
-        for (let i = 0; i < this.form_padukuhan.nama_padukuhan.length; i++) {
-          this.padukuhan.id_padukuhan.push(this.form_padukuhan.id_padukuhan[i]);
-          this.padukuhan.nama_padukuhan.push(this.form_padukuhan.nama_padukuhan[i]);
-        }
-      });
-    },
+    // readPadukuhan() {
+    //   var url = this.$api + "/padukuhanRead/" + this.form.kelurahan_pangkalan;
+    //   this.$http.get(url).then((response) => {
+    //     // this.role = response.data.data;
+    //     let temp = response.data.data;
+    //     this.form_padukuhan.id_padukuhan = temp.map((v) => v.id_padukuhan);
+    //     this.form_padukuhan.nama_padukuhan = temp.map((v) => v.nama_padukuhan);
+    //     for (let i = 0; i < this.form_padukuhan.nama_padukuhan.length; i++) {
+    //       this.padukuhan.id_padukuhan.push(this.form_padukuhan.id_padukuhan[i]);
+    //       this.padukuhan.nama_padukuhan.push(this.form_padukuhan.nama_padukuhan[i]);
+    //     }
+    //   });
+    // },
     save() {
       this.pangkalan.append("nama_pangkalan", this.form.nama_pangkalan);
       this.pangkalan.append("id_registrasi_pangkalan", this.form.id_registrasi_pangkalan);
@@ -409,6 +409,7 @@ export default {
       );
       this.pangkalan.append("email_pangkalan", this.form.email_pangkalan);
       this.pangkalan.append("no_telp_pangkalan", this.form.no_telp_pangkalan);
+      this.pangkalan.append("id_kelurahan", this.form.kelurahan_pangkalan);
 
       var url = this.$api + "/pangkalan/";
       this.load = true;
@@ -466,6 +467,7 @@ export default {
         tanggal_lahir_pangkalan: this.form.tanggal_lahir_pangkalan,
         email_pangkalan: this.form.email_pangkalan,
         no_telp_pangkalan: this.form.no_telp_pangkalan,
+        id_kelurahan: this.form.kelurahan_pangkalan,
       };
 
       var url = this.$api + "/pangkalan/" + this.editId;

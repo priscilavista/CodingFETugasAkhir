@@ -36,23 +36,37 @@
                                     </v-col>  
                                 </v-row>
                                 <v-form ref="form" lazy-validation>
-                                <v-text-field
-                                    label="Email"
-                                    type="email"
-                                    v-model="email"
-                                    :rules="emailRules"
-                                    required
-                                    style="margin-top: -10%"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="Password"
-                                    v-model="password"
-                                    type="password"
-                                    :rules="passwordRules"
-                                    counter
-                                    required
-                                ></v-text-field>
+                                    <v-radio-group
+                                        v-model="role"
+                                        row
+                                        style="padding-bottom:20px"
+                                        >
+                                        <v-radio
+                                            label="Pegawai"
+                                            value="pegawai"
+                                        ></v-radio>
+                                        <v-radio
+                                            label="Pangkalan"
+                                            value="pangkalan"
+                                        ></v-radio>
+                                    </v-radio-group>
+                                    <v-text-field
+                                        label="Email"
+                                        type="email"
+                                        v-model="email"
+                                        :rules="emailRules"
+                                        required
+                                        style="margin-top: -10%"
+                                    >
+                                    </v-text-field>
+                                    <v-text-field
+                                        label="Password"
+                                        v-model="password"
+                                        type="password"
+                                        :rules="passwordRules"
+                                        counter
+                                        required
+                                    ></v-text-field>
                                 </v-form>
                             </v-card-text>
                             <v-card-actions style="padding: 0% 8% 8% 8%">
@@ -106,6 +120,8 @@ export default {
             snackbar: false,
             error_message: "",
             color: "",
+            role: "",
+            roleRules: [(v) => !!v || "Role is Required"],
             password: "",
             passwordRules: [(v) => !!v || "Password is Required"],
             email: "",
@@ -206,5 +222,8 @@ export default {
     .col-10 {width: 83.33%;}
     .col-11 {width: 91.66%;}
     .col-12 {width: 100%;}
+    }
+    .v-input--radio-group__input {
+        width: 77.7%;
     }
 </style>

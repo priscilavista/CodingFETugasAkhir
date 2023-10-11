@@ -164,7 +164,7 @@
               label="Kelurahan"
               required
             ></v-select>
-            <v-select
+            <!-- <v-select
               :rules="padukuhanRules"
               v-model="form.padukuhan_sppbe"
               :items="padukuhan"
@@ -172,7 +172,7 @@
               item-value="id_padukuhan"
               label="Padukuhan"
               required
-            ></v-select>
+            ></v-select> -->
             <v-text-field
               :rules="alamatRules"
               v-model="form.alamat_sppbe"
@@ -373,19 +373,19 @@ export default {
         }
       });
     },
-    readPadukuhan() {
-      var url = this.$api + "/padukuhanRead/" + this.form.kelurahan_sppbe;
-      this.$http.get(url).then((response) => {
-        // this.role = response.data.data;
-        let temp = response.data.data;
-        this.form_padukuhan.id_padukuhan = temp.map((v) => v.id_padukuhan);
-        this.form_padukuhan.nama_padukuhan = temp.map((v) => v.nama_padukuhan);
-        for (let i = 0; i < this.form_padukuhan.nama_padukuhan.length; i++) {
-          this.padukuhan.id_padukuhan.push(this.form_padukuhan.id_padukuhan[i]);
-          this.padukuhan.nama_padukuhan.push(this.form_padukuhan.nama_padukuhan[i]);
-        }
-      });
-    },
+    // readPadukuhan() {
+    //   var url = this.$api + "/padukuhanRead/" + this.form.kelurahan_sppbe;
+    //   this.$http.get(url).then((response) => {
+    //     // this.role = response.data.data;
+    //     let temp = response.data.data;
+    //     this.form_padukuhan.id_padukuhan = temp.map((v) => v.id_padukuhan);
+    //     this.form_padukuhan.nama_padukuhan = temp.map((v) => v.nama_padukuhan);
+    //     for (let i = 0; i < this.form_padukuhan.nama_padukuhan.length; i++) {
+    //       this.padukuhan.id_padukuhan.push(this.form_padukuhan.id_padukuhan[i]);
+    //       this.padukuhan.nama_padukuhan.push(this.form_padukuhan.nama_padukuhan[i]);
+    //     }
+    //   });
+    // },
     save() {
       this.sppbe.append("nama_sppbe", this.form.nama_sppbe);
       this.sppbe.append("role_sppbe", this.form.nama_role);
