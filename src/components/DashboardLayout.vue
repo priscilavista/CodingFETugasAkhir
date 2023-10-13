@@ -436,8 +436,6 @@
       </v-card>
     </v-dialog>
 
-    
-
     <v-snackbar v-model="snackbar" :color="color" timeout="750" bottom>{{
       error_message
     }}</v-snackbar>
@@ -567,9 +565,10 @@ export default {
 
     logout() {
       localStorage.removeItem("id");
-      localStorage.removeItem("password");
-      localStorage.removeItem("jabatan");
+      localStorage.removeItem("token");
       localStorage.removeItem("email");
+      localStorage.removeItem("jabatan");
+      localStorage.removeItem("password");
       localStorage.removeItem("namaPegawai");
       this.dialogLogout = false;
       this.$router.push({ path: "/login" });

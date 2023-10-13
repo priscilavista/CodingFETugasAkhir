@@ -1,169 +1,211 @@
 <template>
     <!-- <div id="app"> -->
-        <v-app>
-            <v-container fluid pa-0>
-                <v-row align="center" justify="center"
-                    style="height: 100vh; background: #196b4d; margin: 0">
-                    <!-- style="height:100vh; background: linear-gradient(#3e6fbd,#87182c) -->
-                    <v-col cols="12" lg="6" md="6" 
-                        class="left-login white fill-height d-flex flex-column justify-center align-center">
-                        <h2 style="font-weight: bold; margin-top:6.5%">Selamat datang di iSatria!</h2>
-                        <h5 >Silahkan login untuk melanjutkan</h5>
-                        <v-img
-                            contain
-                            width="50%"
-                            height="50%"
-                            :src="image2"
-                        ></v-img>
-                    </v-col>
-                    <v-col cols="12" lg="6" md="6"
+    <v-app>
+        <v-container fluid pa-0>
+            <v-row 
+                align="center" justify="center"
+                style="height: 100vh; background: #196b4d; margin: 0"
+            >
+                <!-- style="height:100vh; background: linear-gradient(#3e6fbd,#87182c) -->
+                <v-col 
+                    cols="12" lg="6" md="6" 
+                    class="left-login white fill-height d-flex flex-column justify-center align-center"
+                >
+                    <h2 style="font-weight: bold; margin-top:6.5%">Selamat datang di iSatria!</h2>
+                    <h5>Silahkan login untuk melanjutkan</h5>
+                    <v-img
+                        contain
+                        width="50%"
+                        height="50%"
+                        :src="image2"
+                    />
+                </v-col>
+
+                <v-col 
+                    cols="12" lg="6" md="6"
+                    style="background: #196b4d;"
                     class="right-login fill-height d-flex flex-column justify-center align-center"
-                    style="background: #196b4d;">
-                        <v-card max-width="90%"
-                            max-height="100%">
-                            <v-card-text style="padding: 8%">
-                                <v-row>
-                                    <v-col cols="6">
-                                    </v-col>  
-                                    <v-col cols="6" style="padding: 0">
-                                        <v-img
-                                            contain
-                                            :src="image"
-                                            width="90%"
-                                            height="90%"
-                                            style="margin-left: 15%; "
-                                        ></v-img>
-                                    </v-col>  
-                                </v-row>
-                                <v-form ref="form" lazy-validation>
-                                    <v-radio-group
-                                        v-model="role"
-                                        row
-                                        style="padding-bottom:20px"
-                                        >
-                                        <v-radio
-                                            label="Pegawai"
-                                            value="pegawai"
-                                        ></v-radio>
-                                        <v-radio
-                                            label="Pangkalan"
-                                            value="pangkalan"
-                                        ></v-radio>
-                                    </v-radio-group>
-                                    <v-text-field
-                                        label="Email"
-                                        type="email"
-                                        v-model="email"
-                                        :rules="emailRules"
-                                        required
-                                        style="margin-top: -10%"
-                                    >
-                                    </v-text-field>
-                                    <v-text-field
-                                        label="Password"
-                                        v-model="password"
-                                        type="password"
-                                        :rules="passwordRules"
-                                        counter
-                                        required
-                                    ></v-text-field>
-                                </v-form>
-                            </v-card-text>
-                            <v-card-actions style="padding: 0% 8% 8% 8%">
-                                <v-btn
-                                style="width: 100%; font-size: 90%; border: 10%; 
-                                border-radius: 10px; font-weight: 4%; font-family: Calibri;"
-                                class="blue white--text justify-center align-center"
+                >
+                    <v-card 
+                        max-width="90%"
+                        max-height="100%"
+                    >
+                        <v-card-text style="padding: 8%">
+                            <v-row>
+                                <v-col cols="6" />
+                                <v-col cols="6" style="padding: 0">
+                                    <v-img
+                                        contain
+                                        width="90%"
+                                        height="90%"
+                                        :src="image"
+                                        style="margin-left: 15%; "
+                                    />
+                                </v-col>
+                            </v-row>
+
+                            <v-form ref="form" lazy-validation @submit="login">
+                                <v-radio-group
+                                    row
+                                    v-model="role"
+                                    style="padding-bottom:20px"
+                                >
+                                    <div v-for="(role, index) in roleData" :key="index">
+                                        <v-radio :label="role.label" :value="role.value" :key="index" />
+                                    </div>
+                                </v-radio-group>
+
+                                <v-text-field
+                                    required
+                                    type="email"
+                                    label="Email"
+                                    v-model="email"
+                                    :rules="emailRules"
+                                    style="margin-top: -10%"
+                                />
+                                
+                                <v-text-field
+                                    counter
+                                    required
+                                    type="password"
+                                    label="Password"
+                                    v-model="password"
+                                    :rules="passwordRules"
+                                />
+                            </v-form>
+                        </v-card-text>
+
+                        <v-card-actions style="padding: 0% 8% 8% 8%">
+                            <v-btn
                                 depressed
                                 @click="login"
-                                >Masuk</v-btn
-                                >
-                            </v-card-actions>
-                            <v-overlay :value="overlay">
-                                <v-progress-circular indeterminate size="64"></v-progress-circular>
-                            </v-overlay>
-                        </v-card>
-                    </v-col>
-                    <!-- <v-col cols="12" lg="6" md="6" 
-                    class="right-login grey lighten-5 fill-height d-flex flex-column justify-center align-center">
-                        <h2 style="font-weight: bold;">Selamat datang di iSatria!</h2>
-                        <h5 >Silahkan login untuk melanjutkan</h5>
-                        <v-img
-                            contain
-                            width="50%"
-                            height="50%"
-                            :src="image2"
-                        ></v-img>
-                    </v-col> -->
-                </v-row>
-            </v-container>
-            <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{
+                                class="blue white--text justify-center align-center"
+                                style="width: 100%; font-size: 90%; border: 10%; border-radius: 10px; font-weight: 4%; font-family: Calibri;"
+                            >
+                                Masuk
+                            </v-btn>
+                        </v-card-actions>
+
+                        <v-overlay :value="overlay">
+                            <v-progress-circular indeterminate size="64"></v-progress-circular>
+                        </v-overlay>
+                    </v-card>
+                </v-col>
+
+                <!-- <v-col 
+                    cols="12" lg="6" md="6" 
+                    class="right-login grey lighten-5 fill-height d-flex flex-column justify-center align-center"
+                >
+                    <h2 style="font-weight: bold;">Selamat datang di iSatria!</h2>
+                    <h5 >Silahkan login untuk melanjutkan</h5>
+                    <v-img
+                        contain
+                        width="50%"
+                        height="50%"
+                        :src="image2"
+                    />
+                </v-col> -->
+            </v-row>
+        </v-container>
+
+        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>
+            {{
                 error_message
-            }}</v-snackbar>
-        </v-app>
+            }}
+        </v-snackbar>
+    </v-app>
 </template>
 
 <script>
-export default {
-    name: "LoginPage",
+    export default {
+        name: "LoginPage",
 
-    watch: {
-        $route: {
-        immediate: true,
-        handler() {
-            document.title = "iSatria";
+        watch: {
+            $route: {
+                immediate: true,
+                handler() {
+                    document.title = "iSatria";
+                },
+            },
         },
+
+        data(){
+            return{
+                snackbar: false,
+                error_message: "",
+                color: "",
+                role: "pegawai",
+                roleData: [
+                    {label: 'Pegawai', value: 'pegawai'}, 
+                    {label: 'Pangkalan', value: 'pangkalan'}
+                ],
+                roleRules: [(v) => !!v || "Role is Required"],
+                password: "",
+                passwordRules: [(v) => !!v || "Password is Required"],
+                email: "",
+                emailRules: [
+                    (v) => !!v || "Email is Required",
+                    (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+                ],
+                overlay: false,
+                image: require("@/assets/isatria.png"),
+                image2: require("@/assets/pertamina.jpg"),
+            }
         },
-    },
-    data(){
-        return{
-            snackbar: false,
-            error_message: "",
-            color: "",
-            role: "",
-            roleRules: [(v) => !!v || "Role is Required"],
-            password: "",
-            passwordRules: [(v) => !!v || "Password is Required"],
-            email: "",
-            emailRules: [
-                (v) => !!v || "Email is Required",
-                (v) => /.+@.+\..+/.test(v) || "Email must be valid",
-            ],
-            overlay: false,
-            image: require("@/assets/isatria.png"),
-            image2: require("@/assets/pertamina.jpg"),
-        }
-    },
-    methods:{
-        login(){
-            var url = this.$api + "/login";
-            this.$http
-                .post(url, {email_pegawai: this.email, password: this.password})
-                .then((response) => {
-                    this.error_message = response.data.message;
-                    this.color = "green";
+
+        methods:{
+            login(){
+                if(this.email !== '' && this.password !== '')
+                {
+                    this.overlay = true;
+                    var url = this.$api;
+                    var body;
+
+                    if(this.role === 'pegawai')
+                    {
+                        url = url + "/login";
+                        body = {email_pegawai: this.email, password: this.password};
+                    }
+                    else if(this.role === 'pangkalan')
+                    {
+                        url = url + "/loginPangkalan";
+                        body = {email_pangkalan: this.email, password: this.password};
+                    }
+
+                    this.$http
+                        .post(url, body)
+                        .then((response) => {
+                            this.error_message = response.data.message;
+                            this.color = "green";
+                            this.snackbar = true;
+                            localStorage.setItem("token", response.data.token);
+                            this.$router.push({ name: "Dashboard" });
+                            this.overlay = false;
+                        })
+                        .catch((error) => {
+                        this.error_message = error.response.data.message;
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                    });
+                }
+                else
+                {
+                    this.error_message = 'Mohon Input Data yang Dibutuhkan!';
+                    this.color = "red";
                     this.snackbar = true;
-                    this.$router.push({ name: "Dashboard" });
-                })
-                .catch((error) => {
-                this.error_message = error.response.data.message;
-                this.color = "red";
-                this.snackbar = true;
-                this.load = false;
-            });
+                }
+            }
         }
-
     }
-}
 </script>
-
 
 <style>
     .container {
-    height: 100%;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
+        height: 100%;
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
     }
     * {
         box-sizing: border-box;
@@ -204,44 +246,44 @@ export default {
     }
 
     [class*="col-"] {
-    float: left;
-    padding: 15px;
+        float: left;
+        padding: 15px;
     }
 
     /* For mobile phones: */
     [class*="col-"] {
-    width: 100%;
+        width: 100%;
     }
 
     @media only screen and (min-width: 600px) {
-    /* For tablets: */
-    .col-s-1 {width: 8.33%;}
-    .col-s-2 {width: 16.66%;}
-    .col-s-3 {width: 25%;}
-    .col-s-4 {width: 33.33%;}
-    .col-s-5 {width: 41.66%;}
-    .col-s-6 {width: 50%;}
-    .col-s-7 {width: 58.33%;}
-    .col-s-8 {width: 66.66%;}
-    .col-s-9 {width: 75%;}
-    .col-s-10 {width: 83.33%;}
-    .col-s-11 {width: 91.66%;}
-    .col-s-12 {width: 100%;}
+        /* For tablets: */
+        .col-s-1 {width: 8.33%;}
+        .col-s-2 {width: 16.66%;}
+        .col-s-3 {width: 25%;}
+        .col-s-4 {width: 33.33%;}
+        .col-s-5 {width: 41.66%;}
+        .col-s-6 {width: 50%;}
+        .col-s-7 {width: 58.33%;}
+        .col-s-8 {width: 66.66%;}
+        .col-s-9 {width: 75%;}
+        .col-s-10 {width: 83.33%;}
+        .col-s-11 {width: 91.66%;}
+        .col-s-12 {width: 100%;}
     }
     @media only screen and (min-width: 768px) {
-    /* For desktop: */
-    .col-1 {width: 8.33%;}
-    .col-2 {width: 16.66%;}
-    .col-3 {width: 25%;}
-    .col-4 {width: 33.33%;}
-    .col-5 {width: 41.66%;}
-    .col-6 {width: 50%;}
-    .col-7 {width: 58.33%;}
-    .col-8 {width: 66.66%;}
-    .col-9 {width: 75%;}
-    .col-10 {width: 83.33%;}
-    .col-11 {width: 91.66%;}
-    .col-12 {width: 100%;}
+        /* For desktop: */
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
     }
     .v-input--radio-group__input {
         width: 77.7%;
