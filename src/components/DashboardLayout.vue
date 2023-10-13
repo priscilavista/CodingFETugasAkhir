@@ -234,7 +234,7 @@
               style="cursor: pointer"
               class=""
             >
-              <v-icon size="20" @click="dialogProfil = true" link color="ffffff">mdi-logout</v-icon>
+              <v-icon size="20" @click="dialogLogout = true" link color="ffffff">mdi-logout</v-icon>
             </span>
           </template> 
           <span>Keluar</span>
@@ -421,24 +421,24 @@
     <v-dialog v-model="dialogLogout" persistent max-width="400px">
       <v-card>
         <v-card-title>
-          <span class="headline">Logout!</span>
+          <span class="headline">Keluar!</span>
         </v-card-title>
 
-        <v-card-text>Are You Sure to Logout?</v-card-text>
+        <v-card-text>Apakah Anda Yakin Untuk Keluar?</v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="setLogout()">Yes</v-btn>
-          <v-btn color="blue darken-1" text @click="dialogLogout = false"
-            >No</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="setLogout()">Keluar</v-btn>
+          <v-btn color="blue darken-1" text @click="dialogLogout = false">Tidak</v-btn> 
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="snackbar" :color="color" timeout="750" bottom>{{
-      error_message
-    }}</v-snackbar>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
+    
+    <v-snackbar v-model="snackbar" :color="color" timeout="750" bottom>{{ error_message }}</v-snackbar>
   </v-app>
 </template>
 
@@ -470,6 +470,7 @@ export default {
       drawer: true,
       rail: true,
       miniVariant: false,
+      overlay: false,
       clipped: false,
       img: require("@/assets/isatria.png"),
       selectedItem: 0,
@@ -544,6 +545,7 @@ export default {
         (v) => !!v || "Email is Required",
         (v) => /.+@.+\..+/.test(v) || "Email must be valid",
       ],
+      namaRules: [(v) => !!v || "Nama is Required"],
       passwordRules: [(v) => !!v || "Password is Required"],
       form: {
         role: null,
@@ -557,20 +559,18 @@ export default {
   },
   methods: {
     setLogout() {
-      this.error_message = "Thank You";
+      this.overlay = true;
       this.color = "green";
       this.snackbar = true;
+      this.error_message = "Terima Kasih Atas Kunjungan Anda";
       setTimeout(() => this.logout(), 750);
     },
 
     logout() {
+      this.overlay = false;
+      this.dialogLogout = false;
       localStorage.removeItem("id");
       localStorage.removeItem("token");
-      localStorage.removeItem("email");
-      localStorage.removeItem("jabatan");
-      localStorage.removeItem("password");
-      localStorage.removeItem("namaPegawai");
-      this.dialogLogout = false;
       this.$router.push({ path: "/login" });
     },
 

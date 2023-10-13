@@ -1,12 +1,10 @@
 <template>
-    <!-- <div id="app"> -->
     <v-app>
         <v-container fluid pa-0>
             <v-row 
                 align="center" justify="center"
                 style="height: 100vh; background: #196b4d; margin: 0"
             >
-                <!-- style="height:100vh; background: linear-gradient(#3e6fbd,#87182c) -->
                 <v-col 
                     cols="12" lg="6" md="6" 
                     class="left-login white fill-height d-flex flex-column justify-center align-center"
@@ -91,28 +89,10 @@
                         </v-overlay>
                     </v-card>
                 </v-col>
-
-                <!-- <v-col 
-                    cols="12" lg="6" md="6" 
-                    class="right-login grey lighten-5 fill-height d-flex flex-column justify-center align-center"
-                >
-                    <h2 style="font-weight: bold;">Selamat datang di iSatria!</h2>
-                    <h5 >Silahkan login untuk melanjutkan</h5>
-                    <v-img
-                        contain
-                        width="50%"
-                        height="50%"
-                        :src="image2"
-                    />
-                </v-col> -->
             </v-row>
         </v-container>
 
-        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>
-            {{
-                error_message
-            }}
-        </v-snackbar>
+        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
     </v-app>
 </template>
 
@@ -139,13 +119,13 @@
                     {label: 'Pegawai', value: 'pegawai'}, 
                     {label: 'Pangkalan', value: 'pangkalan'}
                 ],
-                roleRules: [(v) => !!v || "Role is Required"],
+                roleRules: [(v) => !!v || "Jabatan Harus Dipilih"],
                 password: "",
-                passwordRules: [(v) => !!v || "Password is Required"],
+                passwordRules: [(v) => !!v || "Password Wajib Dimasukkan"],
                 email: "",
                 emailRules: [
-                    (v) => !!v || "Email is Required",
-                    (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+                    (v) => !!v || "Email Wajib Dimasukkan",
+                    (v) => /.+@.+\..+/.test(v) || "Format Email Harus Valid",
                 ],
                 overlay: false,
                 image: require("@/assets/isatria.png"),
@@ -175,25 +155,26 @@
                     this.$http
                         .post(url, body)
                         .then((response) => {
-                            this.error_message = response.data.message;
                             this.color = "green";
                             this.snackbar = true;
-                            localStorage.setItem("token", response.data.token);
-                            this.$router.push({ name: "Dashboard" });
                             this.overlay = false;
+                            this.$router.push({ name: "Dashboard" });
+                            this.error_message = response.data.message;
+                            localStorage.setItem("id", response.data.user.id);
+                            localStorage.setItem("token", response.data.token);
                         })
                         .catch((error) => {
-                        this.error_message = error.response.data.message;
-                        this.color = "red";
-                        this.snackbar = true;
-                        this.overlay = false;
-                    });
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = error.response.data.message;
+                        });
                 }
                 else
                 {
-                    this.error_message = 'Mohon Input Data yang Dibutuhkan!';
                     this.color = "red";
                     this.snackbar = true;
+                    this.error_message = 'Mohon Masukkan Data yang Dibutuhkan!';
                 }
             }
         }
@@ -203,30 +184,34 @@
 <style>
     .container {
         height: 100%;
-        /* display: flex;
-        justify-content: center;
-        align-items: center; */
     }
+
     * {
         box-sizing: border-box;
     }
+
     .left-login{
         display: flex;
     }
+
     .right-login{
         flex: 1;
         position: relative;
     }
+
     .theme--light.v-application {
         background: rgba(248,249,253,255);
     }
+
     .v-application .blue {
         background-color: #366abf!important;
         border-color: #4cb5f9!important;
     }
+
     .v-application{
         display: block;
     }
+
     .v-btn {
         letter-spacing: 0;
         text-transform: capitalize;
@@ -270,6 +255,7 @@
         .col-s-11 {width: 91.66%;}
         .col-s-12 {width: 100%;}
     }
+
     @media only screen and (min-width: 768px) {
         /* For desktop: */
         .col-1 {width: 8.33%;}
@@ -285,6 +271,7 @@
         .col-11 {width: 91.66%;}
         .col-12 {width: 100%;}
     }
+    
     .v-input--radio-group__input {
         width: 77.7%;
     }
