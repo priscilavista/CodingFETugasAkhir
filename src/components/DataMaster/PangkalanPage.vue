@@ -6,7 +6,7 @@
       style="margin-left:-25px; margin-top:-25px"
     />
 
-    <div v-if="isWideScreen" style="margin-bottom: 7.5%">
+    <div v-if="isWideScreen" style="margin-bottom: 5%">
       <h3 style="float:left">Pangkalan</h3>
       <v-spacer />
       <v-btn
@@ -20,7 +20,7 @@
       </v-btn>
     </div>
 
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
+    <v-card fill-height class="flex-item mx-auto" elevation="5">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
           v-if="isWideScreen"
