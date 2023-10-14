@@ -128,7 +128,7 @@
 
             <v-card-action>
               <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="update">Simpan</v-btn>
+              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
               <v-spacer />
             </v-card-action>
           </v-container>
@@ -146,8 +146,8 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="deleteData">Hapus</v-btn>
-          <v-btn color="blue darken-1" text @click="dialogConfirm = false">Batal</v-btn> 
+          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn> 
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -284,13 +284,22 @@
         var url = this.$api + "/pegawai/create";
         this.$http.post(url, this.pegawai)
           .then((response) => {
-            this.cancel();
-            this.readData();
-            this.resetForm();
-            this.color = "green";
-            this.snackbar = true;
-            this.inputType = "Tambah";
-            this.error_message = response.data.message;
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.inputType = "Tambah";
+              this.error_message = response.data.message;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
             this.color = "red";
