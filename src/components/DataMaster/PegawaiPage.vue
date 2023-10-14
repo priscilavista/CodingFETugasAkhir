@@ -252,15 +252,18 @@
           .then((response) => {
             if(response.data.code === 200)
             {
-              this.pegawais = response.data.data;
+              this.color = "green";
+              this.snackbar = true;
               this.overlay = false;
+              this.pegawais = response.data.data;
+              this.error_message = response.data.message;
             }
             else
             {
-              this.error_message = response.data.message;
               this.color = "red";
               this.snackbar = true;
               this.overlay = false;
+              this.error_message = response.data.message;
             }
           })
           .catch((error) => {
@@ -272,27 +275,27 @@
       },
 
       save() {
-        this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
         this.pegawai.append("role_pegawai", this.form.nama_role);
-        this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);
+        this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
         this.pegawai.append("email_pegawai", this.form.email_pegawai);
+        this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);
         this.pegawai.append("nomor_telepon_pegawai", this.form.nomor_telepon_pegawai);
 
         var url = this.$api + "/pegawai/create";
         this.$http.post(url, this.pegawai)
           .then((response) => {
-            this.error_message = response.data.message;
+            this.cancel();
+            this.readData();
+            this.resetForm();
             this.color = "green";
             this.snackbar = true;
             this.inputType = "Tambah";
-            this.cancel();
-            this.resetForm();
-            this.readData();
+            this.error_message = response.data.message;
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
+            this.error_message = error.response.data.message;
           });
       },
       
@@ -300,8 +303,8 @@
         let newData = {
           role_pegawai: this.form.role_pegawai,
           nama_pegawai: this.form.nama_pegawai,
-          tanggal_lahir_pegawai: this.form.tanggal_lahir_pegawai,
           email_pegawai: this.form.email_pegawai,
+          tanggal_lahir_pegawai: this.form.tanggal_lahir_pegawai,
           nomor_telepon_pegawai: this.form.nomor_telepon_pegawai,
         };
 
@@ -310,25 +313,25 @@
           .then((response) => {
             if(response.data.code === 200)
             {
-              this.error_message = response.data.message;
+              this.cancel();
+              this.readData();
+              this.resetForm();
               this.color = "green";
               this.snackbar = true;
               this.inputType = "Tambah";
-              this.cancel();
-              this.resetForm();
-              this.readData();
+              this.error_message = response.data.message;
             }
             else
             {
-              this.error_message = response.data.message;
               this.color = "red";
               this.snackbar = true;
+              this.error_message = response.data.message;
             }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
+            this.error_message = error.response.data.message;
           });
       },
       
@@ -338,37 +341,37 @@
           .then((response) => {
             if(response.data.code === 200)
             {
-              this.error_message = response.data.message;
+              this.cancel();
+              this.readData();
+              this.resetForm();
               this.color = "green";
               this.snackbar = true;
               this.inputType = "Tambah";
-              this.cancel();
-              this.resetForm();
-              this.readData();
+              this.error_message = response.data.message;
             }
             else
             {
-              this.error_message = response.data.message;
               this.color = "red";
               this.snackbar = true;
+              this.error_message = response.data.message;
             }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
+            this.error_message = error.response.data.message;
           });
       },
 
       editHandler(item) {
+        this.dialog = true;
         this.inputType = "Ubah";
         this.editId = item.id_pegawai;
         this.form.role_pegawai = item.role_pegawai;
         this.form.nama_pegawai = item.nama_pegawai;
-        this.form.tanggal_lahir_pegawai = item.tanggal_lahir_pegawai;
         this.form.email_pegawai = item.email_pegawai;
+        this.form.tanggal_lahir_pegawai = item.tanggal_lahir_pegawai;
         this.form.nomor_telepon_pegawai = item.nomor_telepon_pegawai;
-        this.dialog = true;
       },
 
       deleteHandler(id) {
@@ -379,8 +382,8 @@
       cancel() {
         this.resetForm();
         this.dialog = false;
-        this.dialogConfirm = false;
         this.inputType = "Tambah";
+        this.dialogConfirm = false;
       },
 
       resetForm() {
@@ -388,8 +391,8 @@
           id_pegawai: null,
           role_pegawai: null,
           nama_pegawai: null,
-          tanggal_lahir_pegawai: null,
           email_pegawai: null,
+          tanggal_lahir_pegawai: null,
           nomor_telepon_pegawai: null,
         };
       },
@@ -423,8 +426,8 @@
   
   .flex {
     display: flex;
-    flex-wrap: nowrap;
     overflow: scroll;
+    flex-wrap: nowrap;
   }
 
   .flex-item {
@@ -432,15 +435,15 @@
   }
 
   .inline {
-    vertical-align: middle;
     overflow-x: scroll; 
+    vertical-align: middle;
   }
 
   .inline-item {
-    display: inline-block;
-    vertical-align: middle;
     height: 96px;
     margin-right: -4px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .v-btn {
