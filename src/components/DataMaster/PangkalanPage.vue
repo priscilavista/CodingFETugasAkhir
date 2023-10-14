@@ -522,40 +522,40 @@
         this.getDataKecamatan();
         this.editId = item.id_pangkalan;
         var url = this.$api + "/pangkalan/getById";
-          this.$http.get(url + "/" + item.id_pangkalan)
-            .then((response) => {
-              if(response.data.code == 200)
-              {
-                var res = response.data.data;
-                
-                this.form.id_pangkalan = res.id_pangkalan;
-                this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
-                this.form.nama_kelurahan = res.nama_kelurahan;
-                this.form.nama_pangkalan = res.nama_pangkalan;
-                this.form.tanggal_kontrak_pangkalan = res.tanggal_kontrak_pangkalan;
-                this.form.nomor_telepon_pangkalan = res.nomor_telepon_pangkalan;
-                this.form.email_pangkalan = res.email_pangkalan;
-                this.form.alamat_pangkalan = res.alamat_pangkalan;
-                this.form.url_maps_pangkalan = res.url_maps_pangkalan;
-                this.form.id_registrasi_pangkalan = res.id_registrasi;
-                this.form.id_kecamatan = res.Master_Kecamatanid_kecamatan;
-                this.form.nama_kecamatan = res.nama_kecamatan;
-                this.getDataKelurahan(res.Master_Kecamatanid_kecamatan);
-                this.dialog = true;
-              }
-              else
-              {
-                this.color = "red";
-                this.snackbar = true;
-                this.error_message = response.data.message;
-              }
-            })
-            .catch((error) => {
+        this.$http.get(url + "/" + item.id_pangkalan)
+          .then((response) => {
+            if(response.data.code == 200)
+            {
+              var res = response.data.data;
+              
+              this.form.id_pangkalan = res.id_pangkalan;
+              this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
+              this.form.nama_kelurahan = res.nama_kelurahan;
+              this.form.nama_pangkalan = res.nama_pangkalan;
+              this.form.tanggal_kontrak_pangkalan = res.tanggal_kontrak_pangkalan;
+              this.form.nomor_telepon_pangkalan = res.nomor_telepon_pangkalan;
+              this.form.email_pangkalan = res.email_pangkalan;
+              this.form.alamat_pangkalan = res.alamat_pangkalan;
+              this.form.url_maps_pangkalan = res.url_maps_pangkalan;
+              this.form.id_registrasi_pangkalan = res.id_registrasi;
+              this.form.id_kecamatan = res.Master_Kecamatanid_kecamatan;
+              this.form.nama_kecamatan = res.nama_kecamatan;
+              this.getDataKelurahan(res.Master_Kecamatanid_kecamatan);
+              this.dialog = true;
+            }
+            else
+            {
               this.color = "red";
               this.snackbar = true;
-              this.overlay = false;
-              this.error_message = error.response.data.message;
-            });
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
       },
 
       deleteHandler(id) {
