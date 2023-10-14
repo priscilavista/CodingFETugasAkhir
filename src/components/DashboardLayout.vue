@@ -184,7 +184,7 @@
 
             <v-card-action>
               <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveProfil">Simpan</v-btn>
+              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveChangeProfile">Simpan</v-btn>
               <v-spacer />
             </v-card-action>
           </v-container>
@@ -209,6 +209,9 @@
               v-model="form.oldPassword"
               label="Password Lama"
               :rules="passwordRules"
+              :type="showOldPassword ? 'text' : 'password'"
+              :append-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showOldPassword = !showOldPassword"
               counter
               required
             />
@@ -217,6 +220,9 @@
               v-model="form.newPassword"
               label="Password Baru"
               :rules="passwordRules"
+              :type="showNewPassword ? 'text' : 'password'"
+              :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showNewPassword = !showNewPassword"
               counter
               required
             />
@@ -283,6 +289,8 @@
         miniVariant: false,
         overlay: false,
         clipped: false,
+        showOldPassword: false,
+        showNewPassword: false,
         img: require("@/assets/isatria.png"),
         isWideScreen: window.innerWidth >= 650,
         routeSA: [
@@ -320,6 +328,7 @@
           role: null,
           nama: null,
           nomor_telepon: null,
+          tanggal_lahir: null,
           email: null,
           oldPassword: null,
           newPassword: null,
@@ -343,6 +352,7 @@
                 this.form.nama = res.nama_pegawai;
                 this.form.email = res.email_pegawai;
                 this.form.nomor_telepon = res.nomor_telepon_pegawai;
+                this.form.tanggal_lahir = res.tanggal_lahir_pegawai;
                 this.dialogProfil = true;
               }
               else
@@ -389,20 +399,24 @@
         }
       },
 
-      saveChangeProfil() {
+      saveChangeProfile() {
         this.overlay = true;
+        this.dialogProfil = false;
         var url = this.$api;
         var body;
 
-        if(this.role === 'pegawai')
+        if(this.jabatan === 'pegawai')
         {
           url = url + "/pegawai/update/" + localStorage.getItem("id");
           body = {
-            oldPassword: this.form.oldPassword, 
-            newPassword: this.form.newPassword
+            role_pegawai: this.form.role,
+            nama_pegawai: this.form.nama,
+            nomor_telepon_pegawai: this.form.nomor_telepon,
+            tanggal_lahir_pegawai: this.form.tanggal_lahir,
+            email_pegawai: this.form.email,
           };
         }
-        else if(this.role === 'pangkalan')
+        else if(this.jabatan === 'pangkalan')
         {
           url = url + "/pangkalan/update/" + localStorage.getItem("id");
           body = {
@@ -411,33 +425,20 @@
           };
         }
 
-        this.$http
-          .put(url, body)
+        this.$http.put(url, body)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.color = "green";
               this.snackbar = true;
               this.overlay = false;
-              this.$router.push({ name: "Dashboard" });
               this.error_message = response.data.message;
-
-              if(this.role === 'pegawai')
-              {
-                localStorage.setItem("id", response.data.user.id_pegawai);
-              }
-              else if(this.role === 'pangkalan')
-              {
-                localStorage.setItem("id", response.data.user.id_pangkalan);
-              }
-              
-              localStorage.setItem("token", response.data.token);
-              localStorage.setItem("role", this.role);
             }
             else
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
@@ -450,46 +451,34 @@
       },
 
       savePassword() {
+        this.dialogPassword = false;
         this.overlay = true;
         var url = this.$api;
         var body = {oldPassword: this.form.oldPassword, newPassword: this.form.newPassword};
 
-        if(this.role === 'pegawai')
+        if(this.jabatan === 'pegawai')
         {
           url = url + "/pegawai/updatePassword/" + localStorage.getItem("id");
         }
-        else if(this.role === 'pangkalan')
+        else if(this.jabatan === 'pangkalan')
         {
           url = url + "/pangkalan/updatePassword/" + localStorage.getItem("id");
         }
 
-        this.$http
-          .put(url, body)
+        this.$http.put(url, body)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.color = "green";
               this.snackbar = true;
-              this.overlay = false;
-              this.$router.push({ name: "Dashboard" });
               this.error_message = response.data.message;
-
-              if(this.role === 'pegawai')
-              {
-                localStorage.setItem("id", response.data.user.id_pegawai);
-              }
-              else if(this.role === 'pangkalan')
-              {
-                localStorage.setItem("id", response.data.user.id_pangkalan);
-              }
-              
-              localStorage.setItem("token", response.data.token);
-              localStorage.setItem("role", this.role);
+              setTimeout(() => this.logout(), 750);
             }
             else
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
@@ -521,11 +510,6 @@
         this.resetForm();
         this.dialogProfil = false;
         this.dialogPassword = false;
-      },
-
-      close() {
-        this.dialogProfil = false;
-        this.dialogPassword = false;
         this.dialogLogout = false;
       },
 
@@ -539,10 +523,6 @@
           newPassword: null,
         };
       },
-    },
-
-    mounted() {
-
     },
   };
 </script>

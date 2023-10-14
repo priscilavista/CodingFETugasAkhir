@@ -65,8 +65,10 @@
                                 <v-text-field
                                     counter
                                     required
-                                    type="password"
                                     label="Password"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                    @click:append="showPassword = !showPassword"
                                     v-model="password"
                                     :rules="passwordRules"
                                 />
@@ -112,6 +114,7 @@
         data(){
             return{
                 snackbar: false,
+                showPassword: false,
                 error_message: "",
                 color: "",
                 role: "pegawai",
