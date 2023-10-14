@@ -85,7 +85,7 @@
                         </v-card-actions>
 
                         <v-overlay :value="overlay">
-                            <v-progress-circular indeterminate size="64"></v-progress-circular>
+                            <v-progress-circular indeterminate size="64" />
                         </v-overlay>
                     </v-card>
                 </v-col>
@@ -155,13 +155,30 @@
                     this.$http
                         .post(url, body)
                         .then((response) => {
-                            this.color = "green";
-                            this.snackbar = true;
-                            this.overlay = false;
-                            this.$router.push({ name: "Dashboard" });
-                            this.error_message = response.data.message;
-                            localStorage.setItem("id", response.data.user.id);
-                            localStorage.setItem("token", response.data.token);
+                            if(response.data.code === 200)
+                            {
+                                this.color = "green";
+                                this.snackbar = true;
+                                this.overlay = false;
+                                this.$router.push({ name: "Dashboard" });
+                                this.error_message = response.data.message;
+                                if(this.role === 'pegawai')
+                                {
+                                    localStorage.setItem("id", response.data.user.id_pegawai);
+                                }
+                                else if(this.role === 'pangkalan')
+                                {
+                                    localStorage.setItem("id", response.data.user.id_pangkalan);
+                                }
+                                localStorage.setItem("token", response.data.token);
+                                localStorage.setItem("role", this.role);
+                            }
+                            else
+                            {
+                                this.color = "green";
+                                this.snackbar = true;
+                                this.error_message = response.data.message;
+                            }
                         })
                         .catch((error) => {
                             this.color = "red";
