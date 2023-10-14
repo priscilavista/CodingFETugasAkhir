@@ -201,6 +201,10 @@
     </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+    <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </v-main>
 </template>
 
@@ -300,7 +304,21 @@
         var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
-            this.pangkalans = response.data.data;
+            if(response.data.code === 200)
+            {
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.pangkalans = response.data.data;
+              this.error_message = response.data.message;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
             this.color = "red";
