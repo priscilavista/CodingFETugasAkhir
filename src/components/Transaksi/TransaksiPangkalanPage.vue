@@ -479,8 +479,8 @@ export default {
       localStorage.setItem("reloaded", "1");
       location.reload();
     }
-    this.readDataRemove();
-    this.updateTemp();
+    // this.readDataRemove();
+    // this.updateTemp();
   },
 };
 </script>
