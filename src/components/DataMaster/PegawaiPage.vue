@@ -5,14 +5,38 @@
       divider="/"
       style="margin-left:-25px; margin-top:-25px; width:30%"
     />
-
-    <v-spacer />
     
-    <div v-if="isWideScreen" style="margin-bottom: 5%">
+    <div v-if="isWideScreen" style="margin-bottom: 7.5%">
       <h3 style="float:left">Pegawai</h3>
-
       <v-spacer />
+      <v-btn
+        small
+        color="primary"
+        dark
+        @click="dialog = true"
+        style="float:right"
+      >
+        Tambah
+      </v-btn>
+    </div>
 
+    <div v-else-if="isMediumScreen" style="margin-bottom: 12.5%">
+      <h3 style="float:left">Pegawai</h3>
+      <v-spacer />
+      <v-btn
+        small
+        color="primary"
+        dark
+        @click="dialog = true"
+        style="float:right"
+      >
+        Tambah
+      </v-btn>
+    </div>
+
+    <div v-else style="margin-bottom: 17.5%">
+      <h3 style="float:left">Pegawai</h3>
+      <v-spacer />
       <v-btn
         small
         color="primary"
@@ -184,6 +208,7 @@
         dialog: false,
         dialogConfirm: false,
         isWideScreen: window.innerWidth >= 1000,
+        isMediumScreen: window.innerWidth >= 650 && window.innerWidth < 1000,
         items: [
           { 
             text: "Dashboard",
