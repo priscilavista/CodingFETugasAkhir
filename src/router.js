@@ -10,7 +10,7 @@ function importComponent(path) {
 const router = new VueRouter({
     mode: "history",
     routes: [
-    //   Login
+    //   LoginPage
       {
         path: "/login-page",
         name: "LoginPage",
@@ -27,10 +27,10 @@ const router = new VueRouter({
                 name: "Dashboard",
                 meta: { title: "DashboardPage" },
                 component: importComponent("DashboardPage"),
-                // beforeEnter(to, from, next) {
-                //     if (localStorage.getItem("token")) next();
-                //     else next({ name: "Login" });
-                // },
+                beforeEnter(to, from, next) {
+                    if (localStorage.getItem("token")) next();
+                    else next({ name: "LoginPage" });
+                },
             },
             //Pegawai
             {
@@ -44,10 +44,10 @@ const router = new VueRouter({
                 // ],
               },
               component: importComponent("DataMaster/PegawaiPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //SPPBE
             {
@@ -57,10 +57,10 @@ const router = new VueRouter({
                 title: "SPPBEPage" ,
               },
               component: importComponent("DataMaster/SPPBEPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Pangkalan
             {
@@ -70,10 +70,10 @@ const router = new VueRouter({
                 title: "PangkalanPage" ,
               },
               component: importComponent("DataMaster/PangkalanPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kendaraan
             {
@@ -83,10 +83,10 @@ const router = new VueRouter({
                 title: "KendaraanPage" ,
               },
               component: importComponent("DataMaster/KendaraanPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Transaksi Pangkalan
             {
@@ -96,10 +96,10 @@ const router = new VueRouter({
                 title: "TransaksiPage" ,
               },
               component: importComponent("Transaksi/TransaksiPangkalanPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Transaksi
             {
@@ -109,10 +109,10 @@ const router = new VueRouter({
                 title: "TransaksiPage" ,
               },
               component: importComponent("Transaksi/TransaksiPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Gas Bocor
             {
@@ -122,10 +122,10 @@ const router = new VueRouter({
                 title: "GasBocorPage" ,
               },
               component: importComponent("DataMaster/GasBocorPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
              //Tambah Gas Bocor
              {
@@ -135,10 +135,10 @@ const router = new VueRouter({
                 title: "GasBocorPage" ,
               },
               component: importComponent("DataMaster/TambahGasBocorPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Tambah Kelangkaan Gas
             {
@@ -148,10 +148,10 @@ const router = new VueRouter({
                 title: "KelangkaanGasPage" ,
               },
               component: importComponent("DataMaster/TambahKelangkaanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Alokasi Fakultatif
             {
@@ -161,10 +161,10 @@ const router = new VueRouter({
                 title: "AlokasiFakultatifPage" ,
               },
               component: importComponent("DataMaster/AlokasiFakultatifPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Konfirmasi Alokasi Fakultatif
             {
@@ -174,10 +174,10 @@ const router = new VueRouter({
                 title: "KonfirmasiAlokasiFakultatifPage" ,
               },
               component: importComponent("DataMaster/KonfirmasiAlokasiFakultatifPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Alokasi Pengambilan Gas
             {
@@ -187,10 +187,10 @@ const router = new VueRouter({
                 title: "AlokasiPengambilanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/AlokasiPengambilanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Alokasi Pengambilan Gas
             {
@@ -200,10 +200,10 @@ const router = new VueRouter({
                 title: "KalenderAlokasiPengambilanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderAlokasiPengambilanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Jadwal Pengambilan Gas Driver
             {
@@ -213,10 +213,10 @@ const router = new VueRouter({
                 title: "JadwalPengambilanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/JadwalPengambilanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Jadwal Pengambilan Gas
             {
@@ -226,10 +226,10 @@ const router = new VueRouter({
                 title: "KalenderJadwalPengambilanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderJadwalPengambilanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Jadwal Pengambilan Gas Driver
             {
@@ -239,10 +239,10 @@ const router = new VueRouter({
                 title: "KalenderJadwalPengambilanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderJadwalPengambilanGasDriverPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Jadwal Pangkalan
             {
@@ -252,10 +252,10 @@ const router = new VueRouter({
                 title: "JadwalRutinPangkalanPage" ,
               },
               component: importComponent("JadwalDanAlokasi/JadwalPangkalanPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Jadwal Pengiriman Gas Driver
             {
@@ -265,10 +265,10 @@ const router = new VueRouter({
                 title: "JadwalPengirimanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/JadwalPengirimanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Jadwal Pengiriman Gas
             {
@@ -278,10 +278,10 @@ const router = new VueRouter({
                 title: "KalenderJadwalPengirimanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderJadwalPengirimanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Jadwal Pengiriman Gas Driver
             {
@@ -291,10 +291,10 @@ const router = new VueRouter({
                 title: "KalenderJadwalPengirimanGasDriverPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderJadwalPengirimanGasDriverPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Kalender Jadwal Penerimaan Gas
             {
@@ -304,10 +304,10 @@ const router = new VueRouter({
                 title: "KalenderJadwalPenerimaanGasPage" ,
               },
               component: importComponent("JadwalDanAlokasi/KalenderJadwalPenerimaanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Surat Kuasa Pengambilan Gas
             {
@@ -317,10 +317,10 @@ const router = new VueRouter({
                 title: "SuratKuasaPengambilanGasPage" ,
               },
               component: importComponent("Dokumen/SuratKuasaPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Laporan Kelangkaan Gas
             {
@@ -330,10 +330,10 @@ const router = new VueRouter({
                 title: "LaporanKelangkaanGasPage" ,
               },
               component: importComponent("Dokumen/LaporanKelangkaanGasPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Laporan Kelangkaan Gas
             {
@@ -343,10 +343,10 @@ const router = new VueRouter({
                 title: "LaporanTransaksiPangkalanPage" ,
               },
               component: importComponent("Dokumen/LaporanTransaksiPangkalanPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
             //Laporan Bulanan
             {
@@ -356,10 +356,10 @@ const router = new VueRouter({
                 title: "LaporanBulananPage" ,
               },
               component: importComponent("Dokumen/LaporanBulananPage"),
-              // beforeEnter(to, from, next) {
-              //     if (localStorage.getItem("token")) next();
-              //     else next({ name: "Login" });
-              // },
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
             },
         ],
       },
