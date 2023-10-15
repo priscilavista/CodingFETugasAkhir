@@ -323,7 +323,12 @@
           (v) => /.+@.+\..+/.test(v) || "Email must be valid",
         ],
         namaRules: [(v) => !!v || "Nama is Required"],
+        roleRules: [(v) => !!v || "Role is Required"],
         passwordRules: [(v) => !!v || "Password is Required"],
+        nomor_teleponRules: [
+          (v) => !!v || "Nomor Telepon is Required",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+        ],
         form: {
           role: null,
           nama: null,

@@ -24,10 +24,14 @@
         
         <div>
             <template>
-                <Bar
-                    id="my-chart-id"
-                    :options="chartOptions"
+                <LineChartGenerator
+                    :chart-options="chartOptions"
                     :data="chartData"
+                    :chart-id="chartId"
+                    :dataset-id-key="datasetIdKey"
+                    :plugins="plugins"
+                    :css-classes="cssClasses"
+                    :styles="styles"
                 />
             </template>
         </div>
@@ -35,15 +39,25 @@
 </template>
 
 <script>
-    import { Bar } from 'vue-chartjs'
-    import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+    import { Line as LineChartGenerator } from 'vue-chartjs'
+    import { 
+        Chart as ChartJS, Title,
+        Tooltip, Legend,
+        LineElement, LinearScale,
+        CategoryScale, PointElement 
+    } from 'chart.js'
 
-    ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+    ChartJS.register(
+        Title, Tooltip,
+        Legend, LineElement,
+        LinearScale, CategoryScale,
+        PointElement
+    )
 
     export default {
         name: "DashboardPage",
         
-        components: { Bar },
+        components: { LineChartGenerator },
 
         watch: {
             $route: {
@@ -52,6 +66,33 @@
                     document.title = "Dashboard";
                 },
             },
+        },
+
+        props: {
+            chartId: {
+                type: String,
+                default: 'line-chart'
+            },
+
+            datasetIdKey: {
+                type: String,
+                default: 'label'
+            },
+
+            cssClasses: {
+                default: '',
+                type: String
+            },
+
+            styles: {
+                type: Object,
+                default: () => {}
+            },
+
+            plugins: {
+                type: Array,
+                default: () => []
+            }
         },
 
         data() {
@@ -66,12 +107,27 @@
                     },
                 ],
                 chartData: {
-                    labels: [ 'January', 'February', 'March' ],
-                    datasets: [ { data: [40, 20, 12] } ]
+                    labels: [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July'
+                    ],
+                    datasets: [
+                        {
+                            label: 'Data One',
+                            backgroundColor: '#f87979',
+                            data: [40, 39, 10, 40, 39, 80, 40]
+                        }
+                    ]
                 },
                 chartOptions: {
-                    responsive: true
-                },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
             }
         }
     }
