@@ -503,6 +503,9 @@
         this.overlay = false;
         localStorage.removeItem("id");
         localStorage.removeItem("token");
+        localStorage.removeItem("menu");
+        localStorage.removeItem("role");
+        localStorage.removeItem("jabatan");
         this.$router.push({ path: "/login" });
       },
 

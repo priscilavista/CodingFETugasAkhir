@@ -163,7 +163,6 @@
                                 this.color = "green";
                                 this.snackbar = true;
                                 this.overlay = false;
-                                this.$router.push({ name: "Dashboard" });
                                 this.error_message = response.data.message;
                                 if(this.role === 'pegawai')
                                 {
@@ -175,6 +174,13 @@
                                 }
                                 localStorage.setItem("token", response.data.token);
                                 localStorage.setItem("role", this.role);
+                                
+                                if(this.role === 'pegawai')
+                                {
+                                    localStorage.setItem("jabatan", response.data.user.role_pegawai);
+                                }
+
+                                this.$router.push({ name: "Dashboard" });
                             }
                             else
                             {

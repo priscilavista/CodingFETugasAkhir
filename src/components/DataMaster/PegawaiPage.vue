@@ -300,7 +300,7 @@
       },
 
       save() {
-        this.pegawai.append("role_pegawai", this.form.nama_role);
+        this.pegawai.append("role_pegawai", this.form.role_pegawai);
         this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
         this.pegawai.append("email_pegawai", this.form.email_pegawai);
         this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);

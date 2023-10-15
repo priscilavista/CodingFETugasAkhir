@@ -21,184 +21,30 @@
             <h3 style="float:left">Dashboard</h3>
             <v-spacer />
         </div>
-
-        <!-- admin -->
-        <v-row>
-            <v-col md="2">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-account-multiple</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">Pegawai</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-            
-            <v-col md="2">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-truck</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">Driver</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-            
-            <v-col md="2">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-store</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">Pangkalan</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">224</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col md="2">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-factory</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">SPPBE</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-        </v-row>
-
-        <!-- manager -->
-        <v-row>
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-import</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">J.Ambil</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-export</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">J.Kirim</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-clipboard-clock-outline</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">J.Pangkalan</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-calendar-star</v-icon>
-                        </v-col>
-
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">Fakultatif</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-        </v-row>
-
-        <!-- pangkalan -->
-        <v-row>
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-import</v-icon>
-                        </v-col>
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">J.Terima</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-cash-register</v-icon>
-                        </v-col>
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">Transaksi</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-
-            <v-col style="max-width:19%">
-                <v-card color="#3F51B5">
-                    <v-row>
-                        <v-col style="padding:0">
-                            <v-icon color="#ffffff" style="font-size:50px;padding:10px;float:right">mdi-inbox-multiple</v-icon>
-                        </v-col>
-                        <v-col style="color:#ffffff;padding:0">
-                            <h6 style="float:left;margin-top:7px">P.Fakultatif</h6><br/>
-                            <h6 style="float:left;margin-top:-5px;font-size:30px">34</h6>
-                        </v-col>
-                    </v-row>
-                </v-card>
-            </v-col>
-        </v-row>
+        
+        <div>
+            <template>
+                <Bar
+                    id="my-chart-id"
+                    :options="chartOptions"
+                    :data="chartData"
+                />
+            </template>
+        </div>
     </v-main>
 </template>
 
 <script>
+    import { Bar } from 'vue-chartjs'
+    import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+
+    ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
     export default {
         name: "DashboardPage",
         
+        components: { Bar },
+
         watch: {
             $route: {
                 immediate: true,
@@ -219,6 +65,13 @@
                         href: '/dashboard-page',
                     },
                 ],
+                chartData: {
+                    labels: [ 'January', 'February', 'March' ],
+                    datasets: [ { data: [40, 20, 12] } ]
+                },
+                chartOptions: {
+                    responsive: true
+                },
             }
         }
     }
