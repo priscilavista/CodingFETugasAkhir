@@ -22,7 +22,7 @@
             <v-spacer />
         </div>
         
-        <div>
+        <div v-if="jabatan === 'Admin'">
             <template>
                 <LineChartGenerator
                     :chart-options="chartOptions"
@@ -97,6 +97,7 @@
 
         data() {
             return {
+                jabatan: localStorage.getItem("jabatan"),
                 isWideScreen: window.innerWidth >= 1000,
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
@@ -108,19 +109,24 @@
                 ],
                 chartData: {
                     labels: [
-                        'January',
-                        'February',
-                        'March',
+                        'Januari',
+                        'Februari',
+                        'Maret',
                         'April',
-                        'May',
-                        'June',
-                        'July'
+                        'Mei',
+                        'Juni',
+                        'Juli',
+                        'Augustus',
+                        'September',
+                        'Oktober',
+                        'November',
+                        'Desember'
                     ],
                     datasets: [
                         {
-                            label: 'Data One',
+                            label: 'Transaksi Per Bulan',
                             backgroundColor: '#f87979',
-                            data: [40, 39, 10, 40, 39, 80, 40]
+                            data: [40, 39, 10, 40, 39, 80, 40, 100, 50, 70, 24, 88]
                         }
                     ]
                 },
