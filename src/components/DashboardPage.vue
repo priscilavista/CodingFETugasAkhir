@@ -7,7 +7,7 @@
         />
         <v-spacer />
         
-        <div v-if="isWideScreen" style="margin-bottom: 7.5%">
+        <div v-if="isWideScreen" style="margin-bottom: 5%">
             <h3 style="float:left;">Dashboard</h3>
             <v-spacer />
         </div>

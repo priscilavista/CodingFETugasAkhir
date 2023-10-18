@@ -5,7 +5,7 @@
       divider="/"
       style="margin-left:-25px; margin-top:-25px"
     ></v-breadcrumbs>
-    <div v-if="isWideScreen" style="margin-bottom: 7.5%">
+    <div v-if="isWideScreen" style="margin-bottom: 5%">
       <h3 style="float:left">Jadwal Pengiriman Gas</h3>
       <v-spacer></v-spacer>
       <v-btn

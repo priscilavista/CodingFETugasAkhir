@@ -6,7 +6,7 @@
       style="margin-left:-25px; margin-top:-25px"
     ></v-breadcrumbs>
     <!-- <h5 class="flex-item" style="font-size: 30px; margin-top: 40px">Data kendaraan</h5> -->
-    <div v-if="isWideScreen" style="margin-bottom: 7.5%">
+    <div v-if="isWideScreen" style="margin-bottom: 5%">
       <h3 style="float:left">Alokasi Fakultatif</h3>
       <v-spacer></v-spacer>
       <v-btn
