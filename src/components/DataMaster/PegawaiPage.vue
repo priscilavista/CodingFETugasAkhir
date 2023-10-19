@@ -71,13 +71,19 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
+                <v-icon @click="editHandler(item)" color="#E39348" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
+                <v-icon @click="deleteHandler(item.id_pegawai)" color="#C94141">
+                  mdi-account-remove
+                </v-icon>
+                <!-- <v-chip link color="#E7C913">
                   <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                </v-chip> -->
               </span>
             </template>
 
-            <v-list width="90" class="py-0">
+            <!-- <v-list width="90" class="py-0">
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title style="color: #000000; margin-bottom: 10px">
@@ -97,7 +103,7 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-            </v-list>
+            </v-list> -->
           </v-menu>
         </template>
       </v-data-table>

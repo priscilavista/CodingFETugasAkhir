@@ -81,31 +81,15 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon color="#E39348" @click="editHandler(item)" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
+
+                <v-icon color="#C94141" @click="deleteHandler(item.id_pangkalan)">
+                  mdi-account-remove
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="150" class="py-0">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000;">
-                    <v-btn small @click="editHandler(item)" style="margin-right: 10px;">
-                      <v-icon color="#E39348">
-                        mdi-pencil
-                      </v-icon>
-                    </v-btn>
-
-                    <v-btn small @click="deleteHandler(item.id_pangkalan)">
-                      <v-icon color="#C94141">
-                        mdi-account-remove
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
