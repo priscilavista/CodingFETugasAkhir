@@ -87,18 +87,16 @@
               </span>
             </template>
 
-            <v-list width="90" class="py-0">
+            <v-list width="150" class="py-0">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-bottom: 10px">
-                    <v-btn small @click="editHandler(item)">
+                  <v-list-item-title style="color: #000000;">
+                    <v-btn small @click="editHandler(item)" style="margin-right: 10px;">
                       <v-icon color="#E39348">
                         mdi-pencil
                       </v-icon>
                     </v-btn>
-                  </v-list-item-title>
 
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
                     <v-btn small @click="deleteHandler(item.id_pangkalan)">
                       <v-icon color="#C94141">
                         mdi-account-remove
