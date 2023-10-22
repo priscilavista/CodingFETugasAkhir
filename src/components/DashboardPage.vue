@@ -291,6 +291,8 @@
                 </v-overlay>
             </template>
         </div>
+
+        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
     </v-main>
 </template>
 
@@ -315,6 +317,9 @@
         data() {
             return {
                 jabatan: localStorage.getItem("jabatan"),
+                snackbar: false,
+                error_message: "",
+                color: "",
                 overlay: false,
                 isWideScreen: window.innerWidth >= 1000,
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
