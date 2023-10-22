@@ -30,6 +30,11 @@
         
         components: { LineChartGenerator },
         props: {
+            chartData: {
+                type: Object,
+                default: () => {}
+            },
+
             lineChartId: {
                 type: String,
                 default: 'line-chart'
@@ -58,29 +63,6 @@
 
         data() {
             return {
-                chartData: {
-                    labels: [
-                        'Januari',
-                        'Februari',
-                        'Maret',
-                        'April',
-                        'Mei',
-                        'Juni',
-                        'Juli',
-                        'Augustus',
-                        'September',
-                        'Oktober',
-                        'November',
-                        'Desember'
-                    ],
-                    datasets: [
-                        {
-                            label: 'Transaksi Per Bulan',
-                            backgroundColor: '#f87979',
-                            data: [40, 39, 10, 40, 39, 80, 40, 100, 50, 70, 24, 88]
-                        }
-                    ]
-                },
                 chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,

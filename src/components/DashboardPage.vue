@@ -127,18 +127,30 @@
                         md="6"
                         lg="6"
                     >
-                        <v-card height="500px">
+                        <v-card height="502.5px">
                             <v-card-title>Penjualan Gas Bulanan</v-card-title>
 
                             <v-card-subtitle>
-                                <v-card>
-                                    
+                                <v-card color="#ee534f" dark style="margin-top: 5px;">
+                                    <v-list-item three-line>
+                                        <v-list-item-avatar size="50">
+                                            <v-icon large>mdi-cash</v-icon>
+                                        </v-list-item-avatar>
+
+                                        <v-list-item-content>
+                                            <v-list-item-title class="text-h6 mb-1">
+                                                Total Pendapatan Bulan -
+                                            </v-list-item-title>
+                                            
+                                            <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
                                 </v-card>
                             </v-card-subtitle>
 
                             <v-card-text class="text--primary">
-                                <div class="d-flex justify-center mb-6 bg-surface-variant">
-                                    <line-chart />
+                                <div class="d-flex justify-center bg-surface-variant">
+                                    <line-chart :chartData="lineChartData" />
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -208,8 +220,64 @@
                                     </v-card-title>
 
                                     <v-card-text class="text--primary">
-                                        <div class="d-flex justify-center mb-6 bg-surface-variant">
-                                            <doughnut-chart />
+                                        <div class="d-flex justify-center bg-surface-variant">
+                                            <doughnut-chart :chartData="doughnutChartData" />
+                                        </div>
+
+                                        <div class="mt-5">
+                                            <v-card color="#1d88e6" dark class="mt-5">
+                                                <v-list-item three-line>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title>
+                                                            <div>
+                                                                <v-row>
+                                                                    <v-col
+                                                                        cols="6"
+                                                                        sm="6"
+                                                                        md="6"
+                                                                        lg="6"
+                                                                    >
+                                                                        Normal
+                                                                    </v-col>
+                                                                    
+                                                                    <v-col
+                                                                        cols="6"
+                                                                        sm="6"
+                                                                        md="6"
+                                                                        lg="6"
+                                                                    >
+                                                                        100
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </div>
+
+                                                            <v-divider class="mt-2" />
+
+                                                            <div class="mt-2">
+                                                                <v-row>
+                                                                    <v-col
+                                                                        cols="6"
+                                                                        sm="6"
+                                                                        md="6"
+                                                                        lg="6"
+                                                                    >
+                                                                        Bocor
+                                                                    </v-col>
+                                                                    
+                                                                    <v-col
+                                                                        cols="6"
+                                                                        sm="6"
+                                                                        md="6"
+                                                                        lg="6"
+                                                                    >
+                                                                        40
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </div>
+                                                        </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+                                            </v-card>
                                         </div>
                                     </v-card-text>
                                 </v-card>
@@ -242,10 +310,7 @@
             },
         },
 
-        components: {
-            LineChart,
-            DoughnutChart
-        },
+        components: { LineChart, DoughnutChart },
 
         data() {
             return {
@@ -260,6 +325,38 @@
                         href: '/dashboard-page',
                     },
                 ],
+                lineChartData: {
+                    labels: [
+                        'Januari',
+                        'Februari',
+                        'Maret',
+                        'April',
+                        'Mei',
+                        'Juni',
+                        'Juli',
+                        'Augustus',
+                        'September',
+                        'Oktober',
+                        'November',
+                        'Desember'
+                    ],
+                    datasets: [
+                        {
+                            label: 'Transaksi Per Bulan',
+                            backgroundColor: '#ee534f',
+                            data: [40, 39, 10, 40, 39, 80, 40, 100, 50, 70, 24, 88]
+                        }
+                    ]
+                },
+                doughnutChartData: {
+                    labels: ['Bocor', 'Normal'],
+                    datasets: [
+                        {
+                            backgroundColor: ['#41B883', '#00D8FF'],
+                            data: [40, 100],
+                        }
+                    ]
+                },
             }
         }
     }

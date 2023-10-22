@@ -28,6 +28,11 @@
         
         components: { Doughnut },
         props: {
+            chartData: {
+                type: Object,
+                default: () => {}
+            },
+
             chartId: {
                 type: String,
                 default: 'doughnut-chart'
@@ -56,15 +61,6 @@
 
         data() {
             return {
-                chartData: {
-                    labels: ['Normal', 'Bocor', 'Rusak'],
-                    datasets: [
-                        {
-                            backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
-                            data: [40, 20, 100],
-                        }
-                    ]
-                },
                 chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,
