@@ -131,7 +131,7 @@
                             <v-card-title>Penjualan Gas Bulanan</v-card-title>
 
                             <v-card-subtitle>
-                                <v-card color="#ee534f" dark style="margin-top: 5px;">
+                                <v-card color="#ee534f" dark class="mt-2">
                                     <v-list-item three-line>
                                         <v-list-item-avatar size="50">
                                             <v-icon large>mdi-cash</v-icon>
@@ -139,7 +139,7 @@
 
                                         <v-list-item-content>
                                             <v-list-item-title class="text-h6 mb-1">
-                                                Total Pendapatan Bulan -
+                                                Total Pendapatan Bulan - {{ monthNow }}
                                             </v-list-item-title>
                                             
                                             <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
@@ -148,7 +148,7 @@
                                 </v-card>
                             </v-card-subtitle>
 
-                            <v-card-text class="text--primary">
+                            <v-card-text class="mt-2">
                                 <div class="d-flex justify-center bg-surface-variant">
                                     <line-chart :chartData="lineChartData" />
                                 </div>
@@ -224,60 +224,60 @@
                                             <doughnut-chart :chartData="doughnutChartData" />
                                         </div>
 
-                                        <div class="mt-5">
-                                            <v-card color="#1d88e6" dark class="mt-5">
-                                                <v-list-item three-line>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title>
-                                                            <div>
-                                                                <v-row>
-                                                                    <v-col
-                                                                        cols="6"
-                                                                        sm="6"
-                                                                        md="6"
-                                                                        lg="6"
-                                                                    >
-                                                                        Normal
-                                                                    </v-col>
-                                                                    
-                                                                    <v-col
-                                                                        cols="6"
-                                                                        sm="6"
-                                                                        md="6"
-                                                                        lg="6"
-                                                                    >
-                                                                        100
-                                                                    </v-col>
-                                                                </v-row>
-                                                            </div>
+                                        <div style="margin-top: 37.5px;">
+                                            <div>
+                                                <v-row>
+                                                    <v-col
+                                                        cols="6"
+                                                        sm="6"
+                                                        md="6"
+                                                        lg="6"
+                                                    >
+                                                        <div style="color: #62d5fb; font-size: 15px;">
+                                                            Normal
+                                                        </div>
+                                                    </v-col>
+                                                    
+                                                    <v-col
+                                                        cols="6"
+                                                        sm="6"
+                                                        md="6"
+                                                        lg="6"
+                                                    >
+                                                        <div style="color: #62d5fb; font-size: 15px;">
+                                                            100
+                                                        </div>
+                                                    </v-col>
+                                                </v-row>
+                                            </div>
 
-                                                            <v-divider class="mt-2" />
+                                            <v-divider class="mt-2" />
 
-                                                            <div class="mt-2">
-                                                                <v-row>
-                                                                    <v-col
-                                                                        cols="6"
-                                                                        sm="6"
-                                                                        md="6"
-                                                                        lg="6"
-                                                                    >
-                                                                        Bocor
-                                                                    </v-col>
-                                                                    
-                                                                    <v-col
-                                                                        cols="6"
-                                                                        sm="6"
-                                                                        md="6"
-                                                                        lg="6"
-                                                                    >
-                                                                        40
-                                                                    </v-col>
-                                                                </v-row>
-                                                            </div>
-                                                        </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-list-item>
-                                            </v-card>
+                                            <div class="mt-2">
+                                                <v-row>
+                                                    <v-col
+                                                        cols="6"
+                                                        sm="6"
+                                                        md="6"
+                                                        lg="6"
+                                                    >
+                                                        <div style="color: #64b687; font-size: 15px;">
+                                                            Bocor
+                                                        </div>
+                                                    </v-col>
+                                                    
+                                                    <v-col
+                                                        cols="6"
+                                                        sm="6"
+                                                        md="6"
+                                                        lg="6"
+                                                    >
+                                                        <div style="color: #64b687; font-size: 15px;">
+                                                            40
+                                                        </div>
+                                                    </v-col>
+                                                </v-row>
+                                            </div>
                                         </div>
                                     </v-card-text>
                                 </v-card>
@@ -321,6 +321,7 @@
                 error_message: "",
                 color: "",
                 overlay: false,
+                monthNow: "",
                 isWideScreen: window.innerWidth >= 1000,
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
@@ -363,6 +364,19 @@
                     ]
                 },
             }
-        }
+        },
+
+        methods: {
+            getDateNow(){
+                this.overlay = true;
+                let month = new Date().toLocaleDateString("sv-se", { month: 'long' }).split('T')[0];
+                this.monthNow = month[0].toUpperCase() + month.slice(1);
+                setTimeout(() => this.overlay = false, 750);   
+            }
+        },
+        
+        mounted() {
+            this.getDateNow();
+        },
     }
 </script>
