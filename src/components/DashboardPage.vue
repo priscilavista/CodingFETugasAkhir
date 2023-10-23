@@ -5,6 +5,7 @@
             divider="/"
             style="margin-left:-25px; margin-top:-25px; width:30%"
         />
+        
         <v-spacer />
         
         <div v-if="isWideScreen" style="margin-bottom: 50px">
@@ -108,13 +109,16 @@
                                 lg="6"
                             >
                                 <v-card height="502.5px">
-                                    <v-card-title>Penjualan Gas Bulanan</v-card-title>
+                                    <v-card-title>
+                                        <v-icon medium left style="vertical-align: middle;">mdi-chart-line</v-icon>
+                                        <span class="text-h6 font-weight-light">Penjualan Gas Bulanan</span>
+                                    </v-card-title>
 
                                     <v-card-subtitle>
                                         <v-card color="#ee534f" dark class="mt-2">
                                             <v-list-item three-line>
                                                 <v-list-item-avatar size="50">
-                                                    <v-icon large>mdi-cash</v-icon>
+                                                    <v-icon large>mdi-cash-register</v-icon>
                                                 </v-list-item-avatar>
 
                                                 <v-list-item-content>
@@ -196,7 +200,8 @@
                                     >
                                         <v-card height="500px">
                                             <v-card-title class="text-h6">
-                                                Persentase Kondisi Gas
+                                                <v-icon medium left style="vertical-align: middle;">mdi-chart-donut</v-icon>
+                                                <span class="text-h6 font-weight-light">Persentase Kondisi Gas</span>
                                             </v-card-title>
 
                                             <v-card-text class="text--primary">
@@ -204,7 +209,7 @@
                                                     <doughnut-chart :chartData="doughnutChartData" />
                                                 </div>
 
-                                                <div style="margin-top: 37.5px;">
+                                                <div style="margin-top: 40px;">
                                                     <div>
                                                         <v-row>
                                                             <v-col
@@ -344,7 +349,7 @@
                                                 </v-list-item-content>
                                                 
                                                 <v-list-item-avatar size="50">
-                                                    <v-icon large>mdi-truck-delivery</v-icon>
+                                                    <v-icon large>mdi-receipt-clock</v-icon>
                                                 </v-list-item-avatar>
                                             </v-list-item>
                                         </v-card>
@@ -367,7 +372,7 @@
                                                 </v-list-item-content>
                                                 
                                                 <v-list-item-avatar size="50">
-                                                    <v-icon large>mdi-truck-delivery</v-icon>
+                                                    <v-icon large>mdi-receipt-text-clock</v-icon>
                                                 </v-list-item-avatar>
                                             </v-list-item>
                                         </v-card>
@@ -381,8 +386,11 @@
                                         md="12"
                                         lg="12"
                                     >
-                                        <v-card height="425px" style="display: flex !important; flex-direction: column;">
-                                            <v-card-title class="mb-3">Riwayat Kegiatan Bulan {{ monthNow }}</v-card-title>
+                                        <v-card height="426px" style="display: flex !important; flex-direction: column;">
+                                            <v-card-title class="mb-3">
+                                                <v-icon medium left style="vertical-align: middle;">mdi-history</v-icon>
+                                                <span class="text-h6 font-weight-light">Riwayat Kegiatan Bulan {{ monthNow }}</span>
+                                            </v-card-title>
                                             <v-card-subtitle style="flex-grow: 1; overflow: auto;">
                                                 <template>
                                                     <v-data-table 

@@ -75,19 +75,6 @@ const router = new VueRouter({
                   else next({ name: "LoginPage" });
               },
             },
-            //Kendaraan
-            {
-              path: "/kendaraan-page",
-              name: "Kendaraan",
-              meta: { 
-                title: "KendaraanPage" ,
-              },
-              component: importComponent("DataMaster/KendaraanPage"),
-              beforeEnter(to, from, next) {
-                  if (localStorage.getItem("token")) next();
-                  else next({ name: "LoginPage" });
-              },
-            },
             //Transaksi Pangkalan
             {
               path: "/transaksi-pangkalan-page",

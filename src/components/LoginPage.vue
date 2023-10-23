@@ -42,7 +42,7 @@
                                 </v-col>
                             </v-row>
 
-                            <v-form ref="form" lazy-validation @submit="login">
+                            <v-form ref="form" lazy-validation @submit.prevent="login">
                                 <v-radio-group
                                     row
                                     v-model="role"

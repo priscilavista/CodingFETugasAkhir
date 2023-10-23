@@ -298,7 +298,6 @@
           { title: "Pegawai", icon: "mdi-home", to: "/pegawai-page" },
           { title: "Pangkalan", icon: "mdi-home", to: "/pangkalan-page" },
           { title: "SPPBE", icon: "mdi-home", to: "/sppbe-page" },
-          { title: "Kendaraan", icon: "mdi-home", to: "/kendaraan-page" },
           { title: "Transaksi Pangkalan", icon: "mdi-home", to: "/transaksi-pangkalan-page" },
           { title: "Transaksi Admin", icon: "mdi-home", to: "/transaksi-page" },
           { title: "Alokasi Pengambilan Gas", icon: "mdi-home", to: "/alokasi-pengambilan-gas-page" },
