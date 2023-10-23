@@ -680,8 +680,15 @@
             <div v-else>
                 <template>
                     <v-row>
-                        <v-col>
-
+                        <v-col
+                            cols="9"
+                            sm="9"
+                            md="9"
+                            lg="9"
+                        >
+                            <v-card style="display: flex !important; flex-direction: column;" height="666.5px">
+                            
+                            </v-card>
                         </v-col>
                     </v-row>
                 </template>
