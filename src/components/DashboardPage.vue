@@ -24,7 +24,8 @@
         
         <div>
             <div v-if="role === 'pegawai'">
-                <div v-if="jabatan !== 'Driver'">
+                <!-- Dashboard Admin & Manager -->
+                <div v-if="jabatan !== 'Driver' && jabatan !== ''">
                     <template>
                         <v-row>
                             <v-col
@@ -267,7 +268,8 @@
                     </template>
                 </div>
 
-                <div v-else>
+                <!-- Dashboard Driver? -->
+                <div v-else-if="jabatan === 'Driver' && jabatan !== ''">
                     <template>
                         <v-row>
                             <v-col
@@ -379,8 +381,8 @@
                                         md="12"
                                         lg="12"
                                     >
-                                        <v-card height="415px" style="display: flex !important; flex-direction: column;">
-                                            <v-card-title class="mb-1">Riwayat Kegiatan Bulan {{ monthNow }}</v-card-title>
+                                        <v-card height="425px" style="display: flex !important; flex-direction: column;">
+                                            <v-card-title class="mb-3">Riwayat Kegiatan Bulan {{ monthNow }}</v-card-title>
                                             <v-card-subtitle style="flex-grow: 1; overflow: auto;">
                                                 <template>
                                                     <v-data-table 
@@ -450,7 +452,13 @@
             </div>
 
             <div v-else>
+                <template>
+                    <v-row>
+                        <v-col>
 
+                        </v-col>
+                    </v-row>
+                </template>
             </div>
                         
             <v-overlay :value="overlay">
@@ -482,7 +490,7 @@
 
         data() {
             return {
-                jabatan: localStorage.getItem("jabatan"),
+                jabatan: "",
                 role: localStorage.getItem("role"),
                 snackbar: false,
                 error_message: "",
@@ -690,15 +698,46 @@
 
         methods: {
             getDateNow(){
-                this.overlay = true;
                 let month = new Date().toLocaleDateString("sv-se", { month: 'long' }).split('T')[0];
                 this.monthNow = month[0].toUpperCase() + month.slice(1);
-                setTimeout(() => this.overlay = false, 750);   
-            }
+            },
+
+            getDataUser() {
+                this.overlay = true;
+                var url = this.$api;
+
+                if(this.role === 'pegawai')
+                {
+                    url = url + "/pegawai/getById";
+                    this.$http.get(url + "/" + localStorage.getItem("id"))
+                        .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            var res = response.data.data;
+                            this.jabatan = res.role_pegawai;
+                            this.overlay = false;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = response.data.message;
+                            this.overlay = false;
+                        }
+                        })
+                        .catch((error) => {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = error.response.data.message;
+                        });
+                }
+            },
         },
         
         mounted() {
             this.getDateNow();
+            this.getDataUser();
         },
     }
 </script>
