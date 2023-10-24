@@ -589,7 +589,7 @@
                                                             {{ selected.name }}
                                                         </h3>
                                                         <div class="blue--text mb-2">
-                                                            {{ selected.website }}
+                                                            <a :href="`//${selected.website}`" target="_blank">{{ selected.website }}</a>
                                                         </div>
                                                         <div class="blue--text subheading font-weight-bold">
                                                             {{ selected.username }}
