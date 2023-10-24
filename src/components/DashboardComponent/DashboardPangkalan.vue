@@ -107,5 +107,12 @@
 <script>
     export default {
         name: "DashboardPangkalan",
+        
+        props: {
+            monthNow: {
+                type: String,
+                default: null
+            }
+        }
     }
 </script>

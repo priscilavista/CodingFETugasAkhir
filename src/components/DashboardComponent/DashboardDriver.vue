@@ -110,18 +110,20 @@
                     lg="12"
                 >
                     <v-card height="426px" style="display: flex !important; flex-direction: column;">
-                        <v-card-title class="mb-3">
-                            <v-icon medium left style="vertical-align: middle;">mdi-history</v-icon>
+                        <v-card-title class="indigo white--text">
+                            <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-history</v-icon>
                             <span class="text-h6 font-weight-light">Riwayat Kegiatan Bulan {{ monthNow }}</span>
                         </v-card-title>
-                        <v-card-subtitle style="flex-grow: 1; overflow: auto;">
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-2">
                             <template>
                                 <v-data-table
-                                    id="customStyleTable" 
+                                    id="customStyleTable"
+                                    class="elevation-1"
                                     :items-per-page="5"
                                     :headers="headers" 
-                                    :items="desserts" 
-                                    class="elevation-1"
+                                    :items="desserts"
+                                    height="275px"
+                                    fixed-header
                                 >
                                     <template v-slot:items="props">
                                         <td>{{ props.item.name }}</td>
@@ -133,7 +135,7 @@
                                     </template>
                                 </v-data-table>
                             </template>
-                        </v-card-subtitle>
+                        </v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
@@ -153,8 +155,8 @@
                     lg="12"
                 >
                     <v-card height="650px" style="display: flex !important; flex-direction: column;">
-                        <v-card-title>
-                            <v-icon medium left style="vertical-align: middle;">mdi-checkbox-marked-circle-auto-outline</v-icon>
+                        <v-card-title class="indigo white--text">
+                            <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-checkbox-marked-circle-auto-outline</v-icon>
                             <span class="text-h6 font-weight-light">Daftar Kegiatan Bulan {{ monthNow }}</span>
                         </v-card-title>
 

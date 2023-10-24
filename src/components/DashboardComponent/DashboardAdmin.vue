@@ -59,10 +59,12 @@
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
+                                    class="elevation-1"
                                     :items-per-page="5"
                                     :headers="headers"
                                     :items="desserts"
-                                    class="elevation-1"
+                                    height="300px"
+                                    fixed-header
                                 />
                             </template>
                         </v-card-text>
@@ -112,7 +114,7 @@
                     <v-col class="d-flex text-center">
                         <v-scroll-y-transition mode="out-in">
                             <div
-                                v-if="!selected"
+                                v-if="selected === undefined"
                                 class="text-h6 grey--text text--lighten-1 font-weight-light"
                                 style="align-self: center; justify-content: center; align-content: middle;"
                             >
@@ -135,15 +137,9 @@
                                         />
                                     </v-avatar>
 
-                                    <h3 class="text-h5 mb-2">
+                                    <h3 class="text-h5">
                                         {{ selected.name }}
                                     </h3>
-                                    <div class="blue--text mb-2">
-                                        <a :href="`//${selected.website}`" target="_blank">{{ selected.website }}</a>
-                                    </div>
-                                    <div class="blue--text subheading font-weight-bold">
-                                        {{ selected.username }}
-                                    </div>
                                 </v-card-text>
 
                                 <v-divider />
@@ -160,7 +156,7 @@
                                         Email:
                                     </v-col>
 
-                                    <v-col>{{ selected.email }}</v-col>
+                                    <v-col>{{ selected.email_pegawai }}</v-col>
 
                                     <v-col
                                         class="text-right mr-4 mb-2"
@@ -170,7 +166,7 @@
                                         Nomor Telepon:
                                     </v-col>
 
-                                    <v-col>{{ selected.phone }}</v-col>
+                                    <v-col>{{ selected.nomor_telepon_pegawai }}</v-col>
 
                                     <v-col
                                         class="text-right mr-4 mb-2"
@@ -180,7 +176,7 @@
                                         Total Pengiriman:
                                     </v-col>
 
-                                    <v-col>{{ selected.company.name }}</v-col>
+                                    <v-col>{{ selected.status_pegawai }}</v-col>
                                 </v-row>
                             </v-card>
                         </v-scroll-y-transition>
@@ -239,11 +235,18 @@
 
         methods: {
             async fetchUsers (item) {
-                return this.$http.get('https://jsonplaceholder.typicode.com/users')
+                return this.$http.get(this.$api + "/pegawai/getAll")
                     .then((response) => { 
-                        let json = response.data;
+                        let json = response.data.data;
+                        let id = 1;
                         json.forEach(element => {
-                            item.children.push(element)
+                            if(element.role_pegawai === 'Driver')
+                            {
+                                element.id = id;
+                                element.name = element.nama_pegawai;
+                                item.children.push(element);
+                                id = id + 1;
+                            }
                         });
                     })
                     .catch((error) => {
@@ -273,8 +276,7 @@
             selected () {
                 if (!this.active.length) return undefined
 
-                const id = this.active[0]
-
+                const id = this.active[0];
                 return this.users.find(user => user.id === id)
             },
         }

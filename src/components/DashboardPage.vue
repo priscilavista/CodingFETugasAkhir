@@ -50,7 +50,9 @@
             </div>
 
             <div v-else>
-                <dashboard-pangkalan />
+                <dashboard-pangkalan 
+                    :monthNow="monthNow"
+                />
             </div>
                         
             <v-overlay :value="overlay">

@@ -141,11 +141,13 @@
                                 <template>
                                     <v-data-table 
                                         id="customStyleTable"
-                                        :items-per-page="100"
-                                        :headers="headers" 
-                                        :items="desserts" 
-                                        class="elevation-1"
+                                        :items-per-page="1000"
                                         hide-default-footer
+                                        class="elevation-1"
+                                        :headers="headers"
+                                        :items="desserts"
+                                        height="320px"
+                                        fixed-header
                                     />
                                 </template>
                             </v-card-text>
