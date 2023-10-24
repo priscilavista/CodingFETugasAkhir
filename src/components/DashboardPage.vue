@@ -166,14 +166,16 @@
                                             <v-card-title>Riwayat Transaksi - {{ monthNow }}</v-card-title>
 
                                             <v-card-text style="flex-grow: 1; overflow: auto;">
-                                                <v-data-table 
-                                                    id="customStyleTable"
-                                                    :items-per-page="100"
-                                                    :headers="headersManajer" 
-                                                    :items="dessertsManajer" 
-                                                    class="elevation-1"
-                                                    hide-default-footer
-                                                />
+                                                <template>
+                                                    <v-data-table 
+                                                        id="customStyleTable"
+                                                        :items-per-page="100"
+                                                        :headers="headersManajer" 
+                                                        :items="dessertsManajer" 
+                                                        class="elevation-1"
+                                                        hide-default-footer
+                                                    />
+                                                </template>
                                             </v-card-text>
                                         </v-card>
                                     </v-col>
@@ -379,7 +381,7 @@
                                             </v-card-title>
                                             <v-card-subtitle style="flex-grow: 1; overflow: auto;">
                                                 <template>
-                                                    <v-data-table 
+                                                    <v-data-table
                                                         id="customStyleTable" 
                                                         :items-per-page="5"
                                                         :headers="headers" 
@@ -496,38 +498,23 @@
                                         <v-card
                                             class="mx-auto mt-5" 
                                             height="450px"
+                                            style="display: flex !important; flex-direction: column;"
                                         >
-                                            <v-img
-                                                height="210"
-                                                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                                            />
+                                            <v-card-title>
+                                                <v-icon medium left style="vertical-align: middle;">mdi-clipboard-text-clock-outline</v-icon>
+                                                <span class="text-h6 font-weight-light">Daftar Kegiatan</span>
+                                            </v-card-title>
 
-                                            <v-card-title>Cafe Badilico</v-card-title>
-
-                                            <v-card-text>
-                                                <v-row
-                                                    align="center"
-                                                    class="mx-0"
-                                                >
-                                                    <v-rating
-                                                        :value="4.5"
-                                                        color="amber"
-                                                        dense
-                                                        half-increments
-                                                        readonly
-                                                        size="14"
+                                            <v-card-text style="flex-grow: 1; overflow: auto;">
+                                                <template>
+                                                    <v-data-table
+                                                        id="customStyleTable" 
+                                                        :items-per-page="5"
+                                                        :headers="headers" 
+                                                        :items="desserts" 
+                                                        class="elevation-1"
                                                     />
-
-                                                    <div class="grey--text ms-4">
-                                                        4.5 (413)
-                                                    </div>
-                                                </v-row>
-
-                                                <div class="my-4 text-subtitle-1">
-                                                    $ • Italian, Cafe
-                                                </div>
-
-                                                <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+                                                </template>
                                             </v-card-text>
                                         </v-card>
                                     </v-col>
