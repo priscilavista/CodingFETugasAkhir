@@ -610,9 +610,7 @@
                                                             Email:
                                                         </v-col>
 
-                                                        <v-col>
-                                                            <a :href="`//${selected.website}`" target="_blank">{{ selected.email }}</a>
-                                                        </v-col>
+                                                        <v-col>{{ selected.email }}</v-col>
 
                                                         <v-col
                                                             class="text-right mr-4 mb-2"
