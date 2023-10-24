@@ -38,12 +38,12 @@
                                 <v-card color="#1d88e6" dark>
                                     <v-list-item three-line>
                                         <v-list-item-avatar size="50">
-                                            <v-icon large>mdi-cash-multiple</v-icon>
+                                            <v-icon large>mdi-cart-variant</v-icon>
                                         </v-list-item-avatar>
 
                                         <v-list-item-content>
                                             <v-list-item-title class="text-h6 mb-1">
-                                                Penghasilan Tahunan
+                                                Total Pembelian Tahunan
                                             </v-list-item-title>
 
                                             <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
@@ -156,38 +156,24 @@
                                         <v-card
                                             class="mx-auto" 
                                             height="500px"
+                                            style="display: flex !important; flex-direction: column;"
                                         >
                                             <v-img
-                                                height="210"
-                                                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                                                height="100"
+                                                src="https://cdn.ajnn.net/files/images/20220722-20220406-28052019-gas-elpiji-net.jpg"
                                             />
 
-                                            <v-card-title>Cafe Badilico</v-card-title>
+                                            <v-card-title>Riwayat Transaksi - {{ monthNow }}</v-card-title>
 
-                                            <v-card-text>
-                                                <v-row
-                                                    align="center"
-                                                    class="mx-0"
-                                                >
-                                                    <v-rating
-                                                        :value="4.5"
-                                                        color="amber"
-                                                        dense
-                                                        half-increments
-                                                        readonly
-                                                        size="14"
-                                                    />
-
-                                                    <div class="grey--text ms-4">
-                                                        4.5 (413)
-                                                    </div>
-                                                </v-row>
-
-                                                <div class="my-4 text-subtitle-1">
-                                                    $ • Italian, Cafe
-                                                </div>
-
-                                                <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+                                            <v-card-text style="flex-grow: 1; overflow: auto;">
+                                                <v-data-table 
+                                                    id="customStyleTable"
+                                                    :items-per-page="100"
+                                                    :headers="headersManajer" 
+                                                    :items="dessertsManajer" 
+                                                    class="elevation-1"
+                                                    hide-default-footer
+                                                />
                                             </v-card-text>
                                         </v-card>
                                     </v-col>
@@ -715,8 +701,6 @@
         '?accessoriesType=Kurt&avatarStyle=Circle&clotheColor=Gray01&clotheType=BlazerShirt&eyeType=Surprised&eyebrowType=Default&facialHairColor=Red&facialHairType=Blank&graphicType=Selena&hairColor=Red&hatColor=Blue02&mouthType=Twinkle&skinColor=Pale&topType=LongHairCurly',
     ]
 
-    const pause = ms => new Promise(resolve => setTimeout(resolve, ms))
-
     export default {
         name: "DashboardPage",
 
@@ -784,6 +768,57 @@
                         }
                     ]
                 },
+                headersManajer: [
+                    {
+                        text: 'Tanggal',
+                        align: 'start',
+                        sortable: false,
+                        value: 'name',
+                    },
+                    { text: 'Jumlah', value: 'calories' },
+                ],
+                dessertsManajer: [
+                    {
+                        name: 'Frozen Yogurt',
+                        calories: 159,
+                    },
+                    {
+                        name: 'Ice cream sandwich',
+                        calories: 237,
+                    },
+                    {
+                        name: 'Eclair',
+                        calories: 262,
+                    },
+                    {
+                        name: 'Cupcake',
+                        calories: 305,
+                    },
+                    {
+                        name: 'Gingerbread',
+                        calories: 356,
+                    },
+                    {
+                        name: 'Jelly bean',
+                        calories: 375,
+                    },
+                    {
+                        name: 'Lollipop',
+                        calories: 392,
+                    },
+                    {
+                        name: 'Honeycomb',
+                        calories: 408,
+                    },
+                    {
+                        name: 'Donut',
+                        calories: 452,
+                    },
+                    {
+                        name: 'KitKat',
+                        calories: 518,
+                    },
+                ],
 
                 //Driver Variable
                 headers: [
@@ -943,6 +978,8 @@
                 avatar: null,
                 open: [],
                 users: [],
+
+                //Pangkalan Variable
             }
         },
 
@@ -961,19 +998,19 @@
                     url = url + "/pegawai/getById";
                     this.$http.get(url + "/" + localStorage.getItem("id"))
                         .then((response) => {
-                        if(response.data.code == 200)
-                        {
-                            var res = response.data.data;
-                            this.jabatan = res.role_pegawai;
-                            this.overlay = false;
-                        }
-                        else
-                        {
-                            this.color = "red";
-                            this.snackbar = true;
-                            this.error_message = response.data.message;
-                            this.overlay = false;
-                        }
+                            if(response.data.code == 200)
+                            {
+                                var res = response.data.data;
+                                this.jabatan = res.role_pegawai;
+                                this.overlay = false;
+                            }
+                            else
+                            {
+                                this.color = "red";
+                                this.snackbar = true;
+                                this.error_message = response.data.message;
+                                this.overlay = false;
+                            }
                         })
                         .catch((error) => {
                             this.color = "red";
@@ -985,14 +1022,16 @@
             },
 
             async fetchUsers (item) {
-                // Remove in 6 months and say
-                // you've made optimizations! :)
-                await pause(1500)
-
-                return fetch('https://jsonplaceholder.typicode.com/users')
-                .then(res => res.json())
-                .then(json => (item.children.push(...json)))
-                .catch(err => console.warn(err))
+                return this.$http.get('https://jsonplaceholder.typicode.com/users')
+                    .then((response) => { 
+                        let json = response.data;
+                        json.forEach(element => {
+                            item.children.push(element)
+                        });
+                    })
+                    .catch((error) => {
+                        console.warn(error)
+                    })
             },
 
             randomAvatar () {
@@ -1009,10 +1048,10 @@
         computed: {
             items () {
                 return [
-                {
-                    name: 'Drivers',
-                    children: this.users,
-                },
+                    {
+                        name: 'Drivers',
+                        children: this.users,
+                    },
                 ]
             },
             selected () {
