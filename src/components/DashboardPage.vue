@@ -508,10 +508,10 @@
                                             <v-card-text style="flex-grow: 1; overflow: auto;">
                                                 <template>
                                                     <v-data-table
-                                                        id="customStyleTable" 
+                                                        id="customStyleTable"
                                                         :items-per-page="5"
-                                                        :headers="headers" 
-                                                        :items="desserts" 
+                                                        :headers="headers"
+                                                        :items="desserts"
                                                         class="elevation-1"
                                                     />
                                                 </template>
@@ -611,12 +611,7 @@
                                                         </v-col>
 
                                                         <v-col>
-                                                            <a
-                                                                :href="`//${selected.website}`"
-                                                                target="_blank"
-                                                            >
-                                                                {{ selected.email }}
-                                                            </a>
+                                                            <a :href="`//${selected.website}`" target="_blank">{{ selected.email }}</a>
                                                         </v-col>
 
                                                         <v-col
