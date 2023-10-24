@@ -50,12 +50,12 @@
                         height="450px"
                         style="display: flex !important; flex-direction: column;"
                     >
-                        <v-card-title>
-                            <v-icon medium left style="vertical-align: middle;">mdi-clipboard-text-clock-outline</v-icon>
+                        <v-card-title class="indigo white--text text-h5">
+                            <v-icon medium left style="vertical-align: middle; color: #fff">mdi-clipboard-text-clock-outline</v-icon>
                             <span class="text-h6 font-weight-light">Daftar Kegiatan</span>
                         </v-card-title>
 
-                        <v-card-text style="flex-grow: 1; overflow: auto;">
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-2">
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
@@ -103,7 +103,7 @@
                         >
                             <template v-slot:prepend="{ item }">
                                 <v-icon v-if="!item.children">
-                                    mdi-account
+                                    mdi-account-circle
                                 </v-icon>
                             </template>
                         </v-treeview>
@@ -111,14 +111,15 @@
 
                     <v-divider vertical />
 
-                    <v-col class="d-flex text-center">
+                    <v-col class="d-flex">
                         <v-scroll-y-transition mode="out-in">
                             <div
-                                v-if="selected === undefined"
+                                v-if="!selected"
                                 class="text-h6 grey--text text--lighten-1 font-weight-light"
-                                style="align-self: center; justify-content: center; align-content: middle;"
+                                style="align-self: center; justify-content: center; align-content: center; vertical-align: center"
                             >
-                                Silahkan Pilih Driver
+                                <v-icon large left class="ms-5">mdi-account-off-outline</v-icon>
+                                <span class="text-h6 font-weight-light">Silahkan Pilih Driver</span>
                             </div>
                             
                             <v-card
@@ -133,7 +134,7 @@
                                     <v-avatar v-if="avatar" size="88">
                                         <v-img
                                             :src="`https://avataaars.io/${avatar}`"
-                                            class="mb-6"
+                                            class="mb-5"
                                         />
                                     </v-avatar>
 
