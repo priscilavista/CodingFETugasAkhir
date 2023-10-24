@@ -530,11 +530,11 @@
                                 <v-card style="display: flex !important; flex-direction: column;" height="666.5px">
                                     <v-card-title class="indigo white--text text-h5">
                                         <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-card-account-details-outline</v-icon>
-                                        <span class="text-h6 font-weight-light">Daftar Driver</span>
+                                        <span class="text-h6 font-weight-light">Informasi Driver</span>
                                     </v-card-title>
 
                                     <v-row
-                                        class="pa-4"
+                                        class="pt-4"
                                         justify="space-between"
                                         style="flex-grow: 1; overflow: auto;"
                                     >
@@ -545,7 +545,7 @@
                                                 :load-children="fetchUsers"
                                                 :open.sync="open"
                                                 activatable
-                                                color="warning"
+                                                color="primary"
                                                 open-all
                                                 transition
                                             >
@@ -572,7 +572,7 @@
                                                 <v-card
                                                     v-else
                                                     :key="selected.id"
-                                                    class="pt-6 mx-auto"
+                                                    class="pt-5 mx-auto"
                                                     flat
                                                     max-width="400"
                                                     style="align-self: center; justify-content: center; align-content: middle;"
@@ -1029,7 +1029,7 @@
             items () {
                 return [
                     {
-                        name: 'Drivers',
+                        name: 'Daftar Driver',
                         children: this.users,
                     },
                 ]
