@@ -80,7 +80,7 @@
                 md="6"
                 lg="6"
             >
-                <v-card height="500px">
+                <v-card height="510px">
                     <v-card-title>
                         <v-icon medium left style="vertical-align: middle;">mdi-chart-line</v-icon>
                         <span class="text-h6 font-weight-light">Kelangkaan Gas Bulanan</span>
@@ -127,7 +127,7 @@
                     >
                         <v-card
                             class="mx-auto" 
-                            height="500px"
+                            height="510px"
                             style="display: flex !important; flex-direction: column;"
                         >
                             <v-img
@@ -160,7 +160,7 @@
                         md="6"
                         lg="6"
                     >
-                        <v-card height="500px">
+                        <v-card height="510px">
                             <v-card-title class="text-h6">
                                 <v-icon medium left style="vertical-align: middle;">mdi-chart-donut</v-icon>
                                 <span class="text-h6 font-weight-light">Persentase Kondisi Gas</span>

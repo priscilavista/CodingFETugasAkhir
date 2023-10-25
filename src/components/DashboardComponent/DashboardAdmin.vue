@@ -235,7 +235,7 @@
         },
 
         methods: {
-            async fetchUsers (item) {
+            fetchUsers (item) {
                 return this.$http.get(this.$api + "/pegawai/getAll")
                     .then((response) => { 
                         let json = response.data.data;
