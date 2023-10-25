@@ -134,7 +134,7 @@
                                     <v-avatar v-if="avatar" size="88">
                                         <v-img
                                             :src="`https://avataaars.io/${avatar}`"
-                                            class="mb-5"
+                                            class="mb-6"
                                         />
                                     </v-avatar>
 
