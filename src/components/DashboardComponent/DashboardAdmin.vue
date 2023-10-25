@@ -55,7 +55,7 @@
                             <span class="text-h6 font-weight-light">Daftar Kegiatan</span>
                         </v-card-title>
 
-                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-2">
+                        <v-card-text class="mt-3">
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
