@@ -126,7 +126,7 @@
                         {
                             label: 'Kelangkaan Gas Per Bulan',
                             backgroundColor: '#41B883',
-                            data: [40, 39, 10, 40, 39, 80, 40, 100, 50, 70, 24, 88]
+                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
                         }
                     ]
                 },
@@ -415,7 +415,7 @@
 
         methods: {
             getDateNow(){
-                let month = new Date().toLocaleDateString("sv-se", { month: 'long' }).split('T')[0];
+                let month = new Date().toLocaleDateString("ID-id", { month: 'long' }).split('T')[0];
                 this.monthNow = month[0].toUpperCase() + month.slice(1);
             },
 
@@ -453,6 +453,10 @@
                 {
                     this.overlay = false;
                 }
+            },
+
+            getDataKelangkaanGas(){
+
             },
         },
         

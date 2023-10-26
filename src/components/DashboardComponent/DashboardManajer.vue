@@ -141,7 +141,7 @@
                                 <template>
                                     <v-data-table 
                                         id="customStyleTable"
-                                        :items-per-page="1000"
+                                        :items-per-page="10000"
                                         hide-default-footer
                                         class="elevation-1"
                                         :headers="headers"
