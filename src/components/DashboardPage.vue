@@ -109,18 +109,10 @@
                 // Manager Variable
                 lineChartData: {
                     labels: [
-                        'Januari',
-                        'Februari',
-                        'Maret',
-                        'April',
-                        'Mei',
-                        'Juni',
-                        'Juli',
-                        'Augustus',
-                        'September',
-                        'Oktober',
-                        'November',
-                        'Desember'
+                        'Januari', 'Februari', 'Maret',
+                        'April', 'Mei', 'Juni',
+                        'Juli', 'Augustus', 'September',
+                        'Oktober', 'November', 'Desember'
                     ],
                     datasets: [
                         {
