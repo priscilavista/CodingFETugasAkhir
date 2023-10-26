@@ -406,7 +406,7 @@
         },
 
         methods: {
-            getDateNow(){
+            getDateNow() {
                 let month = new Date().toLocaleDateString("ID-id", { month: 'long' }).split('T')[0];
                 this.monthNow = month[0].toUpperCase() + month.slice(1);
             },
@@ -447,7 +447,7 @@
                 }
             },
 
-            getDataKelangkaanGas(){
+            getDataKelangkaanGas() {
 
             },
         },
