@@ -1,7 +1,8 @@
 <template>
     <LineChartGenerator
+        v-if="loaded"
         :chart-options="chartOptions"
-        :data="chartData"
+        :data="lineChartData"
         :chart-id="lineChartId"
         :dataset-id-key="datasetIdKey"
         :plugins="plugins"
@@ -12,12 +13,14 @@
 
 <script>
     import { Line as LineChartGenerator } from 'vue-chartjs'
+
     import { 
         Chart as ChartJS, Title,
         Tooltip, Legend,
         LineElement, LinearScale,
         CategoryScale, PointElement,
     } from 'chart.js'
+    
     ChartJS.register(
         Title, Tooltip,
         Legend, LineElement,
@@ -29,10 +32,16 @@
         name: "LineChart",
         
         components: { LineChartGenerator },
+
         props: {
             chartData: {
-                type: Object,
-                default: () => {}
+                type: Array,
+                default: () => []
+            },
+
+            chartLabel: {
+                type: Array,
+                default: () => []
             },
 
             lineChartId: {
@@ -63,6 +72,7 @@
 
         data() {
             return {
+                loaded: false,
                 chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -70,7 +80,59 @@
                         display: false
                     }
                 },
+                lineChartData: {
+                    labels: [],
+                    datasets: []
+                },
             }
-        }
+        },
+        
+        async mounted() {
+            this.loaded = false;
+
+            try {
+                var url = this.$api + "/kelangkaanGas/getBySearchAllData";
+                this.$http.get(url)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        let month = [];
+                        let value = [];
+                        let data = response.data.data;
+
+                        data.forEach(element => {
+                            month = [...month, element.nama_bulan];
+
+                            if(element.total_permintaan !== null)
+                            {
+                                value = [...value, element.total_permintaan];
+                            }
+                            else
+                            {
+                                value = [...value, 0];
+                            }
+                        });
+                        
+                        this.lineChartData = {
+                            labels: month,
+                            datasets: [
+                                {
+                                    label: 'Kelangkaan Gas Per Bulan',
+                                    backgroundColor: '#41B883',
+                                    data: value
+                                }
+                            ],
+                        };
+
+                        this.loaded = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
     }
 </script>

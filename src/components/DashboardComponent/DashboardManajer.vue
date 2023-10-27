@@ -106,7 +106,7 @@
 
                     <v-card-text class="mt-2">
                         <div class="d-flex justify-center bg-surface-variant">
-                            <line-chart :chartData="lineChartData" />
+                            <line-chart />
                         </div>
                     </v-card-text>
                 </v-card>
@@ -262,15 +262,10 @@
                 default: null
             },
 
-            lineChartData: {
-                type: Object,
-                default: () => {}
-            },
-
             doughnutChartData: {
                 type: Object,
                 default: () => {}
-            }
+            },
         },
     }
 </script>

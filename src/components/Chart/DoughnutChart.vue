@@ -2,7 +2,7 @@
     <Doughnut
         :data="chartData" 
         :options="chartOptions"
-        :chart-id="lineChartId"
+        :chart-id="chartId"
         :dataset-id-key="datasetIdKey"
         :plugins="plugins"
         :css-classes="cssClasses"

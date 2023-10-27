@@ -28,7 +28,7 @@
                 <div v-if="jabatan === 'Manajer' && jabatan !== ''">
                     <dashboard-manajer 
                         :headers="headersManajer" :desserts="dessertsManajer"
-                        :doughnutChartData="doughnutChartData" :lineChartData="lineChartData"
+                        :doughnutChartData="doughnutChartData"
                         :monthNow="monthNow"
                     />
                 </div>
@@ -107,21 +107,6 @@
                 monthNow: "",
 
                 // Manager Variable
-                lineChartData: {
-                    labels: [
-                        'Januari', 'Februari', 'Maret',
-                        'April', 'Mei', 'Juni',
-                        'Juli', 'Augustus', 'September',
-                        'Oktober', 'November', 'Desember'
-                    ],
-                    datasets: [
-                        {
-                            label: 'Kelangkaan Gas Per Bulan',
-                            backgroundColor: '#41B883',
-                            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                        }
-                    ]
-                },
                 doughnutChartData: {
                     labels: ['Bocor', 'Normal'],
                     datasets: [
@@ -447,14 +432,36 @@
                 }
             },
 
-            getDataKelangkaanGas() {
-
+            getDataGasBocor() {
+                var url = this.$api + "/gasBocor/getAll";
+                this.$http.get(url)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        // this.pegawais = response.data.data;
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                });
             },
         },
         
         mounted() {
             this.getDateNow();
             this.getDataUser();
+
+            // this.getDataGasBocor();
         },
     }
 </script>
