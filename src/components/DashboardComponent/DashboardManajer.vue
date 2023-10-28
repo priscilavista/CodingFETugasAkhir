@@ -98,7 +98,7 @@
                                         Total Kelangkaan Gas Bulan - {{ monthNow }}
                                     </v-list-item-title>
                                     
-                                    <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                    <v-list-item-subtitle style="font-size: 17px;">Terdapat Kelangkaan Gas Sebanyak {{ kelangkaanGasBulanan }} Tabung</v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-card>
@@ -168,7 +168,7 @@
 
                             <v-card-text class="text--primary">
                                 <div class="d-flex justify-center bg-surface-variant">
-                                    <doughnut-chart :chartData="doughnutChartData" />
+                                    <doughnut-chart />
                                 </div>
 
                                 <div style="margin-top: 40px;">
@@ -262,10 +262,10 @@
                 default: null
             },
 
-            doughnutChartData: {
-                type: Object,
-                default: () => {}
-            },
+            kelangkaanGasBulanan: {
+                type: String,
+                default: '0'
+            }
         },
     }
 </script>

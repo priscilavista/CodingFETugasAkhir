@@ -28,8 +28,7 @@
                 <div v-if="jabatan === 'Manajer' && jabatan !== ''">
                     <dashboard-manajer 
                         :headers="headersManajer" :desserts="dessertsManajer"
-                        :doughnutChartData="doughnutChartData"
-                        :monthNow="monthNow"
+                        :monthNow="monthNow" :kelangkaanGasBulanan="kelangkaanGasBulanan"
                     />
                 </div>
 
@@ -107,15 +106,7 @@
                 monthNow: "",
 
                 // Manager Variable
-                doughnutChartData: {
-                    labels: ['Bocor', 'Normal'],
-                    datasets: [
-                        {
-                            backgroundColor: ['#ee534f', '#00D8FF'],
-                            data: [40, 100],
-                        }
-                    ]
-                },
+                kelangkaanGasBulanan: '0',
                 headersManajer: [
                     {
                         text: 'Tanggal',
@@ -410,6 +401,11 @@
                                 var res = response.data.data;
                                 this.jabatan = res.role_pegawai;
                                 this.overlay = false;
+
+                                if(res.role_pegawai === 'Manajer')
+                                {
+                                    this.getDataKelangkaanBulanan();
+                                }
                             }
                             else
                             {
@@ -432,36 +428,42 @@
                 }
             },
 
-            getDataGasBocor() {
-                var url = this.$api + "/gasBocor/getAll";
-                this.$http.get(url)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        // this.pegawais = response.data.data;
-                    }
-                    else
-                    {
+            //Method Manajer
+            getDataKelangkaanBulanan() {
+                var url = this.$api;
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+
+                url = url + "/kelangkaanGas/postBySearchData";
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            var res = response.data.data;
+                            this.kelangkaanGasBulanan = res.jumlah_permintaan;
+                            this.overlay = false;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = response.data.message;
+                            this.overlay = false;
+                        }
+                    })
+                    .catch((error) => {
                         this.color = "red";
                         this.snackbar = true;
                         this.overlay = false;
-                        this.error_message = response.data.message;
-                    }
-                })
-                .catch((error) => {
-                    this.color = "red";
-                    this.snackbar = true;
-                    this.overlay = false;
-                    this.error_message = error.response.data.message;
-                });
+                        this.error_message = error.response.data.message;
+                    });
             },
         },
         
         mounted() {
             this.getDateNow();
             this.getDataUser();
-
-            // this.getDataGasBocor();
         },
     }
 </script>

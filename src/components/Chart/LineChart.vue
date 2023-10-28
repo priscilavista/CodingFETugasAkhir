@@ -34,16 +34,6 @@
         components: { LineChartGenerator },
 
         props: {
-            chartData: {
-                type: Array,
-                default: () => []
-            },
-
-            chartLabel: {
-                type: Array,
-                default: () => []
-            },
-
             lineChartId: {
                 type: String,
                 default: 'line-chart'
@@ -73,6 +63,7 @@
         data() {
             return {
                 loaded: false,
+                
                 chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -80,6 +71,7 @@
                         display: false
                     }
                 },
+
                 lineChartData: {
                     labels: [],
                     datasets: []

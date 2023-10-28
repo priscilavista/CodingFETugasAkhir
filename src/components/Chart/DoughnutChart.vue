@@ -1,6 +1,7 @@
 <template>
     <Doughnut
-        :data="chartData" 
+        v-if="loaded"
+        :data="doughnutChartData" 
         :options="chartOptions"
         :chart-id="chartId"
         :dataset-id-key="datasetIdKey"
@@ -12,11 +13,13 @@
 
 <script>
     import { Doughnut } from 'vue-chartjs'
+
     import { 
         Chart as ChartJS, Title,
         Tooltip, Legend,
         ArcElement, CategoryScale
     } from 'chart.js'
+
     ChartJS.register(
         Title, Tooltip, 
         Legend, ArcElement, 
@@ -28,11 +31,6 @@
         
         components: { Doughnut },
         props: {
-            chartData: {
-                type: Object,
-                default: () => {}
-            },
-
             chartId: {
                 type: String,
                 default: 'doughnut-chart'
@@ -61,11 +59,48 @@
 
         data() {
             return {
+                loaded: false,
+                
                 chartOptions: {
                     responsive: true,
                     maintainAspectRatio: false,
-                }
+                },
+
+                doughnutChartData: {
+                    labels: [],
+                    datasets: []
+                },
             }
-        }
+        },
+
+        async mounted() {
+            this.loaded = false;
+
+            try {
+                var url = this.$api + "/kelangkaanGas/getBySearchAllData";
+                this.$http.get(url)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.doughnutChartData = {
+                            labels: ['Normal', 'Bocor'],
+                            datasets: [
+                                {
+                                    backgroundColor: ['#00D8FF', '#ee534f'],
+                                    data: [100, 40]
+                                }
+                            ],
+                        };
+
+                        this.loaded = true;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        },
     }
 </script>
