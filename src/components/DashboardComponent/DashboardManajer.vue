@@ -71,7 +71,7 @@
             </v-col>
         </v-row>
 
-        <v-divider style="margin-top: 20px;" />
+        <v-divider style="margin-top: 25px;" />
 
         <v-row style="margin-top: 10px;">
             <v-col
@@ -81,13 +81,13 @@
                 lg="6"
             >
                 <v-card height="510px">
-                    <v-card-title>
-                        <v-icon medium left style="vertical-align: middle;">mdi-chart-line</v-icon>
+                    <v-card-title class="indigo white--text">
+                        <v-icon medium left style="vertical-align: middle; color: #fff;">mdi-chart-line</v-icon>
                         <span class="text-h6 font-weight-light">Kelangkaan Gas Bulanan</span>
                     </v-card-title>
 
-                    <v-card-subtitle>
-                        <v-card color="#41B883" dark class="mt-2">
+                    <v-card-text class="mt-2">
+                        <v-card color="#41B883" dark class="mt-3">
                             <v-list-item three-line>
                                 <v-list-item-avatar size="50">
                                     <v-icon large>mdi-gas-station-off-outline</v-icon>
@@ -102,10 +102,8 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-card>
-                    </v-card-subtitle>
 
-                    <v-card-text class="mt-2">
-                        <div class="d-flex justify-center bg-surface-variant">
+                        <div class="d-flex justify-center bg-surface-variant mt-3">
                             <line-chart />
                         </div>
                     </v-card-text>
@@ -130,19 +128,14 @@
                             height="510px"
                             style="display: flex !important; flex-direction: column;"
                         >
-                            <v-img
-                                height="100"
-                                src="https://cdn.ajnn.net/files/images/20220722-20220406-28052019-gas-elpiji-net.jpg"
-                            />
 
-                            <v-card-title>Riwayat Transaksi - {{ monthNow }}</v-card-title>
+                            <v-card-title class="indigo white--text">Riwayat Transaksi - {{ monthNow }}</v-card-title>
 
-                            <v-card-text style="flex-grow: 1; overflow: auto;">
+                            <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                                 <template>
                                     <v-data-table 
                                         id="customStyleTable"
-                                        :items-per-page="10000"
-                                        hide-default-footer
+                                        :items-per-page="5"
                                         class="elevation-1"
                                         :headers="headers"
                                         :items="desserts"
@@ -161,12 +154,12 @@
                         lg="6"
                     >
                         <v-card height="510px">
-                            <v-card-title class="text-h6">
-                                <v-icon medium left style="vertical-align: middle;">mdi-chart-donut</v-icon>
+                            <v-card-title class="text-h6 indigo white--text">
+                                <v-icon medium left style="vertical-align: middle; color: #fff;">mdi-chart-donut</v-icon>
                                 <span class="text-h6 font-weight-light">Persentase Kondisi Gas</span>
                             </v-card-title>
 
-                            <v-card-text class="text--primary">
+                            <v-card-text class="text--primary mt-1">
                                 <div class="d-flex justify-center bg-surface-variant">
                                     <doughnut-chart />
                                 </div>

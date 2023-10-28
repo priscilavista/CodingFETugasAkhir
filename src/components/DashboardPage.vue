@@ -83,7 +83,7 @@
 
         components: { 
             DashboardPangkalan, DashboardManajer, 
-            DashboardDriver, DashboardAdmin  
+            DashboardDriver, DashboardAdmin
         },
 
         data() {
