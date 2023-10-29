@@ -1,10 +1,10 @@
 <template>
     <v-row>
         <v-col
-            cols="5"
-            sm="5"
-            md="5"
-            lg="5"
+            cols="6"
+            sm="6"
+            md="6"
+            lg="6"
         >
             <v-row>
                 <v-col
@@ -20,7 +20,7 @@
                                     Sisa Pengiriman Gas
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Sisa Pengiriman Gas Sebanyak {{ pengirimanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -36,7 +36,7 @@
                                     Sisa Pengambilan Gas
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Sisa Pengambilan Gas Sebanyak {{ pengambilanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -62,7 +62,7 @@
                                     class="elevation-1"
                                     :items-per-page="5"
                                     :headers="headers"
-                                    :items="desserts"
+                                    :items="dataRiwayat"
                                     height="300px"
                                     fixed-header
                                 />
@@ -74,10 +74,10 @@
         </v-col>
 
         <v-col
-            cols="7"
-            sm="7"
-            md="7"
-            lg="7"
+            cols="6"
+            sm="6"
+            md="6"
+            lg="6"
         >
             <v-card style="display: flex !important; flex-direction: column;" height="666.5px">
                 <v-card-title class="indigo white--text text-h5">
@@ -102,7 +102,7 @@
                             transition
                         >
                             <template v-slot:prepend="{ item }">
-                                <v-icon v-if="!item.children">
+                                <v-icon v-if="!item.children" style="margin-right: -40px;">
                                     mdi-account-circle
                                 </v-icon>
                             </template>
@@ -118,7 +118,7 @@
                                 class="text-h6 grey--text text--lighten-1 font-weight-light"
                                 style="align-self: center; justify-content: center; align-content: center; vertical-align: center"
                             >
-                                <v-icon large left class="ms-5">mdi-account-off-outline</v-icon>
+                                <v-icon large left>mdi-account-off-outline</v-icon>
                                 <span class="text-h6 font-weight-light">Silahkan Pilih Driver</span>
                             </div>
                             
@@ -177,7 +177,7 @@
                                         Total Pengiriman:
                                     </v-col>
 
-                                    <v-col>{{ selected.status_pegawai }}</v-col>
+                                    <v-col>{{ selected.jumlah_pengiriman }}</v-col>
                                 </v-row>
                             </v-card>
                         </v-scroll-y-transition>
@@ -215,7 +215,7 @@
                 default: () => []
             },
 
-            desserts: {
+            dataRiwayat: {
                 type: Array,
                 default: () => []
             },
@@ -223,6 +223,16 @@
             monthNow: {
                 type: String,
                 default: null
+            },
+
+            pengambilanGasSisa: {
+                type: Number,
+                default: 0
+            },
+
+            pengirimanGasSisa: {
+                type: Number,
+                default: 0
             }
         },
 
@@ -236,18 +246,18 @@
 
         methods: {
             fetchUsers (item) {
-                return this.$http.get(this.$api + "/pegawai/getAll")
+                return this.$http.post(
+                    this.$api + "/pegawai/postBySearchDataAdmin", 
+                    { 'bulan': new Date().getMonth() + 1, 'tahun': new Date().getFullYear() }
+                )
                     .then((response) => { 
                         let json = response.data.data;
                         let id = 1;
                         json.forEach(element => {
-                            if(element.role_pegawai === 'Driver')
-                            {
-                                element.id = id;
-                                element.name = element.nama_pegawai;
-                                item.children.push(element);
-                                id = id + 1;
-                            }
+                            element.id = id;
+                            element.name = element.nama_pegawai;
+                            item.children.push(element);
+                            id = id + 1;
                         });
                     })
                     .catch((error) => {

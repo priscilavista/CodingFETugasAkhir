@@ -38,16 +38,17 @@
                     <dashboard-driver 
                         :headers="headersDriver" :dataRiwayat="dataRiwayatDriver" 
                         :daftarKegiatanDriver="daftarKegiatanDriver" :monthNow="monthNow"
-                        :pengambilanGasSelesai="pengambilanGasSelesai" :pengambilanGasSisa="pengambilanGasSisa"
-                        :pengirimanGasSelesai="pengirimanGasSelesai" :pengirimanGasSisa="pengirimanGasSisa"
+                        :pengambilanGasSelesai="pengambilanGasSelesaiDriver" :pengambilanGasSisa="pengambilanGasSisaDriver"
+                        :pengirimanGasSelesai="pengirimanGasSelesaiDriver" :pengirimanGasSisa="pengirimanGasSisaDriver"
                     />
                 </div>
 
                 <div v-if="jabatan === 'Admin' && jabatan !== ''">
                     <dashboard-admin 
                         :avatar="avatar" :users="users" 
-                        :headers="headers" :desserts="desserts" 
+                        :headers="headersAdmin" :dataRiwayat="dataRiwayatAdmin" 
                         :items="items" :monthNow="monthNow"
+                        :pengambilanGasSisa="pengambilanGasSisaAdmin" :pengirimanGasSisa="pengirimanGasSisaAdmin"
                     />
                 </div>
             </div>
@@ -123,10 +124,10 @@
                 dataRiwayatManager: [],
 
                 //Driver Variable
-                pengambilanGasSelesai: 0,
-                pengambilanGasSisa: 0,
-                pengirimanGasSelesai: 0,
-                pengirimanGasSisa: 0,
+                pengambilanGasSelesaiDriver: 0,
+                pengambilanGasSisaDriver: 0,
+                pengirimanGasSelesaiDriver: 0,
+                pengirimanGasSisaDriver: 0,
                 headersDriver: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
                     { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
@@ -137,7 +138,16 @@
                 daftarKegiatanDriver: [],
 
                 // Admin Variable
+                pengambilanGasSisaAdmin: 0,
+                pengirimanGasSisaAdmin: 0,
                 users: [],
+                headersAdmin: [
+                    { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
+                    { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
+                    { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
+                ],
+                dataRiwayatAdmin: [],
 
                 //Pangkalan Variable
                 pangkalanItems: [
@@ -240,7 +250,7 @@
                                 }
                                 else if(res.role_pegawai === 'Admin')
                                 {
-                                    this.overlay = false;
+                                    this.getDataPengambilanAdmin();
                                 }
                             }
                             else
@@ -411,11 +421,11 @@
                             var tempDate = new Date(element.tanggal_pengambilan_gas);
                             if(tempDate <= date)
                             {
-                                this.pengambilanGasSelesai = 1 + this.pengambilanGasSelesai;
+                                this.pengambilanGasSelesaiDriver = 1 + this.pengambilanGasSelesaiDriver;
                             }
                             else
                             {
-                                this.pengambilanGasSisa = 1 + this.pengambilanGasSisa;
+                                this.pengambilanGasSisaDriver = 1 + this.pengambilanGasSisaDriver;
                             }
 
                             tempList = [
@@ -455,11 +465,11 @@
                             var tempDate = new Date(element.tanggal_pengambilan_gas);
                             if(tempDate <= date)
                             {
-                                this.pengirimanGasSelesai = 1 + this.pengirimanGasSelesai;
+                                this.pengirimanGasSelesaiDriver = 1 + this.pengirimanGasSelesaiDriver;
                             }
                             else
                             {
-                                this.pengirimanGasSisa = 1 + this.pengirimanGasSisa;
+                                this.pengirimanGasSisaDriver = 1 + this.pengirimanGasSisaDriver;
                             }
                             
                             if(element.id_jadwal_pengiriman_gas)
@@ -539,6 +549,106 @@
                 this.daftarKegiatanDriver = berjalan.sort(this.sortDataByDate);
 
                 this.overlay = false;
+            },
+
+            //Method Admin
+            getDataPengambilanAdmin()
+            {
+                var url = this.$api + "/jadwalPengambilanGas/postBySearchDataAdmin";
+                var date = new Date();
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var tempList = [];
+                        var res = response.data.data;
+                        
+                        res.forEach(element => {
+                            var tempDate = new Date(element.tanggal_pengambilan_gas);
+                            if(tempDate > date)
+                            {
+                                this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
+                            }
+
+                            tempList = [
+                                ...tempList,
+                                {
+                                    'jenis_kegiatan': 'Pengambilan',
+                                    'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                    'jumlah_gas': element.alokasi_pengambilan_gas,
+                                    'jenis_alokasi': element.jenis_alokasi
+                                }
+                            ];
+                        });
+
+                        this.getDataPengirimanAdmin(tempList)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+            
+            getDataPengirimanAdmin(tempList)
+            {
+                var url = this.$api + "/jadwalPengirimanGas/postBySearchDataAdmin";
+                var date = new Date();
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var res = response.data.data;
+                        
+                        res.forEach(element => {
+                            var tempDate = new Date(element.tanggal_pengambilan_gas);
+                            if(tempDate > date)
+                            {
+                                this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
+                            }
+                            
+                            if(element.id_jadwal_pengiriman_gas)
+                            {
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengiriman',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_pengambilan_gas,
+                                        'jenis_alokasi': 'Reguler'
+                                    }
+                                ]
+                            }
+                            else
+                            {
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengiriman',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_tambahan,
+                                        'jenis_alokasi': 'Fakultatif'
+                                    }
+                                ]
+                            }
+                        });
+
+                        var temp = tempList.sort(this.sortDataByDate);
+                        this.dataRiwayatAdmin = temp;
+
+                        this.overlay = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
             },
 
             sortDataByDate(object1, object2)
