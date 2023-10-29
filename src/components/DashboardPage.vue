@@ -408,7 +408,7 @@
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
 
-                url = url + "/kelangkaanGas/postBySearchData";
+                url = url + "/kelangkaanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
                     .then((response) => {
                         if(response.data.code == 200)
@@ -427,7 +427,7 @@
                 var thn = new Date().getFullYear();
                 var body = { 'tahun': thn };
 
-                url = url + "/jadwalPengambilanGas/postBySearchData";
+                url = url + "/jadwalPengambilanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
                     .then((response) => {
                         if(response.data.code == 200)
@@ -446,7 +446,7 @@
                 var thn = new Date().getFullYear();
                 var body = { 'tahun': thn };
 
-                url = url + "/jadwalPengirimanGas/postBySearchData";
+                url = url + "/jadwalPengirimanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
                     .then((response) => {
                         if(response.data.code == 200)
@@ -462,7 +462,7 @@
 
             getDataDetailGasBocor()
             {
-                var url = this.$api + "/gasBocor/postBySearchData";
+                var url = this.$api + "/gasBocor/postBySearchDataManajer";
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
@@ -508,7 +508,7 @@
 
             getDataRiwayatTransaksi()
             {
-                var url = this.$api + "/transaksi/postBySearchData";
+                var url = this.$api + "/transaksi/postBySearchDataManajer";
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };

@@ -77,7 +77,7 @@
             this.loaded = false;
 
             try {
-                var url = this.$api + "/gasBocor/postBySearchData";
+                var url = this.$api + "/gasBocor/postBySearchDataManajer";
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
