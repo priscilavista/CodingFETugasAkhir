@@ -371,6 +371,14 @@
                                     this.getDataTotalTransaksiManajer();
                                     this.getDataRiwayatTransaksi();
                                 }
+                                else if(res.role_pegawai === 'Driver')
+                                {
+                                    this.overlay = false;
+                                }
+                                else if(res.role_pegawai === 'Admin')
+                                {
+                                    this.overlay = false;
+                                }
                             }
                             else
                             {
