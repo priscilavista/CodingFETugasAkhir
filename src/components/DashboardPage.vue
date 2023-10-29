@@ -36,9 +36,10 @@
 
                 <div v-else-if="jabatan === 'Driver' && jabatan !== ''">
                     <dashboard-driver 
-                        :headers="headers" :desserts="desserts" 
-                        :messages="messages" :monthNow="monthNow"
+                        :headers="headersDriver" :dataRiwayat="dataRiwayatDriver" 
+                        :daftarKegiatanDriver="daftarKegiatanDriver" :monthNow="monthNow"
                         :pengambilanGasSelesai="pengambilanGasSelesai" :pengambilanGasSisa="pengambilanGasSisa"
+                        :pengirimanGasSelesai="pengirimanGasSelesai" :pengirimanGasSisa="pengirimanGasSisa"
                     />
                 </div>
 
@@ -124,166 +125,16 @@
                 //Driver Variable
                 pengambilanGasSelesai: 0,
                 pengambilanGasSisa: 0,
-                headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Calories', value: 'calories' },
-                    { text: 'Fat (g)', value: 'fat' },
-                    { text: 'Carbs (g)', value: 'carbs' },
-                    { text: 'Protein (g)', value: 'protein' },
-                    { text: 'Iron (%)', value: 'iron' },
+                pengirimanGasSelesai: 0,
+                pengirimanGasSisa: 0,
+                headersDriver: [
+                    { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
+                    { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
+                    { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: 1,
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: 1,
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: 7,
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: 8,
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: 16,
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: 0,
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: 2,
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: 45,
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: 22,
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: 6,
-                    },
-                ],
-                messages: [
-                    {
-                        index: 1,
-                        from: 'You',
-                        message: `Sure, I'll see you later.`,
-                        time: '10:42am',
-                        color: 'deep-purple lighten-1',
-                    },
-                    {
-                        index: 2,
-                        from: 'John Doe',
-                        message: 'Yeah, sure. Does 1:00pm work?',
-                        time: '10:37am',
-                        color: 'green',
-                    },
-                    {
-                        index: 3,
-                        from: 'You',
-                        message: 'Did you still want to grab lunch today?',
-                        time: '9:47am',
-                        color: 'deep-purple lighten-1',
-                    },
-                    {
-                        index: 4,
-                        from: 'You',
-                        message: `Sure, I'll see you later.`,
-                        time: '10:42am',
-                        color: 'deep-purple lighten-1',
-                    },
-                    {
-                        index: 5,
-                        from: 'John Doe',
-                        message: 'Yeah, sure. Does 1:00pm work?',
-                        time: '10:37am',
-                        color: 'green',
-                    },
-                    {
-                        index: 6,
-                        from: 'You',
-                        message: 'Did you still want to grab lunch today?',
-                        time: '9:47am',
-                        color: 'deep-purple lighten-1',
-                    },
-                    {
-                        index: 7,
-                        from: 'You',
-                        message: `Sure, I'll see you later.`,
-                        time: '10:42am',
-                        color: 'deep-purple lighten-1',
-                    },
-                    {
-                        index: 8,
-                        from: 'John Doe',
-                        message: 'Yeah, sure. Does 1:00pm work?',
-                        time: '10:37am',
-                        color: 'green',
-                    },
-                    {
-                        index: 9,
-                        from: 'You',
-                        message: 'Did you still want to grab lunch today?',
-                        time: '9:47am',
-                        color: 'deep-purple lighten-1',
-                    },
-                ],
+                dataRiwayatDriver: [],
+                daftarKegiatanDriver: [],
 
                 // Admin Variable
                 users: [],
@@ -543,7 +394,52 @@
             //Metode Driver
             getDataPengambilanDriver()
             {
-                var url = this.$api + "/jadwalPengambilanGas/postBySearchDataAdmin";
+                var url = this.$api + "/jadwalPengambilanGas/postBySearchDataDriver";
+                var date = new Date();
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn, 'id_pegawai': localStorage.getItem('id') };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var tempList = [];
+                        var res = response.data.data;
+                        
+                        res.forEach(element => {
+                            var tempDate = new Date(element.tanggal_pengambilan_gas);
+                            if(tempDate <= date)
+                            {
+                                this.pengambilanGasSelesai = 1 + this.pengambilanGasSelesai;
+                            }
+                            else
+                            {
+                                this.pengambilanGasSisa = 1 + this.pengambilanGasSisa;
+                            }
+
+                            tempList = [
+                                ...tempList,
+                                {
+                                    'jenis_kegiatan': 'Pengambilan',
+                                    'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                    'jumlah_gas': element.alokasi_pengambilan_gas,
+                                    'jenis_alokasi': element.jenis_alokasi
+                                }
+                            ];
+                        });
+
+                        this.getDataPengirimanDriver(tempList);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+            
+            getDataPengirimanDriver(tempList)
+            {
+                var url = this.$api + "/jadwalPengirimanGas/postBySearchDataDriver";
                 var date = new Date();
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
@@ -559,21 +455,108 @@
                             var tempDate = new Date(element.tanggal_pengambilan_gas);
                             if(tempDate <= date)
                             {
-                                this.pengambilanGasSelesai = 1 + this.pengambilanGasSelesai;
+                                this.pengirimanGasSelesai = 1 + this.pengirimanGasSelesai;
                             }
                             else
                             {
-                                this.pengambilanGasSisa = 1 + this.pengambilanGasSisa;
+                                this.pengirimanGasSisa = 1 + this.pengirimanGasSisa;
+                            }
+                            
+                            if(element.id_jadwal_pengiriman_gas)
+                            {
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengiriman',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_pengambilan_gas,
+                                        'jenis_alokasi': 'Reguler'
+                                    }
+                                ]
+                            }
+                            else
+                            {
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengiriman',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_tambahan,
+                                        'jenis_alokasi': 'Fakultatif'
+                                    }
+                                ]
                             }
                         });
 
-                        this.overlay = false;
+                        this.divideDataDriver(tempList);
                     }
                 })
                 .catch((error) => {
                     console.log(error)
                 });
             },
+
+            divideDataDriver(tempList)
+            {
+                var date = new Date();
+                var temp = tempList;
+                var index = 1;
+                var color = '';
+                var riwayat = [];
+                var berjalan = [];
+
+                temp.forEach(element => {
+                    var tempDate = new Date(element.tanggal_kegiatan);
+                    if(tempDate <= date)
+                    {
+                        riwayat = [...riwayat, element];
+                    }
+                    else
+                    {
+                        if(element.jenis_kegiatan === 'Pengambilan')
+                        {
+                            color = 'deep-purple lighten-1';
+                        }
+                        else
+                        {
+                            color = 'green';
+                        }
+
+                        var object = {
+                            index: index,
+                            jenis_alokasi: element.jenis_alokasi,
+                            jumlah_gas: element.jumlah_gas,
+                            tanggal_kegiatan: element.tanggal_kegiatan,
+                            jenis_kegiatan: element.jenis_kegiatan,
+                            color: color
+                        };
+
+                        berjalan = [...berjalan, object];
+                    }
+                });
+
+                this.dataRiwayatDriver = riwayat.sort(this.sortDataByDate);
+                this.daftarKegiatanDriver = berjalan.sort(this.sortDataByDate);
+
+                this.overlay = false;
+            },
+
+            sortDataByDate(object1, object2)
+            {
+                var date1 = new Date(object1.tanggal_kegiatan);
+                var date2 = new Date(object2.tanggal_kegiatan);
+                
+                if(date1 < date2)
+                {
+                    return -1;
+                }
+                if(date1 > date2)
+                {
+                    return 1;
+                }
+
+                return 0;
+            }
         },
         
         mounted() {

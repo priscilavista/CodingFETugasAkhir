@@ -121,7 +121,7 @@
                                     class="elevation-1"
                                     :items-per-page="5"
                                     :headers="headers" 
-                                    :items="desserts"
+                                    :items="dataRiwayat"
                                     height="275px"
                                     fixed-header
                                 >
@@ -163,14 +163,14 @@
                         <v-card-text style="flex-grow: 1; overflow: auto;">
                             <v-timeline dense>
                                 <v-timeline-item
-                                    v-for="message in messages"
-                                    :key="message.index"
-                                    :color="message.color"
+                                    v-for="data in daftarKegiatanDriver"
+                                    :key="data.index"
+                                    :color="data.color"
                                     small
                                 >
                                     <div>
-                                        <div class="font-weight-normal"><strong>{{ message.from }}</strong> @{{ message.time }}</div>
-                                        <div>{{ message.message }}</div>
+                                        <div class="font-weight-normal"><strong>{{ data.jenis_kegiatan }}</strong> Pada {{ data.tanggal_kegiatan }}</div>
+                                        <div>Alokasi {{ data.jenis_alokasi }} Sejumlah {{ data.jumlah_gas }} Tabung Gas</div>
                                     </div>
                                 </v-timeline-item>
                             </v-timeline>
@@ -192,12 +192,12 @@
                 default: () => []
             },
 
-            desserts: {
+            dataRiwayat: {
                 type: Array,
                 default: () => []
             },
 
-            messages: {
+            daftarKegiatanDriver: {
                 type: Array,
                 default: () => {}
             },
