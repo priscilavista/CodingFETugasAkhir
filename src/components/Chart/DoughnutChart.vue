@@ -77,17 +77,25 @@
             this.loaded = false;
 
             try {
-                var url = this.$api + "/kelangkaanGas/getBySearchAllData";
-                this.$http.get(url)
+                var url = this.$api + "/gasBocor/postBySearchData";
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+                
+                this.$http.post(url, body)
                 .then((response) => {
                     if(response.data.code === 200)
                     {
+                        var res = response.data.data;
+                        var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                        var bocor = parseInt(res.jumlah_gas_bocor)
+
                         this.doughnutChartData = {
                             labels: ['Normal', 'Bocor'],
                             datasets: [
                                 {
                                     backgroundColor: ['#00D8FF', '#ee534f'],
-                                    data: [100, 40]
+                                    data: [normal, bocor]
                                 }
                             ],
                         };

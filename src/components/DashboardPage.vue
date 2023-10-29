@@ -27,8 +27,10 @@
             <div v-if="role === 'pegawai'">
                 <div v-if="jabatan === 'Manajer' && jabatan !== ''">
                     <dashboard-manajer 
-                        :headers="headersManajer" :desserts="dessertsManajer"
+                        :headers="headersManajer" :dataRiwayat="dataRiwayatManager"
                         :monthNow="monthNow" :kelangkaanGasBulanan="kelangkaanGasBulanan"
+                        :gasNormal="gasNormal" :gasBocor="gasBocor" :totalPembelian="totalPembelian"
+                        :totalPengambilanGas="totalPengambilanGas" :totalPengirimanGas="totalPengirimanGas"
                     />
                 </div>
 
@@ -106,58 +108,17 @@
                 monthNow: "",
 
                 // Manager Variable
-                kelangkaanGasBulanan: '0',
+                totalPembelian: 0,
+                totalPengambilanGas: 0,
+                totalPengirimanGas: 0,
+                kelangkaanGasBulanan: 0,
+                gasNormal: 0,
+                gasBocor: 0,
                 headersManajer: [
-                    {
-                        text: 'Tanggal',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    { text: 'Jumlah', value: 'calories' },
+                    { text: 'Tanggal', align: 'start', value: 'tanggal_transaksi' },
+                    { text: 'Jumlah', value: 'jumlah_pembelian' },
                 ],
-                dessertsManajer: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                    },
-                ],
+                dataRiwayatManager: [],
 
                 //Driver Variable
                 headers: [
@@ -400,11 +361,15 @@
                             {
                                 var res = response.data.data;
                                 this.jabatan = res.role_pegawai;
-                                this.overlay = false;
 
                                 if(res.role_pegawai === 'Manajer')
                                 {
                                     this.getDataKelangkaanBulanan();
+                                    this.getDataPengambilanTahunan();
+                                    this.getDataPengirimanTahunan();
+                                    this.getDataDetailGasBocor();
+                                    this.getDataTotalTransaksiManajer();
+                                    this.getDataRiwayatTransaksi();
                                 }
                             }
                             else
@@ -441,23 +406,118 @@
                         if(response.data.code == 200)
                         {
                             var res = response.data.data;
-                            this.kelangkaanGasBulanan = res.jumlah_permintaan;
-                            this.overlay = false;
-                        }
-                        else
-                        {
-                            this.color = "red";
-                            this.snackbar = true;
-                            this.error_message = response.data.message;
-                            this.overlay = false;
+                            this.kelangkaanGasBulanan = parseInt(res.jumlah_permintaan);
                         }
                     })
                     .catch((error) => {
-                        this.color = "red";
-                        this.snackbar = true;
-                        this.overlay = false;
-                        this.error_message = error.response.data.message;
+                        console.log(error)
                     });
+            },
+
+            getDataPengambilanTahunan() {
+                var url = this.$api;
+                var thn = new Date().getFullYear();
+                var body = { 'tahun': thn };
+
+                url = url + "/jadwalPengambilanGas/postBySearchData";
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            var res = response.data.data;
+                            this.totalPengambilanGas = parseInt(res.jumlah_pengambilan);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            },
+
+            getDataPengirimanTahunan() {
+                var url = this.$api;
+                var thn = new Date().getFullYear();
+                var body = { 'tahun': thn };
+
+                url = url + "/jadwalPengirimanGas/postBySearchData";
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            var res = response.data.data;
+                            this.totalPengirimanGas = parseInt(res.jumlah_pengiriman);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            },
+
+            getDataDetailGasBocor()
+            {
+                var url = this.$api + "/gasBocor/postBySearchData";
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var res = response.data.data;
+                        var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                        var bocor = parseInt(res.jumlah_gas_bocor);
+
+                        this.gasNormal = normal;
+                        this.gasBocor = bocor;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+
+            getDataTotalTransaksiManajer() {
+                var url = this.$api;
+
+                url = url + "/transaksi/getAll";
+                this.$http.get(url)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            var total = 0;
+                            var res = response.data.data;
+                            res.forEach(element => {
+                                total = parseInt(element.jumlah_pembelian) + parseInt(total);
+                            });
+
+                            this.totalPembelian = total;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    });
+            },
+
+            getDataRiwayatTransaksi()
+            {
+                var url = this.$api + "/transaksi/postBySearchData";
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var res = response.data.data;
+                        this.dataRiwayatManager = res;
+
+                        this.overlay = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
             },
         },
         

@@ -18,7 +18,7 @@
                                 Total Pembelian Tahunan
                             </v-list-item-title>
 
-                            <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                            <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPembelian }} Pembelian Tabung Gas</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
@@ -41,7 +41,7 @@
                                 Total Pengambilan Gas
                             </v-list-item-title>
                             
-                            <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                            <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPengambilanGas }} Kali Pengambilan Gas</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
@@ -64,7 +64,7 @@
                                 Total Pengiriman Gas
                             </v-list-item-title>
                             
-                            <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                            <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPengirimanGas }} Kali Pengiriman Gas</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
@@ -98,7 +98,9 @@
                                         Total Kelangkaan Gas Bulan - {{ monthNow }}
                                     </v-list-item-title>
                                     
-                                    <v-list-item-subtitle style="font-size: 17px;">Terdapat Kelangkaan Gas Sebanyak {{ kelangkaanGasBulanan }} Tabung</v-list-item-subtitle>
+                                    <v-list-item-subtitle style="font-size: 17px;">
+                                        Terdapat Kelangkaan Gas Sebanyak {{ kelangkaanGasBulanan }} Tabung
+                                    </v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-card>
@@ -138,7 +140,7 @@
                                         :items-per-page="5"
                                         class="elevation-1"
                                         :headers="headers"
-                                        :items="desserts"
+                                        :items="dataRiwayat"
                                         height="320px"
                                         fixed-header
                                     />
@@ -185,7 +187,7 @@
                                                 lg="6"
                                             >
                                                 <div style="color: #62d5fb; font-size: 15px;">
-                                                    100
+                                                    {{ gasNormal }}
                                                 </div>
                                             </v-col>
                                         </v-row>
@@ -213,7 +215,7 @@
                                                 lg="6"
                                             >
                                                 <div style="color: #ee534f; font-size: 15px;">
-                                                    40
+                                                    {{ gasBocor }}
                                                 </div>
                                             </v-col>
                                         </v-row>
@@ -245,7 +247,7 @@
                 default: () => []
             },
 
-            desserts: {
+            dataRiwayat: {
                 type: Array,
                 default: () => []
             },
@@ -255,9 +257,34 @@
                 default: null
             },
 
+            totalPembelian: {
+                type: Number,
+                default: 0
+            },
+
+            totalPengambilanGas: {
+                type: Number,
+                default: 0
+            },
+
+            totalPengirimanGas: {
+                type: Number,
+                default: 0
+            },
+
             kelangkaanGasBulanan: {
-                type: String,
-                default: '0'
+                type: Number,
+                default: 0
+            },
+
+            gasNormal: {
+                type: Number,
+                default: 0
+            },
+
+            gasBocor: {
+                type: Number,
+                default: 0
             }
         },
     }

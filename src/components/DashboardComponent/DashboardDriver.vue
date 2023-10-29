@@ -114,7 +114,7 @@
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-history</v-icon>
                             <span class="text-h6 font-weight-light">Riwayat Kegiatan Bulan {{ monthNow }}</span>
                         </v-card-title>
-                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-2">
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
