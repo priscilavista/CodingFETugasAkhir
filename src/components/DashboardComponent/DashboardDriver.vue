@@ -17,10 +17,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Total Pengiriman Gas
+                                    Total Pengiriman Gas Bulanan
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Jumlah Pengiriman Gas Sebanyak {{ pengirimanGasSelesai }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
 
                             <v-list-item-avatar size="50">
@@ -40,10 +40,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Total Pengambilan Gas
+                                    Total Pengambilan Gas Bulanan
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Jumlah Pengambilan Gas Sebanyak {{ pengambilanGasSelesai }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -65,10 +65,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Sisa Pengiriman Gas
+                                    Sisa Pengiriman Gas Bulanan
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Sisa Pengiriman Gas Sebanyak {{ pengirimanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -88,10 +88,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Sisa Pengambilan Gas
+                                    Sisa Pengambilan Gas Bulanan
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
+                                <v-list-item-subtitle>Sisa Pengambilan Gas Sebanyak {{ pengambilanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -164,7 +164,7 @@
                             <v-timeline dense>
                                 <v-timeline-item
                                     v-for="message in messages"
-                                    :key="message.time"
+                                    :key="message.index"
                                     :color="message.color"
                                     small
                                 >
@@ -205,6 +205,26 @@
             monthNow: {
                 type: String,
                 default: null
+            },
+
+            pengambilanGasSelesai: {
+                type: Number,
+                default: 0
+            },
+
+            pengambilanGasSisa: {
+                type: Number,
+                default: 0
+            },
+
+            pengirimanGasSelesai: {
+                type: Number,
+                default: 0
+            },
+
+            pengirimanGasSisa: {
+                type: Number,
+                default: 0
             }
         },
     }

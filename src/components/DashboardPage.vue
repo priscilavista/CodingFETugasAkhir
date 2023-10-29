@@ -38,6 +38,7 @@
                     <dashboard-driver 
                         :headers="headers" :desserts="desserts" 
                         :messages="messages" :monthNow="monthNow"
+                        :pengambilanGasSelesai="pengambilanGasSelesai" :pengambilanGasSisa="pengambilanGasSisa"
                     />
                 </div>
 
@@ -121,6 +122,8 @@
                 dataRiwayatManager: [],
 
                 //Driver Variable
+                pengambilanGasSelesai: 0,
+                pengambilanGasSisa: 0,
                 headers: [
                     {
                         text: 'Dessert (100g serving)',
@@ -218,54 +221,63 @@
                 ],
                 messages: [
                     {
+                        index: 1,
                         from: 'You',
                         message: `Sure, I'll see you later.`,
                         time: '10:42am',
                         color: 'deep-purple lighten-1',
                     },
                     {
+                        index: 2,
                         from: 'John Doe',
                         message: 'Yeah, sure. Does 1:00pm work?',
                         time: '10:37am',
                         color: 'green',
                     },
                     {
+                        index: 3,
                         from: 'You',
                         message: 'Did you still want to grab lunch today?',
                         time: '9:47am',
                         color: 'deep-purple lighten-1',
                     },
                     {
+                        index: 4,
                         from: 'You',
                         message: `Sure, I'll see you later.`,
                         time: '10:42am',
                         color: 'deep-purple lighten-1',
                     },
                     {
+                        index: 5,
                         from: 'John Doe',
                         message: 'Yeah, sure. Does 1:00pm work?',
                         time: '10:37am',
                         color: 'green',
                     },
                     {
+                        index: 6,
                         from: 'You',
                         message: 'Did you still want to grab lunch today?',
                         time: '9:47am',
                         color: 'deep-purple lighten-1',
                     },
                     {
+                        index: 7,
                         from: 'You',
                         message: `Sure, I'll see you later.`,
                         time: '10:42am',
                         color: 'deep-purple lighten-1',
                     },
                     {
+                        index: 8,
                         from: 'John Doe',
                         message: 'Yeah, sure. Does 1:00pm work?',
                         time: '10:37am',
                         color: 'green',
                     },
                     {
+                        index: 9,
                         from: 'You',
                         message: 'Did you still want to grab lunch today?',
                         time: '9:47am',
@@ -373,7 +385,7 @@
                                 }
                                 else if(res.role_pegawai === 'Driver')
                                 {
-                                    this.overlay = false;
+                                    this.getDataPengambilanDriver();
                                 }
                                 else if(res.role_pegawai === 'Admin')
                                 {
@@ -519,6 +531,41 @@
                     {
                         var res = response.data.data;
                         this.dataRiwayatManager = res;
+
+                        this.overlay = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+
+            //Metode Driver
+            getDataPengambilanDriver()
+            {
+                var url = this.$api + "/jadwalPengambilanGas/postBySearchDataAdmin";
+                var date = new Date();
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn, 'id_pegawai': localStorage.getItem('id') };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var res = response.data.data;
+                        
+                        res.forEach(element => {
+                            var tempDate = new Date(element.tanggal_pengambilan_gas);
+                            if(tempDate <= date)
+                            {
+                                this.pengambilanGasSelesai = 1 + this.pengambilanGasSelesai;
+                            }
+                            else
+                            {
+                                this.pengambilanGasSisa = 1 + this.pengambilanGasSisa;
+                            }
+                        });
 
                         this.overlay = false;
                     }
