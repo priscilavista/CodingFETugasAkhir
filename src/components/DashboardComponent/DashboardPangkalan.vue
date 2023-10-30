@@ -26,7 +26,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" />
+                                            <jadwal-table :headers="headers" :items="jadwalSenin" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -43,7 +43,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" />
+                                            <jadwal-table :headers="headers" :items="jadwalSelasa" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -60,7 +60,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" />
+                                            <jadwal-table :headers="headers" :items="jadwalRabu" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -79,7 +79,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" />
+                                            <jadwal-table :headers="headers" :items="jadwalKamis" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -96,7 +96,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" />
+                                            <jadwal-table :headers="headers" :items="jadwalJumat" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -143,7 +143,7 @@
                                     Stok Awal Bulan {{ monthNow }}
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle style="font-size: 15px;">Jumlah Stok Awal Pangkalan Sebesar {{ stokAwal }} Tabung</v-list-item-subtitle>
+                                <v-list-item-subtitle style="font-size: 15px;">Stok Awal Pangkalan Sebanyak {{ stokAwal }} Tabung</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-card>
@@ -159,7 +159,7 @@
                                     Stok Akhir Bulan {{ monthNow }}
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Sisa Stok Pangkalan Sebesar {{ stokAkhir }} Tabung</v-list-item-subtitle>
+                                <v-list-item-subtitle>Sisa Stok Pangkalan Saat Ini Sebanyak {{ stokAkhir }} Tabung</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
                     </v-card>
