@@ -1,5 +1,5 @@
 <template>
-    <v-simple-table fixed-header height="175px" class="mt-3">
+    <v-simple-table fixed-header height="175px" class="mt-1">
         <template v-slot:default>
             <thead>
                 <tr>
