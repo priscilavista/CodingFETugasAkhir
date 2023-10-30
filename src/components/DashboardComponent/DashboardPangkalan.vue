@@ -26,7 +26,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalSenin" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSenin" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -43,7 +43,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalSelasa" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSelasa" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -60,7 +60,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalRabu" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalRabu" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -79,7 +79,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalKamis" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalKamis" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -96,7 +96,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalJumat" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalJumat" />
                                         </template>
                                     </v-card-text>
                                 </v-card>
@@ -113,7 +113,7 @@
                                     
                                     <v-card-text>
                                         <template>
-                                            <jadwal-table :headers="headers" :items="jadwalSabtu" />
+                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSabtu" />
                                         </template>
                                     </v-card-text>
                                 </v-card>

@@ -1,5 +1,5 @@
 <template>
-    <v-simple-table fixed-header height="175px" class="mt-1">
+    <v-simple-table fixed-header :height="heights" class="mt-1">
         <template v-slot:default>
             <thead>
                 <tr>
@@ -31,6 +31,11 @@
         name: "JadwalTable",
         
         props: {
+            heights: {
+                type: String,
+                default: '0px'
+            },
+
             headers: {
                 type: Array,
                 default: () => []
