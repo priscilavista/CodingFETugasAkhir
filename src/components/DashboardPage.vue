@@ -150,68 +150,7 @@
                 dataRiwayatAdmin: [],
 
                 //Pangkalan Variable
-                pangkalanItems: [
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                        title: 'Brunch this weekend?',
-                        subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-                        subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                        title: 'Oui oui',
-                        subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                        title: 'Birthday gift',
-                        subtitle: '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                        title: 'Recipe to try',
-                        subtitle: '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-                        title: 'Brunch this weekend?',
-                        subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-                        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-                        subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-                        title: 'Oui oui',
-                        subtitle: '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-                        title: 'Birthday gift',
-                        subtitle: '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
-                    },
-                    { divider: true, inset: true },
-                    {
-                        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-                        title: 'Recipe to try',
-                        subtitle: '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-                    },
-                    { divider: true, inset: true },
-                ],
+                pangkalanItems: [],
             }
         },
 
@@ -270,8 +209,25 @@
                 }
                 else
                 {
-                    this.overlay = false;
+                    this.getDataAlokasiPangkalan();
                 }
+            },
+
+            sortDataByDate(object1, object2)
+            {
+                var date1 = new Date(object1.tanggal_kegiatan);
+                var date2 = new Date(object2.tanggal_kegiatan);
+                
+                if(date1 < date2)
+                {
+                    return -1;
+                }
+                if(date1 > date2)
+                {
+                    return 1;
+                }
+
+                return 0;
             },
 
             //Method Manajer
@@ -651,22 +607,68 @@
                 });
             },
 
-            sortDataByDate(object1, object2)
+            //Method Pangkalan
+            getDataAlokasiPangkalan()
             {
-                var date1 = new Date(object1.tanggal_kegiatan);
-                var date2 = new Date(object2.tanggal_kegiatan);
+                var url = this.$api + "/alokasiFakultatif/postBySearchDataPangkalan";
+                var date = new Date();
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn, 'id_pangkalan': localStorage.getItem('id') };
                 
-                if(date1 < date2)
-                {
-                    return -1;
-                }
-                if(date1 > date2)
-                {
-                    return 1;
-                }
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var tempList = [];
+                        var color = 'green';
+                        var icon = 'mdi-bell-outline';
+                        var res = response.data.data;
 
-                return 0;
-            }
+                        res.forEach(element => {
+                            var tempDate = new Date(element.tanggal_pengajuan);
+
+                            if(tempDate >= date.getDate() + 1)
+                            {
+                                color = 'red';
+                                icon = 'mdi-bell-alert-outline';
+                            }
+                            else if(tempDate >= date.getDate() + 5)
+                            {
+                                color = 'yellow';
+                                icon = 'mdi-bell-badge-outline';
+                            }
+                            else
+                            {
+                                color = 'green';
+                                icon = 'mdi-bell-outline';
+                            }
+
+                            tempList = [
+                                ...tempList,
+                                {
+                                    icon: icon,
+                                    color: color,
+                                    title: 'Konfirmasi Alokasi Pada ' + element.tanggal_pengajuan,
+                                    subtitle: 'Terdapat Permintaan Penambahan Alokasi Fakultatif Sejumlah ' + element.alokasi_tambahan + ' Tabung Gas',
+                                }
+                            ];
+
+                            tempList = [
+                                ...tempList,
+                                { divider: true, inset: true },
+                            ]
+                        });
+
+                        this.pangkalanItems = tempList;
+                        
+                        this.overlay = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
         },
         
         mounted() {

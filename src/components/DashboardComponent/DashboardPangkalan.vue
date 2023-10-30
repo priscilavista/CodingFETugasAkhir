@@ -94,48 +94,54 @@
             md="4"
             lg="4"
         >
-            <v-card style="display: flex !important; flex-direction: column;" height="650px">
-                <v-card-title class="indigo white--text text-h5">
-                    <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-check-decagram</v-icon>
-                    <span class="text-h6 font-weight-light">Persetujuan Alokasi Fakultatif</span>
-                </v-card-title>
+            <v-row>
+                <v-col>
+                    <v-card style="display: flex !important; flex-direction: column;" height="650px">
+                        <v-card-title class="indigo white--text text-h5">
+                            <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-check-decagram</v-icon>
+                            <span class="text-h6 font-weight-light">Persetujuan Alokasi Fakultatif</span>
+                        </v-card-title>
 
-                <v-card-text style="flex-grow: 1; overflow: auto;">
-                    <v-list three-line>
-                        <template v-for="(item, index) in items">
-                            <v-subheader
-                                v-if="item.header"
-                                :key="item.header"
-                            />
+                        <v-card-text style="flex-grow: 1; overflow: auto;">
+                            <v-list three-line>
+                                <template v-for="(item, index) in items">
+                                    <v-subheader
+                                        v-if="item.header"
+                                        :key="item.header"
+                                    />
 
-                            <v-divider
-                                v-else-if="item.divider"
-                                :inset="item.inset"
-                                :key="index"
-                            />
+                                    <v-divider
+                                        v-else-if="item.divider"
+                                        :inset="item.inset"
+                                        :key="index"
+                                    />
 
-                            <v-list-item
-                                v-else
-                                :key="item.title"
-                            >
-                                <v-list-item-avatar>
-                                    <v-img :src="item.avatar" />
-                                </v-list-item-avatar>
+                                    <v-list-item
+                                        v-else
+                                        :key="item.title"
+                                    >
+                                        <v-list-item-icon class="mt-5">
+                                            <v-icon class="mt-2" large :color="item.color">
+                                                {{ item.icon }}
+                                            </v-icon>
+                                        </v-list-item-icon>
 
-                                <v-list-item-content>
-                                    <v-list-item-title>
-                                        <span v-html="item.title" />
-                                    </v-list-item-title>
-                                    
-                                    <v-list-item-subtitle>
-                                        <span v-html="item.subtitle" />
-                                    </v-list-item-subtitle>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </template>
-                        </v-list>
-                </v-card-text>
-            </v-card>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                <span v-html="item.title" />
+                                            </v-list-item-title>
+                                            
+                                            <v-list-item-subtitle>
+                                                <span v-html="item.subtitle" />
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </template>
+                                </v-list>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-col>
     </v-row>
 </template>
@@ -149,6 +155,7 @@
                 type: String,
                 default: null
             },
+
             items: {
                 type: Array,
                 default: () => []
