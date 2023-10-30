@@ -112,7 +112,7 @@
                     <v-card height="426px" style="display: flex !important; flex-direction: column;">
                         <v-card-title class="indigo white--text">
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-history</v-icon>
-                            <span class="text-h6 font-weight-light">Riwayat Kegiatan Bulan {{ monthNow }}</span>
+                            <span class="text-h6 font-weight-light">Riwayat Kegiatan Bulan - {{ monthNow }}</span>
                         </v-card-title>
                         <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                             <template>
@@ -157,7 +157,7 @@
                     <v-card height="650px" style="display: flex !important; flex-direction: column;">
                         <v-card-title class="indigo white--text">
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-checkbox-marked-circle-auto-outline</v-icon>
-                            <span class="text-h6 font-weight-light">Daftar Kegiatan Bulan {{ monthNow }}</span>
+                            <span class="text-h6 font-weight-light">Daftar Kegiatan Bulan - {{ monthNow }}</span>
                         </v-card-title>
 
                         <v-card-text style="flex-grow: 1; overflow: auto;" class="text-center">
@@ -177,7 +177,7 @@
                                 </v-timeline>
                             </div>
 
-                            <v-row v-else align="center" justify="center" style="height: 590px;">
+                            <v-row v-else align="center" justify="center" style="height: 570px;" class="mt-2">
                                 <v-img 
                                     contain
                                     width="65%"
