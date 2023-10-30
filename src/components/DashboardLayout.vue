@@ -420,7 +420,7 @@
           { title: "Pegawai", icon: "mdi-account-group", to: "/pegawai-page" },
           { title: "Pangkalan", icon: "mdi-store-marker", to: "/pangkalan-page" },
           { title: "SPPBE", icon: "mdi-warehouse", to: "/sppbe-page" },
-          { title: "Transaksi Admin", icon: "mdi-cash-multiple", to: "/transaksi-page" },
+          { title: "Transaksi Admin", icon: "mdi-cash-register", to: "/transaksi-page" },
           { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/alokasi-pengambilan-gas-page" },
           { title: "Jadwal Pengambilan Gas", icon: "mdi-calendar-arrow-left", to: "/jadwal-pengambilan-gas-page" },
           { title: "Jadwal Penerimaan Gas", icon: "mdi-calendar-alert", to: "/kalender-jadwal-penerimaan-gas-page" },
