@@ -21,8 +21,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: red;" class="white--text">Senin</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: red;" class="white--text">Senin</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                             
@@ -32,8 +38,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: orange;" class="white--text">Selasa</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: orange;" class="white--text">Selasa</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                             
@@ -43,8 +55,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: green;" class="white--text">Rabu</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: green;" class="white--text">Rabu</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
@@ -56,8 +74,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: #00AFFF;" class="white--text">Kamis</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: #00AFFF;" class="white--text">Kamis</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                             
@@ -67,8 +91,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: #6f00ff;" class="white--text">Jumat</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: #6f00ff;" class="white--text">Jumat</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                             
@@ -78,8 +108,14 @@
                                 md="4"
                                 lg="4"
                             >
-                                <v-card height="250px">
-                                    <v-card-title style="background-color: purple;" class="white--text">Sabtu</v-card-title>
+                                <v-card height="260px">
+                                    <v-card-subtitle style="background-color: purple;" class="white--text">Sabtu</v-card-subtitle>
+                                    
+                                    <v-card-text>
+                                        <template>
+                                            <jadwal-table :headers="headers" :items="jadwalSabtu" />
+                                        </template>
+                                    </v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
@@ -96,7 +132,39 @@
         >
             <v-row>
                 <v-col>
-                    <v-card style="display: flex !important; flex-direction: column;" height="650px">
+                    <v-card color="#673bb7" dark>
+                        <v-list-item three-line>
+                            <v-list-item-avatar size="50">
+                                <v-icon large>mdi-store-plus-outline</v-icon>
+                            </v-list-item-avatar>
+
+                            <v-list-item-content>
+                                <v-list-item-title class="text-h6 mb-1">
+                                    Stok Awal Bulan {{ monthNow }}
+                                </v-list-item-title>
+                                
+                                <v-list-item-subtitle style="font-size: 15px;">Jumlah Stok Awal Pangkalan Sebesar {{ stokAwal }} Tabung</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-card>
+                    
+                    <v-card color="#ee534f" dark class="mt-5">
+                        <v-list-item three-line>
+                            <v-list-item-avatar size="50">
+                                <v-icon large>mdi-store-minus-outline</v-icon>
+                            </v-list-item-avatar>
+
+                            <v-list-item-content>
+                                <v-list-item-title class="text-h6 mb-1">
+                                    Stok Akhir Bulan {{ monthNow }}
+                                </v-list-item-title>
+                                
+                                <v-list-item-subtitle>Sisa Stok Pangkalan Sebesar {{ stokAkhir }} Tabung</v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-card>
+
+                    <v-card style="display: flex !important; flex-direction: column;" height="435px" class="mt-5">
                         <v-card-title class="indigo white--text text-h5">
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-check-decagram</v-icon>
                             <span class="text-h6 font-weight-light">Persetujuan Alokasi Fakultatif</span>
@@ -147,8 +215,12 @@
 </template>
 
 <script>
+    import JadwalTable from './JadwalTable.vue'
+    
     export default {
         name: "DashboardPangkalan",
+        
+        components: { JadwalTable },
         
         props: {
             monthNow: {
@@ -156,7 +228,52 @@
                 default: null
             },
 
+            stokAwal: {
+                type: Number,
+                default: 0
+            },
+
+            stokAkhir: {
+                type: Number,
+                default: 0
+            },
+
             items: {
+                type: Array,
+                default: () => []
+            },
+
+            headers: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalSenin: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalSelasa: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalRabu: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalKamis: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalJumat: {
+                type: Array,
+                default: () => []
+            },
+
+            jadwalSabtu: {
                 type: Array,
                 default: () => []
             }

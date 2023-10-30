@@ -72,7 +72,7 @@
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
-                                <v-icon large>mdi-receipt-clock</v-icon>
+                                <v-icon large>mdi-receipt-clock-outline</v-icon>
                             </v-list-item-avatar>
                         </v-list-item>
                     </v-card>
@@ -95,7 +95,7 @@
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
-                                <v-icon large>mdi-receipt-text-clock</v-icon>
+                                <v-icon large>mdi-receipt-text-clock-outline</v-icon>
                             </v-list-item-avatar>
                         </v-list-item>
                     </v-card>

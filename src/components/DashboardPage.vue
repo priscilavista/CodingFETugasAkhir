@@ -55,7 +55,11 @@
 
             <div v-else>
                 <dashboard-pangkalan 
-                    :monthNow="monthNow" :items="pangkalanItems"
+                    :monthNow="monthNow" :items="pangkalanItems" :headers="headersPangkalan"
+                    :stokAwal="stokAwalPangkalan" :stokAkhir="stokAkhirPangkalan"
+                    :jadwalSenin = "jadwalSenin" :jadwalSelasa = "jadwalSelasa"
+                    :jadwalRabu = "jadwalRabu" :jadwalKamis = "jadwalKamis"
+                    :jadwalJumat = "jadwalJumat" :jadwalSabtu = "jadwalSabtu"
                 />
             </div>
                         
@@ -150,7 +154,19 @@
                 dataRiwayatAdmin: [],
 
                 //Pangkalan Variable
+                stokAwalPangkalan: 0,
+                stokAkhirPangkalan: 0,
                 pangkalanItems: [],
+                headersPangkalan: [
+                    { text: 'Nama Driver', align: 'text-left' }, 
+                    { text: 'Jumlah Alokasi', align: 'text-right' }
+                ],
+                jadwalSenin: [],
+                jadwalSelasa: [],
+                jadwalRabu: [],
+                jadwalKamis: [],
+                jadwalJumat: [],
+                jadwalSabtu: [],
             }
         },
 
@@ -209,6 +225,8 @@
                 }
                 else
                 {
+                    this.getDataStokPangkalan();
+                    this.getDataJadwalPangkalan();
                     this.getDataAlokasiPangkalan();
                 }
             },
@@ -608,6 +626,57 @@
             },
 
             //Method Pangkalan
+            getDataStokPangkalan()
+            {
+                var url = this.$api + "/stokBulananPangkalan/postBySearchDataPangkalan";
+                var bulan = new Date().getMonth() + 1;
+                var thn = new Date().getFullYear();
+                var body = { 'bulan': bulan, 'tahun': thn, 'id_pangkalan': localStorage.getItem('id') };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var res = response.data.data;
+
+                        this.stokAwalPangkalan = res.stok_awal_bulan_pangkalan;
+                        this.stokAkhirPangkalan = res.stok_akhir_bulan_pangkalan;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+
+            getDataJadwalPangkalan()
+            {
+                var url = this.$api + "/jadwalRutinPangkalan/postBySearchDataPangkalan";
+                var body = { 'id_pangkalan': localStorage.getItem('id') };
+                
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        var tempList = [];
+                        var res = response.data.data;
+
+                        res.forEach(element => {
+                            tempList = [...tempList, element];
+                        });
+
+                        this.jadwalSenin = tempList.filter((el) => el.hari_penerimaan_gas === 'Senin');
+                        this.jadwalSelasa = tempList.filter((el) => el.hari_penerimaan_gas === 'Selasa');
+                        this.jadwalRabu = tempList.filter((el) => el.hari_penerimaan_gas === 'Rabu');
+                        this.jadwalKamis = tempList.filter((el) => el.hari_penerimaan_gas === 'Kamis');
+                        this.jadwalJumat = tempList.filter((el) => el.hari_penerimaan_gas === 'Jumat');
+                        this.jadwalSabtu = tempList.filter((el) => el.hari_penerimaan_gas === 'Sabtu');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+            },
+
             getDataAlokasiPangkalan()
             {
                 var url = this.$api + "/alokasiFakultatif/postBySearchDataPangkalan";
