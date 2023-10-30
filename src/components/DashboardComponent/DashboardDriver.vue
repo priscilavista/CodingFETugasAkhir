@@ -160,20 +160,31 @@
                             <span class="text-h6 font-weight-light">Daftar Kegiatan Bulan {{ monthNow }}</span>
                         </v-card-title>
 
-                        <v-card-text style="flex-grow: 1; overflow: auto;">
-                            <v-timeline dense>
-                                <v-timeline-item
-                                    v-for="data in daftarKegiatanDriver"
-                                    :key="data.index"
-                                    :color="data.color"
-                                    small
-                                >
-                                    <div>
-                                        <div class="font-weight-normal"><strong>{{ data.jenis_kegiatan }}</strong> Pada {{ data.tanggal_kegiatan }}</div>
-                                        <div>Alokasi {{ data.jenis_alokasi }} Sejumlah {{ data.jumlah_gas }} Tabung Gas</div>
-                                    </div>
-                                </v-timeline-item>
-                            </v-timeline>
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="text-center">
+                            <div v-if="daftarKegiatanDriver.length > 0">
+                                <v-timeline dense>
+                                    <v-timeline-item
+                                        v-for="data in daftarKegiatanDriver"
+                                        :key="data.index"
+                                        :color="data.color"
+                                        small
+                                    >
+                                        <div>
+                                            <div class="font-weight-normal"><strong>{{ data.jenis_kegiatan }}</strong> Pada {{ data.tanggal_kegiatan }}</div>
+                                            <div>Alokasi {{ data.jenis_alokasi }} Sejumlah {{ data.jumlah_gas }} Tabung Gas</div>
+                                        </div>
+                                    </v-timeline-item>
+                                </v-timeline>
+                            </div>
+
+                            <v-row v-else align="center" justify="center" style="height: 590px;">
+                                <v-img 
+                                    contain
+                                    width="65%"
+                                    height="65%"
+                                    :src="image"
+                                />
+                            </v-row>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -227,5 +238,12 @@
                 default: 0
             }
         },
+
+        
+        data(){
+            return{
+                image: require("@/assets/well-done.png"),
+            }
+        }
     }
 </script>
