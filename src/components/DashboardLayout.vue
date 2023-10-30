@@ -33,7 +33,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -52,7 +52,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -71,7 +71,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -91,7 +91,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -127,7 +127,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -146,7 +146,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -165,7 +165,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -185,7 +185,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -416,37 +416,37 @@
         img: require("@/assets/isatria.png"),
         isWideScreen: window.innerWidth >= 650,
         routeA: [
-          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
-          { title: "Pegawai", icon: "mdi-home", to: "/pegawai-page" },
-          { title: "Pangkalan", icon: "mdi-home", to: "/pangkalan-page" },
-          { title: "SPPBE", icon: "mdi-home", to: "/sppbe-page" },
-          { title: "Transaksi Admin", icon: "mdi-home", to: "/transaksi-page" },
-          { title: "Alokasi Pengambilan Gas", icon: "mdi-home", to: "/alokasi-pengambilan-gas-page" },
-          { title: "Jadwal Pengambilan Gas", icon: "mdi-home", to: "/jadwal-pengambilan-gas-page" },
-          { title: "Jadwal Penerimaan Gas", icon: "mdi-home", to: "/kalender-jadwal-penerimaan-gas-page" },
-          { title: "Jadwal Pengiriman Gas", icon: "mdi-home", to: "/jadwal-pengiriman-gas-page" },
-          { title: "Laporan Kelangkaan Gas", icon: "mdi-home", to: "/laporan-kelangkaan-gas-page" },
-          { title: "Surat Kuasa", icon: "mdi-home", to: "/surat-kuasa-pengambilan-gas-page" },
+          { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
+          { title: "Pegawai", icon: "mdi-account-group", to: "/pegawai-page" },
+          { title: "Pangkalan", icon: "mdi-store-marker", to: "/pangkalan-page" },
+          { title: "SPPBE", icon: "mdi-warehouse", to: "/sppbe-page" },
+          { title: "Transaksi Admin", icon: "mdi-cash-multiple", to: "/transaksi-page" },
+          { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/alokasi-pengambilan-gas-page" },
+          { title: "Jadwal Pengambilan Gas", icon: "mdi-calendar-arrow-left", to: "/jadwal-pengambilan-gas-page" },
+          { title: "Jadwal Penerimaan Gas", icon: "mdi-calendar-alert", to: "/kalender-jadwal-penerimaan-gas-page" },
+          { title: "Jadwal Pengiriman Gas", icon: "mdi-calendar-arrow-right", to: "/jadwal-pengiriman-gas-page" },
+          { title: "Laporan Kelangkaan Gas", icon: "mdi-clipboard-check", to: "/laporan-kelangkaan-gas-page" },
+          { title: "Surat Kuasa", icon: "mdi-email-newsletter", to: "/surat-kuasa-pengambilan-gas-page" },
         ],
         routeD: [
-          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
-          { title: "Jadwal Pengambilan Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
-          { title: "Jadwal Pengiriman Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
-          { title: "Gas Bocor Driver", icon: "mdi-home", to: "/gas-bocor-page" },
+          { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
+          { title: "Jadwal Pengambilan Gas Driver", icon: "mdi-calendar-check", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
+          { title: "Jadwal Pengiriman Gas Driver", icon: "mdi-calendar-clock", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
+          { title: "Gas Bocor Driver", icon: "mdi-gas-cylinder", to: "/gas-bocor-page" },
         ],
         routeM: [
-          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
-          { title: "Alokasi Fakultatif Manager", icon: "mdi-home", to: "/alokasi-fakultatif-page" },
-          { title: "Laporan Bulanan", icon: "mdi-home", to: "/laporan-bulanan-page" },
+          { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
+          { title: "Alokasi Fakultatif Manager", icon: "mdi-order-bool-ascending-variant", to: "/alokasi-fakultatif-page" },
+          { title: "Laporan Bulanan", icon: "mdi-file", to: "/laporan-bulanan-page" },
         ],
         routeP: [
-          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
-          { title: "Transaksi Pangkalan", icon: "mdi-home", to: "/transaksi-pangkalan-page" },
-          { title: "Jadwal Rutin Pangkalan", icon: "mdi-home", to: "/jadwal-rutin-pangkalan-page" },
-          { title: "Alokasi Fakultatif Pangkalan", icon: "mdi-home", to: "/konfirmasi-alokasi-fakultatif-page" },
-          { title: "Kelangkaan Gas Pangkalan", icon: "mdi-home", to: "/tambah-kelangkaan-gas-page" },
-          { title: "Gas Bocor Pangkalan", icon: "mdi-home", to: "/tambah-gas-bocor-page" },
-          { title: "Laporan Transaksi", icon: "mdi-home", to: "/laporan-transaksi-pangkalan-page" },
+          { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
+          { title: "Transaksi Pangkalan", icon: "mdi-credit-card-chip", to: "/transaksi-pangkalan-page" },
+          { title: "Jadwal Rutin Pangkalan", icon: "mdi-calendar-cursor", to: "/jadwal-rutin-pangkalan-page" },
+          { title: "Alokasi Fakultatif Pangkalan", icon: "mdi-bell-ring", to: "/konfirmasi-alokasi-fakultatif-page" },
+          { title: "Kelangkaan Gas Pangkalan", icon: "mdi-meter-gas", to: "/tambah-kelangkaan-gas-page" },
+          { title: "Gas Bocor Pangkalan", icon: "mdi-gas-station-off", to: "/tambah-gas-bocor-page" },
+          { title: "Laporan Transaksi", icon: "mdi-file-sign", to: "/laporan-transaksi-pangkalan-page" },
         ],
         emailRules: [
           (v) => !!v || "Email is Required",

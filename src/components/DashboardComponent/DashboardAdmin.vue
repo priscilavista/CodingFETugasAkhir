@@ -52,7 +52,7 @@
                     >
                         <v-card-title class="indigo white--text text-h5">
                             <v-icon medium left style="vertical-align: middle; color: #fff">mdi-clipboard-text-clock-outline</v-icon>
-                            <span class="text-h6 font-weight-light">Daftar Kegiatan</span>
+                            <span class="text-h6 font-weight-light">Daftar Kegiatan yang Selesai</span>
                         </v-card-title>
 
                         <v-card-text class="mt-3">

@@ -147,7 +147,7 @@
                 users: [],
                 headersAdmin: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
-                    { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Tanggal Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
