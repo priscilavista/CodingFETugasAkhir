@@ -189,6 +189,7 @@
                             {
                                 var res = response.data.data;
                                 this.jabatan = res.role_pegawai;
+                                localStorage.setItem("jabatan", res.role_pegawai);
 
                                 if(res.role_pegawai === 'Manajer')
                                 {

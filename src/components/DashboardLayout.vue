@@ -20,21 +20,84 @@
 
         <v-divider />
 
-        <v-list dense class="fullheight" color="#ffffff">
-          <v-list-item
-            v-for="item in routeSA"
-            :key="item.title"
-            link
-            tag="router-link"
-            :to="item.to"
-            style="margin-top: 10px"
-            color="#196b4d"
-            @click="color='#ffffff'"
-          >
-            <v-list-item-content style="text-align: left;color:#000000;margin-left:10px;">
-              <v-list-item-title style="">{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+        <v-list dense class="fullheight" style="margin-top: -10px">
+          <span v-if="jabatan === 'pegawai'">
+            <span v-if="role === 'Admin'">
+              <v-list-item
+                  v-for="item in routeA"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+
+            <span v-else-if="role === 'Manajer'">
+              <v-list-item
+                  v-for="item in routeM"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+
+            <span v-else-if="role === 'Driver'">
+              <v-list-item
+                  v-for="item in routeD"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+          </span>
+
+          <span v-else-if="jabatan === 'pangkalan'">
+              <v-list-item
+                  v-for="item in routeP"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+          </span>
         </v-list>
       </div>
     </v-navigation-drawer>
@@ -46,31 +109,89 @@
             <v-avatar class="mb-4" color="grey darken-1" size="94">
               <v-img aspect-ratio="30" :src="img" />
             </v-avatar>
-
-            <h3>tes</h3>
-            <!-- <h3>{{ pegawaiLogin }}</h3> -->
           </div>
         </v-sheet>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-list dense class="fullheight" style="margin-top: -10px">
-          <v-list-item
-              v-for="item in routeSA"
-              :key="item.title"
-              link
-              tag="router-link"
-              :to="item.to"
-              color="#1B3963"
-              style="margin-top: 10px"
-            >
-              <v-list-item-icon>
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content style="text-align: left">
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-          </v-list-item>
+          <span v-if="jabatan === 'pegawai'">
+            <span v-if="role === 'Admin'">
+              <v-list-item
+                  v-for="item in routeA"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+
+            <span v-else-if="role === 'Manajer'">
+              <v-list-item
+                  v-for="item in routeM"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+
+            <span v-else-if="role === 'Driver'">
+              <v-list-item
+                  v-for="item in routeD"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+            </span>
+          </span>
+
+          <span v-else-if="jabatan === 'pangkalan'">
+              <v-list-item
+                  v-for="item in routeP"
+                  :key="item.title"
+                  link
+                  tag="router-link"
+                  :to="item.to"
+                  color="#1B3963"
+                  style="margin-top: 10px"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content style="text-align: left">
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+              </v-list-item>
+          </span>
         </v-list>
       </div>
     </v-navigation-drawer>
@@ -279,6 +400,7 @@
       return {
         menuTitle: localStorage.getItem("menu"),
         jabatan: localStorage.getItem("role"),
+        role: localStorage.getItem("jabatan"),
         dialogLogout: false,
         dialogProfil: false,
         dialogPassword: false,
@@ -293,29 +415,38 @@
         showNewPassword: false,
         img: require("@/assets/isatria.png"),
         isWideScreen: window.innerWidth >= 650,
-        routeSA: [
+        routeA: [
           { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
           { title: "Pegawai", icon: "mdi-home", to: "/pegawai-page" },
           { title: "Pangkalan", icon: "mdi-home", to: "/pangkalan-page" },
           { title: "SPPBE", icon: "mdi-home", to: "/sppbe-page" },
-          { title: "Transaksi Pangkalan", icon: "mdi-home", to: "/transaksi-pangkalan-page" },
           { title: "Transaksi Admin", icon: "mdi-home", to: "/transaksi-page" },
           { title: "Alokasi Pengambilan Gas", icon: "mdi-home", to: "/alokasi-pengambilan-gas-page" },
           { title: "Jadwal Pengambilan Gas", icon: "mdi-home", to: "/jadwal-pengambilan-gas-page" },
-          { title: "Jadwal Pengambilan Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
           { title: "Jadwal Penerimaan Gas", icon: "mdi-home", to: "/kalender-jadwal-penerimaan-gas-page" },
           { title: "Jadwal Pengiriman Gas", icon: "mdi-home", to: "/jadwal-pengiriman-gas-page" },
-          { title: "Jadwal Pengiriman Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
-          { title: "Jadwal Rutin Pangkalan", icon: "mdi-home", to: "/jadwal-rutin-pangkalan-page" },
-          { title: "Alokasi Fakultatif Manager", icon: "mdi-home", to: "/alokasi-fakultatif-page" },
-          { title: "Alokasi Fakultatif Pangkalan", icon: "mdi-home", to: "/konfirmasi-alokasi-fakultatif-page" },
           { title: "Laporan Kelangkaan Gas", icon: "mdi-home", to: "/laporan-kelangkaan-gas-page" },
+          { title: "Surat Kuasa", icon: "mdi-home", to: "/surat-kuasa-pengambilan-gas-page" },
+        ],
+        routeD: [
+          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
+          { title: "Jadwal Pengambilan Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
+          { title: "Jadwal Pengiriman Gas Driver", icon: "mdi-home", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
+          { title: "Gas Bocor Driver", icon: "mdi-home", to: "/gas-bocor-page" },
+        ],
+        routeM: [
+          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
+          { title: "Alokasi Fakultatif Manager", icon: "mdi-home", to: "/alokasi-fakultatif-page" },
+          { title: "Laporan Bulanan", icon: "mdi-home", to: "/laporan-bulanan-page" },
+        ],
+        routeP: [
+          { title: "Dashboard", icon: "mdi-home", to: "/dashboard-page" },
+          { title: "Transaksi Pangkalan", icon: "mdi-home", to: "/transaksi-pangkalan-page" },
+          { title: "Jadwal Rutin Pangkalan", icon: "mdi-home", to: "/jadwal-rutin-pangkalan-page" },
+          { title: "Alokasi Fakultatif Pangkalan", icon: "mdi-home", to: "/konfirmasi-alokasi-fakultatif-page" },
           { title: "Kelangkaan Gas Pangkalan", icon: "mdi-home", to: "/tambah-kelangkaan-gas-page" },
           { title: "Gas Bocor Pangkalan", icon: "mdi-home", to: "/tambah-gas-bocor-page" },
-          { title: "Gas Bocor Driver", icon: "mdi-home", to: "/gas-bocor-page" },
-          { title: "Surat Kuasa", icon: "mdi-home", to: "/surat-kuasa-pengambilan-gas-page" },
           { title: "Laporan Transaksi", icon: "mdi-home", to: "/laporan-transaksi-pangkalan-page" },
-          { title: "Laporan Bulanan", icon: "mdi-home", to: "/laporan-bulanan-page" },
         ],
         emailRules: [
           (v) => !!v || "Email is Required",
