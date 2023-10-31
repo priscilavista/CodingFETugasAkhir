@@ -52,8 +52,8 @@
             },
 
             backgroundColor: {
-                type: String,
-                default: 'White'
+                type: Object,
+                default: () => {}
             },
 
             heights: {
