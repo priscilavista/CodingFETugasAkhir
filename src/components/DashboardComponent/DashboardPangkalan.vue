@@ -15,109 +15,55 @@
                 <v-card-text>
                     <template>
                         <v-row class="mt-3">
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: red;" class="white--text">Senin</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSenin" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': 'red' }" 
+                                :dateName="'Senin'" 
+                                :headers="headers" 
+                                :items="jadwalSenin" 
+                            />
                             
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: orange;" class="white--text">Selasa</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSelasa" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': 'orange' }" 
+                                :dateName="'Selasa'" 
+                                :headers="headers" 
+                                :items="jadwalSelasa" 
+                            />
                             
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: green;" class="white--text">Rabu</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalRabu" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': 'green' }" 
+                                :dateName="'Rabu'" 
+                                :headers="headers" 
+                                :items="jadwalRabu" 
+                            />
                         </v-row>
                         
                         <v-row class="mt-2">
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: #00AFFF;" class="white--text">Kamis</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalKamis" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': '#00AFFF' }" 
+                                :dateName="'Kamis'" 
+                                :headers="headers" 
+                                :items="jadwalKamis" 
+                            />
                             
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: #6f00ff;" class="white--text">Jumat</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalJumat" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': '#6f00ff' }" 
+                                :dateName="'Jumat'" 
+                                :headers="headers" 
+                                :items="jadwalJumat" 
+                            />
                             
-                            <v-col
-                                cols="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                            >
-                                <v-card height="260px">
-                                    <v-card-subtitle style="background-color: purple;" class="white--text">Sabtu</v-card-subtitle>
-                                    
-                                    <v-card-text>
-                                        <template>
-                                            <jadwal-table :heights="'175px'" :headers="headers" :items="jadwalSabtu" />
-                                        </template>
-                                    </v-card-text>
-                                </v-card>
-                            </v-col>
+                            <jadwal-table 
+                                :heights="'175px'" 
+                                :backgroundColor="{ 'background-color': 'purple' }" 
+                                :dateName="'Sabtu'" 
+                                :headers="headers" 
+                                :items="jadwalSabtu" 
+                            />
                         </v-row>
                     </template>
                 </v-card-text>
