@@ -703,7 +703,7 @@
                                 color = 'red';
                                 icon = 'mdi-bell-alert-outline';
                             }
-                            else if(tempDate >= date.getDate() + 5)
+                            else if(tempDate >= date.getDate() + 3)
                             {
                                 color = 'yellow';
                                 icon = 'mdi-bell-badge-outline';
