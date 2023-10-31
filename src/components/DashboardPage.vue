@@ -266,6 +266,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.overlay = false;
                         console.log(error)
                     });
             },
@@ -285,6 +286,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.overlay = false;
                         console.log(error)
                     });
             },
@@ -304,6 +306,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.overlay = false;
                         console.log(error)
                     });
             },
@@ -316,20 +319,21 @@
                 var body = { 'bulan': bulan, 'tahun': thn };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var res = response.data.data;
-                        var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
-                        var bocor = parseInt(res.jumlah_gas_bocor);
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var res = response.data.data;
+                            var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                            var bocor = parseInt(res.jumlah_gas_bocor);
 
-                        this.gasNormal = normal;
-                        this.gasBocor = bocor;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                            this.gasNormal = normal;
+                            this.gasBocor = bocor;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
 
             getDataTotalTransaksiManajer() {
@@ -350,6 +354,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.overlay = false;
                         console.log(error)
                     });
             },
@@ -362,18 +367,19 @@
                 var body = { 'bulan': bulan, 'tahun': thn };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var res = response.data.data;
-                        this.dataRiwayatManager = res;
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var res = response.data.data;
+                            this.dataRiwayatManager = res;
 
+                            this.overlay = false;
+                        }
+                    })
+                    .catch((error) => {
                         this.overlay = false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                        console.log(error)
+                    });
             },
 
             //Metode Driver
@@ -386,40 +392,41 @@
                 var body = { 'bulan': bulan, 'tahun': thn, 'id_pegawai': localStorage.getItem('id') };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var tempList = [];
-                        var res = response.data.data;
-                        
-                        res.forEach(element => {
-                            var tempDate = new Date(element.tanggal_pengambilan_gas);
-                            if(tempDate <= date)
-                            {
-                                this.pengambilanGasSelesaiDriver = 1 + this.pengambilanGasSelesaiDriver;
-                            }
-                            else
-                            {
-                                this.pengambilanGasSisaDriver = 1 + this.pengambilanGasSisaDriver;
-                            }
-
-                            tempList = [
-                                ...tempList,
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var tempList = [];
+                            var res = response.data.data;
+                            
+                            res.forEach(element => {
+                                var tempDate = new Date(element.tanggal_pengambilan_gas);
+                                if(tempDate <= date)
                                 {
-                                    'jenis_kegiatan': 'Pengambilan',
-                                    'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                    'jumlah_gas': element.alokasi_pengambilan_gas,
-                                    'jenis_alokasi': element.jenis_alokasi
+                                    this.pengambilanGasSelesaiDriver = 1 + this.pengambilanGasSelesaiDriver;
                                 }
-                            ];
-                        });
+                                else
+                                {
+                                    this.pengambilanGasSisaDriver = 1 + this.pengambilanGasSisaDriver;
+                                }
 
-                        this.getDataPengirimanDriver(tempList);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengambilan',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_pengambilan_gas,
+                                        'jenis_alokasi': element.jenis_alokasi
+                                    }
+                                ];
+                            });
+
+                            this.getDataPengirimanDriver(tempList);
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
             
             getDataPengirimanDriver(tempList)
@@ -431,54 +438,55 @@
                 var body = { 'bulan': bulan, 'tahun': thn, 'id_pegawai': localStorage.getItem('id') };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var res = response.data.data;
-                        
-                        res.forEach(element => {
-                            var tempDate = new Date(element.tanggal_pengambilan_gas);
-                            if(tempDate <= date)
-                            {
-                                this.pengirimanGasSelesaiDriver = 1 + this.pengirimanGasSelesaiDriver;
-                            }
-                            else
-                            {
-                                this.pengirimanGasSisaDriver = 1 + this.pengirimanGasSisaDriver;
-                            }
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var res = response.data.data;
                             
-                            if(element.id_jadwal_pengiriman_gas)
-                            {
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengiriman',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': 'Reguler'
-                                    }
-                                ]
-                            }
-                            else
-                            {
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengiriman',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_tambahan,
-                                        'jenis_alokasi': 'Fakultatif'
-                                    }
-                                ]
-                            }
-                        });
+                            res.forEach(element => {
+                                var tempDate = new Date(element.tanggal_pengambilan_gas);
+                                if(tempDate <= date)
+                                {
+                                    this.pengirimanGasSelesaiDriver = 1 + this.pengirimanGasSelesaiDriver;
+                                }
+                                else
+                                {
+                                    this.pengirimanGasSisaDriver = 1 + this.pengirimanGasSisaDriver;
+                                }
+                                
+                                if(element.id_jadwal_pengiriman_gas)
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'jenis_alokasi': 'Reguler'
+                                        }
+                                    ]
+                                }
+                                else
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_tambahan,
+                                            'jenis_alokasi': 'Fakultatif'
+                                        }
+                                    ]
+                                }
+                            });
 
-                        this.divideDataDriver(tempList);
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                            this.divideDataDriver(tempList);
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
 
             divideDataDriver(tempList)
@@ -536,36 +544,37 @@
                 var body = { 'bulan': bulan, 'tahun': thn };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var tempList = [];
-                        var res = response.data.data;
-                        
-                        res.forEach(element => {
-                            var tempDate = new Date(element.tanggal_pengambilan_gas);
-                            if(tempDate > date)
-                            {
-                                this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
-                            }
-
-                            tempList = [
-                                ...tempList,
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var tempList = [];
+                            var res = response.data.data;
+                            
+                            res.forEach(element => {
+                                var tempDate = new Date(element.tanggal_pengambilan_gas);
+                                if(tempDate > date)
                                 {
-                                    'jenis_kegiatan': 'Pengambilan',
-                                    'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                    'jumlah_gas': element.alokasi_pengambilan_gas,
-                                    'jenis_alokasi': element.jenis_alokasi
+                                    this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
                                 }
-                            ];
-                        });
 
-                        this.getDataPengirimanAdmin(tempList)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengambilan',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_pengambilan_gas,
+                                        'jenis_alokasi': element.jenis_alokasi
+                                    }
+                                ];
+                            });
+
+                            this.getDataPengirimanAdmin(tempList)
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
             
             getDataPengirimanAdmin(tempList)
@@ -577,53 +586,54 @@
                 var body = { 'bulan': bulan, 'tahun': thn };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var res = response.data.data;
-                        
-                        res.forEach(element => {
-                            var tempDate = new Date(element.tanggal_pengambilan_gas);
-                            if(tempDate > date)
-                            {
-                                this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
-                            }
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var res = response.data.data;
                             
-                            if(element.id_jadwal_pengiriman_gas)
-                            {
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengiriman',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': 'Reguler'
-                                    }
-                                ]
-                            }
-                            else
-                            {
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengiriman',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_tambahan,
-                                        'jenis_alokasi': 'Fakultatif'
-                                    }
-                                ]
-                            }
-                        });
+                            res.forEach(element => {
+                                var tempDate = new Date(element.tanggal_pengambilan_gas);
+                                if(tempDate > date)
+                                {
+                                    this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
+                                }
+                                
+                                if(element.id_jadwal_pengiriman_gas)
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'jenis_alokasi': 'Reguler'
+                                        }
+                                    ]
+                                }
+                                else
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_tambahan,
+                                            'jenis_alokasi': 'Fakultatif'
+                                        }
+                                    ]
+                                }
+                            });
 
-                        var temp = tempList.sort(this.sortDataByDate);
-                        this.dataRiwayatAdmin = temp;
+                            var temp = tempList.sort(this.sortDataByDate);
+                            this.dataRiwayatAdmin = temp;
 
+                            this.overlay = false;
+                        }
+                    })
+                    .catch((error) => {
                         this.overlay = false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                        console.log(error)
+                    });
             },
 
             //Method Pangkalan
@@ -635,18 +645,19 @@
                 var body = { 'bulan': bulan, 'tahun': thn, 'id_pangkalan': localStorage.getItem('id') };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var res = response.data.data;
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var res = response.data.data;
 
-                        this.stokAwalPangkalan = res.stok_awal_bulan_pangkalan;
-                        this.stokAkhirPangkalan = res.stok_akhir_bulan_pangkalan;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                            this.stokAwalPangkalan = res.stok_awal_bulan_pangkalan;
+                            this.stokAkhirPangkalan = res.stok_akhir_bulan_pangkalan;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
 
             getDataJadwalPangkalan()
@@ -655,27 +666,28 @@
                 var body = { 'id_pangkalan': localStorage.getItem('id') };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var tempList = [];
-                        var res = response.data.data;
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var tempList = [];
+                            var res = response.data.data;
 
-                        res.forEach(element => {
-                            tempList = [...tempList, element];
-                        });
+                            res.forEach(element => {
+                                tempList = [...tempList, element];
+                            });
 
-                        this.jadwalSenin = tempList.filter((el) => el.hari_penerimaan_gas === 'Senin');
-                        this.jadwalSelasa = tempList.filter((el) => el.hari_penerimaan_gas === 'Selasa');
-                        this.jadwalRabu = tempList.filter((el) => el.hari_penerimaan_gas === 'Rabu');
-                        this.jadwalKamis = tempList.filter((el) => el.hari_penerimaan_gas === 'Kamis');
-                        this.jadwalJumat = tempList.filter((el) => el.hari_penerimaan_gas === 'Jumat');
-                        this.jadwalSabtu = tempList.filter((el) => el.hari_penerimaan_gas === 'Sabtu');
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                            this.jadwalSenin = tempList.filter((el) => el.hari_penerimaan_gas === 'Senin');
+                            this.jadwalSelasa = tempList.filter((el) => el.hari_penerimaan_gas === 'Selasa');
+                            this.jadwalRabu = tempList.filter((el) => el.hari_penerimaan_gas === 'Rabu');
+                            this.jadwalKamis = tempList.filter((el) => el.hari_penerimaan_gas === 'Kamis');
+                            this.jadwalJumat = tempList.filter((el) => el.hari_penerimaan_gas === 'Jumat');
+                            this.jadwalSabtu = tempList.filter((el) => el.hari_penerimaan_gas === 'Sabtu');
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+                    });
             },
 
             getDataAlokasiPangkalan()
@@ -687,57 +699,58 @@
                 var body = { 'bulan': bulan, 'tahun': thn, 'id_pangkalan': localStorage.getItem('id') };
                 
                 this.$http.post(url, body)
-                .then((response) => {
-                    if(response.data.code === 200)
-                    {
-                        var tempList = [];
-                        var color = 'green';
-                        var icon = 'mdi-bell-outline';
-                        var res = response.data.data;
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            var tempList = [];
+                            var color = 'green';
+                            var icon = 'mdi-bell-outline';
+                            var res = response.data.data;
 
-                        res.forEach(element => {
-                            var tempDate = new Date(element.tanggal_pengajuan);
+                            res.forEach(element => {
+                                var tempDate = new Date(element.tanggal_pengajuan);
 
-                            if(tempDate >= date.getDate() + 1)
-                            {
-                                color = 'red';
-                                icon = 'mdi-bell-alert-outline';
-                            }
-                            else if(tempDate >= date.getDate() + 3)
-                            {
-                                color = 'yellow';
-                                icon = 'mdi-bell-badge-outline';
-                            }
-                            else
-                            {
-                                color = 'green';
-                                icon = 'mdi-bell-outline';
-                            }
-
-                            tempList = [
-                                ...tempList,
+                                if(tempDate >= date.getDate() + 1)
                                 {
-                                    icon: icon,
-                                    color: color,
-                                    title: 'Konfirmasi Alokasi Pada ' + element.tanggal_pengajuan,
-                                    subtitle: 'Terdapat Permintaan Penambahan Alokasi Fakultatif Sejumlah ' + element.alokasi_tambahan + ' Tabung Gas',
+                                    color = 'red';
+                                    icon = 'mdi-bell-alert-outline';
                                 }
-                            ];
+                                else if(tempDate >= date.getDate() + 3)
+                                {
+                                    color = 'yellow';
+                                    icon = 'mdi-bell-badge-outline';
+                                }
+                                else
+                                {
+                                    color = 'green';
+                                    icon = 'mdi-bell-outline';
+                                }
 
-                            tempList = [
-                                ...tempList,
-                                { divider: true, inset: true },
-                            ]
-                        });
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        icon: icon,
+                                        color: color,
+                                        title: 'Konfirmasi Alokasi Pada ' + element.tanggal_pengajuan,
+                                        subtitle: 'Terdapat Permintaan Penambahan Alokasi Fakultatif Sejumlah ' + element.alokasi_tambahan + ' Tabung Gas',
+                                    }
+                                ];
 
-                        this.pangkalanItems = tempList;
-                        
+                                tempList = [
+                                    ...tempList,
+                                    { divider: true, inset: true },
+                                ]
+                            });
+
+                            this.pangkalanItems = tempList;
+                            
+                            this.overlay = false;
+                        }
+                    })
+                    .catch((error) => {
                         this.overlay = false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
+                        console.log(error)
+                    });
             },
         },
         
