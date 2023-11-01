@@ -323,7 +323,7 @@
                         if(response.data.code === 200)
                         {
                             var res = response.data.data;
-                            var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                            var normal = parseInt(res.jumlah_alokasi_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
                             var bocor = parseInt(res.jumlah_gas_bocor);
 
                             this.gasNormal = normal;
@@ -415,7 +415,7 @@
                                         'jenis_kegiatan': 'Pengambilan',
                                         'tanggal_kegiatan': element.tanggal_pengambilan_gas,
                                         'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': element.jenis_alokasi
+                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
                                     }
                                 ];
                             });
@@ -517,7 +517,7 @@
 
                         var object = {
                             index: index,
-                            jenis_alokasi: element.jenis_alokasi,
+                            jenis_alokasi: element.jenis_alokasi_pengambilan_gas,
                             jumlah_gas: element.jumlah_gas,
                             tanggal_kegiatan: element.tanggal_kegiatan,
                             jenis_kegiatan: element.jenis_kegiatan,
@@ -563,7 +563,7 @@
                                         'jenis_kegiatan': 'Pengambilan',
                                         'tanggal_kegiatan': element.tanggal_pengambilan_gas,
                                         'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': element.jenis_alokasi
+                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
                                     }
                                 ];
                             });
