@@ -143,7 +143,7 @@
               label="Jumlah Pembelian"
               type="number"
             ></v-text-field>
-            <span v-if="form.tanggal_transaksi!=null" style="float:left; margin-top:-20px">sisa tabung: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.jumlah_alokasi_pengambilan_gas }} tabung</span>
+            <!-- <span v-if="form.tanggal_transaksi!=null" style="float:left; margin-top:-20px">sisa tabung: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.jumlah_alokasi_pengambilan_gas }} tabung</span> -->
             <v-text-field
               :rules="namaRules"
               v-model="form.nama_pembeli"
@@ -159,14 +159,18 @@
               v-model="form.nomor_telepon_pembeli"
               label="Nomor Telepon Pembeli"
             ></v-text-field>
-            <v-text-field
+            <v-select
               :rules="kategoriRules"
               v-model="form.kategori_pembeli"
+              :items="kategori"
+              item-text="kategori_pembeli"
+              item-value="kategori_pembeli"
               label="Kategori Pembeli"
-            ></v-text-field>
+              required
+            ></v-select>
             <v-card-action>
               <v-spacer></v-spacer>
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveProfil">Simpan</v-btn>
+              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
               <v-spacer></v-spacer>
             </v-card-action>
           </v-container>
@@ -260,6 +264,11 @@ export default {
         kategori_pembeli: null,
       },
       stokBulananPangkalan: null,
+      kategori: [
+        { kategori_pembeli: "Rumah Tangga" },
+        { kategori_pembeli: "Usaha Mikro" },
+        { kategori_pembeli: "Lainnya" },
+      ],
       deleteId: "",
       editId: "",
       roleRules: [(v) => !!v || "Role is Required"],
@@ -320,54 +329,26 @@ export default {
         });
     },
     save() {
-      this.transaksi.append("nama_transaksi", this.form.nama_transaksi);
-      this.transaksi.append("role_transaksi", this.form.nama_role);
+      this.transaksi.append("tanggal_transaksi", this.form.tanggal_transaksi);
+      this.transaksi.append("jumlah_pembelian", this.form.jumlah_pembelian);
       this.transaksi.append(
-        "tanggal_lahir_transaksi",
-        this.form.tanggal_lahir_transaksi
+        "nama_pembeli",
+        this.form.nama_pembeli
       );
-      this.transaksi.append("email_transaksi", this.form.email_transaksi);
-      this.transaksi.append("no_telp_transaksi", this.form.no_telp_transaksi);
+      this.transaksi.append("nomor_ktp_pembeli", this.form.nomor_ktp_pembeli);
+      this.transaksi.append("nomor_telepon_pembeli", this.form.nomor_telepon_pembeli);
+      this.transaksi.append("kategori_pembeli", this.form.kategori_pembeli);
 
-      var url = this.$api + "/transaksi/";
+      var url = this.$api + "/transaksi";
       this.load = true;
       this.$http
-        .post(url, this.transaksi, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
+        .post(url, this.transaksi)
         .then((response) => {
           this.error_message = response.data.message;
           this.color = "green";
           this.snackbar = true;
           this.load = true;
           this.close();
-          this.updateTemp();
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
-    },
-    updateTemp() {
-      var url = this.$api + "/transaksiTemp";
-      this.load = true;
-      this.$http
-        .put(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = true;
-          this.readDataRemove();
-          this.resetForm();
         })
         .catch((error) => {
           this.error_message = error.response.data.message;
