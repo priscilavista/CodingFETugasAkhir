@@ -71,11 +71,14 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon @click="editHandler(item)" color="#E39348" style="margin-right: 15px;">
+                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
                   mdi-pencil
                 </v-icon>
-                <v-icon @click="deleteHandler(item.id_pegawai)" color="#C94141">
+                <v-icon v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error">
                   mdi-account-remove
+                </v-icon>
+                <v-icon v-else @click="deleteHandler(item)" color="success">
+                  mdi-account-check
                 </v-icon>
                 <!-- <v-chip link color="#E7C913">
                   <v-icon>mdi-circle-edit-outline</v-icon>
@@ -168,16 +171,22 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Hapus Data!</span>
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Ubah Status Pegawai</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
-        <v-card-text>Anda yakin ingin menghapus data ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-if="form.status_pegawai=='A'">Anda yakin ingin menonaktifkan status pegawai ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-else>Anda yakin ingin mengaktifkan status pegawai ini?</v-card-text>
 
         <v-card-actions>
           <v-spacer />
-          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
-          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn> 
+          <v-btn v-if="form.status_pegawai=='A'" color="#E53935" text @click="deleteData">Non Aktif</v-btn>
+          <v-btn v-else color="#E53935" text @click="deleteData">Aktif</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -324,6 +333,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -360,6 +370,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -388,6 +399,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -414,16 +426,18 @@
         this.form.nomor_telepon_pegawai = item.nomor_telepon_pegawai;
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
+      deleteHandler(item) {
+        this.deleteId = item.id_pegawai;
+        this.form.status_pegawai  = item.status_pegawai;
         this.dialogConfirm = true;
       },
 
       cancel() {
         this.resetForm();
         this.dialog = false;
-        this.inputType = "Tambah";
         this.dialogConfirm = false;
+        this.inputType = "Tambah";
+        location.reload();
       },
 
       resetForm() {
@@ -434,6 +448,7 @@
           email_pegawai: null,
           tanggal_lahir_pegawai: null,
           nomor_telepon_pegawai: null,
+          status_pegawai: null,
         };
       },
     },
@@ -505,5 +520,9 @@
 
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
+  }
+
+  .v-select__selection--comma {
+    font-size: 12.5px;
   }
 </style>

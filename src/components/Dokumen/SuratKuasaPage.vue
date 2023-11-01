@@ -115,13 +115,13 @@
                 </v-card-title>
             </v-card>
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
+                <v-card-action>
+                    <v-spacer></v-spacer>
+                    <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="exportPDF">Cetak</v-btn>
+                    
+                    <v-spacer></v-spacer>
+                </v-card-action>
                 <span id="SuratKuasa">
-                    <v-card-action>
-                        <v-spacer></v-spacer>
-                        <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
-                        
-                        <v-spacer></v-spacer>
-                    </v-card-action>
                     <v-card-text style="margin-left:10px; margin-top: 3%">
                         <span style="float:left;">Kepada SPBE/SPPBE</span> <br/>
                         <span style="float:left;">PT {{ form.nama_sppbe }}</span> <br/><br/>
@@ -142,6 +142,7 @@
 </template>
 
 <script>
+import html2PDF from "jspdf-html2canvas";
 export default {
     name: "SuratKuasaPage",
     watch: {
@@ -183,6 +184,35 @@ export default {
     methods: {
         close() {
             this.dialog = false;
+        },
+
+        exportPDF() {
+            var report;
+            var reportName = "";
+
+            report = document.getElementById("SuratKuasa");
+            reportName = "Surat Kuasa_" + this.form.nama_driver;
+
+            html2PDF(report, {
+                jsPDF: {
+                    format: "a4",
+                },
+                margin: {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: -2.5,
+                },
+                html2canvas: {
+                    scrollX: 0,
+                    scrollY: 0,
+                },
+
+                imageType: "image/jpeg",
+                output: reportName + ".pdf",
+            });
+
+            this.close();
         },
     },
 }

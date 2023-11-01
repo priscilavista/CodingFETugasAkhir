@@ -81,12 +81,15 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon color="#E39348" @click="editHandler(item)" style="margin-right: 15px;">
+                <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
                   mdi-pencil
                 </v-icon>
 
-                <v-icon color="#C94141" @click="deleteHandler(item.id_pangkalan)">
+                <v-icon v-if="item.status_pangkalan=='A'" @click="deleteHandler(item)" color="error">
                   mdi-account-remove
+                </v-icon>
+                <v-icon v-else @click="deleteHandler(item)" color="success">
+                  mdi-account-check
                 </v-icon>
               </span>
             </template>
@@ -182,7 +185,7 @@
               referrerpolicy="no-referrer-when-downgrade" 
             />
             
-            <a v-if="form.url_maps_pangkalan!=null" href="form.url_maps_pangkalan" target="_blank">Lihat Lokasi Pangkalan</a>
+            <!-- <a v-if="form.url_maps_pangkalan!=null" href="form.url_maps_pangkalan" target="_blank">Lihat Lokasi Pangkalan</a> -->
             
             <v-card-action>
               <v-spacer />
@@ -196,16 +199,22 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Hapus Data!</span>
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Ubah Status Pangkalan</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
-        <v-card-text>Anda yakin ingin menghapus data ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-if="form.status_pangkalan=='A'">Anda yakin ingin menonaktifkan status pangkalan ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-else>Anda yakin ingin mengaktifkan status pangkalan ini?</v-card-text>
 
         <v-card-actions>
           <v-spacer />
-          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
-          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn> 
+          <v-btn v-if="form.status_pangkalan=='A'" color="#E53935" text @click="deleteData">Non Aktif</v-btn>
+          <v-btn v-else color="#E53935" text @click="deleteData">Aktif</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -411,6 +420,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -450,6 +460,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -466,7 +477,7 @@
       },
       
       deleteData() {
-        var url = this.$api + "/pangkalan/updateStatus" + this.deleteId;
+        var url = this.$api + "/pangkalan/updateStatus/" + this.deleteId;
         this.$http.put(url)
           .then((response) => {
             if(response.data.code === 200)
@@ -478,6 +489,7 @@
               this.snackbar = true;
               this.inputType = "Tambah";
               this.error_message = response.data.message;
+              location.reload();
             }
             else
             {
@@ -540,8 +552,9 @@
           });
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
+      deleteHandler(item) {
+        this.deleteId = item.id_pangkalan;
+        this.form.status_pangkalan = item.status_pangkalan;
         this.dialogConfirm = true;
       },
 
@@ -552,6 +565,7 @@
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
+        location.reload();
       },
 
       resetForm() {
@@ -632,5 +646,9 @@
 
     .v-icon.v-icon.mdi-magnify {
       font-size: 22px;
+    }
+
+    .v-select__selection--comma {
+      font-size: 12.5px;
     }
 </style>

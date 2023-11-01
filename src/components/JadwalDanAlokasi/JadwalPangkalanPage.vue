@@ -372,24 +372,20 @@
         return jadwalPerHari;
       },
 
-      readDriver(){
-        var url = this.$api + "/driverRead";
+      hitungJumlahDriver(){
+        let jumlahDriver;
+        var url = this.$api + "/";
         this.$http.get(url).then((response) => {
           // this.role = response.data.data;
-          let temp = response.data.data;
-          this.form_driver.id_driver = temp.map((v) => v.id_driver);
-          this.form_driver.nama_driver = temp.map((v) => v.nama_driver);
-          
-          for (let i = 0; i < this.form_driver.length; i++) 
-          {
-            this.driver.push(this.form_driver[i]);
-          }
+          jumlahDriver = response.data.data.jumlah_driver;
         });
+
+        this.convertGrupPangkalan(jumlahDriver)
       },
 
-      convertGrupPangkalan()
+      convertGrupPangkalan(jumlahDriver)
       {
-        for(let i = 0; i < this.driver.length; i++)
+        for(let i = 0; i < jumlahDriver; i++)
         {
           this.grupPangkalan.push({nomor: i+1,});
           console.log("convert grup: ", this.grupPangkalan[i].nomor);
@@ -607,4 +603,8 @@
     /* .v-card__subtitle, .v-card__text, .v-card__title {
       padding: 1%;
     } */
+
+    .v-select__selection--comma {
+      font-size: 12.5px;
+    }
 </style>

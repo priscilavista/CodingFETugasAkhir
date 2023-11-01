@@ -143,6 +143,7 @@
               label="Jumlah Pembelian"
               type="number"
             ></v-text-field>
+            <span v-if="form.tanggal_transaksi!=null" style="float:left; margin-top:-20px">sisa tabung: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.jumlah_alokasi_pengambilan_gas }} tabung</span>
             <v-text-field
               :rules="namaRules"
               v-model="form.nama_pembeli"
@@ -258,6 +259,7 @@ export default {
         nomor_telepon_pembeli: null,
         kategori_pembeli: null,
       },
+      stokBulananPangkalan: null,
       deleteId: "",
       editId: "",
       roleRules: [(v) => !!v || "Role is Required"],
@@ -293,6 +295,18 @@ export default {
           this.transaksis = response.data.data;
         });
     },
+    // readDataStokBulananPangkalan(date) {
+    //   var url = this.$api + "/transaksiRead";
+    //   this.$http
+    //     .get(url, {
+    //       headers: {
+    //         Authorization: "Bearer " + localStorage.getItem("token"),
+    //       },
+    //     })
+    //     .then((response) => {
+    //       this.transaksis = response.data.data;
+    //     });
+    // },
     readDataRemove() {
       var url = this.$api + "/transaksiRemove";
       this.$http
