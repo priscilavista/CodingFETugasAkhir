@@ -597,30 +597,33 @@
                                 {
                                     this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
                                 }
-                                
-                                if(element.id_jadwal_pengiriman_gas)
+
+                                if(tempDate <= date)
                                 {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_pengambilan_gas,
-                                            'jenis_alokasi': 'Reguler'
-                                        }
-                                    ]
-                                }
-                                else
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_tambahan,
-                                            'jenis_alokasi': 'Fakultatif'
-                                        }
-                                    ]
+                                    if(element.id_jadwal_pengiriman_gas)
+                                    {
+                                        tempList = [
+                                            ...tempList,
+                                            {
+                                                'jenis_kegiatan': 'Pengiriman',
+                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                                'jumlah_gas': element.alokasi_pengambilan_gas,
+                                                'jenis_alokasi': 'Reguler'
+                                            }
+                                        ]
+                                    }
+                                    else
+                                    {
+                                        tempList = [
+                                            ...tempList,
+                                            {
+                                                'jenis_kegiatan': 'Pengiriman',
+                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                                'jumlah_gas': element.alokasi_tambahan,
+                                                'jenis_alokasi': 'Fakultatif'
+                                            }
+                                        ]
+                                    }
                                 }
                             });
 
