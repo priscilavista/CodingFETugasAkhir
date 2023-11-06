@@ -95,7 +95,7 @@
 
                                 <v-list-item-content>
                                     <v-list-item-title class="text-h6 mb-1">
-                                        Total Kelangkaan Gas Bulan - {{ monthNow }}
+                                        Total Kelangkaan Gas Bulan {{ monthNow }}
                                     </v-list-item-title>
                                     
                                     <v-list-item-subtitle style="font-size: 17px;">
@@ -131,7 +131,7 @@
                             style="display: flex !important; flex-direction: column;"
                         >
 
-                            <v-card-title class="indigo white--text">Riwayat Transaksi - {{ monthNow }}</v-card-title>
+                            <v-card-title class="indigo white--text">Riwayat Transaksi {{ monthNow }}</v-card-title>
 
                             <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                                 <template>

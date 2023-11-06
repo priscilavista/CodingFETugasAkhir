@@ -557,15 +557,18 @@
                                     this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
                                 }
 
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengambilan',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
-                                    }
-                                ];
+                                if(tempDate < date)
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengambilan',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
+                                        }
+                                    ];
+                                }
                             });
 
                             this.getDataPengirimanAdmin(tempList)
@@ -598,7 +601,7 @@
                                     this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
                                 }
 
-                                if(tempDate <= date)
+                                if(tempDate < date)
                                 {
                                     if(element.id_jadwal_pengiriman_gas)
                                     {
