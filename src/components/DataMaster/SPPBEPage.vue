@@ -257,6 +257,7 @@
         color: "",
         search: null,
         dialog: false,
+        overlay: false,
         snackbar: false,
         error_message: "",
         inputType: "Tambah",
