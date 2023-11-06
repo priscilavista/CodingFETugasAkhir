@@ -96,7 +96,7 @@
             href: '/tambah-gas-bocor-page',
           },
         ],
-        gasbocor: new FormData(),
+        gasBocor: new FormData(),
         form: {
           id_gas_bocor: null,
           tanggal_pengisian: null,
@@ -106,16 +106,16 @@
         nomorTabungRules: [(v) => !!v || "Nomor Tabung is Required"],
       };
     },
+
     methods: {
       save() {
-        this.gasbocor.append("nomor_tabung", this.form.nomor_tabung);
-        this.gasbocor.append("tanggal_pengisian_data", this.form.tanggal_pengisian);
-        this.gasbocor.append("Pangkalanid_pangkalan", this.id_pangkalan);
-        this.gasbocor.append("status_tabung", 'R');
+        this.gasBocor.append("nomor_tabung", this.form.nomor_tabung);
+        this.gasBocor.append("tanggal_pengisian_data", this.form.tanggal_pengisian);
+        this.gasBocor.append("Pangkalanid_pangkalan", this.id_pangkalan);
+        this.gasBocor.append("status_tabung", 'R');
 
         var url = this.$api + "/gasBocor/create";
-        this.load = true;
-        this.$http.post(url, this.gasbocor)
+        this.$http.post(url, this.gasBocor)
           .then((response) => {
             if(response.data.code === 200)
             {
