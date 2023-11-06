@@ -147,6 +147,8 @@
 
     methods: {
       readData() {
+        this.overlay = true;
+
         var url = this.$api + "/gasBocor/getAll";
         this.$http.get(url)
           .then((response) => {
