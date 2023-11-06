@@ -4,55 +4,23 @@
       :items="items"
       divider="/"
       style="margin-left:-25px; margin-top:-25px"
-    ></v-breadcrumbs>
-    <!-- <h5 class="flex-item" style="font-size: 30px; margin-top: 40px">Data kendaraan</h5> -->
+    />
+
     <div v-if="isWideScreen" style="margin-bottom: 5%">
       <h3 style="float:left">Gas Bocor</h3>
-      <v-spacer></v-spacer>
-      <!-- <v-btn
-        small
-        color="primary"
-        dark
-        @click="dialog = true"
-        style="float:right"
-        >Tambah Gas Bocor</v-btn
-      > -->
+      <v-spacer />
     </div>
+
     <div v-else-if="isMediumScreen" style="margin-bottom: 12.5%">
       <h3 style="float:left">Gas Bocor</h3>
-      <v-spacer></v-spacer>
-      <!-- <v-btn
-        small
-        color="primary"
-        dark
-        @click="dialog = true"
-        style="float:right"
-        >Tambah Gas Bocor</v-btn
-      > -->
+      <v-spacer />
     </div>
+
     <div v-else style="margin-bottom: 17.5%">
       <h3 style="float:left">Gas Bocor</h3>
-      <v-spacer></v-spacer>
-      <!-- <v-btn
-        small
-        color="primary"
-        dark
-        @click="dialog = true"
-        style="float:right"
-        >Tambah Gas Bocor</v-btn
-      > -->
+      <v-spacer />
     </div>
-    <!-- <v-card style="padding: 10px 20px 20px 20px; width: 50%">
-      <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Cari"
-            single-line
-            hide-details
-            style="width: 100%"
-            >
-            </v-text-field>
-    </v-card> -->
+    
     <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
@@ -63,8 +31,8 @@
           single-line
           hide-details
           style="margin-left: 75%; width: 25%;"
-        >
-        </v-text-field>
+        />
+
         <v-text-field
           v-else
           v-model="search"
@@ -73,8 +41,7 @@
           single-line
           hide-details
           style="margin-left: 50%; width: 50%;"
-        >
-        </v-text-field>
+        />
       </v-card-title>
 
       <v-data-table
@@ -87,29 +54,11 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon color="primary" @click="deleteHandler(item)" style="margin-right: 15px;">
+                  mdi-check
+                </v-icon>
               </span>
             </template>
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px"
-                    ><v-btn small @click="editHandler(item)"
-                      ><v-icon color="#E39348">mdi-pencil</v-icon></v-btn
-                    ></v-list-item-title
-                  >
-                  <v-list-item-title style="color: #000000; margin-top: 10px"
-                    ><v-btn small @click="deleteHandler(item.id_pegawai)"
-                      ><v-icon color="#C94141"
-                        >mdi-account-remove</v-icon
-                      ></v-btn
-                    ></v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
@@ -117,224 +66,187 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline"></span>
-        </v-card-title>
-        <v-card-text> Apakah gas bocor sudah diambil? </v-card-text>
-        <v-card-action>
-          <v-spacer></v-spacer>
-          <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
-          <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false"
-              >Batal</v-btn
-          >
-        </v-card-action>
-        <v-card-text></v-card-text>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:18px; color:#ffffff">Konfirmasi Pengambilan Gas Bocor</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
+
+        <v-card-text style="padding-bottom:5px">Apakah Gas Bocor Sudah Diambil dari Pangkalan?</v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="#E53935" text @click="deleteData">Konfirmasi</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom
-      >{{ error_message }}
-    </v-snackbar>
+    <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </v-main>
 </template>
 
 <script>
-export default {
-  name: "GasBocorPage",
-  watch: {
-    $route: {
-      immediate: true,
-      handler() {
-        document.title = "Gas Bocor";
+  export default {
+    name: "GasBocorPage",
+
+    watch: {
+      $route: {
+        immediate: true,
+        handler() {
+          document.title = "Gas Bocor";
+        },
       },
     },
-  },
-  data() {
-    return {
-      inputType: "Tambah",
-      load: false,
-      snackbar: false,
-      error_message: "",
-      color: "",
-      search: null,
-      dialog: false,
-      dialogConfirm: false,
-      temp: 0,
-      isWideScreen: window.innerWidth >= 1000,
-      isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
-      items: [
-        { 
-          text: "Dashboard",
-          disabled: false,
-          href: '/dashboard-page',
-        },
-        { 
-          text: "Gas Bocor",
-          disabled: true,
-          href: '/gas-bocor-page',
-        },
-      ],
-      headers: [
-        {
-          text: "Tanggal Pengisian",
-          align: "start",
-          sortable: true,
-          value: "tanggal_pengisian",
-        },
-        { text: "Pangkalan", value: "nama_pangkalan" },
-        { text: "Nomor Tabung", value: "nomor_tabung" },
-        { text: "", value: "actions" },
-      ],
-      menus: [{ title: "Check" }, { title: "Edit" }, { title: "Delete" }],
-      gasbocor: new FormData(),
-      gasbocors: [],
-      deleteId: "",
-    };
-  },
-  methods: {
-    setForm() {
-      if (this.inputType !== "Tambah") {
-        this.update();
-      } else {
-        this.save();
-      }
-    },
-    readData() {
-      var url = this.$api + "/gasbocorRead";
-      this.$http
-        .get(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+
+    data() {
+      return {
+        snackbar: false,
+        error_message: "",
+        overlay: false,
+        color: "",
+        search: null,
+        dialogConfirm: false,
+        isWideScreen: window.innerWidth >= 1000,
+        isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+        items: [
+          { 
+            text: "Dashboard",
+            disabled: false,
+            href: '/dashboard-page',
           },
-        })
-        .then((response) => {
-          this.gasbocors = response.data.data;
-        });
-    },
-    readDataRemove() {
-      var url = this.$api + "/gasbocorRemove";
-      this.$http
-        .get(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+          { 
+            text: "Gas Bocor",
+            disabled: true,
+            href: '/gas-bocor-page',
           },
-        })
-        .then((response) => {
-          this.gasbocorsR = response.data.data;
-        });
-    },
-    updateTemp() {
-      var url = this.$api + "/gasbocorTemp";
-      this.load = true;
-      this.$http
-        .put(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+        ],
+        headers: [
+          {
+            text: "Tanggal Pengisian",
+            align: "start",
+            sortable: true,
+            value: "tanggal_pengisian_data",
           },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = true;
-          this.readDataRemove();
-          this.resetForm();
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
+          { text: "Pangkalan", value: "nama_pangkalan" },
+          { text: "Nomor Tabung", value: "nomor_tabung" },
+          { text: "Status Tabung", value: "status_tabung" },
+          { text: "", value: "actions" },
+        ],
+        gasbocor: new FormData(),
+        gasbocors: [],
+        deleteId: "",
+      };
     },
 
-    //non aktif data gasbocor
-    deleteData() {
-      var url = this.$api + "/gasbocorDelete/" + this.deleteId;
-      this.load = true;
-      this.$http
-        .put(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = false;
-          this.close();
-          this.readDataRemove();
-          this.resetForm();
-          this.inputType = "Tambah";
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
+    methods: {
+      readData() {
+        var url = this.$api + "/gasBocor/getAll";
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              let res = response.data.data;
+              let temp = [];
+
+              res.forEach(element => {
+                if(element.status_tabung === 'R')
+                {
+                  temp = [...temp, element];
+                }
+              });
+
+              this.gasbocors = temp;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
+      //non aktif data gasbocor
+      deleteData() {
+        var url = this.$api + "/gasBocor/updateStatus/" + this.deleteId;
+        this.$http.put(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.error_message = error.response.data.message;
+          });
+      },
+
+      deleteHandler(item) {
+        this.deleteId = item.id_gas_bocor;
+        this.dialogConfirm = true;
+      },
+
+      cancel() {
+        this.dialogConfirm = false;
+        location.reload();
+      },
     },
-    deleteHandler(id) {
-      this.deleteId = id;
-      this.dialogConfirm = true;
+
+    mounted() {
+      localStorage.setItem("menu", "Gas Bocor");
+      this.readData();
     },
-    close() {
-      this.dialog = false;
-      this.inputType = "Tambah";
-      this.dialogConfirm = false;
-      this.readDataRemove();
-    },
-    cancel() {
-      this.resetForm();
-      this.dialog = false;
-      this.dialogConfirm = false;
-      this.inputType = "Tambah";
-    },
-  },
-  computed: {
-    formTitle() {
-      return this.inputType;
-    },
-  },
-  mounted() {
-    localStorage.setItem("menu", "Gas Bocor");
-    if (localStorage.getItem("reloaded")) {
-      // The page was just reloaded. Clear the value from local storage
-      // so that it will reload the next time this page is visited.
-      localStorage.removeItem("reloaded");
-    } else {
-      // Set a flag so that we know not to reload the page twice.
-      localStorage.setItem("reloaded", "1");
-      location.reload();
-    }
-    // this.readDataRemove();
-    // this.updateTemp();
-  },
-};
+  };
 </script>
 
 <style>
     /* Flex */
     .flex {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: scroll;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow: scroll;
     }
     .flex-item {
-    flex: 0 0 auto;
+      flex: 0 0 auto;
     }
 
     /* Inline-block */
     .inline {
-    vertical-align: middle;
-    overflow-x: scroll; 
+      vertical-align: middle;
+      overflow-x: scroll; 
     }
     .inline-item {
-    display: inline-block;
-    vertical-align: middle;
-    height: 96px;
-    margin-right: -4px;
+      display: inline-block;
+      vertical-align: middle;
+      height: 96px;
+      margin-right: -4px;
     }
     .v-btn {
       letter-spacing: .020em;
@@ -353,7 +265,4 @@ export default {
       font-size: 22px;
       /* color: #1976d2; */
     }
-    /* .v-card__subtitle, .v-card__text, .v-card__title {
-    padding: 1%;
-    } */
 </style>
