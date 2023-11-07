@@ -106,7 +106,7 @@
       </v-card-text>
     </v-card>
 
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
+    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
           v-if="isWideScreen"
@@ -139,29 +139,14 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
+                <v-icon @click="deleteHandler(item)" color="error">
+                  mdi-account-remove
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_pegawai)">
-                      <v-icon color="#C94141">mdi-account-remove</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
@@ -225,27 +210,32 @@
 
             <v-card-action>
               <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveProfil">Simpan</v-btn>
+              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="update">Simpan</v-btn>
               <v-spacer />
             </v-card-action>
           </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
+    
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline"></span>
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Hapus Data Transaksi</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
-        <v-card-text> Anda Yakin ingin menghapus data ini? </v-card-text>
+        <v-card-text style="padding-bottom:5px">Anda Yakin Ingin Menghapus Data Tersebut?</v-card-text>
 
-        <v-card-action>
+        <v-card-actions>
           <v-spacer />
-          <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
-          <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-        </v-card-action>
+          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -320,6 +310,7 @@
         },
         form: {
           id_transaksi: null,
+          id_pangkalan: null,
           nama_pangkalan: null,
           tanggal_transaksi: null,
           jumlah_pembelian: null,
@@ -463,43 +454,45 @@
       //ubah data transaksi
       update() {
         let newData = {
-          role_transaksi: this.form.nama_role,
-          nama_transaksi: this.form.nama_transaksi,
-          tanggal_lahir_transaksi: this.form.tanggal_lahir_transaksi,
-          email_transaksi: this.form.email_transaksi,
-          no_telp_transaksi: this.form.no_telp_transaksi,
+          nama_pembeli: this.form.nama_pembeli,
+          jumlah_pembelian: this.form.jumlah_pembelian,
+          kategori_pembeli: this.form.kategori_pembeli,
+          nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
+          tanggal_transaksi: this.form.tanggal_transaksi,
+          Pangkalanid_pangkalan : this.form.id_pangkalan,
+          nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
         };
 
-        var url = this.$api + "/transaksi/" + this.editId;
-        this.load = true;
-        this.$http
-          .put(url, newData, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
+        var url = this.$api + "/transaksi/update/" + this.editId;
+        this.$http.put(url, newData)
           .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
-            this.inputType = "Tambah";
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
-            this.load = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       //non aktif data transaksi
       deleteData() {
         var url = this.$api + "/transaksiDelete/" + this.deleteId;
-        this.load = true;
         this.$http
           .put(url, {
             headers: {
@@ -507,56 +500,59 @@
             },
           })
           .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
-            this.inputType = "Tambah";
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
-            this.load = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       editHandler(item) {
-        this.inputType = "Edit";
         this.editId = item.id_transaksi;
-        this.form.role_transaksi = item.role_transaksi;
-        this.form.nama_transaksi = item.nama_transaksi;
-        this.form.tanggal_lahir_transaksi = item.tanggal_lahir_transaksi;
-        this.form.email_transaksi = item.email_transaksi;
-        this.form.no_telp_transaksi = item.no_telp_transaksi;
+        this.form.nama_pembeli = item.nama_pembeli;
+        this.form.nama_pangkalan = item.nama_pangkalan;
+        this.form.id_pangkalan = item.id_pangkalan;
+        this.form.jumlah_pembelian = item.jumlah_pembelian;
+        this.form.kategori_pembeli = item.kategori_pembeli;
+        this.form.nomor_ktp_pembeli = item.nomor_ktp_pembeli;
+        this.form.tanggal_transaksi = item.tanggal_transaksi;
+        this.form.nomor_telepon_pembeli = item.nomor_telepon_pembeli;
         this.dialog = true;
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
+      deleteHandler(item) {
+        this.deleteId = item.id_transaksi;
         this.dialogConfirm = true;
-      },
-
-      close() {
-        this.dialog = false;
-        this.inputType = "Tambah";
-        this.dialogConfirm = false;
-        this.readDataRemove();
       },
 
       cancel() {
         this.resetForm();
         this.dialog = false;
         this.dialogConfirm = false;
-        this.inputType = "Tambah";
+        location.reload();
       },
 
       resetForm() {
         this.form = {
           id_transaksi: null,
+          id_pangkalan: null,
           nama_pangkalan: null,
           tanggal_transaksi: null,
           jumlah_pembelian: null,

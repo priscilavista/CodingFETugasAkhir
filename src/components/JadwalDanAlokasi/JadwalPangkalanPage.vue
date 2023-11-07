@@ -167,7 +167,7 @@
           <span class="headline" />
         </v-card-title>
 
-        <v-card-text>Anda Yakin ingin menghapus data ini?</v-card-text>
+        <v-card-text>Anda Yakin Ingin Menghapus Data Tersebut?</v-card-text>
 
         <v-card-action>
           <v-spacer />

@@ -331,6 +331,7 @@
       },
 
       readData() {
+        this.overlay = true;
         var url = this.$api + "/sppbe/getAll";
         this.$http.get(url)
           .then((response) => {

@@ -68,7 +68,7 @@
       <v-card>
         <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
           <v-card-title>
-            <h3 style="font-size:18px; color:#ffffff">Konfirmasi Pengambilan Gas Bocor</h3>
+            <h3 style="font-size:20px; color:#ffffff">Konfirmasi Pengambilan Gas Bocor</h3>
             <v-spacer />
             <v-icon @click="cancel" link>mdi-close</v-icon>
           </v-card-title>

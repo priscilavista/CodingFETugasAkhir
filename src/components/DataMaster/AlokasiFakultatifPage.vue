@@ -272,17 +272,21 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline" />
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Hapus Data Alokasi Fakultatif</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
-        <v-card-text> Anda Yakin ingin menghapus data ini? </v-card-text>
+        <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
 
-        <v-card-action>
+        <v-card-actions>
           <v-spacer />
           <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
           <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-        </v-card-action>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
