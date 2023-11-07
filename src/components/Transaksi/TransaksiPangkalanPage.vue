@@ -81,29 +81,14 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
+                <v-icon @click="deleteHandler(item)" color="error">
+                  mdi-account-remove
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                  
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_pegawai)">
-                      <v-icon color="#C94141">mdi-account-remove</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
@@ -164,7 +149,7 @@
             />
 
             <v-spacer />
-            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
             <v-spacer />
           </v-container>
         </v-card-text>
@@ -219,6 +204,7 @@
         error_message: "",
         color: "",
         search: null,
+        overlay: false,
         dialog: false,
         dialogConfirm: false,
         isWideScreen: window.innerWidth >= 1000,
@@ -253,6 +239,8 @@
         transaksis: [],
         form: {
           id_transaksi: null,
+          id_pangkalan: null,
+          nama_pangkalan: null,
           tanggal_transaksi: null,
           jumlah_pembelian: null,
           nama_pembeli: null,
@@ -260,7 +248,6 @@
           nomor_telepon_pembeli: null,
           kategori_pembeli: null,
         },
-        stokBulananPangkalan: null,
         kategori: [
           { kategori_pembeli: "Rumah Tangga" },
           { kategori_pembeli: "Usaha Mikro" },
@@ -268,175 +255,210 @@
         ],
         deleteId: "",
         editId: "",
-        roleRules: [(v) => !!v || "Role is Required"],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
-        emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
-        ],
+        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
+        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
+        namaRules: [(v) => !!v || "Nama Pembeli is Required"],
+        ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
         telpRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+          (v) => !!v || "Nomor Telepon Pembeli is Required", 
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli must be valid",
         ],
+        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
       };
     },
 
     methods: {
       setForm() {
-        if (this.inputType !== "Tambah") {
+        if (this.inputType !== "Tambah") 
+        {
           this.update();
-        } else {
+        } 
+        else 
+        {
           this.save();
         }
       },
 
       readData() {
-        var url = this.$api + "/transaksiRead";
-        this.$http
-          .get(url, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
+        this.overlay = true;
+        var url = this.$api + "/transaksi/postBySearchData";
+        var body = { 'id_pangkalan': localStorage.getItem('id') };
+
+        this.$http.post(url, body)
           .then((response) => {
-            this.transaksis = response.data.data;
+            if(response.data.code === 200)
+            {
+              var res = response.data.data;
+              this.transaksis = res;
+              
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.overlay = false;
+            console.log(error)
+
+            if(error.request.status === 404)
+            {
+              this.transaksis = [];
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = 'Data Transaksi Tidak Ditemukan';
+            }
           });
       },
       
       save() {
-        this.transaksi.append("tanggal_transaksi", this.form.tanggal_transaksi);
+        this.transaksi.append("nama_pembeli", this.form.nama_pembeli);
         this.transaksi.append("jumlah_pembelian", this.form.jumlah_pembelian);
-        this.transaksi.append(
-          "nama_pembeli",
-          this.form.nama_pembeli
-        );
-        this.transaksi.append("nomor_ktp_pembeli", this.form.nomor_ktp_pembeli);
-        this.transaksi.append("nomor_telepon_pembeli", this.form.nomor_telepon_pembeli);
         this.transaksi.append("kategori_pembeli", this.form.kategori_pembeli);
+        this.transaksi.append("nomor_ktp_pembeli", this.form.nomor_ktp_pembeli);
+        this.transaksi.append("tanggal_transaksi", this.form.tanggal_transaksi);
+        this.transaksi.append("nomor_telepon_pembeli", this.form.nomor_telepon_pembeli);
 
-        var url = this.$api + "/transaksi";
-        this.load = true;
-        this.$http
-          .post(url, this.transaksi)
+        var url = this.$api + "/transaksi/create";
+        this.$http.post(url, this.transaksi)
           .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = true;
-            this.close();
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
-            this.load = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       //ubah data transaksi
       update() {
         let newData = {
-          role_transaksi: this.form.nama_role,
-          nama_transaksi: this.form.nama_transaksi,
-          tanggal_lahir_transaksi: this.form.tanggal_lahir_transaksi,
-          email_transaksi: this.form.email_transaksi,
-          no_telp_transaksi: this.form.no_telp_transaksi,
+          nama_pembeli: this.form.nama_pembeli,
+          jumlah_pembelian: this.form.jumlah_pembelian,
+          kategori_pembeli: this.form.kategori_pembeli,
+          nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
+          tanggal_transaksi: this.form.tanggal_transaksi,
+          Pangkalanid_pangkalan: localStorage.getItem('id'),
+          nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
         };
 
-        var url = this.$api + "/transaksi/" + this.editId;
-        this.load = true;
-        this.$http
-          .put(url, newData, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
+        var url = this.$api + "/transaksi/update/" + this.editId;
+        this.$http.put(url, newData)
           .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
-            this.inputType = "Tambah";
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
-            this.load = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       //non aktif data transaksi
       deleteData() {
-        var url = this.$api + "/transaksiDelete/" + this.deleteId;
-        this.load = true;
-        this.$http
-          .put(url, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
+        var url = this.$api + "/transaksi/delete/" + this.deleteId;
+        this.$http.delete(url)
           .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
-            this.inputType = "Tambah";
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.readData();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
-            this.error_message = error.response.data.message;
             this.color = "red";
             this.snackbar = true;
-            this.load = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       editHandler(item) {
+        this.dialog = true;
         this.inputType = "Edit";
         this.editId = item.id_transaksi;
-        this.form.role_transaksi = item.role_transaksi;
-        this.form.nama_transaksi = item.nama_transaksi;
-        this.form.tanggal_lahir_transaksi = item.tanggal_lahir_transaksi;
-        this.form.email_transaksi = item.email_transaksi;
-        this.form.no_telp_transaksi = item.no_telp_transaksi;
-        this.dialog = true;
+        this.form.nama_pembeli = item.nama_pembeli;
+        this.form.id_pangkalan = item.id_pangkalan;
+        this.form.nama_pangkalan = item.nama_pangkalan;
+        this.form.jumlah_pembelian = item.jumlah_pembelian;
+        this.form.kategori_pembeli = item.kategori_pembeli;
+        this.form.nomor_ktp_pembeli = item.nomor_ktp_pembeli;
+        this.form.tanggal_transaksi = item.tanggal_transaksi;
+        this.form.nomor_telepon_pembeli = item.nomor_telepon_pembeli;
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
+      deleteHandler(item) {
         this.dialogConfirm = true;
-      },
-
-      close() {
-        this.dialog = false;
-        this.inputType = "Tambah";
-        this.dialogConfirm = false;
-        this.readDataRemove();
+        this.deleteId = item.id_transaksi;
       },
 
       cancel() {
         this.resetForm();
+        location.reload();
         this.dialog = false;
-        this.dialogConfirm = false;
         this.inputType = "Tambah";
+        this.dialogConfirm = false;
       },
 
       resetForm() {
         this.form = {
-          id_transaksi: null,
-          tanggal_transaksi: null,
-          jumlah_pembelian: null,
           nama_pembeli: null,
+          id_transaksi: null,
+          id_pangkalan: null,
+          nama_pangkalan: null,
+          jumlah_pembelian: null,
+          kategori_pembeli: null,
+          tanggal_transaksi: null,
           nomor_ktp_pembeli: null,
           nomor_telepon_pembeli: null,
-          kategori_pembeli: null,
         };
       },
     },
@@ -449,6 +471,7 @@
 
     mounted() {
       localStorage.setItem("menu", "Transaksi");
+      this.readData();
     },
   };
 </script>

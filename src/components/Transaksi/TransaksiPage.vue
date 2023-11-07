@@ -319,7 +319,10 @@
         jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
         namaRules: [(v) => !!v || "Nama Pembeli is Required"],
         ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
-        telpRules: [(v) => !!v || "NOmor Telepon Pembeli is Required"],
+        telpRules: [
+          (v) => !!v || "Nomor Telepon Pembeli is Required", 
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli must be valid",
+        ],
         kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
       };
     },
@@ -446,9 +449,9 @@
           nama_pembeli: this.form.nama_pembeli,
           jumlah_pembelian: this.form.jumlah_pembelian,
           kategori_pembeli: this.form.kategori_pembeli,
+          Pangkalanid_pangkalan: this.form.id_pangkalan,
           nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
           tanggal_transaksi: this.form.tanggal_transaksi,
-          Pangkalanid_pangkalan : this.form.id_pangkalan,
           nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
         };
 
