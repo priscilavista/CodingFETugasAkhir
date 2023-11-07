@@ -402,13 +402,16 @@
                 }
               });
 
+              this.color = "green";
+              this.snackbar = true;
               this.overlay = false;
+              this.error_message = response.data.message;
             }
             else
             {
               this.color = "red";
               this.snackbar = true;
-            this.overlay = false;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })

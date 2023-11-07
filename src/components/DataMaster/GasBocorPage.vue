@@ -165,6 +165,10 @@
               });
 
               this.gasbocors = temp;
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
             }
             else
             {

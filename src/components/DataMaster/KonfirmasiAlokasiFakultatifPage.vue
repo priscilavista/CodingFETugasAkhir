@@ -201,7 +201,10 @@
               this.fakultatifs = res;
               this.permintaanFakultatif = res.length;
 
+              this.color = "green";
+              this.snackbar = true;
               this.overlay = false;
+              this.error_message = response.data.message;
             }
             else
             {
