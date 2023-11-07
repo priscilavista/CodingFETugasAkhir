@@ -57,9 +57,8 @@
                     label="Pangkalan"
                     style="margin-top:-25px"
                 ></v-select>
-                <v-card-action>
-                    <v-btn small color="primary" dark style="float:left;" >Filter</v-btn>
-                </v-card-action>
+                
+                <v-btn small color="primary" dark style="float:left;" >Filter</v-btn>
                 </v-container> -->
                 <v-container style="padding-left: 5px; padding-right: 5px; padding-bottom:47.5px">
                     <v-select
@@ -99,9 +98,8 @@
                         label="Kuantitas tabung yang diambil"
                         style="margin-top:-10px"
                     ></v-select> -->
-                    <v-card-action>
-                        <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
-                    </v-card-action>
+                    
+                    <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
                 </v-container>
             </v-card-text>
         
@@ -118,12 +116,10 @@
             </v-card>
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
                 <span id="Laporan">
-                    <v-card-action>
-                        <v-spacer></v-spacer>
-                        <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
-                        
-                        <v-spacer></v-spacer>
-                    </v-card-action>
+                    <v-spacer></v-spacer>
+                    <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
+                    <v-spacer></v-spacer>
+
                     <v-card-text style="padding:30px; margin-top: 3%">
                         <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Bulanan Agen LPG 3 KG (Bersubsidi) Periode {{ form.bulan_transaksi }} Tahun {{ form.tahun_transaksi }}</h2>
                         <span style="float:left;">Nama Agen</span> <span style="float:left;margin-left:40.5px">: </span> <span style="float:left;margin-left:5px"> PT Satria Permana Jaya</span> <br/>

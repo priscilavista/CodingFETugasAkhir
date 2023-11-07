@@ -57,9 +57,8 @@
                     label="Pangkalan"
                     style="margin-top:-25px"
                 ></v-select>
-                <v-card-action>
-                    <v-btn small color="primary" dark style="float:left;" >Filter</v-btn>
-                </v-card-action>
+                
+                <v-btn small color="primary" dark style="float:left;" >Filter</v-btn>
                 </v-container> -->
                 <v-container style="padding-left: 5px; padding-right: 5px; padding-bottom:47.5px">
                     <v-text-field
@@ -98,9 +97,8 @@
                         label="Kuantitas tabung yang diambil"
                         style="margin-top:-10px"
                     ></v-select>
-                    <v-card-action>
-                        <v-btn small @click="dialog=true" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
-                    </v-card-action>
+                    
+                    <v-btn small @click="dialog=true" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
                 </v-container>
             </v-card-text>
         
@@ -115,12 +113,10 @@
                 </v-card-title>
             </v-card>
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
-                <v-card-action>
-                    <v-spacer></v-spacer>
-                    <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="exportPDF">Cetak</v-btn>
-                    
-                    <v-spacer></v-spacer>
-                </v-card-action>
+                <v-spacer></v-spacer>
+                <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="exportPDF">Cetak</v-btn>
+                <v-spacer></v-spacer>
+                
                 <span id="SuratKuasa">
                     <v-card-text style="margin-left:10px; margin-top: 3%">
                         <span style="float:left;">Kepada SPBE/SPPBE</span> <br/>

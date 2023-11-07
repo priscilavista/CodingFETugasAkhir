@@ -67,9 +67,7 @@
             style="margin-top:-25px"
           />
 
-          <v-card-action>
-            <v-btn small color="primary" dark style="float:left;" @click="readData">Filter</v-btn>
-          </v-card-action>
+          <v-btn small color="primary" dark style="float:left;" @click="readData">Filter</v-btn>
         </v-container>
 
         <v-container v-else style="padding-left: 5px; padding-right: 5px; padding-bottom:50px">
@@ -99,9 +97,7 @@
             label="Pangkalan"
           />
 
-          <v-card-action>
-            <v-btn small color="primary" dark style="float:left;margin-top:10px" @click="readData">Filter</v-btn>
-          </v-card-action>
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" @click="readData">Filter</v-btn>
         </v-container>
       </v-card-text>
     </v-card>
@@ -155,7 +151,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
         <v-card-title>
-          <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data Transaksi</h3>
+          <h3 style="font-size:20px; color:#ffffff">Edit Data Transaksi</h3>
           <v-spacer />
           <v-icon @click="cancel" link>mdi-close</v-icon>
         </v-card-title>
@@ -165,9 +161,9 @@
         <v-card-text>
           <v-container style="padding-left: 5px; padding-right: 5px">
             <v-text-field
-              :rules="pangkalanRules"
               v-model="form.nama_pangkalan"
               label="Pangkalan"
+              disabled
             />
 
             <v-text-field
@@ -208,11 +204,9 @@
               label="Kategori Pembeli"
             />
 
-            <v-card-action>
-              <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="update">Simpan</v-btn>
-              <v-spacer />
-            </v-card-action>
+            <v-spacer />
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="update">Simpan</v-btn>
+            <v-spacer />
           </v-container>
         </v-card-text>
       </v-card>
@@ -321,17 +315,12 @@
         },
         deleteId: "",
         editId: "",
-        roleRules: [(v) => !!v || "Role is Required"],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
-        emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
-        ],
-        telpRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
-        ],
+        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
+        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
+        namaRules: [(v) => !!v || "Nama Pembeli is Required"],
+        ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
+        telpRules: [(v) => !!v || "NOmor Telepon Pembeli is Required"],
+        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
       };
     },
 

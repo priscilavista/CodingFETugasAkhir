@@ -199,11 +199,9 @@
 
             <!-- <a v-if="form.url_maps_sppbe!=null" href="form.url_maps_sppbe" target="_blank">Lihat Lokasi SPPBE</a> -->
             
-            <v-card-action>
-              <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-action>
+            <v-spacer />
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
+            <v-spacer />
           </v-container>
         </v-card-text>
       </v-card>

@@ -90,11 +90,9 @@
 
         <v-card-text> Anda Yakin Ingin <strong>Menyetujui</strong> Permintaan Alokasi Fakultatif Ini? </v-card-text>
 
-        <v-card-action>
-          <v-spacer />
-          <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-        </v-card-action>
+        <v-spacer />
+        <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
+        <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
       </v-card>
     </v-dialog>
 
@@ -110,11 +108,9 @@
 
         <v-card-text> Anda Yakin Ingin <strong>Menolak</strong> Permintaan Alokasi Fakultatif Ini? </v-card-text>
 
-        <v-card-action>
-          <v-spacer />
-          <v-btn color="#E53935" text @click="updateStatus">Tolak</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
-        </v-card-action>
+        <v-spacer />
+        <v-btn color="#E53935" text @click="updateStatus">Tolak</v-btn>
+        <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
       </v-card>
     </v-dialog>
 

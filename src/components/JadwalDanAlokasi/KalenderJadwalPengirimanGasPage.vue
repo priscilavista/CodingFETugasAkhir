@@ -409,12 +409,11 @@
                     label="Driver yang Bertugas"
                     required
                     ></v-select>
-                    <v-card-action>
-                        <v-spacer></v-spacer>
-                        <v-btn v-if="this.inputType!='Tambah'" small color="error" dark style="float:right; margin-left:2%; margin-top: 3%;" @click="deleteHandler(editId)">Hapus</v-btn>
-                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-action>
+                    
+                    <v-spacer></v-spacer>
+                    <v-btn v-if="this.inputType!='Tambah'" small color="error" dark style="float:right; margin-left:2%; margin-top: 3%;" @click="deleteHandler(editId)">Hapus</v-btn>
+                    <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+                    <v-spacer></v-spacer>
                 </v-container>
                 </v-card-text>
             </v-card>
@@ -426,13 +425,10 @@
                 <span class="headline"></span>
                 </v-card-title>
                 <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
-                <v-card-action>
-                    <v-spacer></v-spacer>
-                    <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
-                    <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false"
-                        >Batal</v-btn
-                    >
-                </v-card-action>
+                
+                <v-spacer></v-spacer>
+                <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
+                <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
                 <v-card-text></v-card-text>
             </v-card>
         </v-dialog>
@@ -443,13 +439,10 @@
                 <span class="headline"></span>
                 </v-card-title>
                 <v-card-text> Buang perubahan? </v-card-text>
-                <v-card-action>
-                    <v-spacer></v-spacer>
-                    <v-btn small style="font-size:12px" color="#E53935" text @click="closeKalender">Buang</v-btn>
-                    <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogClose=false"
-                        >Batal</v-btn
-                    >
-                </v-card-action>
+                
+                <v-spacer></v-spacer>
+                <v-btn small style="font-size:12px" color="#E53935" text @click="closeKalender">Buang</v-btn>
+                <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogClose=false">Batal</v-btn>
                 <v-card-text></v-card-text>
             </v-card>
         </v-dialog>

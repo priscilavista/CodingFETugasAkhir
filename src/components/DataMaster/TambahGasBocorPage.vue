@@ -44,11 +44,9 @@
             label="Nomor Tabung"
           />
 
-          <v-card-action>
-            <v-spacer />
-            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
-            <v-spacer />
-          </v-card-action>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+          <v-spacer />
         </v-container>
       </v-card-text>
     </v-card>

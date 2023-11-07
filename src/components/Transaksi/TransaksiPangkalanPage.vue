@@ -163,11 +163,9 @@
               required
             />
 
-            <v-card-action>
-              <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
-              <v-spacer />
-            </v-card-action>
+            <v-spacer />
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+            <v-spacer />
           </v-container>
         </v-card-text>
       </v-card>
@@ -175,21 +173,29 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline"></span>
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Hapus Data Transaksi</h3>
+            <v-spacer />
+            <v-icon @click="cancel" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
         <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
 
-        <v-card-action>
+        <v-card-actions>
           <v-spacer />
-          <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
-          <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-        </v-card-action>
+          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </v-main>
 </template>
 

@@ -303,11 +303,9 @@
 
             </div>
 
-            <v-card-action>
-              <v-spacer />
-              <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveChangeProfile">Simpan</v-btn>
-              <v-spacer />
-            </v-card-action>
+            <v-spacer />
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveChangeProfile">Simpan</v-btn>
+            <v-spacer />
           </v-container>
         </v-card-text>
       </v-card>
@@ -348,11 +346,9 @@
               required
             />
 
-            <v-card-action>
-              <v-spacer></v-spacer>
-              <v-btn small color="primary" dark style="float:right; margin-top: 4%" @click="savePassword">Simpan</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-action>
+            <v-spacer></v-spacer>
+            <v-btn small color="primary" dark style="float:right; margin-top: 4%" @click="savePassword">Simpan</v-btn>
+            <v-spacer></v-spacer>
           </v-container>
         </v-card-text>
       </v-card>
