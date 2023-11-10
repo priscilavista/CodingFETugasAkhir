@@ -325,6 +325,7 @@
       },
 
       readData() {
+        this.overlay = true;
         var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
