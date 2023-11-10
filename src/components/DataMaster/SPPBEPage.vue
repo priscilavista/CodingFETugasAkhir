@@ -305,7 +305,10 @@
         editId: "",
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
+        alamatRules: [(v) => !!v || "Alamat is Required"],
+        mapsRules: [(v) => !!v || "URL Maps is Required"],
+        kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
+        kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
         emailRules: [
           (v) => !!v || "Email is Required",
           (v) => /.+@.+\..+/.test(v) || "Email must be valid",
@@ -544,9 +547,9 @@
               this.form.nomor_telepon_sppbe = res.nomor_telepon_sppbe;
               this.form.email_sppbe = res.email_sppbe;
               this.form.url_maps_sppbe = res.url_maps_sppbe;
-              this.form.id_kecamatan = res.Master_Kecamatanid_kecamatan;
+              this.form.id_kecamatan = parseInt(res.Master_Kecamatanid_kecamatan);
               this.form.nama_kecamatan = res.nama_kecamatan;
-              this.getDataKelurahan(res.Master_Kecamatanid_kecamatan);
+              this.getDataKelurahan(parseInt(res.Master_Kecamatanid_kecamatan));
               this.dialog = true;
             }
             else

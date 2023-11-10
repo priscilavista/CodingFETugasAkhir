@@ -244,6 +244,7 @@
         snackbar: false,
         error_message: "",
         color: "",
+        overlay: false,
         search: null,
         dialog: false,
         dialogConfirm: false,
@@ -294,7 +295,12 @@
         editId: "",
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
+        idRules: [(v) => !!v || "ID Registrasi is Required"],
+        alamatRules: [(v) => !!v || "Alamat is Required"],
+        mapsRules: [(v) => !!v || "URL Maps is Required"],
+        kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
+        kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
+        kontrakRules: [(v) => !!v || "Tanggal Kontrak is Required"],
         emailRules: [
           (v) => !!v || "Email is Required",
           (v) => /.+@.+\..+/.test(v) || "Email must be valid",
@@ -521,7 +527,7 @@
               var res = response.data.data;
               
               this.form.id_pangkalan = res.id_pangkalan;
-              this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
+              this.form.id_kelurahan = res.id_kelurahan;
               this.form.nama_kelurahan = res.nama_kelurahan;
               this.form.nama_pangkalan = res.nama_pangkalan;
               this.form.tanggal_kontrak_pangkalan = res.tanggal_kontrak_pangkalan;
@@ -530,9 +536,9 @@
               this.form.alamat_pangkalan = res.alamat_pangkalan;
               this.form.url_maps_pangkalan = res.url_maps_pangkalan;
               this.form.id_registrasi_pangkalan = res.id_registrasi;
-              this.form.id_kecamatan = res.Master_Kecamatanid_kecamatan;
+              this.form.id_kecamatan = parseInt(res.id_kecamatan);
               this.form.nama_kecamatan = res.nama_kecamatan;
-              this.getDataKelurahan(res.Master_Kecamatanid_kecamatan);
+              this.getDataKelurahan(parseInt(res.Master_Kecamatanid_kecamatan));
               this.dialog = true;
             }
             else
