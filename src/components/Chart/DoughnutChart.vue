@@ -87,7 +87,7 @@
                     if(response.data.code === 200)
                     {
                         var res = response.data.data;
-                        var normal = parseInt(res.alokasi_reguler_pengambilan_gas) + parseInt(res.alokasi_fakultatif_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                        var normal = parseInt(res.total_alokasi_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
                         var bocor = parseInt(res.jumlah_gas_bocor)
 
                         this.doughnutChartData = {
