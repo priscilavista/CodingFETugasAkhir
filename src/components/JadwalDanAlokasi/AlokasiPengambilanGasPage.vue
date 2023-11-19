@@ -249,6 +249,7 @@
           id_alokasi_pengambilan_gas: null,
           tanggal_pengambilan_gas: null,
           SPPBEid_sppbe: null,
+          jenis_alokasi_pengambilan_gas: null,
           jumlah_alokasi_pengambilan_gas: null,
         },
         jenis_alokasi: [
@@ -280,7 +281,8 @@
 
         var url = this.$api + "/alokasiPengambilanGas/getAll";
         this.$http.get(url)
-          .then((response) => {if(response.data.code == 200)
+          .then((response) => {
+            if(response.data.code == 200)
             {
               this.alokasis = response.data.data;
               this.color = "green";
@@ -329,13 +331,13 @@
       },
 
       save() {
-        this.sppbe.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
-        this.sppbe.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
-        this.sppbe.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
-        this.sppbe.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
+        this.alokasi.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
+        this.alokasi.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
+        this.alokasi.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
+        this.alokasi.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
 
         var url = this.$api + "/alokasiPengambilanGas/create";
-        this.$http.post(url, this.sppbe)
+        this.$http.post(url, this.alokasi)
           .then((response) => {
             if(response.data.code === 200)
             {
@@ -381,6 +383,7 @@
           id_alokasi_pengambilan_gas: null,
           tanggal_pengambilan_gas: null,
           SPPBEid_sppbe: null,
+          jenis_alokasi_pengambilan_gas: null,
           jumlah_alokasi_pengambilan_gas: null,
         };
       },

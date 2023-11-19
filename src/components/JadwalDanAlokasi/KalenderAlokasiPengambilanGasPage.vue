@@ -1,376 +1,339 @@
 <template>
     <v-main class="list" style="margin: auto;">
         <v-breadcrumbs
-        :items="items"
-        divider="/"
-        style="margin-left:-25px; margin-top:-25px"
-        ></v-breadcrumbs>
-        <!-- <h5 class="flex-item" style="font-size: 30px; margin-top: 40px">Data kendaraan</h5> -->
+            :items="items"
+            divider="/"
+            style="margin-left:-25px; margin-top:-25px"
+        />
+
         <div v-if="isWideScreen" style="margin-bottom: 5.5%">
-        <h3 style="float:left">Alokasi Pengambilan Gas</h3>
+            <h3 style="float:left">Alokasi Pengambilan Gas</h3>
         </div>
+
         <div v-else-if="isMediumScreen" style="margin-bottom: 10.5%">
-        <h3 style="float:left">Alokasi Pengambilan Gas</h3>
+            <h3 style="float:left">Alokasi Pengambilan Gas</h3>
         </div>
+
         <div v-else style="margin-bottom: 8.5%">
-        <h3 style="float:left">Alokasi Pengambilan Gas</h3>
+            <h3 style="float:left">Alokasi Pengambilan Gas</h3>
         </div>
 
-        <div id="app">
-            <v-app id="inspire">
-                <v-layout wrap>
-                    <v-flex
-                        sm4
-                        xs12
-                        class="text-sm-left text-xs-center"
-                    >
-                        <v-btn
-                            icon
-                            @click="$refs.calendar.prev()"
-                        >
-                            <v-icon>mdi-chevron-left</v-icon>
-                        </v-btn>
-                    </v-flex>
-                    <v-flex
-                        sm4
-                        xs12
-                        class="text-xs-center"
-                        style="margin-top:2px"
-                    > 
-                        <v-toolbar-title v-if="$refs.calendar">
-                            {{ $refs.calendar.title }}
-                        </v-toolbar-title>
-                    </v-flex>
-                    <v-flex
-                        sm4
-                        xs12
-                        class="text-sm-right text-xs-center"
-                    >
-                        <v-btn
-                            icon
-                            @click="$refs.calendar.next()"
-                        >
-                            <v-icon>mdi-chevron-right</v-icon>
-                        </v-btn>
-                    </v-flex>
-                    <v-flex
-                        xs12
-                        class="mb-3"
-                    >
-                        <v-sheet height="500">
-                            <v-calendar
-                                ref="calendar"
-                                v-model="start"
-                                :type="type"
-                                color="#E0E0E0"
-                                @click:more="viewDay"
-                                @click:date="viewDay"
-                            >
-                                <template v-slot:day="{ date }">
-                                    <template v-for="event in eventsMap[date]">
-                                        <v-menu
-                                            :key="event.jumlah_alokasi_pengambilan_gas"
-                                            v-model="event.open"
-                                            full-width
-                                            offset-x
-                                            min-width="300px"
-                                            
-                                        >
-                                            <template v-slot:activator="{ on }">
-                                                <div
-                                                    style="width: 92.5%; text-align:left; padding-left:5px"
-                                                    v-if="!event.time"
-                                                    v-ripple
-                                                    class="my-event"
-                                                    v-on="on"
-                                                    v-html="event.jumlah_alokasi_pengambilan_gas + ' tabung'"
-                                                ></div>
-                                            </template>
-                                            <v-card
-                                            color="grey lighten-4"
-                                            flat
-                                            min-height="140px"
-                                            >
-                                                <v-toolbar
-                                                    color="#196b4d"
-                                                    dark
-                                                    style="height:55px;margin-top:-11.5px"
-                                                >
-                                                    <v-tooltip left>
-                                                        <template v-slot:activator="{ on, attrs }">
-                                                            <v-btn
-                                                            v-bind="attrs"
-                                                            v-on="on"
-                                                            icon
-                                                            @click="editHandler(event)"
-                                                            style="height:30px"
-                                                            >
-                                                              <v-icon small>mdi-pencil</v-icon>
-                                                            </v-btn>
-                                                        </template>
-                                                        <span>Ubah</span>
-                                                    </v-tooltip>
-                                                    <!-- <v-btn icon>
-                                                        <v-icon small>mdi-pencil</v-icon>
-                                                    </v-btn> -->
-                                                    <v-toolbar-title style="font-size: 17.5px; margin-top:2.5px" small><strong>Detail</strong></v-toolbar-title>
-                                                    <v-spacer></v-spacer>
-                                                    <v-tooltip right>
-                                                        <template v-slot:activator="{ on, attrs }">
-                                                            <v-btn
-                                                            v-bind="attrs"
-                                                            v-on="on"
-                                                            icon
-                                                            style="height:30px"
-                                                            >
-                                                              <v-icon  @click="close()" small>mdi-close</v-icon>
-                                                            </v-btn>
-                                                        </template>
-                                                        <span>Tutup</span>
-                                                    </v-tooltip>
-                                                    
-                                                </v-toolbar>
-                                                <v-container class="grey lighten-5">
-                                                    <v-row no-gutters>
-                                                        <v-col
-                                                            cols="6"
-                                                            md="4"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <strong style="margin-left:5px">Tanggal</strong>
-                                                            </v-card>
-                                                        </v-col>
-                                                        <v-col
-                                                            cols="6"
-                                                            sm="6"
-                                                            md="8"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <span style="margin-left:5px">{{ event.tanggal_pengambilan_gas }}</span>
-                                                            </v-card>
-                                                        </v-col>
-                                                    </v-row>
-                                                    <v-row no-gutters>
-                                                        <v-col
-                                                            cols="6"
-                                                            md="4"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <strong style="margin-left:5px">Reguler</strong>
-                                                            </v-card>
-                                                        </v-col>
-                                                        <v-col
-                                                            cols="6"
-                                                            sm="6"
-                                                            md="8"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <span style="margin-left:5px">{{ event.alokasi_reguler_pengambilan_gas }}</span>
-                                                            </v-card>
-                                                        </v-col>
-                                                    </v-row>
-                                                    <v-row no-gutters>
-                                                        <v-col
-                                                            cols="6"
-                                                            md="4"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <strong style="margin-left:5px">Fakultatif</strong>
-                                                            </v-card>
-                                                        </v-col>
-                                                        <v-col
-                                                            cols="6"
-                                                            sm="6"
-                                                            md="8"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <span style="margin-left:5px">{{ event.alokasi_fakultatif_pengambilan_gas }}</span>
-                                                            </v-card>
-                                                        </v-col>
-                                                    </v-row>
-                                                    <v-row no-gutters>
-                                                        <v-col
-                                                            cols="6"
-                                                            md="4"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            style="text-align:left;"
-                                                            >
-                                                            <strong style="margin-left:5px">SPPBE</strong>
-                                                            </v-card>
-                                                        </v-col>
-                                                        <v-col
-                                                            cols="6"
-                                                            sm="6"
-                                                            md="8"
-                                                            style="text-align:left;"
-                                                        >
-                                                            <v-card
-                                                            class="pa-2"
-                                                            outlined
-                                                            tile
-                                                            >
-                                                            <span style="margin-left:5px">{{ event.nama_sppbe }}</span>
-                                                            </v-card>
-                                                        </v-col>
-                                                    </v-row>
-                                                </v-container>
-                                                <!-- <span style="float: left; margin-left: 15px; margin-top: 15px">
-                                                    <strong>Jumlah Alokasi:</strong> {{ event.jumlah_alokasi_pengambilan_gas }}
-                                                </span>
-                                                <br/>
-                                                <span style="float: left; margin-left: 15px">
-                                                    <strong>SPPBE:</strong> {{ event.nama_sppbe }}
-                                                </span>
-                                                <br/> -->
-                                            </v-card>
-                                        </v-menu>
-                                    </template>
-                                </template>
+        <div>
+            <v-app>
+                <v-row>
+                    <v-col>
+                        <div>
+                            <v-row>
+                                <v-col
+                                    sm="4"
+                                    md="4"
+                                    lg="4"
+                                    cols="4"
+                                >
+                                    <v-btn icon @click="$refs.calendar.prev()">
+                                        <v-icon>mdi-chevron-left</v-icon>
+                                    </v-btn>
+                                </v-col>
 
-                                <!-- <template v-slot:day="{ date }">
-                                    <template v-for="event in eventsMap[date]">
-                                        <v-menu
-                                            :key="event.jumlah_alokasi_pengambilan_gas"
-                                            v-model="event.open"
-                                            full-width
-                                            offset-x
-                                        >
-                                            <template v-slot:activator="{ on }">
-                                                <div
-                                                    style="width: 90%; display: flex; justify-content: center"
-                                                    v-if="!event.time"
-                                                    v-ripple
-                                                    class="my-event"
-                                                    v-on="on"
-                                                    v-html="event.jumlah_alokasi_pengambilan_gas"
-                                                ></div>
-                                            </template>
-                                            <v-card
-                                            color="grey lighten-4"
-                                            min-width="350px"
-                                            flat
+                                <v-col
+                                    sm="4"
+                                    md="4"
+                                    lg="4"
+                                    cols="4"
+                                >
+                                    <v-toolbar-title v-if="$refs.calendar">
+                                        {{ $refs.calendar.title }}
+                                    </v-toolbar-title>
+                                </v-col>
+
+                                <v-col
+                                    sm="4"
+                                    md="4"
+                                    lg="4"
+                                    cols="4"
+                                >
+                                    <v-btn icon @click="$refs.calendar.next()">
+                                        <v-icon>mdi-chevron-right</v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </div>
+
+                        <div class="mt-5">
+                            <v-sheet height="575">
+                                <v-calendar
+                                    :type="type"
+                                    ref="calendar"
+                                    color="#E0E0E0"
+                                    v-model="start"
+                                    @click:more="viewDay"
+                                    @click:date="viewDay"
+                                >
+                                    <template v-slot:day="{ date }">
+                                        <template v-for="event in eventsMap[date]">
+                                            <v-menu
+                                                offset-x
+                                                min-width="300px"
+                                                v-model="event.open"
+                                                :key="event.jumlah_alokasi_pengambilan_gas"
                                             >
-                                                <v-toolbar
-                                                    color="primary"
-                                                    dark
-                                                >
-                                                    <v-btn icon>
-                                                    <v-icon>edit</v-icon>
-                                                    </v-btn>
-                                                    <v-toolbar-title v-html="event.title"></v-toolbar-title>
-                                                    <v-spacer></v-spacer>
-                                                    <v-btn icon>
-                                                    <v-icon>favorite</v-icon>
-                                                    </v-btn>
-                                                    <v-btn icon>
-                                                    <v-icon>more_vert</v-icon>
-                                                    </v-btn>
-                                                </v-toolbar>
-                                                <v-card-title primary-title>
-                                                    <span v-html="event.details"></span>
-                                                </v-card-title>
-                                                <v-card-actions>
-                                                    <v-btn
+                                                <template v-slot:activator="{ on }">
+                                                    <div
+                                                        v-ripple
+                                                        v-on="on"
+                                                        class="my-event-reguler"
+                                                        v-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Reguler'"
+                                                        style="width: 92.5%; text-align:left; padding-left:5px"
+                                                        v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
+                                                    />
+                                                    
+                                                    <div
+                                                        v-ripple
+                                                        v-on="on"
+                                                        class="my-event-fakultatif"
+                                                        v-else-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Fakultatif'"
+                                                        style="width: 92.5%; text-align:left; padding-left:5px"
+                                                        v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
+                                                    />
+                                                </template>
+
+                                                <v-card
                                                     flat
-                                                    color="secondary"
+                                                    min-height="140px"
+                                                    color="grey lighten-4"
+                                                >
+                                                    <v-toolbar
+                                                        dark
+                                                        color="#196b4d"
+                                                        style="height:55px;margin-top:-11.5px"
                                                     >
-                                                    Cancel
-                                                    </v-btn>
-                                                </v-card-actions>
-                                            </v-card>
-                                        </v-menu>
+                                                        <v-tooltip left>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn
+                                                                    icon
+                                                                    v-on="on"
+                                                                    v-bind="attrs"
+                                                                    style="height:30px"
+                                                                    @click="editHandler(event)"
+                                                                >
+                                                                    <v-icon small>mdi-pencil</v-icon>
+                                                                </v-btn>
+                                                            </template>
+
+                                                            <span>Ubah</span>
+                                                        </v-tooltip>
+
+                                                        <v-toolbar-title style="font-size: 17.5px; margin-top:2.5px" small>
+                                                            <strong>Detail</strong>
+                                                        </v-toolbar-title>
+
+                                                        <v-spacer />
+
+                                                        <v-tooltip right>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn
+                                                                    icon
+                                                                    v-on="on"
+                                                                    v-bind="attrs"
+                                                                    style="height:30px"
+                                                                >
+                                                                    <v-icon @click="close()" small>mdi-close</v-icon>
+                                                                </v-btn>
+                                                            </template>
+
+                                                            <span>Tutup</span>
+                                                        </v-tooltip>
+                                                    </v-toolbar>
+
+                                                    <v-container class="grey lighten-5">
+                                                        <v-row no-gutters>
+                                                            <v-col
+                                                                md="4"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <strong style="margin-left:5px">Tanggal</strong>
+                                                                </v-card>
+                                                            </v-col>
+
+                                                            <v-col
+                                                                sm="6"
+                                                                md="8"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <span style="margin-left:5px">{{ event.tanggal_pengambilan_gas }}</span>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+
+                                                        <v-row no-gutters>
+                                                            <v-col
+                                                                md="4"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <strong style="margin-left:5px">Jenis</strong>
+                                                                </v-card>
+                                                            </v-col>
+
+                                                            <v-col
+                                                                sm="6"
+                                                                md="8"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <span style="margin-left:5px">{{ event.jenis_alokasi_pengambilan_gas }}</span>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+
+                                                        <v-row no-gutters>
+                                                            <v-col
+                                                                md="4"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <strong style="margin-left:5px">Jumlah</strong>
+                                                                </v-card>
+                                                            </v-col>
+
+                                                            <v-col
+                                                                sm="6"
+                                                                md="8"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <span style="margin-left:5px">{{ event.jumlah_alokasi_pengambilan_gas }} Tabung</span>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+
+                                                        <v-row no-gutters>
+                                                            <v-col
+                                                                md="4"
+                                                                cols="6"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <strong style="margin-left:5px">SPPBE</strong>
+                                                                </v-card>
+                                                            </v-col>
+
+                                                            <v-col
+                                                                sm="6"
+                                                                md="8"
+                                                                cols="6"
+                                                                style="text-align:left;"
+                                                            >
+                                                                <v-card
+                                                                    tile
+                                                                    outlined
+                                                                    class="pa-2"
+                                                                >
+                                                                    <span style="margin-left:5px">{{ event.nama_sppbe }}</span>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+                                                    </v-container>
+                                                </v-card>
+                                            </v-menu>
+                                        </template>
                                     </template>
-                                </template> -->
-                                
-                            </v-calendar>
-                        </v-sheet>
-                    </v-flex>
-            
-                    
-                </v-layout>
+                                </v-calendar>
+                            </v-sheet>
+                        </div>
+                    </v-col>
+                </v-row>
             </v-app>
         </div>
 
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                 <v-card-title>
-                <!-- <v-spacer></v-spacer> -->
-                <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
-                <v-spacer></v-spacer>
-                <v-icon @click="close()" link>mdi-close</v-icon>
+                    <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
+                    <v-spacer />
+                    <v-icon @click="close()" link>mdi-close</v-icon>
                 </v-card-title>
             </v-card>
+
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
                 <v-card-text>
-                <v-container style="padding-left: 5px; padding-right: 5px">
-                    <v-text-field
-                        :rules="tanggalRules"
-                        type="date"
-                        v-model="form.tanggal_pengambilan_gas"
-                        label="Tanggal Pengambilan Gas"
-                        disabled
-                    ></v-text-field>
-                    <v-text-field
-                        :rules="alokasiRules"
-                        type="number"
-                        v-model="form.alokasi_reguler_pengambilan_gas"
-                        label="Alokasi Reguler"
-                    ></v-text-field>
-                    <v-text-field
-                        :rules="alokasiRules"
-                        type="number"
-                        v-model="form.alokasi_fakultatif_pengambilan_gas"
-                        label="Alokasi Fakultatif"
-                    ></v-text-field>
-                    <v-select
-                        :rules="SPPBERules"
-                        v-model="form.id_sppbe"
-                        :items="sppbe"
-                        item-text="nama_SPPBE"
-                        item-value="id_SPPBE"
-                        label="SPPBE"
-                        required
-                    ></v-select>
-                    
-                    <v-spacer></v-spacer>
-                    <v-btn v-if="this.inputType!='Tambah'" small color="error" dark style="float:right; margin-left:2%; margin-top: 3%;" @click="deleteHandler(editId)">Hapus</v-btn>
-                    <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
-                    <v-spacer></v-spacer>
-                </v-container>
+                    <v-container style="padding-left: 5px; padding-right: 5px">
+                        <v-text-field
+                            disabled
+                            type="date"
+                            :rules="tanggalRules"
+                            label="Tanggal Pengambilan Gas"
+                            v-model="form.tanggal_pengambilan_gas"
+                        />
+
+                        <v-select
+                            required
+                            :rules="jenisRules"
+                            label="Jenis Alokasi"
+                            item-text="nama_jenis"
+                            :items="jenis_alokasi"
+                            item-value="nama_jenis"
+                            v-model="form.jenis_alokasi_pengambilan_gas"
+                        />
+
+                        <v-text-field
+                            type="number"
+                            :rules="alokasiRules"
+                            label="Jumlah Alokasi"
+                            v-model="form.jumlah_alokasi_pengambilan_gas"
+                        />
+
+                        <v-select
+                            required
+                            label="SPPBE"
+                            :items="sppbe"
+                            :rules="SPPBERules"
+                            item-value="id_sppbe"
+                            item-text="nama_sppbe"
+                            v-model="form.SPPBEid_sppbe"
+                        />
+
+                        <v-spacer />
+                        <v-btn v-if="this.inputType!='Tambah'" small color="error" dark style="float:right; margin-left:2%; margin-top: 3%;" @click="deleteHandler(editId)">Hapus</v-btn>
+                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
+                        <v-spacer />
+                    </v-container>
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -378,406 +341,352 @@
         <v-dialog v-model="dialogConfirm" persistent max-width="400px">
             <v-card>
                 <v-card-title>
-                <span class="headline"></span>
+                    <span class="headline" />
                 </v-card-title>
+
                 <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
-                
-                <v-spacer></v-spacer>
+
+                <v-spacer />
                 <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
                 <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-                <v-card-text></v-card-text>
             </v-card>
         </v-dialog>
 
-        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom
-            >{{ error_message }}
-        </v-snackbar>
+        <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+        <v-overlay :value="overlay">
+            <v-progress-circular indeterminate size="64" />
+        </v-overlay>
     </v-main>
 </template>
 
 <script>
-export default {
-    name: "KalenderAlokasiPengambilanGasPage",
-    watch: {
-        $route: {
-            immediate: true,
-            handler() {
-                document.title = "Kalender Alokasi Pengambilan Gas";
+    export default {
+        name: "KalenderAlokasiPengambilanGasPage",
+        
+        watch: {
+            $route: {
+                immediate: true,
+                handler() {
+                    document.title = "Kalender Alokasi Pengambilan Gas";
+                },
             },
         },
-    },
-    data() {
-        return{
-            isWideScreen: window.innerWidth >= 1000,
-            isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
-            inputType: "Tambah",
-            tempTitle: "",
-            type: 'month',
-            dialog: false,
-            dialogConfirm: false,
-            start: new Date().toISOString().slice(0, 10),
-            items: [
-                { 
-                    text: "Dashboard",
-                    disabled: false,
-                    href: '/dashboard-page',
+
+        data() {
+            return{
+                color: "",
+                type: 'month',
+                dialog: false,
+                snackbar: false,
+                overlay: false,
+                error_message: "",
+                inputType: "Tambah",
+                dialogConfirm: false,
+                isWideScreen: window.innerWidth >= 1000,
+                start: new Date().toLocaleDateString("sv-se").split('T')[0],
+                isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+                items: [
+                    { 
+                        text: "Dashboard",
+                        disabled: false,
+                        href: '/dashboard-page',
+                    },
+                    { 
+                        text: "Alokasi Pengambilan Gas",
+                        disabled: false,
+                        href: '/alokasi-pengambilan-gas-page',
+                    },
+                    { 
+                        text: "Alokasi Pengambilan Gas",
+                        disabled: true,
+                        href: '/kalender-alokasi-pengambilan-gas-page',
+                    },
+                ],
+                alokasi_pengambilan_gas: new FormData(),
+                form: {
+                    nama_sppbe: null,
+                    SPPBEid_sppbe: null,
+                    tanggal_pengambilan_gas: null,
+                    id_alokasi_pengambilan_gas: null,
+                    jenis_alokasi_pengambilan_gas: null,
+                    jumlah_alokasi_pengambilan_gas: null,
                 },
-                // { 
-                //     text: "Alokasi Pengambilan Gas",
-                //     disabled: false,
-                //     href: '/alokasi-pengambilan-gas-page',
-                // },
-                { 
-                    text: "Alokasi Pengambilan Gas",
-                    disabled: true,
-                    href: '/kalender-alokasi-pengambilan-gas-page',
+                sppbe: [],
+                deleteId: "",
+                editId: "",
+                form_event: {
+                    nama_sppbe: null,
+                    SPPBEid_sppbe: null,
+                    tanggal_pengambilan_gas: null,
+                    id_alokasi_pengambilan_gas: null,
+                    jenis_alokasi_pengambilan_gas: null,
+                    jumlah_alokasi_pengambilan_gas: null,
                 },
-            ],
-            form: {
-                id_alokasi_pengambilan_gas: null,
-                tanggal_pengambilan_gas: null,
-                id_sppbe: null,
-                nama_sppbe: null,
-                jumlah_alokasi_pengambilan_gas: null,
-                alokasi_reguler_pengambilan_gas: null,
-                alokasi_fakultatif_pengambilan_gas: null,
+                events: [],
+                jenis_alokasi: [
+                    { id: 1, nama_jenis: 'Reguler' },
+                    { id: 2, nama_jenis: 'Fakultatif' },
+                ],
+                SPPBERules: [(v) => !!v || "SPPBE is Required"],
+                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
+                jenisRules: [(v) => !!v || "Jenis Alokasi is Required"],
+                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
+            }
+        },
+        
+        computed: {
+            // convert the list of events into a map of lists keyed by date
+            eventsMap () {
+                const map = {}
+                this.events.forEach(e => (map[e.tanggal_pengambilan_gas] = map[e.tanggal_pengambilan_gas] || []).push(e))
+                return map
             },
-            form_sppbe: {
-                id_sppbe: null,
-                nama_sppbe: null,
+
+            formTitle() {
+                return this.inputType;
             },
-            sppbe: [],
-            deleteId: "",
-            editId: "",
-            form_event: {
-                id_alokasi_pengambilan_gas: null,
-                tanggal_pengambilan_gas: null,
-                alokasi_reguler_pengambilan_gas: null,
-                alokasi_fakultatif_pengambilan_gas: null,
-                id_sppbe: null,
-                nama_sppbe: null,
-            },
-            events: [
+        },
+
+        methods: {
+            setForm() {
+                if (this.inputType !== "Tambah") 
                 {
-                    id_alokasi_pengambilan_gas: 1,
-                    jumlah_alokasi_pengambilan_gas: 1840,
-                    alokasi_reguler_pengambilan_gas: 1280,
-                    alokasi_fakultatif_pengambilan_gas: 560,
-                    nama_sppbe: 'Going to the beach!',
-                    tanggal_pengambilan_gas: new Date().toISOString().slice(0, 10),
-                },
-            ],
-            // jumlahAlokasi: [
-            //     {
-            //         alokasi: 360,
-            //     },
-            //     {
-            //         alokasi: 560,
-            //     }
-            // ],
-            events2: [
+                    this.update();
+                } 
+                else 
                 {
-                title: 'Vacation',
-                details: 'Going to the beach!',
-                date: '2023-08-28',
-                open: false
-                },
-                {
-                title: 'Vacation',
-                details: 'Going to the beach!',
-                date: '2023-08-29',
-                open: false
-                },
-                {
-                title: 'Vacation',
-                details: 'Going to the beach!',
-                date: '2023-08-30',
-                open: false
-                },
-                {
-                title: 'Meeting',
-                details: 'Spending time on how we do not have enough time',
-                date: '2023-08-31',
-                open: false
-                },
-                {
-                title: '30th Birthday',
-                details: 'Celebrate responsibly',
-                date: '2023-08-30',
-                open: false
-                },
-                {
-                title: 'New Year',
-                details: 'Eat chocolate until you pass out',
-                date: '2023-08-25',
-                open: false
-                },
-                {
-                title: 'Conference',
-                details: 'Mute myself the whole time and wonder why I am on this call',
-                date: '2023-08-20',
-                open: false
-                },
-                {
-                title: 'Hackathon',
-                details: 'Code like there is no tommorrow',
-                date: '2023-08-30',
-                open: false
+                    this.save();
                 }
-            ]
-        }
-    },
-    computed: {
-      // convert the list of events into a map of lists keyed by date
-      eventsMap2 () {
-        const map = {}
-        this.events.forEach(e => (map[e.date] = map[e.date] || []).push(e))
-        return map
-      },
-      eventsMap () {
-        const map = {}
-        this.events.forEach(e => (map[e.tanggal_pengambilan_gas] = map[e.tanggal_pengambilan_gas] || []).push(e))
-        return map
-      },
-      formTitle() {
-        return this.inputType;
-      },
-    },
-    methods: {
-      open (event) {
-        alert(event.title)
-      },
-      viewDay ({ date }) {
-        var temp = this.searchDate(date);
-        if(temp == 0)
-        {
-            this.dialog=true;
-            this.form.tanggal_pengambilan_gas = date;
-        }
+            },
 
-      },
-      searchDate(date) {
-        for (let i = 0; i < this.events.length; i++) {
-            if(date == this.events[i].tanggal_pengambilan_gas) {
-                return 1;
-            }
-        }
-        return 0;
-        // if(date === this.events[0].tanggal_pengambilan_gas)
-        //     return 1;
-        // else
-        //     return 0;
-      },
-      readEvent() {
-        var url = this.$api + "/alokasiPengambilanGasRead/";
-        this.$http.get(url).then((response) => {
-            // this.role = response.data.data;
-            let temp = response.data.data;
-            this.form_event.id_alokasi_pengambilan_gas = temp.map((v) => v.id_alokasi_pengambilan_gas);
-            this.form_event.tanggal_pengambilan_gas = temp.map((v) => v.tanggal_pengambilan_gas);
-            this.form_event.alokasi_reguler_pengambilan_gas = temp.map((v) => v.alokasi_reguler_pengambilan_gas);
-            this.form_event.alokasi_fakultatif_pengambilan_gas = temp.map((v) => v.alokasi_fakultatif_pengambilan_gas);
-            this.form_event.nama_sppbe = temp.map((v) => v.nama_sppbe);
-            this.form_event.id_sppbe = temp.map((v) => v.id_sppbe);
-            for (let i = 0; i < this.form_event.nama_event.length; i++) {
-                this.events.push({
-                    id_alokasi_pengambilan_gas: this.form_event.id_alokasi_pengambilan_gas[i],
-                    tanggal_pengambilan_gas: this.form_event.tanggal_pengambilan_gas[i],
-                    alokasi_reguler_pengambilan_gas: this.form_event.alokasi_reguler_pengambilan_gas[i],
-                    alokasi_fakultatif_pengambilan_gas: this.form_event.alokasi_fakultatif_pengambilan_gas[i],
-                    jumlah_alokasi_pengambilan_gas: this.form_event.alokasi_reguler_pengambilan_gas[i] + this.form_event.alokasi_fakultatif_pengambilan_gas[i],
-                    nama_sppbe: this.form_event.nama_sppbe[i],
-                    id_sppbe: this.form_event.id_sppbe[i],
+            open (event) {
+                alert(event.title)
+            },
+
+            viewDay ({ date }) {
+                this.dialog=true;
+                this.form.tanggal_pengambilan_gas = date;
+            },
+
+            readEvent() {
+                this.overlay = true;
+
+                var url = this.$api + "/alokasiPengambilanGas/getAll";
+                this.$http.get(url)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            let temp = response.data.data;
+
+                            for (let i = 0; i < temp.length; i++) 
+                            {
+                                this.events.push({
+                                    SPPBEid_sppbe: parseInt(temp[i].SPPBEid_sppbe),
+                                    nama_sppbe: temp[i].nama_sppbe,
+                                    id_alokasi_pengambilan_gas: parseInt(temp[i].id_alokasi_pengambilan_gas),
+                                    jumlah_alokasi_pengambilan_gas: temp[i].jumlah_alokasi_pengambilan_gas,
+                                    jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                    tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
+                                })
+                            }
+
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = error.response.data.message;
+                    });
+            },
+
+            readSPPBE() {
+                var url = this.$api + "/sppbe/getAll";
+                this.$http.get(url)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.sppbe = response.data.data;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = error.response.data.message;
+                    });
+            },
+
+            save() {
+                this.alokasi_pengambilan_gas.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
+                this.alokasi_pengambilan_gas.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
+                this.alokasi_pengambilan_gas.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
+                this.alokasi_pengambilan_gas.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
+
+                var url = this.$api + "/alokasiPengambilanGas/create";
+                this.$http.post(url, this.alokasi_pengambilan_gas)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.close();
+                        this.readEvent();
+                        this.resetForm();
+                        this.color = "green";
+                        this.snackbar = true;
+                        this.inputType = "Tambah";
+                        this.error_message = response.data.message;
+                        location.reload();
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.error_message = response.data.message;
+                    }
                 })
-            }
-        });
-      },
-      readSPPBE() {
-        var url = this.$api + "/sppbeRead";
-        this.$http.get(url).then((response) => {
-            // this.role = response.data.data;
-            let temp = response.data.data;
-            this.form_sppbe.id_sppbe = temp.map((v) => v.id_sppbe);
-            this.form_sppbe.nama_sppbe = temp.map((v) => v.nama_sppbe);
-            for (let i = 0; i < this.form_sppbe.nama_sppbe.length; i++) {
-            this.sppbe.id_sppbe.push(this.form_sppbe.id_sppbe[i]);
-            this.sppbe.nama_sppbe.push(this.form_sppbe.nama_sppbe[i]);
-            }
-        });
-      },
-      save() {
-      this.alokasi.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
-      this.alokasi.append("id_sppbe", this.id_sppbe);
-      this.alokasi.append("alokasi_reguler_pengambilan_gas", this.form.alokasi_reguler_pengambilan_gas);
-      this.alokasi.append("alokasi_fakultatif_pengambilan_gas", this.form.alokasi_fakultatif_pengambilan_gas);
+                .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.error_message = error.response.data.message;
+                });
+            },
 
-      var url = this.$api + "/alokasi/";
-      this.load = true;
-      this.$http
-        .post(url, this.alokasi, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = true;
-          this.close();
-          this.updateTemp();
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
-    },
-    updateTemp() {
-      var url = this.$api + "/alokasiTemp";
-      this.load = true;
-      this.$http
-        .put(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = true;
-          this.readDataRemove();
-          this.resetForm();
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
-    },
-    //ubah data alokasi
-    update() {
-      let newData = {
-        id_sppbe: this.form.id_sppbe,
-        tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
-        alokasi_reguler_pengambilan_gas: this.form.alokasi_reguler_pengambilan_gas,
-        alokasi_fakultatif_pengambilan_gas: this.form.alokasi_fakultatif_pengambilan_gas,
-      };
+            //ubah data alokasi
+            update() {
+                let newData = {
+                    SPPBEid_sppbe: this.form.SPPBEid_sppbe,
+                    tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
+                    jenis_alokasi_pengambilan_gas: this.form.jenis_alokasi_pengambilan_gas,
+                    jumlah_alokasi_pengambilan_gas: this.form.jumlah_alokasi_pengambilan_gas,
+                };
 
-      var url = this.$api + "/alokasi/" + this.editId;
-      this.load = true;
-      this.$http
-        .put(url, newData, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = false;
-          this.close();
-          this.readDataRemove();
-          this.resetForm();
-          this.inputType = "Tambah";
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
-    },
+                var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
+                this.$http.put(url, newData)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.close();
+                            this.readEvent();
+                            this.resetForm();
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.inputType = "Tambah";
+                            this.error_message = response.data.message;
+                            location.reload();
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.error_message = error.response.data.message;
+                    });
+            },
 
-    //non aktif data alokasi
-    deleteData() {
-      var url = this.$api + "/alokasiDelete/" + this.deleteId;
-      this.load = true;
-      this.$http
-        .put(url, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((response) => {
-          this.error_message = response.data.message;
-          this.color = "green";
-          this.snackbar = true;
-          this.load = false;
-          this.close();
-          this.readDataRemove();
-          this.resetForm();
-          this.inputType = "Tambah";
-        })
-        .catch((error) => {
-          this.error_message = error.response.data.message;
-          this.color = "red";
-          this.snackbar = true;
-          this.load = false;
-        });
-    },
-      editHandler(item) {
-        this.inputType = "Edit";
-        this.editId = item.id_alokasi_pengambilan_gas;
-        this.form.tanggal_pengambilan_gas = item.tanggal_pengambilan_gas;
-        this.form.id_sppbe = item.id_sppbe,
-        this.form.nama_sppbe = item.nama_sppbe,
-        this.form.alokasi_reguler_pengambilan_gas = item.alokasi_reguler_pengambilan_gas,
-        this.form.alokasi_fakultatif_pengambilan_gas = item.alokasi_fakultatif_pengambilan_gas,
-        this.dialog = true;
-    },
-    deleteHandler(id) {
-    //   if(this.searchDate(this.form.tanggal_pengambilan_gas)!=1)
-    //   {
-    //     this.deleteId = id;
-    //     this.dialogConfirm = true;
-    //   }
-    this.deleteId = id;
-    this.dialogConfirm = true;
-    },
-      close() {
-        this.inputType = "Tambah";
-        this.dialog = false;
-        this.dialogConfirm = false;
-        this.resetForm();
-        this.readDataRemove();
-        location.reload(true);
-    },
-      resetForm() {
-      this.form = {
-        id_alokasi_pengambilan_gas: null,
-        tanggal_pengambilan_gas: null,
-        id_sppbe: null,
-        nama_sppbe: null,
-        jumlah_alokasi_pengambilan_gas: null,
-        alokasi_reguler_pengambilan_gas: null,
-        alokasi_fakultatif_pengambilan_gas: null,
-      };
-    },
-    },
-    mounted() {
-    this.$refs.calendar.checkChange()
-    localStorage.setItem("menu", "Kalender Alokasi Pengambilan Gas");
-    if (localStorage.getItem("reloaded")) {
-      // The page was just reloaded. Clear the value from local storage
-      // so that it will reload the next time this page is visited.
-      localStorage.removeItem("reloaded");
-    } else {
-      // Set a flag so that we know not to reload the page twice.
-      localStorage.setItem("reloaded", "1");
-      location.reload();
+            //non aktif data alokasi
+            deleteData() {
+                var url = this.$api + "/alokasiPengambilanGas/delete/" + this.deleteId;
+                this.load = true;
+                this.$http.delete(url)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.close();
+                            this.readEvent();
+                            this.resetForm();
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.inputType = "Tambah";
+                            this.error_message = response.data.message;
+                            location.reload();
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.error_message = error.response.data.message;
+                    });
+            },
+
+            editHandler(item) {
+                this.readSPPBE();
+                this.inputType = "Edit";
+                this.editId = item.id_alokasi_pengambilan_gas;
+                this.form.nama_sppbe = item.nama_sppbe;
+                this.form.SPPBEid_sppbe = item.SPPBEid_sppbe;
+                this.form.tanggal_pengambilan_gas = item.tanggal_pengambilan_gas;
+                this.form.id_alokasi_pengambilan_gas = item.id_alokasi_pengambilan_gas;
+                this.form.jenis_alokasi_pengambilan_gas = item.jenis_alokasi_pengambilan_gas;
+                this.form.jumlah_alokasi_pengambilan_gas = item.jumlah_alokasi_pengambilan_gas;
+                this.dialog = true;
+            },
+
+            deleteHandler(id) {
+                this.deleteId = id;
+                this.dialogConfirm = true;
+            },
+
+            close() {
+                this.resetForm();
+                this.sppbe = [];
+                this.dialog = false;
+                this.inputType = "Tambah";
+                // location.reload();
+            },
+
+            resetForm() {
+                this.form = {
+                    nama_sppbe: null,
+                    SPPBEid_sppbe: null,
+                    tanggal_pengambilan_gas: null,
+                    id_alokasi_pengambilan_gas: null,
+                    jenis_alokasi_pengambilan_gas: null,
+                    jumlah_alokasi_pengambilan_gas: null,
+                };
+            },
+        },
+
+        mounted() {
+            this.$refs.calendar.checkChange()
+            this.readSPPBE();
+            this.readEvent();
+            localStorage.setItem("menu", "Kalender Alokasi Pengambilan Gas");
+        },
     }
-    
-  },
-}
 </script>
 
 <style>
-    .my-event {
+    .my-event-reguler {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -786,15 +695,33 @@ export default {
         color: #ffffff;
         border: 1px solid #673AB7;
         width: 100%;
-        font-size: 11px;
+        font-size: 12px;
         padding: 0px;
         cursor: pointer;
-        margin-bottom: 1px;
-        margin-top: 3px;
+        margin-bottom: 2px;
+        margin-top: 4px;
     }
+
+    .my-event-fakultatif {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-radius: 3px;
+        background-color: #b73a42;
+        color: #ffffff;
+        border: 1px solid #b73a42;
+        width: 100%;
+        font-size: 12px;
+        padding: 0px;
+        cursor: pointer;
+        margin-bottom: 2px;
+        margin-top: 4px;
+    }
+
     .v-application--is-ltr .v-toolbar__content>.v-btn.v-btn--icon:first-child+.v-toolbar__title{
         padding: 0px
     }
+
     .v-application .pa-2 {
         padding: 0px !important;
     }
