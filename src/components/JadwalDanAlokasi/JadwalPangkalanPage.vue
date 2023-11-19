@@ -12,7 +12,7 @@
         small
         color="primary"
         dark
-        @click="dialog = true"
+        @click="addHandler"
         style="float:right; margin-right:10px"
       >
         Tambah
@@ -25,7 +25,7 @@
         small
         color="primary"
         dark
-        @click="dialog = true"
+        @click="addHandler"
         style="float:right; margin-right:10px"
       >
         Tambah
@@ -38,7 +38,7 @@
         small
         color="primary"
         dark
-        @click="dialog = true"
+        @click="addHandler"
         style="float:right; margin-right:10px"
       >
         Tambah
@@ -63,7 +63,6 @@
             <v-simple-table
               fixed-header
               height="300px"
-              style="margin-top: -13.5px"
             >
               <template v-slot:default>
                 <thead>
@@ -174,6 +173,10 @@
     </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </v-main>
 </template>
 
@@ -192,154 +195,46 @@
 
     data() {
       return {
-        todayDate : new Date().toISOString().slice(0, 10),
-        inputType: "Tambah",
-        load: false,
-        snackbar: false,
-        error_message: "",
         color: "",
         search: null,
         dialog: false,
+        overlay: false,
+        snackbar: false,
+        error_message: "",
+        inputType: "Tambah",
         dialogConfirm: false,
-        temp: 0,
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
-          { 
-            text: "Dashboard",
-            disabled: false,
-            href: '/dashboard-page',
-          },
-          { 
-            text: "Jadwal Rutin Pangkalan",
-            disabled: true,
-            href: '/jadwal-rutin-pangkalan-page',
-          },
+          { text: "Dashboard", disabled: false, href: '/dashboard-page' },
+          { text: "Jadwal Rutin Pangkalan", disabled: true, href: '/jadwal-rutin-pangkalan-page' },
         ],
         hari: [
-          {
-            day: "Senin"
-          },
-          {
-            day: "Selasa"
-          },
-          {
-            day: "Rabu"
-          },
-          {
-            day: "Kamis"
-          },
-          {
-            day: "Jumat"
-          },
-          {
-            day: "Sabtu"
-          },
+          { id: 1, day: "Senin", style: { 'background-color': 'red' } }, 
+          { id: 2, day: "Selasa", style: { 'background-color': 'orange' } }, 
+          { id: 3, day: "Rabu", style: { 'background-color': 'green' } },
+          { id: 4, day: "Kamis", style: { 'background-color': '#00AFFF' } }, 
+          { id: 5, day: "Jumat" , style: { 'background-color': '#6f00ff' } }, 
+          { id: 6, day: "Sabtu", style: { 'background-color': 'purple' } },
         ],
-        jadwaltemp : [
-          {
-            id_jadwal_rutin_pangkalan: 1,
-            hari_penerimaan_gas: 'Senin',
-            alokasi_penerimaan_gas: 20,
-            id_pangkalan: 1,
-            nama_pangkalan: 'A',
-            grup_pangkalan: 1
-          }, 
-          {
-            id_jadwal_rutin_pangkalan: 2,
-            hari_penerimaan_gas: 'Senin',
-            alokasi_penerimaan_gas: 22,
-            id_pangkalan: 2,
-            nama_pangkalan: 'B',
-            grup_pangkalan: 1
-          }, 
-          {
-            id_jadwal_rutin_pangkalan: 3,
-            hari_penerimaan_gas: 'Selasa',
-            alokasi_penerimaan_gas: 25,
-            id_pangkalan: 3,
-            nama_pangkalan: 'C',
-            grup_pangkalan: 2
-          }, 
-          {
-            id_jadwal_rutin_pangkalan: 4,
-            hari_penerimaan_gas: 'Rabu',
-            alokasi_penerimaan_gas: 20,
-            id_pangkalan: 4,
-            nama_pangkalan: 'D',
-            grup_pangkalan: 3
-          }, 
-          {
-            id_jadwal_rutin_pangkalan: 5,
-            hari_penerimaan_gas: 'Rabu',
-            alokasi_penerimaan_gas: 15,
-            id_pangkalan: 5,
-            nama_pangkalan: 'E',
-            grup_pangkalan: 3
-          }, 
-          {
-            id_jadwal_rutin_pangkalan: 6,
-            hari_penerimaan_gas: 'Kamis',
-            alokasi_penerimaan_gas: 18,
-            id_pangkalan: 6,
-            nama_pangkalan: 'F',
-            grup_pangkalan: 4
-          }, 
-        ],
-        menus: [{ title: "Check" }, { title: "Edit" }, { title: "Delete" }],
+        jadwaltemp : [],
         jadwal: new FormData(),
-        jadwals: [],
         form: {
-          id_jadwal_rutin_pangkalan: null,
-          hari_penerimaan_gas: null,
-          id_pangkalan: null,
           nama_pangkalan: null,
-          alokasi_penerimaan_gas: null,
           grup_pangkalan: null,
-        },
-        form_pangkalan: {
-          id_pangkalan: null,
-          nama_pangkalan: null,
+          hari_penerimaan_gas: null,
+          Pangkalanid_pangkalan: null,
+          alokasi_penerimaan_gas: null,
+          id_jadwal_rutin_pangkalan: null,
         },
         pangkalan: [],
         grupPangkalan: [],
-        form_driver: {
-          id_driver: null,
-          nama_driver: null,
-        },
-        driver: [
-          {
-            id: 1,
-          },
-          {
-            id: 2,
-          },
-          {
-            id: 3,
-          },
-          {
-            id: 4,
-          },
-          {
-            id: 5,
-          },
-          {
-            id: 6,
-          },
-        ],
         deleteId: "",
         editId: "",
-        roleRules: [(v) => !!v || "Role is Required"],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
-        emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
-        ],
-        telpRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
-        ],
+        hariRules: [(v) => !!v || "Hari Penerimaan is Required"],
+        grupRules: [(v) => !!v || "Grup Pangkalan is Required"],
+        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
+        pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
       };
     },
 
@@ -368,76 +263,86 @@
         return jadwalPerHari;
       },
 
-      hitungJumlahDriver(){
-        let jumlahDriver;
-        var url = this.$api + "/";
-        this.$http.get(url).then((response) => {
-          // this.role = response.data.data;
-          jumlahDriver = response.data.data.jumlah_driver;
-        });
-
-        this.convertGrupPangkalan(jumlahDriver)
-      },
-
       convertGrupPangkalan(jumlahDriver)
       {
         for(let i = 0; i < jumlahDriver; i++)
         {
           this.grupPangkalan.push({nomor: i+1,});
-          console.log("convert grup: ", this.grupPangkalan[i].nomor);
         }
       },
 
       readData() {
-        var url = this.$api + "/jadwalRutinPangkalanRead";
+        this.overlay = true;
+        var url = this.$api + "/jadwalRutinPangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
-            this.jadwals = response.data.data;
-          });
-      },
-
-      readDataRemove() {
-        var url = this.$api + "/jadwalRutinPangkalanRemove";
-        this.$http.get(url)
-          .then((response) => {
-            this.jadwalsR = response.data.data;
+            if(response.data.code === 200)
+            {
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.jadwaltemp = response.data.data;
+              this.error_message = response.data.message;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       readPangkalan() {
-        var url = this.$api + "/pangkalanRead";
+        var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
-            let temp = response.data.data;
-            this.form_pangkalan.id_pangkalan = temp.map((v) => v.id_pangkalan);
-            this.form_pangkalan.nama_pangkalan = temp.map((v) => v.nama_pangkalan);
-            
-            for (let i = 0; i < this.form_pangkalan.length; i++) 
+            if(response.data.code === 200)
             {
-              this.pangkalan.push(this.form_pangkalan[i]);
+              this.pangkalan = response.data.data;
             }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
           });
       },
 
       save() {
+        this.jadwal.append("grup_pangkalan", this.form.grup_pangkalan);
+        this.jadwal.append("Pangkalanid_pangkalan", this.Pangkalanid_pangkalan);
         this.jadwal.append("hari_penerimaan_gas", this.form.hari_penerimaan_gas);
-        this.jadwal.append("id_pangkalan", this.id_pangkalan);
         this.jadwal.append("alokasi_penerimaan_gas", this.form.alokasi_penerimaan_gas);
 
-        var url = this.$api + "/jadwaRutinPangkalan/";
-        this.load = true;
+        var url = this.$api + "/jadwalRutinPangkalan/create";
         this.$http.post(url, this.jadwal)
           .then((response) => {
             this.error_message = response.data.message;
             this.color = "green";
             this.snackbar = true;
             this.load = true;
-            this.close();
+            this.cancel();
           })
           .catch((error) => {
             this.error_message = error.response.data.message;
-            this.color = "red";
             this.snackbar = true;
+            this.color = "red";
             this.load = false;
           });
       },
@@ -445,64 +350,64 @@
       //ubah data jadwal
       update() {
         let newData = {
-          id_pangkalan: this.form.id_pangkalan,
+          Pangkalanid_pangkalan: this.form.Pangkalanid_pangkalan,
           hari_penerimaan_gas: this.form.hari_penerimaan_gas,
           alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
         };
 
-        var url = this.$api + "/jadwalRutinPangkalan/" + this.editId;
-        this.load = true;
+        var url = this.$api + "/jadwalRutinPangkalan/update/" + this.editId;
         this.$http.put(url, newData)
           .then((response) => {
-            this.error_message = response.data.message;
+            this.cancel();
+            this.resetForm();
             this.color = "green";
             this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
             this.inputType = "Tambah";
+            this.error_message = response.data.message;
           })
           .catch((error) => {
             this.error_message = error.response.data.message;
-            this.color = "red";
             this.snackbar = true;
+            this.color = "red";
             this.load = false;
           });
       },
 
       //non aktif data jadwal
       deleteData() {
-        var url = this.$api + "/jadwalRutinPangkalanDelete/" + this.deleteId;
-        this.load = true;
-        this.$http.put(url)
+        var url = this.$api + "/jadwalRutinPangkalan/delete/" + this.deleteId;
+        this.$http.delete(url)
           .then((response) => {
-            this.error_message = response.data.message;
+            this.cancel();
+            this.resetForm();
             this.color = "green";
             this.snackbar = true;
-            this.load = false;
-            this.close();
-            this.readDataRemove();
-            this.resetForm();
             this.inputType = "Tambah";
+            this.error_message = response.data.message;
           })
           .catch((error) => {
             this.error_message = error.response.data.message;
-            this.color = "red";
             this.snackbar = true;
+            this.color = "red";
             this.load = false;
           });
       },
+
+      addHandler(){
+        this.dialog = true;
+        this.readPangkalan();
+      },
       
       editHandler(item) {
-        this.inputType = "Edit";
-        this.editId = item.id_jadwal_rutin_pangkalan;
-        this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
-        this.form.id_pangkalan = item.id_pangkalan,
-        this.form.nama_pangkalan = item.nama_pangkalan,
-        this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas,
-        this.form.grup_pangkalan = item.grup_pangkalan,
         this.dialog = true;
+        this.readPangkalan();
+        this.inputType = "Edit";
+        this.form.Pangkalanid_pangkalan = item.Pangkalanid_pangkalan;
+        this.editId = item.id_jadwal_rutin_pangkalan;
+        this.form.grup_pangkalan = item.grup_pangkalan;
+        this.form.nama_pangkalan = item.nama_pangkalan;
+        this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
+        this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
       },
 
       deleteHandler(id) {
@@ -510,28 +415,22 @@
         this.dialogConfirm = true;
       },
 
-      close() {
-        this.dialog = false;
-        this.inputType = "Tambah";
-        this.dialogConfirm = false;
-        this.readDataRemove();
-      },
-
       cancel() {
         this.resetForm();
+        // location.reload();
         this.dialog = false;
-        this.dialogConfirm = false;
         this.inputType = "Tambah";
+        this.dialogConfirm = false;
       },
 
       resetForm() {
         this.form = {
-          id_jadwal_rutin_pangkalan: null,
-          hari_penerimaan_gas: null,
-          id_pangkalan: null,
           nama_pangkalan: null,
-          alokasi_penerimaan_gas: null,
           grup_pangkalan: null,
+          hari_penerimaan_gas: null,
+          Pangkalanid_pangkalan: null,
+          alokasi_penerimaan_gas: null,
+          id_jadwal_rutin_pangkalan: null,
         };
       },
     },
@@ -545,62 +444,63 @@
     mounted() {
       localStorage.setItem("menu", "Jadwal Rutin Pangkalan");
       this.convertGrupPangkalan();
+      this.readData();
     },
   };
 </script>
 
 <style>
-    /* Flex */
-    .flex {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow: scroll;
-    }
+  /* Flex */
+  .flex {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: scroll;
+  }
 
-    .flex-item {
-      flex: 0 0 auto;
-    }
+  .flex-item {
+    flex: 0 0 auto;
+  }
 
-    /* Inline-block */
-    .inline {
-      vertical-align: middle;
-      overflow-x: scroll; 
-    }
+  /* Inline-block */
+  .inline {
+    vertical-align: middle;
+    overflow-x: scroll; 
+  }
 
-    .inline-item {
-      display: inline-block;
-      vertical-align: middle;
-      height: 96px;
-      margin-right: -4px;
-    }
+  .inline-item {
+    display: inline-block;
+    vertical-align: middle;
+    height: 96px;
+    margin-right: -4px;
+  }
 
-    .v-btn {
-      letter-spacing: .020em;
-    }
+  .v-btn {
+    letter-spacing: .020em;
+  }
 
-    .v-btn.v-size--small {
-      font-size: .70rem;
-      font-family: "Helvetica", Arial, sans-serif;
-    }
+  .v-btn.v-size--small {
+    font-size: .70rem;
+    font-family: "Helvetica", Arial, sans-serif;
+  }
 
-    .v-text-field input {
-      font-size: 12.5px;
-    }
+  .v-text-field input {
+    font-size: 12.5px;
+  }
 
-    .v-text-field .v-label {
-      font-size: 14px;
-    }
+  .v-text-field .v-label {
+    font-size: 14px;
+  }
 
-    .v-icon.v-icon.mdi-magnify {
-      font-size: 22px;
-      /* color: #1976d2; */
-    }
+  .v-icon.v-icon.mdi-magnify {
+    font-size: 22px;
+    /* color: #1976d2; */
+  }
 
-    /* .v-card__subtitle, .v-card__text, .v-card__title {
-      padding: 1%;
-    } */
+  /* .v-card__subtitle, .v-card__text, .v-card__title {
+    padding: 1%;
+  } */
 
-    .v-select__selection--comma {
-      font-size: 12.5px;
-    }
+  .v-select__selection--comma {
+    font-size: 12.5px;
+  }
 </style>

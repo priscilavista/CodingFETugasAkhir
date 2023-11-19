@@ -610,7 +610,6 @@
             //non aktif data alokasi
             deleteData() {
                 var url = this.$api + "/alokasiPengambilanGas/delete/" + this.deleteId;
-                this.load = true;
                 this.$http.delete(url)
                     .then((response) => {
                         if(response.data.code === 200)
