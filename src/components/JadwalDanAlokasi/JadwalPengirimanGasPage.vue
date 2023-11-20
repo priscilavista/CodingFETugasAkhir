@@ -116,29 +116,15 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
+
+                <v-icon @click="deleteHandler(item.id_jadwal_pengiriman_gas)" color="error">
+                  mdi-account-remove
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                  
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_jadwal_pengiriman_gas)">
-                      <v-icon color="#C94141">mdi-account-remove</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
@@ -282,12 +268,12 @@
             text: "Tanggal",
             align: "start",
             sortable: true,
-            value: "tanggal_pengiriman_gas",
+            value: "tanggal_pengambilan_gas",
           },
-          { text: "Total Alokasi", value: "total_alokasi_pengiriman_gas" },
-          { text: "Alokasi Fakultatif", value: "alokasi_fakultatif_pengiriman_gas" },
+          { text: "Jenis Alokasi", value: "jenis_alokasi_pengambilan_gas" },
+          { text: "Total Alokasi", value: "alokasi_penerimaan_gas" },
           { text: "Pangkalan", value: "nama_pangkalan" },
-          { text: "Driver", value: "nama_driver" },
+          { text: "Driver", value: "nama_pegawai" },
           { text: "",  value:"actions"},
         ],
         jadwal: new FormData(),
@@ -297,7 +283,7 @@
           id_jadwal_pengiriman_gas: null,
           tanggal_pengiriman_gas: null,
           id_jadwal_rutin_pangkalan: null,
-          id_pangkalan: null,
+          id_pangkalan: null, 
           nama_pangkalan: null,
           id_driver: null,
           nama_driver: null,

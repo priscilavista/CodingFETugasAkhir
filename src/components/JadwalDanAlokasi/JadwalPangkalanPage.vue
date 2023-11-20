@@ -135,7 +135,7 @@
 
             <v-select
               :rules="pangkalanRules"
-              v-model="form.id_pangkalan"
+              v-model="form.Pangkalanid_pangkalan"
               :items="pangkalan"
               item-text="nama_pangkalan"
               item-value="id_pangkalan"
@@ -402,12 +402,13 @@
         this.dialog = true;
         this.readPangkalan();
         this.inputType = "Edit";
-        this.form.Pangkalanid_pangkalan = item.Pangkalanid_pangkalan;
         this.editId = item.id_jadwal_rutin_pangkalan;
-        this.form.grup_pangkalan = item.grup_pangkalan;
         this.form.nama_pangkalan = item.nama_pangkalan;
+        this.form.grup_pangkalan = item.grup_pangkalan;
         this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
         this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
+        this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
+        this.form.Pangkalanid_pangkalan = parseInt(item.Pangkalanid_pangkalan);
       },
 
       deleteHandler(id) {
