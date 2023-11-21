@@ -400,13 +400,13 @@
                     { text: "",  value:"actions", sortable: false},
                 ],
                 form: {
-                    id_jadwal_pengiriman_gas: null,
-                    tanggal_pengiriman_gas: null,
-                    id_jadwal_rutin_pangkalan: null,
-                    id_pangkalan: null,
-                    nama_pangkalan: null,
                     id_driver: null,
                     nama_driver: null,
+                    id_pangkalan: null,
+                    nama_pangkalan: null,
+                    tanggal_pengiriman_gas: null,
+                    id_jadwal_pengiriman_gas: null,
+                    id_jadwal_rutin_pangkalan: null,
                     total_alokasi_pengiriman_gas: null,
                     jenis_alokasi_pengiriman_gas: null,
                 },
@@ -769,13 +769,13 @@
 
             resetForm() {
                 this.form = {
-                    id_jadwal_pengiriman_gas: null,
-                    tanggal_pengiriman_gas: null,
-                    id_jadwal_rutin_pangkalan: null,
-                    id_pangkalan: null,
-                    nama_pangkalan: null,
                     id_driver: null,
                     nama_driver: null,
+                    id_pangkalan: null,
+                    nama_pangkalan: null,
+                    tanggal_pengiriman_gas: null,
+                    id_jadwal_pengiriman_gas: null,
+                    id_jadwal_rutin_pangkalan: null,
                     total_alokasi_pengiriman_gas: null,
                     jenis_alokasi_pengiriman_gas: null,
                 };
