@@ -29,7 +29,7 @@
                 >
                     <v-row align="center" class="ml-1">
                         <v-icon small style="float:left;" color="#E91E63">mdi-square</v-icon>
-                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Jadwal Pengambilan Gas</span>
+                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengambilan Gas</span>
                     </v-row>
                 </v-col>
 
@@ -41,7 +41,7 @@
                 >
                     <v-row align="center">
                         <v-icon small style="float:left;" color="#F9A825">mdi-square</v-icon>
-                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Jadwal Pengiriman Gas</span>
+                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengiriman Gas</span>
                     </v-row>
                 </v-col>
             </v-row>
@@ -101,8 +101,6 @@
                                     v-model="start"
                                     :type="type"
                                     color="#E0E0E0"
-                                    @click:more="viewDay"
-                                    @click:date="viewDay"
                                 >
                                     <template v-slot:day="{ date }">
                                         <template v-for="event in eventsMap[date]">
@@ -131,94 +129,6 @@
                                                         @click="eventHandler(event)"
                                                     />
                                                 </template>
-
-                                                <v-dialog v-model="dialogData" persistent max-width="1000px">
-                                                    <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
-                                                        <v-card-title>
-                                                            <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
-                                                            <v-spacer />
-                                                            <v-icon @click="close()" link>mdi-close</v-icon>
-                                                        </v-card-title>
-                                                    </v-card>
-
-                                                    <v-card style="border-radius: 0px 0px 4px 4px;">
-                                                        <v-container fluid>
-                                                            <v-row>
-                                                                <v-col cols="12" lg="6" md="4">
-                                                                    <v-card outlined style="border-radius: 0px">
-                                                                        <v-simple-table
-                                                                            fixed-header
-                                                                            height="300px"
-                                                                        >
-                                                                            <template v-slot:default>
-                                                                                <thead color="#000000">
-                                                                                    <tr>
-                                                                                        <th style="font-size:15px;width:65%" class="text-center">
-                                                                                            Driver
-                                                                                        </th>
-                                                                                        <th style="font-size:15px" class="text-center">
-                                                                                            Pangkalan
-                                                                                        </th>
-                                                                                    </tr>
-                                                                                </thead>
-
-                                                                                <tbody>
-                                                                                    <tr
-                                                                                        v-for="driver in driverPerHari"
-                                                                                        :key="driver"
-                                                                                    >
-                                                                                        <td v-if="checkDriver==driver" style="background-color:#C8E6C9">{{ driver }}</td>
-                                                                                        <td v-else>{{ driver }}</td>
-                                                                                        <td v-if="checkDriver==driver" style="background-color:#C8E6C9">
-                                                                                            <v-tooltip right>
-                                                                                                <template v-slot:activator="{ on, attrs }">
-                                                                                                    <v-icon v-bind="attrs" v-on="on" small @click="pangkalanHandler(event.tanggal, driver)" color="primary">mdi-eye</v-icon>
-                                                                                                </template>
-                                                                                                <span>Lihat Pangkalan</span>
-                                                                                            </v-tooltip>
-                                                                                        </td>
-                                                                                        <td v-else>
-                                                                                            <v-tooltip right>
-                                                                                                <template v-slot:activator="{ on, attrs }">
-                                                                                                    <v-icon v-bind="attrs" v-on="on" small @click="pangkalanHandler(event.tanggal,driver)" color="primary">mdi-eye</v-icon>
-                                                                                                </template>
-                                                                                                <span>Lihat Pangkalan</span>
-                                                                                            </v-tooltip>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </template>
-                                                                        </v-simple-table>
-                                                                    </v-card>
-                                                                </v-col>
-
-                                                                <v-divider vertical />
-
-                                                                <v-col cols="12" lg="6" md="8">
-                                                                    <span style="float:left">Tanggal: {{ event.tanggal }}</span>
-                                                                    <br/>
-                                                                    <v-card v-if="lihatPangkalan==true" fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%;">
-                                                                        <v-data-table
-                                                                            :headers="headers"
-                                                                            :items="pangkalanPerDriver"
-                                                                            style="border-radius:4px"
-                                                                        >
-                                                                            <template v-slot:[`item.actions`]="{ item }">
-                                                                                <v-menu offset-y style="float: left">
-                                                                                    <template v-slot:activator="{ on, attrs }">
-                                                                                        <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                                                                                            <v-icon small @click="editHandler(item)" color="primary">mdi-magnify</v-icon>
-                                                                                        </span>
-                                                                                    </template>
-                                                                                </v-menu>
-                                                                            </template>
-                                                                        </v-data-table>
-                                                                    </v-card>
-                                                                </v-col>
-                                                            </v-row>
-                                                        </v-container>
-                                                    </v-card>
-                                                </v-dialog>
                                             </v-menu>
                                         </template>
                                     </template>
@@ -230,6 +140,94 @@
             </v-app>
         </div>
 
+        <v-dialog v-model="dialogData" persistent max-width="1000px">
+            <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+                <v-card-title>
+                    <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
+                    <v-spacer />
+                    <v-icon @click="close()" link>mdi-close</v-icon>
+                </v-card-title>
+            </v-card>
+
+            <v-card style="border-radius: 0px 0px 4px 4px;">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="12" lg="6" md="4">
+                            <v-card outlined style="border-radius: 0px">
+                                <v-simple-table
+                                    fixed-header
+                                    height="300px"
+                                >
+                                    <template v-slot:default>
+                                        <thead color="#000000">
+                                            <tr>
+                                                <th style="font-size:15px;width:65%" class="text-center">
+                                                    Driver
+                                                </th>
+                                                <th style="font-size:15px" class="text-center">
+                                                    Pangkalan
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr
+                                                v-for="driver in driverPerHari"
+                                                :key="driver"
+                                            >
+                                                <td v-if="checkDriver==driver" style="background-color:#C8E6C9">{{ driver }}</td>
+                                                <td v-else>{{ driver }}</td>
+                                                <td v-if="checkDriver==driver" style="background-color:#C8E6C9">
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-icon v-bind="attrs" v-on="on" small @click="pangkalanHandler(temp_tanggal, driver)" color="primary">mdi-eye</v-icon>
+                                                        </template>
+                                                        <span>Lihat Pangkalan</span>
+                                                    </v-tooltip>
+                                                </td>
+                                                <td v-else>
+                                                    <v-tooltip right>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-icon v-bind="attrs" v-on="on" small @click="pangkalanHandler(temp_tanggal,driver)" color="primary">mdi-eye</v-icon>
+                                                        </template>
+                                                        <span>Lihat Pangkalan</span>
+                                                    </v-tooltip>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                </v-simple-table>
+                            </v-card>
+                        </v-col>
+
+                        <v-divider vertical />
+
+                        <v-col cols="12" lg="6" md="8">
+                            <span style="float:left">Tanggal Pengiriman: {{ temp_tanggal }}</span>
+                            <br/>
+                            <v-card v-if="lihatPangkalan==true" fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%;">
+                                <v-data-table
+                                    :headers="headers"
+                                    :items="pangkalanPerDriver"
+                                    style="border-radius:4px"
+                                >
+                                    <template v-slot:[`item.actions`]="{ item }">
+                                        <v-menu offset-y style="float: left">
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <span v-bind="attrs" v-on="on" style="cursor: pointer">
+                                                    <v-icon small @click="editHandler(item)" color="primary">mdi-magnify</v-icon>
+                                                </span>
+                                            </template>
+                                        </v-menu>
+                                    </template>
+                                </v-data-table>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card>
+        </v-dialog>
+
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                 <v-card-title>
@@ -239,7 +237,7 @@
                 </v-card-title>
             </v-card>
 
-            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+            <v-card style="border-radius: 0px 0px 4px 4px">
                 <v-card-text>
                     <v-container style="padding-left: 5px; padding-right: 5px">
                         <v-text-field
@@ -251,36 +249,21 @@
                         />
 
                         <v-text-field
-                            v-if="formTitle=='Edit'"
+                            readonly
+                            v-model="form.jenis_alokasi_pengiriman_gas"
+                            label="Jenis Alokasi"
+                        />
+
+                        <v-text-field
                             readonly
                             v-model="form.total_alokasi_pengiriman_gas"
                             label="Total Alokasi"
                         />
 
-                        <v-text-field
-                            v-if="formTitle=='Edit'"
-                            readonly
-                            v-model="form.alokasi_fakultatif_pengiriman_gas"
-                            label="Alokasi Fakultatif"
-                        />
-
                         <v-select
-                            v-if="formTitle=='Tambah'"
-                            :rules="pangkalanRules"
-                            v-model="form.pangkalan"
-                            :items="pangkalan"
-                            item-text="nama_pangkalan"
-                            item-value="id_pangkalan"
-                            label="Pangkalan"
-                            required
-                            readonly
-                        />
-
-                        <v-select
-                            v-else
                             readonly
                             :rules="pangkalanRules"
-                            v-model="form.pangkalan"
+                            v-model="form.id_pangkalan"
                             :items="pangkalan"
                             item-text="nama_pangkalan"
                             item-value="id_pangkalan"
@@ -288,14 +271,10 @@
                             required
                         />
                         
-                        <v-select
+                        <v-text-field
                             :rules="driverRules"
-                            v-model="form.driver"
-                            :items="driver"
-                            item-text="nama_driver"
-                            item-value="id_driver"
+                            v-model="form.nama_driver"
                             label="Driver yang Bertugas"
-                            required
                             readonly
                         />
                         
@@ -429,21 +408,14 @@
                     id_driver: null,
                     nama_driver: null,
                     total_alokasi_pengiriman_gas: null,
-                    alokasi_fakultatif_pengiriman_gas: null,
-                },
-                form_sppbe: {
-                    id_sppbe: null,
-                    nama_sppbe: null,
+                    jenis_alokasi_pengiriman_gas: null,
                 },
                 sppbe: [],
-                form_driver: {
-                    id_driver: null,
-                    nama_driver: null,
-                },
                 pangkalan: [],
                 driver: [],
                 deleteId: "",
                 editId: "",
+                temp_tanggal: '',
                 alokasi: [
                     {
                         jumlah: 360
@@ -452,34 +424,11 @@
                         jumlah: 560
                     },
                 ],
-                form_event: {
-                    id_alokasi_pengambilan_gas: null,
-                    tanggal_alokasi_pengambilan_gas: null,
-                    alokasi_pengambilan_gas: null,
-                    id_sppbe: null,
-                    nama_sppbe: null,
-                },
                 events: [],
                 tempEvents: [],
                 driverPerHari: [],
                 pangkalanPerDriver: [],
-                form_jadwal: {
-                    id_jadwal_pengiriman_gas: null,
-                    tanggal_pengiriman_gas: null,
-                    id_jadwal_rutin_pangkalan: null,
-                    id_pangkalan: null,
-                    nama_pangkalan: null,
-                    id_driver: null,
-                    nama_driver: null,
-                    total_alokasi_pengiriman_gas: null,
-                    alokasi_fakultatif_pengiriman_gas: null,
-                },
                 jadwal: [],
-                form_jadwalForEvent: {
-                    id_jadwal_pengiriman_gas: null,
-                    tanggal_pengiriman_gas: null,
-                    total_alokasi_pengiriman_gas: null,
-                },
                 jadwalForEvent: [],
                 jadwalPengambilanGas: [],
                 jadwalPerTanggal: [],
@@ -507,21 +456,6 @@
                 alert(event.title)
             },
 
-            viewDay ({ date }) {
-                var sum = this.sumAlokasi(date);
-                var alokasi = this.searchJadwalPengambilan(date);
-                this.resetForm();
-                if(sum < alokasi)
-                {
-                    this.form.tanggal_pengiriman_gas = date;
-                    this.dialog=true;
-                }
-                else if(sum!=0)
-                {
-                    this.snackbarJadwal = true;
-                }
-            },
-
             searchJadwalPengambilan(date) {
                 for (let i = 0; i < this.jadwalPengambilanGas.length; i++) {
                     if(date === this.jadwalPengambilanGas[i].tanggal_pengambilan_gas) {
@@ -547,6 +481,7 @@
 
             eventHandler(event) {
                 this.driverPerHari=[];
+                this.temp_tanggal = event.tanggal;
                 this.getDriver(event.tanggal);
                 this.dialogData=true;
             },
@@ -570,9 +505,9 @@
             },
 
             searchDriver(name) {
-                for (let i = 0; i < this.driverPerHari.length; i++) 
+                for (let i = 0; i < this.driverPerHari.length; i++)
                 {
-                    if(this.driverPerHari[i].nama_pegawai === name) 
+                    if(this.driverPerHari[i] === name) 
                     {
                         return 1;
                     }
@@ -598,14 +533,14 @@
                 //jadwal pengambilan gas
                 for (let i = 0; i < this.jadwalPengambilanGas.length; i++) 
                 {
-                    this.events.push(
+                    this.events = [...this.events,
                         {
                             id: parseInt(this.jadwalPengambilanGas[i].id_jadwal_pengambilan_gas) + 1000,
                             title: "pengambilan",
                             tanggal: this.jadwalPengambilanGas[i].tanggal_pengambilan_gas,
                             jumlah_alokasi: this.jadwalPengambilanGas[i].alokasi_pengambilan_gas,
                         }
-                    );
+                    ];
                 }
 
                 //jadwal pengiriman gas
@@ -613,31 +548,38 @@
                 {
                     if(i==0 || this.searchDate(this.jadwal[i].tanggal_pengiriman_gas) == null)
                     {
-                        this.tempEvents.push(this.jadwal[i]);
+                        this.tempEvents = [...this.tempEvents, 
+                            {
+                                id: this.jadwal[i].id_jadwal_pengiriman_gas,
+                                tanggal: this.jadwal[i].tanggal_pengiriman_gas,
+                                jumlah_alokasi: this.jadwal[i].total_alokasi_pengiriman_gas,
+                            }
+                        ];
                     }
                     else
                     {
-                        this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].total_alokasi_pengiriman_gas = this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].total_alokasi_pengiriman_gas + this.jadwal[i].total_alokasi_pengiriman_gas;
+                        let temp = this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].jumlah_alokasi + this.jadwal[i].total_alokasi_pengiriman_gas;
+                        this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].jumlah_alokasi = temp;
                     }
                 }
 
                 for (let i = 0; i < this.tempEvents.length; i++) 
                 {
-                    this.events.push(
+                    this.events = [...this.events,
                         {
                             id: parseInt(this.tempEvents[i].id_jadwal_pengiriman_gas) + 2000,
                             title: "pengiriman",
-                            tanggal: this.tempEvents[i].tanggal_pengiriman_gas,
-                            jumlah_alokasi: this.tempEvents[i].total_alokasi_pengiriman_gas,
+                            tanggal: this.tempEvents[i].tanggal,
+                            jumlah_alokasi: this.tempEvents[i].jumlah_alokasi,
                         }
-                    );
+                    ];
                 }
             },
 
             searchDate(date) {
                 for (let i = 0; i < this.tempEvents.length; i++)
                 {
-                    if(this.tempEvents[i].tanggal_pengiriman_gas === date)
+                    if(this.tempEvents[i].tanggal === date)
                     {
                         return i;
                     }
@@ -665,8 +607,7 @@
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                     }
                                 );
-                                console.log(i)
-                                console.log(temp[i].alokasi_penerimaan_gas)
+                                
                                 this.jadwal.push(
                                     {
                                         id_jadwal_pengiriman_gas: parseInt(temp[i].id_jadwal_pengiriman_gas),
@@ -680,7 +621,6 @@
                                         nama_pangkalan: temp[i].nama_pangkalan,
                                     },
                                 );
-                                console.log(this.jadwal[i].total_alokasi_pengiriman_gas)
                             }
 
                             this.color = "green";
@@ -796,15 +736,17 @@
                 this.readPangkalan();
                 this.inputType = "Edit";
                 this.editId = item.id_jadwal_pengiriman_gas;
-                this.form.id_jadwal_pengambilan_gas = item.id_jadwal_pengambilan_gas;
+                this.form.id_jadwal_pengiriman_gas = item.id_jadwal_pengiriman_gas;
                 this.form.tanggal_pengiriman_gas = item.tanggal_pengiriman_gas;
-                this.form.id_sppbe = item.id_sppbe,
-                this.form.nama_sppbe = item.nama_sppbe,
-                this.form.id_driver = item.id_driver,
-                this.form.nama_driver = item.nama_driver,
-                this.form.total_alokasi_pengambilan_gas = item.total_alokasi_pengambilan_gas,
-                this.form.alokasi_fakultatif_pengambilan_gas = item.alokasi_fakultatif_pengambilan_gas,
+                this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
+                this.form.id_pangkalan = item.id_pangkalan;
+                this.form.nama_pangkalan = item.nama_pangkalan;
+                this.form.id_driver = item.id_pegawai;
+                this.form.nama_driver = item.nama_pegawai;
+                this.form.total_alokasi_pengiriman_gas = item.total_alokasi_pengiriman_gas;
+                this.form.jenis_alokasi_pengiriman_gas = item.jenis_alokasi_pengambilan_gas;
 
+                this.dialogData = false;
                 this.dialog = true;
             },
 
@@ -829,12 +771,13 @@
                 this.form = {
                     id_jadwal_pengiriman_gas: null,
                     tanggal_pengiriman_gas: null,
+                    id_jadwal_rutin_pangkalan: null,
                     id_pangkalan: null,
                     nama_pangkalan: null,
                     id_driver: null,
                     nama_driver: null,
-                    total_alokasi_pengambilan_gas: null,
-                    alokasi_reguler_pengambilan_gas: null,
+                    total_alokasi_pengiriman_gas: null,
+                    jenis_alokasi_pengiriman_gas: null,
                 };
             },
         },
