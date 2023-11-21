@@ -130,11 +130,12 @@
                                                 </template>
 
                                                 <v-dialog v-model="dialogData" persistent max-width="600px">
-                                                    <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+                                                    <v-card height="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                                                         <v-card-title>
                                                             <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
                                                             <v-spacer />
-                                                            <v-icon @click="close()" link>mdi-close</v-icon>
+                                                            
+                                                            <v-icon @click="close()" v-on="on" v-bind="attrs" link>mdi-close</v-icon>
                                                         </v-card-title>
                                                     </v-card>
 
@@ -165,10 +166,10 @@
 
                                                                                 <v-list dense>
                                                                                     <v-list-item>
-                                                                                        <v-list-item-content>Tanggal:</v-list-item-content>
+                                                                                        <v-list-item-content>Jenis:</v-list-item-content>
 
                                                                                         <v-list-item-content style="text-align: left; margin-left: -5px">
-                                                                                            {{ item.tanggal_pengambilan_gas }}
+                                                                                            {{ item.jenis_alokasi_pengambilan_gas }}
                                                                                         </v-list-item-content>
                                                                                     </v-list-item>
 
@@ -450,6 +451,7 @@
                                         SPPBEid_sppbe: parseInt(temp[i].SPPBEid_sppbe),
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                     }
                                 );
                             }
@@ -487,6 +489,7 @@
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
                                         jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                     }
                                 );
 
@@ -499,6 +502,7 @@
                                         nama_sppbe: temp[i].nama_sppbe,
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pegawai: temp[i].nama_pegawai,
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                     }
                                 );
                             }
@@ -538,6 +542,7 @@
                             title: "alokasi",
                             tanggal_pengambilan_gas: this.jadwalAlokasi[i].tanggal_pengambilan_gas,
                             jumlah_alokasi_pengambilan_gas: this.jadwalAlokasi[i].jumlah_alokasi_pengambilan_gas,
+                            jenis_alokasi_pengambilan_gas: this.jadwalAlokasi[i].jenis_alokasi_pengambilan_gas,
                         });
                     }
                     else
@@ -563,6 +568,7 @@
                         title: "jadwal",
                         tanggal_pengambilan_gas: this.tempEvents[i].tanggal_pengambilan_gas,
                         jumlah_alokasi_pengambilan_gas: this.tempEvents[i].jumlah_alokasi_pengambilan_gas,
+                        jenis_alokasi_pengambilan_gas: this.tempEvents[i].jenis_alokasi_pengambilan_gas,
                     });
                 }
             },
@@ -600,7 +606,6 @@
                     if(date === this.jadwal[i].tanggal_pengambilan_gas)
                     {
                         this.jadwalPerTanggal.push(this.jadwal[i]);
-
                     }
                 }
             },
@@ -664,11 +669,11 @@
         /* color: #ffffff; */
         /* border: 1px solid #673AB7; */
         width: 100%;
-        font-size: 11px;
+        font-size: 12px;
         padding: 0px;
         cursor: pointer;
-        margin-bottom: 1px;
-        margin-top: 3px;
+        margin-bottom: 2px;
+        margin-top: 4px;
     }
 
     .v-application--is-ltr .v-toolbar__content>.v-btn.v-btn--icon:first-child+.v-toolbar__title{

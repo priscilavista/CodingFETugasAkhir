@@ -20,7 +20,7 @@
         Tampilan Kalender
       </v-btn>
 
-      <v-btn
+      <!-- <v-btn
         small
         color="primary"
         dark
@@ -28,7 +28,7 @@
         style="float:right; margin-right:10px"
       >
         Tambah
-      </v-btn>
+      </v-btn> -->
     </div>
 
     <div v-else-if="isMediumScreen" style="margin-bottom: 12.5%">
@@ -45,7 +45,7 @@
         Tampilan Kalender
       </v-btn>
       
-      <v-btn
+      <!-- <v-btn
         small
         color="primary"
         dark
@@ -53,7 +53,7 @@
         style="float:right; margin-right:10px"
       >
         Tambah
-      </v-btn>
+      </v-btn> -->
     </div>
     
     <div v-else style="margin-bottom: 17.5%">
@@ -70,7 +70,7 @@
         Tampilan Kalender
       </v-btn>
       
-      <v-btn
+      <!-- <v-btn
         small
         color="primary"
         dark
@@ -78,7 +78,7 @@
         style="float:right; margin-right:10px"
       >
         Tambah
-      </v-btn>
+      </v-btn> -->
     </div>
 
     <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
@@ -114,29 +114,11 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                  mdi-magnify
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                  
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_jadwal_pengambilan_gas)">
-                      <v-icon color="#C94141">mdi-account-remove</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
         </template>
       </v-data-table>
@@ -145,70 +127,66 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
         <v-card-title>
-          <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data Jadwal Pengambilan Gas</h3>
+          <h3 style="font-size:20px; color:#ffffff">Detail Data Jadwal Pengambilan Gas</h3>
           <v-spacer />
           <v-icon @click="cancel" link>mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
-      <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+      <v-card style="border-radius: 0px 0px 4px 4px;">
         <v-card-text>
           <v-container style="padding-left: 5px; padding-right: 5px">
             <v-text-field
               :rules="tanggalRules"
               type="date"
               v-model="form.tanggal_pengambilan_gas"
+              disabled
               label="Tanggal Pengambilan Gas"
             />
 
-            <v-select
+            <v-text-field
+              disabled
+              v-model="form.jenis_alokasi_pengambilan_gas"
+              label="Jenis Alokasi"
+            />
+
+            <v-text-field
               :rules="alokasiRules"
               v-model="form.alokasi_pengambilan_gas"
-              :items="alokasi"
-              item-text="jumlah"
-              item-value="jumlah"
               label="Jumlah Alokasi"
-              required
-            />
-
-            <span v-if="form.tanggal_pengambilan_gas!=null" style="float:left; margin-top:-20px">sisa alokasi: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.alokasi_pengambilan_gas }} tabung</span>
-            
-            <v-text-field
-              v-if="formTitle=='Edit'"
               disabled
-              v-model="form.alokasi_fakultatif_pengambilan_gas"
-              label="Alokasi Fakultatif"
             />
 
+            <span v-if="form.tanggal_pengambilan_gas!=null" style="float:left; margin-top:-20px">Sisa Alokasi: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.alokasi_pengambilan_gas }} Tabung</span>
+            
             <v-select
+              class="mt-5"
               :rules="SPPBERules"
-              v-model="form.sppbe"
+              v-model="form.SPPBEid_sppbe"
               :items="sppbe"
               item-text="nama_sppbe"
-              item-value="SPPBEid_sppbe"
+              item-value="id_sppbe"
               label="SPPBE"
               required
+              disabled
             />
 
-            <v-select
+            <v-text-field
               :rules="driverRules"
-              v-model="form.driver"
-              :items="driver"
-              item-text="nama_pegawai"
-              item-value="id_pegawai"
+              v-model="form.nama_pegawai"
               label="Driver yang Bertugas"
-              required
+              disabled
             />
             
-            <v-spacer />
+            <!-- <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
-            <v-spacer />
+            <v-spacer /> -->
           </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialogConfirm" persistent max-width="400px">
+    <!-- <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
         <v-card-title>
           <span class="headline" />
@@ -219,7 +197,7 @@
         <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
         <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
@@ -277,6 +255,7 @@
           { text: "Jumlah Alokasi", value: "alokasi_pengambilan_gas" },
           { text: "SPPBE", value: "nama_sppbe" },
           { text: "Driver", value: "nama_pegawai" },
+          { text: '', value: 'actions', sortable: false },
         ],
         jadwal: new FormData(),
         jadwals: [],
@@ -288,7 +267,7 @@
           tanggal_pengambilan_gas: null,
           alokasi_pengambilan_gas: null,
           id_jadwal_pengambilan_gas: null,
-          alokasi_fakultatif_pengambilan_gas: null,
+          jenis_alokasi_pengambilan_gas: null,
         },
         sppbe: [],
         driver: [],
@@ -326,10 +305,9 @@
       },
 
       searchAlokasi(date) {
-        for (let i = 0; i < this.events.length; i++) {
-          if(date === this.events[i].tanggal_alokasi_pengambilan_gas) {
-            console.log(this.events[i].alokasi_pengambilan_gas);
-            return this.events[i].alokasi_pengambilan_gas;
+        for (let i = 0; i < this.jadwals.length; i++) {
+          if(date === this.jadwals[i].tanggal_alokasi_pengambilan_gas) {
+            return parseInt(this.jadwals[i].alokasi_pengambilan_gas);
           }
         }
         return 0;
@@ -337,15 +315,10 @@
 
       sumAlokasiWithout(date,id) {
         let sum = 0;
-        console.log("sumalokasiwithout");
-        console.log(id);
-        for (let i = 0; i < this.jadwal.length; i++) {
-            console.log(this.jadwal[i].id_jadwal_pengambilan_gas);
-            if(date === this.jadwal[i].tanggal_pengambilan_gas && this.jadwal[i].id_jadwal_pengambilan_gas !== id)
+        for (let i = 0; i < this.jadwals.length; i++) {
+            if(date === this.jadwals[i].tanggal_pengambilan_gas && this.jadwals[i].id_jadwal_pengambilan_gas !== id)
             {
-              console.log(this.jadwal[i].alokasi_pengambilan_gas);
-              sum = sum + this.jadwal[i].alokasi_pengambilan_gas;
-              console.log(sum);
+              sum = sum + parseInt(this.jadwals[i].alokasi_pengambilan_gas);
             }
         }
         return sum;
@@ -428,102 +401,104 @@
           });
       },
 
-      save() {
-        this.jadwal.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
-        this.jadwal.append("SPPBEid_sppbe", this.SPPBEid_sppbe);
-        this.jadwal.append("Pegawaiid_pegawai", this.Pegawaiid_pegawai);
-        this.jadwal.append("alokasi_pengambilan_gas", this.form.alokasi_pengambilan_gas);
-        this.jadwal.append("alokasi_fakultatif_pengambilan_gas", 0);
+      // save() {
+      //   this.jadwal.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
+      //   this.jadwal.append("SPPBEid_sppbe", this.SPPBEid_sppbe);
+      //   this.jadwal.append("Pegawaiid_pegawai", this.Pegawaiid_pegawai);
+      //   this.jadwal.append("alokasi_pengambilan_gas", this.form.alokasi_pengambilan_gas);
+      //   this.jadwal.append("alokasi_fakultatif_pengambilan_gas", 0);
 
-        var url = this.$api + "/jadwalRutinPangkalan/create";
-        this.$http.post(url, this.jadwal)
-          .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = true;
-            this.cancel();
-          })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.snackbar = true;
-            this.color = "red";
-            this.load = false;
-          });
-      },
+      //   var url = this.$api + "/jadwalRutinPangkalan/create";
+      //   this.$http.post(url, this.jadwal)
+      //     .then((response) => {
+      //       this.error_message = response.data.message;
+      //       this.color = "green";
+      //       this.snackbar = true;
+      //       this.load = true;
+      //       this.cancel();
+      //     })
+      //     .catch((error) => {
+      //       this.error_message = error.response.data.message;
+      //       this.snackbar = true;
+      //       this.color = "red";
+      //       this.load = false;
+      //     });
+      // },
 
       //ubah data jadwal
-      update() {
-        let newData = {
-          SPPBEid_sppbe: this.form.SPPBEid_sppbe,
-          Pegawaiid_pegawai: this.form.Pegawaiid_pegawai,
-          tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
-          alokasi_pengambilan_gas: this.form.alokasi_pengambilan_gas,
-        };
+      // update() {
+      //   let newData = {
+      //     SPPBEid_sppbe: this.form.SPPBEid_sppbe,
+      //     Pegawaiid_pegawai: this.form.Pegawaiid_pegawai,
+      //     tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
+      //     alokasi_pengambilan_gas: this.form.alokasi_pengambilan_gas,
+      //   };
 
-        var url = this.$api + "/jadwalPengambilanGas/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            this.cancel();
-            this.resetForm();
-            this.color = "green";
-            this.snackbar = true;
-            this.inputType = "Tambah";
-            this.error_message = response.data.message;
-          })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.snackbar = true;
-            this.color = "red";
-            this.load = false;
-          });
-      },
+      //   var url = this.$api + "/jadwalPengambilanGas/update/" + this.editId;
+      //   this.$http.put(url, newData)
+      //     .then((response) => {
+      //       this.cancel();
+      //       this.resetForm();
+      //       this.color = "green";
+      //       this.snackbar = true;
+      //       this.inputType = "Tambah";
+      //       this.error_message = response.data.message;
+      //     })
+      //     .catch((error) => {
+      //       this.error_message = error.response.data.message;
+      //       this.snackbar = true;
+      //       this.color = "red";
+      //       this.load = false;
+      //     });
+      // },
 
-      //non aktif data jadwal
-      deleteData() {
-        var url = this.$api + "/jadwalPengambilanGas/delete/" + this.deleteId;
-        this.$http.delete(url)
-          .then((response) => {
-            this.cancel();
-            this.resetForm();
-            this.color = "green";
-            this.snackbar = true;
-            this.inputType = "Tambah";
-            this.error_message = response.data.message;
-          })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.snackbar = true;
-            this.color = "red";
-            this.load = false;
-          });
-      },
+      // //non aktif data jadwal
+      // deleteData() {
+      //   var url = this.$api + "/jadwalPengambilanGas/delete/" + this.deleteId;
+      //   this.$http.delete(url)
+      //     .then((response) => {
+      //       this.cancel();
+      //       this.resetForm();
+      //       this.color = "green";
+      //       this.snackbar = true;
+      //       this.inputType = "Tambah";
+      //       this.error_message = response.data.message;
+      //     })
+      //     .catch((error) => {
+      //       this.error_message = error.response.data.message;
+      //       this.snackbar = true;
+      //       this.color = "red";
+      //       this.load = false;
+      //     });
+      // },
 
-      addHandler() {
-        this.dialog = true;
-        this.readSPPBE();
-        this.readDriver();
-      },
+      // addHandler() {
+      //   this.dialog = true;
+      //   this.readSPPBE();
+      //   this.readDriver();
+      // },
 
       editHandler(item) {
         this.readSPPBE();
         this.readDriver();
         this.inputType = "Edit";
         this.editId = item.id_jadwal_pengambilan_gas;
+        this.form.nama_sppbe = item.nama_sppbe;
+        this.form.nama_pegawai = item.nama_pegawai;
+        this.form.SPPBEid_sppbe = parseInt(item.SPPBEid_sppbe);
+        this.form.Pegawaiid_pegawai = item.Pegawaiid_pegawai;
         this.form.tanggal_pengambilan_gas = item.tanggal_pengambilan_gas;
-        this.form.SPPBEid_sppbe = item.SPPBEid_sppbe,
-        this.form.nama_sppbe = item.nama_sppbe,
-        this.form.Pegawaiid_pegawai = item.Pegawaiid_pegawai,
-        this.form.nama_pegawai = item.nama_pegawai,
-        this.form.alokasi_pengambilan_gas = item.alokasi_pengambilan_gas,
-        this.form.alokasi_fakultatif_pengambilan_gas = item.alokasi_fakultatif_pengambilan_gas,
+        this.form.alokasi_pengambilan_gas = item.alokasi_pengambilan_gas;
+        this.form.id_jadwal_pengambilan_gas = item.id_jadwal_pengambilan_gas;
+        this.form.jenis_alokasi_pengambilan_gas = item.jenis_alokasi_pengambilan_gas;
+        console.log(this.form)
         this.dialog = true;
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
-        this.dialogConfirm = true;
-      },
+      // deleteHandler(id) {
+      //   this.deleteId = id;
+      //   this.dialogConfirm = true;
+      // },
 
       cancel() {
         this.resetForm();
@@ -535,14 +510,14 @@
 
       resetForm() {
         this.form = {
-          id_jadwal_pengambilan_gas: null,
-          tanggal_pengambilan_gas: null,
-          SPPBEid_sppbe: null,
           nama_sppbe: null,
-          Pegawaiid_pegawai: null,
           nama_pegawai: null,
+          SPPBEid_sppbe: null,
+          Pegawaiid_pegawai: null,
+          tanggal_pengambilan_gas: null,
           alokasi_pengambilan_gas: null,
-          alokasi_fakultatif_pengambilan_gas: null,
+          id_jadwal_pengambilan_gas: null,
+          jenis_alokasi_pengambilan_gas: null,
         };
       },
     },
