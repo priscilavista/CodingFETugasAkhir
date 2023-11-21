@@ -357,25 +357,40 @@
 
         data() {
             return{
-                isWideScreen: window.innerWidth >= 1000,
-                isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
-                inputType: "Tambah",
-                overlay: false,
-                snackbar: false,
                 color: "",
-                error_message: "",
+                sppbe: [],
+                driver: [],
+                jadwal: [],
+                events: [],
+                editId: "",
                 type: 'month',
                 dialog: false,
-                dialogConfirm: false,
-                dialogData: false,
-                dialogClose: false,
-                snackbarJadwal: false,
+                pangkalan: [],
+                tempEvents: [],
                 vertical: true,
-                lihatPangkalan: false,
+                overlay: false,
+                snackbar: false,
                 checkDriver: "",
                 itemsPerPage: 2,
+                temp_tanggal: '',
+                error_message: "",
+                dialogData: false,
+                driverPerHari: [],
+                jadwalForEvent: [],
+                dialogClose: false,
+                inputType: "Tambah",
+                dialogConfirm: false,
+                snackbarJadwal: false,
+                lihatPangkalan: false,
+                pangkalanPerDriver: [],
+                jadwalPengambilanGas: [],
                 text: 'Alokasi sudah terpenuhi semua!',
+                isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
+                driverRules: [(v) => !!v || "Nama Driver is Required"],
+                pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
+                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
+                isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 
                         text: "Dashboard",
@@ -410,31 +425,6 @@
                     total_alokasi_pengiriman_gas: null,
                     jenis_alokasi_pengiriman_gas: null,
                 },
-                sppbe: [],
-                pangkalan: [],
-                driver: [],
-                deleteId: "",
-                editId: "",
-                temp_tanggal: '',
-                alokasi: [
-                    {
-                        jumlah: 360
-                    },
-                    {
-                        jumlah: 560
-                    },
-                ],
-                events: [],
-                tempEvents: [],
-                driverPerHari: [],
-                pangkalanPerDriver: [],
-                jadwal: [],
-                jadwalForEvent: [],
-                jadwalPengambilanGas: [],
-                jadwalPerTanggal: [],
-                driverRules: [(v) => !!v || "Nama Driver is Required"],
-                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
-                pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
             }
         },
 
@@ -456,45 +446,22 @@
                 alert(event.title)
             },
 
-            searchJadwalPengambilan(date) {
-                for (let i = 0; i < this.jadwalPengambilanGas.length; i++) {
-                    if(date === this.jadwalPengambilanGas[i].tanggal_pengambilan_gas) {
-                        return this.jadwalPengambilanGas[i].alokasi_pengambilan_gas;
-                    }
-                }
-
-                return 0;
-            },
-
-            sumAlokasi(date) {
-                let sum = 0;
-
-                for (let i = 0; i < this.jadwal.length; i++) {
-                    if(date === this.jadwal[i].tanggal_pengiriman_gas)
-                    {
-                        sum = sum + this.jadwal[i].total_alokasi_pengiriman_gas;
-                    }
-                }
-
-                return sum;
-            },
-
             eventHandler(event) {
                 this.driverPerHari=[];
-                this.temp_tanggal = event.tanggal;
                 this.getDriver(event.tanggal);
+                this.temp_tanggal = event.tanggal;
+                
                 this.dialogData=true;
             },
 
             pangkalanHandler(date,driver) {
-                this.pangkalanPerDriver = [];
-                this.lihatPangkalan = true;
                 this.checkDriver = driver;
+                this.lihatPangkalan = true;
+                this.pangkalanPerDriver = [];
                 this.tampilPangkalan(date,driver);
             },
 
             getDriver(date) {
-                // let driver;
                 for (let i = 0; i < this.jadwal.length; i++) 
                 {
                     if(this.jadwal[i].tanggal_pengiriman_gas === date && this.searchDriver(this.jadwal[i].nama_pegawai)==0) 
@@ -533,14 +500,17 @@
                 //jadwal pengambilan gas
                 for (let i = 0; i < this.jadwalPengambilanGas.length; i++) 
                 {
-                    this.events = [...this.events,
+                    this.events = [
+                        ...this.events,
                         {
-                            id: parseInt(this.jadwalPengambilanGas[i].id_jadwal_pengambilan_gas) + 1000,
                             title: "pengambilan",
                             tanggal: this.jadwalPengambilanGas[i].tanggal_pengambilan_gas,
                             jumlah_alokasi: this.jadwalPengambilanGas[i].alokasi_pengambilan_gas,
+                            id: parseInt(this.jadwalPengambilanGas[i].id_jadwal_pengambilan_gas) + 1000,
                         }
                     ];
+                    
+                    this.overlay = false;
                 }
 
                 //jadwal pengiriman gas
@@ -548,7 +518,8 @@
                 {
                     if(i==0 || this.searchDate(this.jadwal[i].tanggal_pengiriman_gas) == null)
                     {
-                        this.tempEvents = [...this.tempEvents, 
+                        this.tempEvents = [
+                            ...this.tempEvents, 
                             {
                                 id: this.jadwal[i].id_jadwal_pengiriman_gas,
                                 tanggal: this.jadwal[i].tanggal_pengiriman_gas,
@@ -565,12 +536,13 @@
 
                 for (let i = 0; i < this.tempEvents.length; i++) 
                 {
-                    this.events = [...this.events,
+                    this.events = [
+                        ...this.events,
                         {
-                            id: parseInt(this.tempEvents[i].id_jadwal_pengiriman_gas) + 2000,
                             title: "pengiriman",
                             tanggal: this.tempEvents[i].tanggal,
                             jumlah_alokasi: this.tempEvents[i].jumlah_alokasi,
+                            id: parseInt(this.tempEvents[i].id_jadwal_pengiriman_gas) + 2000,
                         }
                     ];
                 }
@@ -601,31 +573,30 @@
                             {
                                 this.jadwalForEvent.push(
                                     {
-                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_jadwal_pengiriman_gas),
                                         tanggal_pengiriman_gas: temp[i].tanggal_pengambilan_gas,
-                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_jadwal_pengiriman_gas),
+                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                     }
                                 );
                                 
                                 this.jadwal.push(
                                     {
-                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_jadwal_pengiriman_gas),
-                                        id_jadwal_rutin_pangkalan: parseInt(temp[i].id_jadwal_rutin_pangkalan),
-                                        id_pegawai: parseInt(temp[i].Pegawaiid_pegawai),
-                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_penerimaan_gas),
-                                        tanggal_pengiriman_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pegawai: temp[i].nama_pegawai,
-                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
-                                        id_pangkalan: parseInt(temp[i].Pangkalanid_pangkalan),
                                         nama_pangkalan: temp[i].nama_pangkalan,
+                                        id_pegawai: parseInt(temp[i].Pegawaiid_pegawai),
+                                        id_pangkalan: parseInt(temp[i].Pangkalanid_pangkalan),
+                                        tanggal_pengiriman_gas: temp[i].tanggal_pengambilan_gas,
+                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_jadwal_pengiriman_gas),
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                        id_jadwal_rutin_pangkalan: parseInt(temp[i].id_jadwal_rutin_pangkalan),
+                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                     },
                                 );
                             }
 
                             this.color = "green";
                             this.snackbar = true;
-                            this.overlay = false;
                             this.error_message = response.data.message;
 
                             this.readJadwalPengambilan();
@@ -654,6 +625,7 @@
                         return i;
                     }
                 }
+
                 return null;
             },
 
@@ -670,10 +642,10 @@
                             {
                                 tempArray.push(
                                     {
-                                        id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                        id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
                                     },
                                 );
                             }
@@ -735,14 +707,14 @@
             editHandler(item) {
                 this.readPangkalan();
                 this.inputType = "Edit";
-                this.editId = item.id_jadwal_pengiriman_gas;
-                this.form.id_jadwal_pengiriman_gas = item.id_jadwal_pengiriman_gas;
-                this.form.tanggal_pengiriman_gas = item.tanggal_pengiriman_gas;
-                this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
-                this.form.id_pangkalan = item.id_pangkalan;
-                this.form.nama_pangkalan = item.nama_pangkalan;
                 this.form.id_driver = item.id_pegawai;
                 this.form.nama_driver = item.nama_pegawai;
+                this.form.id_pangkalan = item.id_pangkalan;
+                this.editId = item.id_jadwal_pengiriman_gas;
+                this.form.nama_pangkalan = item.nama_pangkalan;
+                this.form.tanggal_pengiriman_gas = item.tanggal_pengiriman_gas;
+                this.form.id_jadwal_pengiriman_gas = item.id_jadwal_pengiriman_gas;
+                this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
                 this.form.total_alokasi_pengiriman_gas = item.total_alokasi_pengiriman_gas;
                 this.form.jenis_alokasi_pengiriman_gas = item.jenis_alokasi_pengambilan_gas;
 
@@ -751,15 +723,15 @@
             },
 
             close() {
+                this.resetForm();
+                this.checkDriver = "";
                 this.inputType = "Tambah";
-                this.dialog = false;
+                this.pangkalanPerDriver = [];
+
+                this.lihatPangkalan = false;
                 this.dialogConfirm = false;
                 this.dialogData = false;
-                this.lihatPangkalan = false;
-                this.checkDriver = "";
-                this.pangkalanPerDriver = [];
-                this.resetForm();
-                // location.reload(true);
+                this.dialog = false;
             },
 
             closeDialog() {
