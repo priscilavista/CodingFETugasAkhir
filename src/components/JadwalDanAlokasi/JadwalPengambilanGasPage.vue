@@ -140,12 +140,12 @@
               :rules="tanggalRules"
               type="date"
               v-model="form.tanggal_pengambilan_gas"
-              disabled
+              readonly
               label="Tanggal Pengambilan Gas"
             />
 
             <v-text-field
-              disabled
+              readonly
               v-model="form.jenis_alokasi_pengambilan_gas"
               label="Jenis Alokasi"
             />
@@ -154,7 +154,7 @@
               :rules="alokasiRules"
               v-model="form.alokasi_pengambilan_gas"
               label="Jumlah Alokasi"
-              disabled
+              readonly
             />
 
             <span v-if="form.tanggal_pengambilan_gas!=null" style="float:left; margin-top:-20px">Sisa Alokasi: {{ searchAlokasi(form.tanggal_pengambilan_gas) - sumAlokasiWithout(form.tanggal_pengambilan_gas,form.id_jadwal_pengambilan_gas) - form.alokasi_pengambilan_gas }} Tabung</span>
@@ -168,14 +168,14 @@
               item-value="id_sppbe"
               label="SPPBE"
               required
-              disabled
+              readonly
             />
 
             <v-text-field
               :rules="driverRules"
               v-model="form.nama_pegawai"
               label="Driver yang Bertugas"
-              disabled
+              readonly
             />
             
             <!-- <v-spacer />

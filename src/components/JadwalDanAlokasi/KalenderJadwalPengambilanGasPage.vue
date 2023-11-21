@@ -322,6 +322,7 @@
                 vertical: true,
                 overlay: false,
                 itemsPerPage: 2,
+                color: "",
                 snackbar: false,
                 dialogData: false,
                 error_message: "",
