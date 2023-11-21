@@ -159,12 +159,12 @@
                                     height="300px"
                                 >
                                     <template v-slot:default>
-                                        <thead color="#000000">
-                                            <tr>
-                                                <th style="font-size:15px;width:65%" class="text-center">
+                                        <thead style="background-color: #546E7A;">
+                                            <tr style="background-color: #546E7A;">
+                                                <th style="background-color: #546E7A; font-size: 15px; width: 65%; color: white;" class="text-center">
                                                     Driver
                                                 </th>
-                                                <th style="font-size:15px" class="text-center">
+                                                <th style="background-color: #546E7A; font-size: 15px; color: white;" class="text-center">
                                                     Pangkalan
                                                 </th>
                                             </tr>
@@ -787,8 +787,8 @@
         border: thin solid rgba(0,0,0,.87);
     }
 
-    .theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr>th {
+    /* .theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr>th {
         background-color:#546E7A;
         color:#ffffff
-    }
+    } */
 </style>

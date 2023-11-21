@@ -26,7 +26,7 @@
                     lg="3"
                     cols="3"
                 >
-                    <v-row align="center" justify="left">
+                    <v-row align="center" justify="left" class="ml-1">
                         <v-icon small style="float:left;" color="#673AB7">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengambilan Gas</span>
                     </v-row>
