@@ -31,15 +31,8 @@
                         <v-icon small style="float:left;" color="#E91E63">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengambilan Gas</span>
                     </v-row>
-                </v-col>
-
-                <v-col
-                    sm="3"
-                    md="3"
-                    lg="3"
-                    cols="3"
-                >
-                    <v-row align="center">
+                    
+                    <v-row align="center" class="ml-1 mt-5">
                         <v-icon small style="float:left;" color="#F9A825">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengiriman Gas</span>
                     </v-row>
