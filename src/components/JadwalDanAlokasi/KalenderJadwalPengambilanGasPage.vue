@@ -139,7 +139,7 @@
                 </v-card-title>
             </v-card>
 
-            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 2.5%">
                 <v-container fluid>
                     <v-data-iterator
                         :items="jadwalPerTanggal"
@@ -196,7 +196,7 @@
 
                         <template v-slot:footer>
                             <v-row
-                                class="mt-2"
+                                class="mt-3"
                                 align="center"
                                 justify="center"
                             >
@@ -327,7 +327,7 @@
                 inputType: "Tambah",
                 jadwalPerTanggal: [],
                 snackbarJadwal: false,
-                itemsPerPageArray: [2,4, 8, 12],
+                itemsPerPageArray: [2, 4, 8, 12],
                 text: 'Alokasi sudah terpenuhi semua!',
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),

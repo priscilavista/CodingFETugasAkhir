@@ -364,7 +364,6 @@
                 overlay: false,
                 snackbar: false,
                 checkDriver: "",
-                itemsPerPage: 2,
                 temp_tanggal: '',
                 error_message: "",
                 dialogData: false,

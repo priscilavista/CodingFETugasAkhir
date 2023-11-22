@@ -78,7 +78,6 @@
                                             <v-menu
                                                 :key="event.jumlah_alokasi_pengambilan_gas"
                                                 v-model="event.open"
-                                                full-width
                                                 offset-x
                                                 min-width="300px"
                                             >
@@ -117,7 +116,7 @@
                                                                     icon
                                                                     style="height:30px"
                                                                 >
-                                                                    <v-icon  @click="close()" small>mdi-close</v-icon>
+                                                                    <v-icon small>mdi-close</v-icon>
                                                                 </v-btn>
                                                             </template>
 
@@ -272,15 +271,12 @@
 
         data() {
             return{
-                sppbe: [],
                 color: "",
                 events: [],
                 type: 'month',
-                dialog: false,
                 overlay: false,
                 snackbar: false,
                 error_message: "",
-                inputType: "Tambah",
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
@@ -373,35 +369,6 @@
                 }
 
                 return null;
-            },
-
-            readSPPBE() {
-                var url = this.$api + "/sppbe/getAll";
-                this.$http.get(url)
-                    .then((response) => {
-                        if(response.data.code === 200)
-                        {
-                            this.sppbe = response.data.data;
-                        }
-                        else
-                        {
-                            this.color = "red";
-                            this.snackbar = true;
-                            this.overlay = false;
-                            this.error_message = response.data.message;
-                        }
-                    })
-                    .catch((error) => {
-                        this.color = "red";
-                        this.snackbar = true;
-                        this.overlay = false;
-                        this.error_message = error.response.data.message;
-                    });
-            },
-
-            close() {
-                this.dialog = false;
-                this.dialogConfirm = false;
             },
         },
 
