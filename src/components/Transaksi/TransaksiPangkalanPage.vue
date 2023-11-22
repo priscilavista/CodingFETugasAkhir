@@ -191,6 +191,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Transaksi";
         },
@@ -199,14 +200,18 @@
 
     data() {
       return {
-        inputType: "Tambah",
+        color: "",
+        editId: "",
+        search: null,
+        deleteId: "",
+        dialog: false,
+        overlay: false,
+        transaksis: [],
         snackbar: false,
         error_message: "",
-        color: "",
-        search: null,
-        overlay: false,
-        dialog: false,
+        inputType: "Tambah",
         dialogConfirm: false,
+        transaksi: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
@@ -235,8 +240,6 @@
           { text: "Kategori Pembeli", value: "kategori_pembeli" },
           { text: "", value: "actions" },
         ],
-        transaksi: new FormData(),
-        transaksis: [],
         form: {
           id_transaksi: null,
           id_pangkalan: null,
@@ -253,17 +256,15 @@
           { kategori_pembeli: "Usaha Mikro" },
           { kategori_pembeli: "Lainnya" },
         ],
-        deleteId: "",
-        editId: "",
-        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
-        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
         namaRules: [(v) => !!v || "Nama Pembeli is Required"],
         ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
+        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
+        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
         telpRules: [
           (v) => !!v || "Nomor Telepon Pembeli is Required", 
           (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli must be valid",
         ],
-        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
       };
     },
 
@@ -442,7 +443,6 @@
 
       cancel() {
         this.resetForm();
-        location.reload();
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;

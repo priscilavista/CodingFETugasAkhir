@@ -303,6 +303,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Alokasi Fakultatif";
         },
@@ -311,15 +312,21 @@
 
     data() {
       return {
-        inputType: "Tambah",
-        load: false,
-        snackbar: false,
-        overlay: false,
-        error_message: "",
         color: "",
+        editId: "",
+        deleteId: "",
         search: null,
         dialog: false,
+        pangkalan: [],
+        overlay: false,
+        fakultatifA: [],
+        fakultatifP: [],
+        fakultatifD: [],
+        snackbar: false,
+        error_message: "",
+        inputType: "Tambah",
         dialogConfirm: false,
+        fakultatif: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
@@ -346,22 +353,15 @@
           { text: "Alokasi Tambahan", value: "alokasi_tambahan" },
           { text: "", value: "actions" },
         ],
-        fakultatifA: [],
-        fakultatifP: [],
-        fakultatifD: [],
-        fakultatif: new FormData(),
         form: {
-          id_alokasi_fakultatif: null,
           id_pangkalan: null,
           nama_pangkalan: null,
-          tanggal_pengajuan: null,
-          tanggal_penambahan_alokasi: null,
           alokasi_tambahan: null,
+          tanggal_pengajuan: null,
+          id_alokasi_fakultatif: null,
+          tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
         },
-        pangkalan: [],
-        deleteId: "",
-        editId: "",
       };
     },
 
@@ -446,14 +446,13 @@
       },
 
       save() {
+        this.fakultatif.append("status_persetujuan_pangkalan", 'P');
+        this.fakultatif.append("alokasi_tambahan", this.form.alokasi_tambahan);
         this.fakultatif.append("Pangkalanid_pangkalan", this.form.id_pangkalan);
         this.fakultatif.append("tanggal_pengajuan", this.form.tanggal_pengajuan);
         this.fakultatif.append("tanggal_penambahan_alokasi", this.form.tanggal_penambahan_alokasi);
-        this.fakultatif.append("alokasi_tambahan", this.form.alokasi_tambahan);
-        this.fakultatif.append("status_persetujuan_pangkalan", 'P');
 
         var url = this.$api + "/alokasiFakultatif/create";
-        this.load = true;
         this.$http.post(url, this.fakultatif)
           .then((response) => {
             if(response.data.code === 200)
@@ -483,10 +482,10 @@
 
       update() {
         let newData = {
+          alokasi_tambahan: this.form.alokasi_tambahan,
           Pangkalanid_pangkalan: this.form.id_pangkalan,
           tanggal_pengajuan: this.form.tanggal_pengajuan,
           tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
-          alokasi_tambahan: this.form.alokasi_tambahan,
           status_persetujuan_pangkalan: this.form.status_persetujuan_pangkalan,
         };
 
@@ -520,7 +519,6 @@
 
       deleteData() {
         var url = this.$api + "/alokasiFakultatif/delete/" + this.deleteId;
-        this.load = true;
         this.$http.delete(url)
           .then((response) => {
             if(response.data.code === 200)
@@ -558,13 +556,14 @@
         this.readPangkalan();
         this.inputType = "Edit";
         this.editId = item.id_alokasi_fakultatif;
-        this.form.id_alokasi_fakultatif = item.id_alokasi_fakultatif;
-        this.form.id_pangkalan = parseInt(item.id_pangkalan);
         this.form.nama_pangkalan = item.nama_pangkalan;
-        this.form.tanggal_pengajuan = item.tanggal_pengajuan;
-        this.form.tanggal_penambahan_alokasi = item.tanggal_penambahan_alokasi;
         this.form.alokasi_tambahan = item.alokasi_tambahan;
+        this.form.id_pangkalan = parseInt(item.id_pangkalan);
+        this.form.tanggal_pengajuan = item.tanggal_pengajuan;
+        this.form.id_alokasi_fakultatif = item.id_alokasi_fakultatif;
+        this.form.tanggal_penambahan_alokasi = item.tanggal_penambahan_alokasi;
         this.form.status_persetujuan_pangkalan = item.status_persetujuan_pangkalan;
+        
         this.dialog = true;
       },
 
@@ -578,17 +577,16 @@
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
-        location.reload();
       },
 
       resetForm() {
         this.form = {
-          id_alokasi_fakultatif: null,
           id_pangkalan: null,
           nama_pangkalan: null,
-          tanggal_pengajuan: null,
-          tanggal_penambahan_alokasi: null,
           alokasi_tambahan: null,
+          tanggal_pengajuan: null,
+          id_alokasi_fakultatif: null,
+          tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
         };
       },
@@ -614,6 +612,7 @@
     flex-wrap: nowrap;
     overflow: scroll;
   }
+
   .flex-item {
     flex: 0 0 auto;
   }
@@ -623,25 +622,31 @@
     vertical-align: middle;
     overflow-x: scroll; 
   }
+
   .inline-item {
     display: inline-block;
     vertical-align: middle;
     height: 96px;
     margin-right: -4px;
   }
+
   .v-btn {
     letter-spacing: .020em;
   }
+
   .v-btn.v-size--small {
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
   }
+
   .v-text-field input {
     font-size: 12.5px;
   }
+
   .v-text-field .v-label {
     font-size: 14px;
   }
+
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
   }

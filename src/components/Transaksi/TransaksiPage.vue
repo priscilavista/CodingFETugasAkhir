@@ -256,13 +256,19 @@
 
     data() {
       return {
+        color: "",
+        bulan: [],
+        tahun: [],
+        editId: "",
+        search: null,
+        deleteId: "",
+        dialog: false,
+        pangkalan: [],
+        transaksis: [],
+        overlay: false,
         snackbar: false,
         error_message: "",
-        color: "",
-        search: null,
-        dialog: false,
         dialogConfirm: false,
-        overlay: false,
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
@@ -292,11 +298,6 @@
           { text: "Kategori Pembeli", value: "kategori_pembeli" },
           { text: "", value: "actions" },
         ],
-        bulan: [],
-        tahun: [],
-        pangkalan: [],
-        transaksi: new FormData(),
-        transaksis: [],
         form_filter: {
           bulan_transaksi: null,
           tahun_transaksi: null,
@@ -313,17 +314,15 @@
           nomor_telepon_pembeli: null,
           kategori_pembeli: null,
         },
-        deleteId: "",
-        editId: "",
-        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
-        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
         namaRules: [(v) => !!v || "Nama Pembeli is Required"],
         ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
+        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
+        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
         telpRules: [
           (v) => !!v || "Nomor Telepon Pembeli is Required", 
           (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli must be valid",
         ],
-        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
       };
     },
 
@@ -538,7 +537,6 @@
         this.resetForm();
         this.dialog = false;
         this.dialogConfirm = false;
-        location.reload();
       },
 
       resetForm() {
@@ -558,7 +556,6 @@
 
     mounted() {
       localStorage.setItem("menu", "Transaksi");
-      this.overlay = true;
       this.readData();
       this.readDataBulan();
       this.readDataTahun();

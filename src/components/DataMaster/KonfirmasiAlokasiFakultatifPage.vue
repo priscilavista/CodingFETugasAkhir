@@ -129,6 +129,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Alokasi Fakultatif";
         },
@@ -137,12 +138,14 @@
 
     data() {
       return {
-        snackbar: false,
-        error_message: "",
-        alert: true,
         color: "",
-        overlay: false,
+        itemId: "",
+        alert: true,
         search: null,
+        overlay: false,
+        snackbar: false,
+        fakultatifs: [],
+        error_message: "",
         dialogReject: false,
         dialogConfirm: false,
         permintaanFakultatif: 0,
@@ -171,16 +174,13 @@
           { text: "Alokasi Tambahan", value: "alokasi_tambahan" },
           { text: "Konfirmasi", value: "actions" },
         ],
-        fakultatif: new FormData(),
-        fakultatifs: [],
         form: {
           id_pangkalan: null,
+          alokasi_tambahan: null,
           tanggal_pengajuan: null,
           tanggal_penambahan_alokasi: null,
-          alokasi_tambahan: null,
           status_persetujuan_pangkalan: null,
         },
-        itemId: "",
       };
     },
 
@@ -234,11 +234,11 @@
         if(statusPersetujuan !== '')
         {
           let newData = {
+            alokasi_tambahan: this.form.alokasi_tambahan,
             Pangkalanid_pangkalan: this.form.id_pangkalan,
             tanggal_pengajuan: this.form.tanggal_pengajuan,
-            tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
-            alokasi_tambahan: this.form.alokasi_tambahan,
             status_persetujuan_pangkalan: statusPersetujuan,
+            tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
           };
 
           var url = this.$api + "/alokasiFakultatif/update/" + this.itemId;
@@ -276,15 +276,16 @@
 
       rejectHandler(item) {
         this.handleSetData(item);
+        
         this.dialogReject = true;
       },
 
       handleSetData(item){
         this.itemId = item.id_alokasi_fakultatif;
         this.form.id_pangkalan = item.id_pangkalan;
+        this.form.alokasi_tambahan = item.alokasi_tambahan;
         this.form.tanggal_pengajuan = item.tanggal_pengajuan;
         this.form.tanggal_penambahan_alokasi = item.tanggal_penambahan_alokasi;
-        this.form.alokasi_tambahan = item.alokasi_tambahan;
         this.form.status_persetujuan_pangkalan = item.status_persetujuan_pangkalan;
       },
 
@@ -297,9 +298,9 @@
       resetForm() {
         this.form = {
           id_pangkalan: null,
+          alokasi_tambahan: null,
           tanggal_pengajuan: null,
           tanggal_penambahan_alokasi: null,
-          alokasi_tambahan: null,
           status_persetujuan_pangkalan: null,
         };
       },

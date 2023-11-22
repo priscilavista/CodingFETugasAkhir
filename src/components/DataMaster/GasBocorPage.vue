@@ -101,6 +101,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Gas Bocor";
         },
@@ -109,11 +110,13 @@
 
     data() {
       return {
+        color: "",
+        deleteId: "",
+        search: null,
+        gasbocors: [],
+        overlay: false,
         snackbar: false,
         error_message: "",
-        overlay: false,
-        color: "",
-        search: null,
         dialogConfirm: false,
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
@@ -141,8 +144,6 @@
           { text: "Status Tabung", value: "status_tabung" },
           { text: "", value: "actions" },
         ],
-        gasbocors: [],
-        deleteId: "",
       };
     },
 
@@ -222,7 +223,6 @@
 
       cancel() {
         this.dialogConfirm = false;
-        location.reload();
       },
     },
 

@@ -404,14 +404,14 @@
       },
       
       save() {
-        this.pangkalan.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
         this.pangkalan.append("nama_pangkalan", this.form.nama_pangkalan);
-        this.pangkalan.append("tanggal_kontrak_pangkalan", this.form.tanggal_kontrak_pangkalan);
-        this.pangkalan.append("nomor_telepon_pangkalan", this.form.nomor_telepon_pangkalan);
         this.pangkalan.append("email_pangkalan", this.form.email_pangkalan);
         this.pangkalan.append("alamat_pangkalan", this.form.alamat_pangkalan);
         this.pangkalan.append("url_maps_pangkalan", this.form.url_maps_pangkalan);
         this.pangkalan.append("id_registrasi", this.form.id_registrasi_pangkalan);
+        this.pangkalan.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
+        this.pangkalan.append("nomor_telepon_pangkalan", this.form.nomor_telepon_pangkalan);
+        this.pangkalan.append("tanggal_kontrak_pangkalan", this.form.tanggal_kontrak_pangkalan);
 
         var url = this.$api + "/pangkalan/create";
         this.$http.post(url, this.pangkalan)
