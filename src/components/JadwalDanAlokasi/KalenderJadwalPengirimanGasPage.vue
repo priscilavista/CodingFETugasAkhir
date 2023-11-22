@@ -6,7 +6,6 @@
             style="margin-left:-25px; margin-top:-25px"
         />
 
-        <!-- <h5 class="flex-item" style="font-size: 30px; margin-top: 40px">Data kendaraan</h5> -->
         <div v-if="isWideScreen" style="margin-bottom: 5.5%">
             <h3 style="float:left">Kalender Jadwal Pengiriman Gas</h3>
         </div>
@@ -270,44 +269,10 @@
                             label="Driver yang Bertugas"
                             readonly
                         />
-                        
-                        <v-spacer />
-                        <!-- <v-btn v-if="this.inputType!='Tambah'" small color="error" dark style="float:right; margin-left:2%; margin-top: 3%;" @click="deleteHandler(editId)">Hapus</v-btn>
-                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn> -->
-                        <v-spacer />
                     </v-container>
                 </v-card-text>
             </v-card>
         </v-dialog>
-
-        <!-- <v-dialog v-model="dialogConfirm" persistent max-width="400px">
-            <v-card>
-                <v-card-title>
-                    <span class="headline" />
-                </v-card-title>
-
-                <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
-                
-                <v-spacer />
-                <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
-                <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-                <v-card-text />
-            </v-card>
-        </v-dialog> -->
-
-        <!-- <v-dialog v-model="dialogClose" persistent max-width="400px">
-            <v-card>
-                <v-card-title>
-                    <span class="headline" />
-                </v-card-title>
-                <v-card-text> Buang perubahan? </v-card-text>
-                
-                <v-spacer />
-                <v-btn small style="font-size:12px" color="#E53935" text @click="closeKalender">Buang</v-btn>
-                <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogClose=false">Batal</v-btn>
-                <v-card-text />
-            </v-card>
-        </v-dialog> -->
 
         <v-snackbar
             v-model="snackbarJadwal"
@@ -747,9 +712,9 @@
         },
 
         mounted() {
-            this.$refs.calendar.checkChange()
-            localStorage.setItem("menu", "Kalender Jadwal Pengiriman Gas");
             this.readJadwal();
+            this.$refs.calendar.checkChange();
+            localStorage.setItem("menu", "Kalender Jadwal Pengiriman Gas");
         },
     }
 </script>

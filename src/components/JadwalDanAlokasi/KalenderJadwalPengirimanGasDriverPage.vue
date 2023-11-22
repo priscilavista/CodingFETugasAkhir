@@ -106,7 +106,7 @@
         <v-dialog v-model="dialog" persistent max-width="600px">
             <v-card height="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                 <v-card-title>
-                    <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
+                    <h3 style="font-size:20px; color:#ffffff">Detail Pengiriman</h3>
                     <v-spacer />
                     <v-icon @click="dialog = false">mdi-close</v-icon>
                 </v-card-title>
@@ -146,16 +146,16 @@
                                             </v-list-item>
 
                                             <v-list-item>
-                                                <v-list-item-content>Alokasi:</v-list-item-content>
+                                                <v-list-item-content>Jenis:</v-list-item-content>
                                                 <v-list-item-content style="text-align: left">
-                                                    {{ item.alokasi_pengambilan_gas }}
+                                                    {{ item.jenis_alokasi }}
                                                 </v-list-item-content>
                                             </v-list-item>
 
                                             <v-list-item>
-                                                <v-list-item-content>Jenis:</v-list-item-content>
+                                                <v-list-item-content>Alokasi:</v-list-item-content>
                                                 <v-list-item-content style="text-align: left">
-                                                    {{ item.jenis_alokasi }}
+                                                    {{ item.alokasi_pengambilan_gas }} Tabung
                                                 </v-list-item-content>
                                             </v-list-item>
 
@@ -361,7 +361,7 @@
                                 }
                                 else
                                 {
-                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas + parseInt(temp[i].jumlah_alokasi_pengambilan_gas);
+                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas + parseInt(temp[i].jumlah_alokasi_pengambilan_gas);
                                 }
 
                                 this.fullEvents.push(
@@ -467,8 +467,8 @@
         font-size: 11px;
         padding: 0px;
         cursor: pointer;
-        margin-bottom: 1px;
-        margin-top: 3px;
+        margin-bottom: 2px;
+        margin-top: 4px;
     }
 
     .v-application--is-ltr .v-toolbar__content>.v-btn.v-btn--icon:first-child+.v-toolbar__title{
