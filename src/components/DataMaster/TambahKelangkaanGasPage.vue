@@ -23,7 +23,7 @@
     
     <v-card height="14%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
       <v-card-title>
-        <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data Kelangkaan Gas</h3>
+        <h3 style="font-size:20px; color:#ffffff">Tambah Data Kelangkaan Gas</h3>
         <v-spacer />
       </v-card-title>
     </v-card>
@@ -46,13 +46,56 @@
           />
 
           <v-spacer />
-          <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+          <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="handleDialog()">Simpan</v-btn>
           <v-spacer />
         </v-container>
       </v-card-text>
     </v-card>
+    
+    <v-dialog v-model="dialog" persistent max-width="800px">
+      <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+        <v-card-title>
+          <h3 style="font-size:20px; color:#ffffff">Konfirmasi Penambahan Kelangkaan Gas</h3>
+          <v-spacer />
+          <v-icon @click="close()" color="#ffffff" link>mdi-close</v-icon>
+        </v-card-title>
+      </v-card>
+
+      <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 2.5%; overflow-x: hidden">
+        <v-card-text class="justify-left">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Apakah Anda Yakin dengan Data Kelangkaan Gas di Bawah Ini?</h6>
+
+          <v-container style="padding-left: 5px; padding-right: 5px">
+            <v-text-field
+              type="date"
+              :rules="tanggalRules"
+              v-model="form.tanggal_pengisian"
+              label="Tanggal Pengisian"
+              readonly
+            />
+
+            <v-text-field
+              :rules="jumlahRules"
+              v-model="form.jumlah_permintaan"
+              label="Jumlah Permintaan Gas"
+              type="number"
+              readonly
+            />
+          </v-container>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:right;" @click="save">Konfirmasi</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
+
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </v-main>
 </template>
 
@@ -74,6 +117,7 @@
         snackbar: false,
         error_message: "",
         color: "",
+        dialog: false,
         search: null,
         overlay: false,
         isWideScreen: window.innerWidth >= 1000,
@@ -103,6 +147,7 @@
 
     methods: {
       save() {
+        this.overlay = true;
         this.kelangkaanGas.append("Pangkalanid_pangkalan", localStorage.getItem('id'));
         this.kelangkaanGas.append("tanggal_pengisian_data", this.form.tanggal_pengisian);
         this.kelangkaanGas.append("jumlah_permintaan", this.form.jumlah_permintaan);
@@ -113,6 +158,7 @@
             if(response.data.code === 200)
             {
               this.resetForm();
+              this.overlay = false;
               this.color = "green";
               this.snackbar = true;
               this.error_message = response.data.message;
@@ -121,16 +167,55 @@
             else
             {
               this.color = "red";
+              this.overlay = false;
               this.snackbar = true;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
+            this.overlay = false;
             this.snackbar = true;
             this.error_message = error.response.data.message;
           });
       },
+
+      close() {
+        this.resetForm();
+        this.dialog = false;
+      },
+
+      checkForm() {
+        if(this.form.jumlah_permintaan === null)
+        {
+          return 1;
+        }
+        else
+        {
+          if(this.form.tanggal_pengisian === null)
+          {
+            return 1;
+          }
+          else
+          {
+            return 0;
+          }
+        }
+      },
+
+      handleDialog() {
+        if(this.checkForm() === 0)
+        {
+          this.dialog = true;
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
+      },
+
       resetForm() {
         this.form = {
           id_kelangkaan_gas: null,

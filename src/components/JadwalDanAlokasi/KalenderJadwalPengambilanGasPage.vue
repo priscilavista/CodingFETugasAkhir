@@ -358,7 +358,7 @@
                         href: '/jadwal-pengambilan-gas-page',
                     },
                     { 
-                        text: "Jadwal Pengambilan Gas",
+                        text: "Kalender Jadwal Pengambilan Gas",
                         disabled: true,
                         href: '/kalender-jadwal-pengambilan-gas-page',
                     },

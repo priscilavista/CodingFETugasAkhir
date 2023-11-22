@@ -64,7 +64,7 @@
       </v-data-table>
     </v-card>
 
-    <v-dialog v-model="dialogConfirm" persistent max-width="400px">
+    <v-dialog v-model="dialogConfirm" persistent max-width="600px">
       <v-card>
         <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
           <v-card-title>
@@ -74,12 +74,14 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px">Apakah Gas Bocor Sudah Diambil dari Pangkalan?</v-card-text>
+        <v-card-text>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;">Apakah Gas Bocor Sudah Diambil dari Pangkalan?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
-          <v-btn color="#E53935" text @click="deleteData">Konfirmasi</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+          <v-btn color="#1E88E5" text @click="deleteData">Konfirmasi</v-btn>
+          <v-btn style="margin-right:12.5px" color="#E53935" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -139,7 +141,6 @@
           { text: "Status Tabung", value: "status_tabung" },
           { text: "", value: "actions" },
         ],
-        gasbocor: new FormData(),
         gasbocors: [],
         deleteId: "",
       };

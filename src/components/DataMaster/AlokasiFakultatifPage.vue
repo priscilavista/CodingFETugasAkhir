@@ -359,10 +359,6 @@
           alokasi_tambahan: null,
           status_persetujuan_pangkalan: null,
         },
-        form_pangkalan: {
-          id_pangkalan: null,
-          nama_pangkalan: null,
-        },
         pangkalan: [],
         deleteId: "",
         editId: "",
