@@ -104,6 +104,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Tambah Gas Bocor";
         },
@@ -112,14 +113,15 @@
 
     data() {
       return {
-        id_pangkalan: localStorage.getItem('id'),
-        snackbar: false,
-        overlay: false,
-        error_message: "",
         color: "",
-        dialog: false,
         search: null,
+        dialog: false,
+        overlay: false,
+        snackbar: false,
+        error_message: "",
+        gasBocor: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
+        id_pangkalan: localStorage.getItem('id'),
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
           { 
@@ -133,11 +135,10 @@
             href: '/tambah-gas-bocor-page',
           },
         ],
-        gasBocor: new FormData(),
         form: {
           id_gas_bocor: null,
-          tanggal_pengisian: null,
           nomor_tabung: null,
+          tanggal_pengisian: null,
         },
         tanggalRules: [(v) => !!v || "Tanggal is Required"],
         nomorTabungRules: [(v) => !!v || "Nomor Tabung is Required"],
@@ -147,10 +148,10 @@
     methods: {
       save() {
         this.overlay = true;
-        this.gasBocor.append("nomor_tabung", this.form.nomor_tabung);
-        this.gasBocor.append("tanggal_pengisian_data", this.form.tanggal_pengisian);
-        this.gasBocor.append("Pangkalanid_pangkalan", this.id_pangkalan);
         this.gasBocor.append("status_tabung", 'R');
+        this.gasBocor.append("nomor_tabung", this.form.nomor_tabung);
+        this.gasBocor.append("Pangkalanid_pangkalan", this.id_pangkalan);
+        this.gasBocor.append("tanggal_pengisian_data", this.form.tanggal_pengisian);
 
         var url = this.$api + "/gasBocor/create";
         this.$http.post(url, this.gasBocor)
@@ -219,8 +220,8 @@
       resetForm() {
         this.form = {
           id_gas_bocor: null,
-          tanggal_pengisian: null,
           nomor_tabung: null,
+          tanggal_pengisian: null,
         };
       },
     },

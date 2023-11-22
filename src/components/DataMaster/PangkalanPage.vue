@@ -232,6 +232,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Pangkalan";
         },
@@ -240,14 +241,20 @@
 
     data() {
       return {
-        inputType: "Tambah",
+        color: "",
+        editId: "",
+        search: null,
+        deleteId: "",
+        dialog: false,
+        kecamatan: [],
+        kelurahan: [],
+        pangkalans: [],
+        overlay: false,
         snackbar: false,
         error_message: "",
-        color: "",
-        overlay: false,
-        search: null,
-        dialog: false,
+        inputType: "Tambah",
         dialogConfirm: false,
+        pangkalan: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth >= 650 && window.innerWidth < 1000,
         items: [
@@ -270,8 +277,6 @@
           { text: "Status", value: "status_pangkalan" },
           { text: "", value: "actions" },
         ],
-        pangkalan: new FormData(),
-        pangkalans: [],
         form: {
           id_pangkalan: null,
           nama_pangkalan: null,
@@ -289,15 +294,11 @@
           url_maps_pangkalan: null,
           status_pangkalan: null,
         },
-        kecamatan: [],
-        kelurahan: [],
-        deleteId: "",
-        editId: "",
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
-        idRules: [(v) => !!v || "ID Registrasi is Required"],
         alamatRules: [(v) => !!v || "Alamat is Required"],
         mapsRules: [(v) => !!v || "URL Maps is Required"],
+        idRules: [(v) => !!v || "ID Registrasi is Required"],
         kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
         kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
         kontrakRules: [(v) => !!v || "Tanggal Kontrak is Required"],
@@ -359,8 +360,7 @@
           .then((response) => {
             if(response.data.code === 200)
             {
-              let temp = response.data.data;
-              this.kecamatan = temp;
+              this.kecamatan = response.data.data;
             }
             else
             {
@@ -443,14 +443,14 @@
       
       update() {
         let newData = {
-          alamat_pangkalan: this.form.alamat_pangkalan,
           nama_pangkalan: this.form.nama_pangkalan,
+          email_pangkalan: this.form.email_pangkalan,
+          alamat_pangkalan: this.form.alamat_pangkalan,
           url_maps_pangkalan: this.form.url_maps_pangkalan,
           id_registrasi: this.form.id_registrasi_pangkalan,
-          tanggal_kontrak_pangkalan: this.form.tanggal_kontrak_pangkalan,
-          email_pangkalan: this.form.email_pangkalan,
-          nomor_telepon_pangkalan: this.form.nomor_telepon_pangkalan,
           Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
+          nomor_telepon_pangkalan: this.form.nomor_telepon_pangkalan,
+          tanggal_kontrak_pangkalan: this.form.tanggal_kontrak_pangkalan,
         };
 
         var url = this.$api + "/pangkalan/update/" + this.editId;
@@ -529,17 +529,18 @@
               
               this.form.id_pangkalan = res.id_pangkalan;
               this.form.id_kelurahan = res.id_kelurahan;
+              this.form.nama_kecamatan = res.nama_kecamatan;
               this.form.nama_kelurahan = res.nama_kelurahan;
               this.form.nama_pangkalan = res.nama_pangkalan;
-              this.form.tanggal_kontrak_pangkalan = res.tanggal_kontrak_pangkalan;
-              this.form.nomor_telepon_pangkalan = res.nomor_telepon_pangkalan;
               this.form.email_pangkalan = res.email_pangkalan;
               this.form.alamat_pangkalan = res.alamat_pangkalan;
+              this.form.id_kecamatan = parseInt(res.id_kecamatan);
               this.form.url_maps_pangkalan = res.url_maps_pangkalan;
               this.form.id_registrasi_pangkalan = res.id_registrasi;
-              this.form.id_kecamatan = parseInt(res.id_kecamatan);
-              this.form.nama_kecamatan = res.nama_kecamatan;
+              this.form.nomor_telepon_pangkalan = res.nomor_telepon_pangkalan;
               this.getDataKelurahan(parseInt(res.Master_Kecamatanid_kecamatan));
+              this.form.tanggal_kontrak_pangkalan = res.tanggal_kontrak_pangkalan;
+
               this.dialog = true;
             }
             else
@@ -558,8 +559,8 @@
       },
 
       deleteHandler(item) {
-        this.deleteId = item.id_pangkalan;
         this.form.status_pangkalan = item.status_pangkalan;
+        this.deleteId = item.id_pangkalan;
         this.dialogConfirm = true;
       },
 
@@ -570,26 +571,25 @@
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
-        location.reload();
       },
 
       resetForm() {
         this.form = {
-          id_pangkalan: null,
-          nama_pangkalan: null,
-          id_registrasi_pangkalan: null,
-          tanggal_kontrak_pangkalan: null,
-          email_pangkalan: null,
-          nomor_telepon_pangkalan: null,
-          alamat_pangkalan: null,
           id_kecamatan: null,
-          nama_kecamatan: null,
+          id_pangkalan: null,
           id_kelurahan: null,
-          nama_kelurahan: null,
           id_padukuhan: null,
           nama_padukuhan: null,
-          url_maps_pangkalan: null,
+          nama_kelurahan: null,
+          nama_pangkalan: null,
+          nama_kecamatan: null,
+          email_pangkalan: null,
+          alamat_pangkalan: null,
           status_pangkalan: null,
+          url_maps_pangkalan: null,
+          nomor_telepon_pangkalan: null,
+          id_registrasi_pangkalan: null,
+          tanggal_kontrak_pangkalan: null,
         };
       },
     },

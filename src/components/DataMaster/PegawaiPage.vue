@@ -204,6 +204,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Pegawai";
         },
@@ -212,15 +213,20 @@
 
     data() {
       return {
-        inputType: "Tambah",
-        snackbar: false,
-        overlay: false,
-        error_message: "",
         color: "",
+        editId: "",
+        pegawais: [],
+        deleteId: "",
         search: null,
         dialog: false,
+        overlay: false,
+        snackbar: false,
+        error_message: "",
+        inputType: "Tambah",
         dialogConfirm: false,
+        pegawai: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
+        roles: [{ role: "Admin" }, { role: "Manajer" }, { role: "Driver"}],
         isMediumScreen: window.innerWidth >= 650 && window.innerWidth < 1000,
         items: [
           { 
@@ -243,8 +249,6 @@
           { text: "Status", value: "status_pegawai" },
           { text: "", value: "actions" },
         ],
-        pegawai: new FormData(),
-        pegawais: [],
         form: {
           id_pegawai: null,
           role_pegawai: null,
@@ -254,9 +258,6 @@
           nomor_telepon_pegawai: null,
           status_pegawai: null,
         },
-        roles: [{ role: "Admin" }, { role: "Manajer" }, { role: "Driver"}],
-        deleteId: "",
-        editId: "",
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
         ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
@@ -425,17 +426,16 @@
       },
 
       deleteHandler(item) {
-        this.deleteId = item.id_pegawai;
         this.form.status_pegawai  = item.status_pegawai;
+        this.deleteId = item.id_pegawai;
         this.dialogConfirm = true;
       },
 
       cancel() {
         this.resetForm();
         this.dialog = false;
-        this.dialogConfirm = false;
         this.inputType = "Tambah";
-        location.reload();
+        this.dialogConfirm = false;
       },
 
       resetForm() {
@@ -444,9 +444,9 @@
           role_pegawai: null,
           nama_pegawai: null,
           email_pegawai: null,
+          status_pegawai: null,
           tanggal_lahir_pegawai: null,
           nomor_telepon_pegawai: null,
-          status_pegawai: null,
         };
       },
     },

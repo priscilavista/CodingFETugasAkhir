@@ -114,12 +114,13 @@
 
     data() {
       return {
+        color: "",
+        search: null,
+        dialog: false,
+        overlay: false,
         snackbar: false,
         error_message: "",
-        color: "",
-        dialog: false,
-        search: null,
-        overlay: false,
+        kelangkaanGas: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
@@ -134,14 +135,13 @@
             href: '/tambah-kelangkaan-gas-page',
           },
         ],
-        kelangkaanGas: new FormData(),
         form: {
           id_kelangkaan_gas: null,
           tanggal_pengisian: null,
           jumlah_permintaan: null,
         },
-        tanggalRules: [(v) => !!v || "Tanggal Pengisian is Required"],
         jumlahRules: [(v) => !!v || "Jumlah Permintaan is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Pengisian is Required"],
       };
     },
 

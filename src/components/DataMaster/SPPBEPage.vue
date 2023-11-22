@@ -244,6 +244,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "SPPBE";
         },
@@ -253,13 +254,19 @@
     data() {
       return {
         color: "",
+        editId: "",
+        sppbes: [],
         search: null,
+        deleteId: "",
+        kecamatan: [],
+        kelurahan: [],
         dialog: false,
         overlay: false,
         snackbar: false,
         error_message: "",
         inputType: "Tambah",
         dialogConfirm: false,
+        sppbe: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth >= 650 && window.innerWidth < 1000,
         items: [
@@ -282,27 +289,21 @@
           { text: "Status", value: "status_sppbe" },
           { text: "", value: "actions" },
         ],
-        sppbe: new FormData(),
-        sppbes: [],
         form: {
           id_sppbe: null,
           nama_sppbe: null,
           email_sppbe: null,
-          nomor_telepon_sppbe: null,
+          id_padukuhan: null,
+          status_sppbe: null,
           alamat_sppbe: null,
           id_kecamatan: null,
-          nama_kecamatan: null,
           id_kelurahan: null,
+          nama_kecamatan: null,
           nama_kelurahan: null,
-          id_padukuhan: null,
           nama_padukuhan: null,
           url_maps_sppbe: null,
-          status_sppbe: null,
+          nomor_telepon_sppbe: null,
         },
-        kecamatan: [],
-        kelurahan: [],
-        deleteId: "",
-        editId: "",
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
         alamatRules: [(v) => !!v || "Alamat is Required"],
@@ -412,14 +413,14 @@
       
       save() {
         this.sppbe.append("nama_sppbe", this.form.nama_sppbe);
-        this.sppbe.append("alamat_sppbe", this.form.alamat_sppbe);        
+        this.sppbe.append("email_sppbe", this.form.email_sppbe);
+        this.sppbe.append("alamat_sppbe", this.form.alamat_sppbe);
+        this.sppbe.append("nomor_telepon_sppbe", this.form.nomor_telepon_sppbe);
+        this.sppbe.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
         if(this.form.url_maps_sppbe !== null && this.form.url_maps_sppbe !== 'null')
         {
           this.sppbe.append("url_maps_sppbe", this.form.url_maps_sppbe);
         }
-        this.sppbe.append("email_sppbe", this.form.email_sppbe);
-        this.sppbe.append("nomor_telepon_sppbe", this.form.nomor_telepon_sppbe);
-        this.sppbe.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
 
         var url = this.$api + "/sppbe/create";
         this.$http.post(url, this.sppbe)
@@ -457,12 +458,12 @@
         }
         
         let newData = {
-          Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
-          nama_sppbe: this.form.nama_sppbe,
-          alamat_sppbe: this.form.alamat_sppbe,
-          email_sppbe: this.form.email_sppbe,
-          nomor_telepon_sppbe: this.form.nomor_telepon_sppbe,
           url_maps_sppbe: url_maps,
+          nama_sppbe: this.form.nama_sppbe,
+          email_sppbe: this.form.email_sppbe,
+          alamat_sppbe: this.form.alamat_sppbe,
+          nomor_telepon_sppbe: this.form.nomor_telepon_sppbe,
+          Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
         };
 
         var url = this.$api + "/sppbe/update/" + this.editId;
@@ -540,16 +541,17 @@
               var res = response.data.data;
               
               this.form.id_sppbe = res.id_sppbe;
-              this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
-              this.form.nama_kelurahan = res.nama_kelurahan;
               this.form.nama_sppbe = res.nama_sppbe;
-              this.form.alamat_sppbe = res.alamat_sppbe;
-              this.form.nomor_telepon_sppbe = res.nomor_telepon_sppbe;
               this.form.email_sppbe = res.email_sppbe;
+              this.form.alamat_sppbe = res.alamat_sppbe;
               this.form.url_maps_sppbe = res.url_maps_sppbe;
-              this.form.id_kecamatan = parseInt(res.Master_Kecamatanid_kecamatan);
               this.form.nama_kecamatan = res.nama_kecamatan;
+              this.form.nama_kelurahan = res.nama_kelurahan;
+              this.form.nomor_telepon_sppbe = res.nomor_telepon_sppbe;
+              this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
               this.getDataKelurahan(parseInt(res.Master_Kecamatanid_kecamatan));
+              this.form.id_kecamatan = parseInt(res.Master_Kecamatanid_kecamatan);
+
               this.dialog = true;
             }
             else
@@ -568,8 +570,8 @@
       },
 
       deleteHandler(item) {
-        this.deleteId = item.id_sppbe;
         this.form.status_sppbe = item.status_sppbe;
+        this.deleteId = item.id_sppbe;
         this.dialogConfirm = true;
       },
 
@@ -580,7 +582,6 @@
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
-        location.reload();
       },
 
       resetForm() {
@@ -588,16 +589,16 @@
           id_sppbe: null,
           nama_sppbe: null,
           email_sppbe: null,
-          nomor_telepon_sppbe: null,
           alamat_sppbe: null,
           id_kecamatan: null,
-          nama_kecamatan: null,
+          status_sppbe: null,
           id_kelurahan: null,
-          nama_kelurahan: null,
           id_padukuhan: null,
+          nama_kecamatan: null,
+          nama_kelurahan: null,
           nama_padukuhan: null,
           url_maps_sppbe: null,
-          status_sppbe: null,
+          nomor_telepon_sppbe: null,
         };
       },
     },
