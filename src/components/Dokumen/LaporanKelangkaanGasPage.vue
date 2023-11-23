@@ -65,189 +65,191 @@
             </v-card>
 
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
-                <span id="Laporan">
+                <span>
                     <v-spacer />
                     <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
                     <v-spacer />
 
-                    <v-card-text style="padding:30px; margin-top: 3%">
-                        <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Kelangkaan Gas Periode {{ form.bulan }} Tahun {{ form.tahun }}</h2>
-                        
-                        <v-row no-gutters>
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    tile
-                                    outlined
-                                    class="pa-2"
-                                    style="text-align:center;"
+                    <span id="LaporanKelangkaanGas">
+                        <v-card-text style="padding:30px; margin-top: 3%">
+                            <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Kelangkaan Gas Periode {{ form.bulan }} Tahun {{ form.tahun }}</h2>
+                            
+                            <v-row no-gutters>
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <strong>No</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        tile
+                                        outlined
+                                        class="pa-2"
+                                        style="text-align:center;"
+                                    >
+                                        <strong>No</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                md="2"
-                                cols="6"
-                            >
-                                <v-card
-                                    tile
-                                    outlined
-                                    class="pa-2"
-                                    style="text-align:center;"
+                                <v-col
+                                    md="2"
+                                    cols="6"
                                 >
-                                    <strong>Kecamatan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        tile
+                                        outlined
+                                        class="pa-2"
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Kecamatan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                md="2"
-                                cols="6"
-                            >
-                                <v-card
-                                    tile
-                                    outlined
-                                    class="pa-2"
-                                    style="text-align:center;"
+                                <v-col
+                                    md="2"
+                                    cols="6"
                                 >
-                                    <strong>Kelurahan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        tile
+                                        outlined
+                                        class="pa-2"
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Kelurahan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="3"
                                 >
-                                    <strong>Pangkalan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Pangkalan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>Jumlah Permintaan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Jumlah Permintaan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>Presentase</strong>
-                                </v-card>
-                            </v-col>
-                        </v-row>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Presentase</strong>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
 
-                        <v-row no-gutters
-                            v-for="item in kelangkaan"
-                            :key="item.id_kelangkaan_gas"
-                        >
-                            <v-col
-                                cols="6"
-                                md="1"
+                            <v-row no-gutters
+                                v-for="item in kelangkaan"
+                                :key="item.id_kelangkaan_gas"
                             >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <span>{{item.no}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.no}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.kecamatan}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.kecamatan}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.kelurahan}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.kelurahan}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="3"
                                 >
-                                    <span style="margin-left:5px">{{item.nama_pangkalan}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.nama_pangkalan}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.jumlah_permintaan}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span style="margin-left:5px">{{item.jumlah_permintaan}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.presentase}}%</span>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span style="margin-left:5px">{{item.presentase}}%</span>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </span>
                 </span>
             </v-card>
         </v-dialog>
@@ -261,6 +263,8 @@
 </template>
 
 <script>
+    import html2PDF from "jspdf-html2canvas";
+
     export default {
         name: "LaporanKelangkaanGasPage",
 
@@ -281,6 +285,7 @@
                 color: '',
                 dialog: false,
                 overlay: false,
+                kelangkaan: [],
                 snackbar: false,
                 error_message: "",
                 isWideScreen: window.innerWidth >= 1000,
@@ -300,17 +305,10 @@
                     },
                 ],
                 form: {
-                    nomor_bulan: null,
                     bulan: null,
                     tahun: null,
+                    nomor_bulan: null,
                 },
-                kelangkaan: [
-                    { no: 1, id_kelangkaan_gas: 1, kecamatan: 'Playen', kelurahan: 'Getas', nama_pangkalan: 'A', jumlah_permintaan: 50, presentase: 50 },
-                    { no: 2, id_kelangkaan_gas: 2, kecamatan: 'Wonosari', kelurahan: 'Wonosari', nama_pangkalan: 'B', jumlah_permintaan: 60, presentase: 60 },
-                    { no: 3, id_kelangkaan_gas: 3, kecamatan: 'Patuk', kelurahan: 'Salam', nama_pangkalan: 'C', jumlah_permintaan: 70, presentase: 70 },
-                    { no: 4, id_kelangkaan_gas: 4, kecamatan: 'Gendangsari', kelurahan: 'Tegalrejo', nama_pangkalan: 'D', jumlah_permintaan: 80, presentase: 80 },
-                    { no: 5, id_kelangkaan_gas: 5, kecamatan: 'Ngawen', kelurahan: 'Tancep', nama_pangkalan: 'E', jumlah_permintaan: 90, presentase: 90 },
-                ],
             }
         },
 
@@ -373,8 +371,10 @@
             prosesHandler() {
                 if(this.checkForm() === 0)
                 {
+                    this.overlay = true;
+                    
                     this.form.bulan = this.getNamaBulan(this.form.nomor_bulan);
-                    this.dialog=true;
+                    this.getDataReport();
                 }
                 else
                 {
@@ -398,6 +398,56 @@
                 return 0;
             },
 
+            getDataReport(){
+                var url = this.$api + "/kelangkaanGas/getReport";
+                var body = { 'bulan': this.form.nomor_bulan, 'tahun': this.form.tahun }
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.kelangkaan = [];
+                            let temp = response.data.data;
+
+                            for(let i = 0; i < temp.length; i++)
+                            {
+                                this.kelangkaan.push(
+                                    {
+                                        presentase: 50,
+                                        no: parseInt(i) + parseInt(1),
+                                        kecamatan: temp[i].nama_kecamatan, 
+                                        kelurahan: temp[i].nama_kelurahan,
+                                        nama_pangkalan: temp[i].nama_pangkalan,
+                                        jumlah_permintaan: temp[i].jumlah_permintaan, 
+                                        id_kelangkaan_gas: temp[i].id_kelangkaan_gas,
+                                    }
+                                )
+                            }
+
+                            this.overlay = false;
+                            this.dialog=true;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+
+                        if(error.request.status === 404)
+                        {
+                            this.kelangkaan = [];
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = 'Data Kelangkaan Gas Tidak Ditemukan';
+                        }
+                    });
+            },
+
             getNamaBulan(nomor_bulan) {
                 for(let i = 0; i < this.bulan.length; i++)
                 {
@@ -409,14 +459,30 @@
             },
 
             cetak() {
+                var report;
+                var reportName = "";
+                this.overlay = true;
 
+                report = document.getElementById("LaporanKelangkaanGas");
+                reportName = "Laporan Kelangkaan Gas_" + this.form.bulan + "_" + this.form.tahun;
+
+                html2PDF(report, {
+                    imageType: "image/jpeg",
+                    jsPDF: { format: "a4", },
+                    output: reportName + ".pdf",
+                    html2canvas: { scrollX: 0, scrollY: 0, },
+                    margin: { top: 0, right: 0, bottom: 0, left: -2.5, },
+                });
+
+                this.close();
+                this.overlay = false;
             },
 
             resetForm() {
                 this.form = {
-                    nomor_bulan: null,
                     bulan: null,
                     tahun: null,
+                    nomor_bulan: null,
                 };
             },
         },

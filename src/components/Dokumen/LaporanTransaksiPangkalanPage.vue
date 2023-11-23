@@ -115,191 +115,193 @@
             </v-card>
 
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
-                <span id="Laporan">
+                <span>
                     <v-spacer />
                     <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
                     <v-spacer />
 
-                    <v-card-text style="padding:30px; margin-top: 3%">
-                        <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Transaksi Pangkalan Periode {{ form.bulan_transaksi }} Tahun {{ form.tahun_transaksi }}</h2>
-                        <span style="float:left;">Nama Pangkalan</span> <span style="float:left;margin-left:40px">: </span> <span style="float:left;margin-left:3px"> {{form.nama_pangkalan}}</span> <br/>
-                        <span style="float:left;">Alamat Pangkalan</span> <span style="float:left;margin-left:34px">: </span> <span style="float:left;margin-left:3px"> {{form.alamat_pangkalan}}</span> <br/><br/>
-                        
-                        <v-row no-gutters>
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
-                                >
-                                    <strong>No</strong>
-                                </v-card>
-                            </v-col>
-
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
-                                >
-                                    <strong>Tanggal Pembelian</strong>
-                                </v-card>
-                            </v-col>
-
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
-                                >
-                                    <strong>Jumlah Pembelian</strong>
-                                </v-card>
-                            </v-col>
-
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
-                                >
-                                    <strong>Nama Pembeli</strong>
-                                </v-card>
-                            </v-col>
-
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
-                                >
-                                    <strong>KTP Pembeli</strong>
-                                </v-card>
-                            </v-col>
+                    <span id="LaporanTransaksiPangkalan">
+                        <v-card-text style="padding:30px; margin-top: 3%">
+                            <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Transaksi Pangkalan Periode {{ form.bulan_transaksi }} Tahun {{ form.tahun_transaksi }}</h2>
+                            <span style="float:left;">Nama Pangkalan</span> <span style="float:left;margin-left:40px">: </span> <span style="float:left;margin-left:3px"> {{form.nama_pangkalan}}</span> <br/>
+                            <span style="float:left;">Alamat Pangkalan</span> <span style="float:left;margin-left:34px">: </span> <span style="float:left;margin-left:3px"> {{form.alamat_pangkalan}}</span> <br/><br/>
                             
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                            <v-row no-gutters>
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <strong>Kategori</strong>
-                                </v-card>
-                            </v-col>
-                        </v-row>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>No</strong>
+                                    </v-card>
+                                </v-col>
 
-                        <v-row no-gutters
-                            v-for="item in transaksi"
-                            :key="item.id_transaksi"
-                        >
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.no}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Tanggal Pembelian</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.tanggal_pembelian}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Jumlah Pembelian</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="3"
                                 >
-                                    <span>{{item.jumlah_pembelian}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Nama Pembeli</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.nama_pembeli}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>KTP Pembeli</strong>
+                                    </v-card>
+                                </v-col>
+                                
+                                <v-col
+                                    cols="6"
+                                    md="2"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Kategori</strong>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
 
-                            <v-col
-                                cols="6"
-                                md="2"
+                            <v-row no-gutters
+                                v-for="item in transaksi"
+                                :key="item.id_transaksi"
                             >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <span style="margin-left:5px">{{item.ktp_pembeli}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.no}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.kategori}}</span>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.tanggal_pembelian}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="2"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.jumlah_pembelian}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="3"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.nama_pembeli}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="2"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.ktp_pembeli}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="2"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.kategori}}</span>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </span>
                 </span>
             </v-card>
         </v-dialog>
@@ -313,6 +315,8 @@
 </template>
 
 <script>
+    import html2PDF from "jspdf-html2canvas";
+
     export default {
         name: "LaporanTransaksiPangkalanPage",
 
@@ -454,9 +458,11 @@
             prosesHandler() {
                 if(this.checkForm() === 0)
                 {
-                    this.setDataPangkalan(this.form.id_pangkalan);
+                    this.overlay = true;
+
                     this.form.bulan_transaksi = this.getNamaBulan(this.form.nomor_bulan);
-                    this.dialog=true;
+                    this.setDataPangkalan(this.form.id_pangkalan);
+                    this.getDataReport();
                 }
                 else
                 {
@@ -485,6 +491,56 @@
                 return 0;
             },
 
+            getDataReport(){
+                var url = this.$api + "/transaksi/postBySearchData";
+                var body = { 'bulan': this.form.nomor_bulan, 'tahun': this.form.tahun, 'id_pangkalan': this.form.id_pangkalan }
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.transaksi = [];
+                            let temp = response.data.data;
+
+                            for(let i = 0; i < temp.length; i++)
+                            {
+                                this.transaksi.push(
+                                    {
+                                        no: parseInt(i) + parseInt(1), 
+                                        id_transaksi: temp[i].id_transaksi, 
+                                        tanggal_pembelian: temp[i].tanggal_transaksi, 
+                                        jumlah_pembelian: temp[i].jumlah_pembelian, 
+                                        nama_pembeli: temp[i].nama_pembeli, 
+                                        ktp_pembeli: temp[i].nomor_ktp_pembeli, 
+                                        kategori: temp[i].kategori_pembeli,
+                                    }
+                                )
+                            }
+
+                            this.overlay = false;
+                            this.dialog=true;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+
+                        if(error.request.status === 404)
+                        {
+                            this.transaksi = [];
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = 'Data Transaksi Tidak Ditemukan';
+                        }
+                    });
+            },
+
             setDataPangkalan(id_pangkalan){
                 for(let i = 0; i < this.pangkalan.length; i++)
                 {
@@ -507,7 +563,23 @@
             },
 
             cetak() {
+                var report;
+                var reportName = "";
+                this.overlay = true;
 
+                report = document.getElementById("LaporanTransaksiPangkalan");
+                reportName = "Laporan Transaksi Pangkalan_" + this.form.nama_pangkalan + "_" + this.form.bulan + "_" + this.form.tahun;
+
+                html2PDF(report, {
+                    imageType: "image/jpeg",
+                    jsPDF: { format: "a4", },
+                    output: reportName + ".pdf",
+                    html2canvas: { scrollX: 0, scrollY: 0, },
+                    margin: { top: 0, right: 0, bottom: 0, left: -2.5, },
+                });
+
+                this.close();
+                this.overlay = false;
             },
 
             resetForm() {

@@ -1,8 +1,8 @@
 <template>
     <v-main class="list" style="margin: auto;">
         <v-breadcrumbs
-            :items="items"
             divider="/"
+            :items="items"
             style="margin-left:-25px; margin-top:-25px"
         />
         
@@ -155,24 +155,24 @@
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 
-                        text: "Dashboard",
                         disabled: false,
+                        text: "Dashboard",
                         href: '/dashboard-page',
                     },
                     { 
-                        text: "Surat Kuasa Pengambilan Gas",
                         disabled: true,
+                        text: "Surat Kuasa Pengambilan Gas",
                         href: '/surat-kuasa-pengambilan-gas-page',
                     },
                 ],
                 form: {
                     id_sppbe: null,
-                    nama_sppbe: null,
-                    tanggal_pengambilan_gas: null,
-                    nomor_armada: 'AB 8797 JC',
                     id_driver: null,
+                    nama_sppbe: null,
                     nama_driver: null,
                     kuantitas_tabung: null,
+                    nomor_armada: 'AB 8797 JC',
+                    tanggal_pengambilan_gas: null,
                 },
             }
         },
@@ -214,8 +214,8 @@
                     .then((response) => {
                         if(response.data.code === 200)
                         {
-                            this.sppbe = response.data.data;
                             this.overlay = false;
+                            this.sppbe = response.data.data;
                         }
                         else
                         {
@@ -300,6 +300,7 @@
             exportPDF() {
                 var report;
                 var reportName = "";
+                this.overlay = true;
 
                 report = document.getElementById("SuratKuasa");
                 reportName = "Surat Kuasa_" + this.form.nama_driver;
@@ -308,19 +309,12 @@
                     imageType: "image/jpeg",
                     jsPDF: { format: "a4", },
                     output: reportName + ".pdf",
-                    margin: {
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: -2.5,
-                    },
-                    html2canvas: {
-                        scrollX: 0,
-                        scrollY: 0,
-                    },
+                    html2canvas: { scrollX: 0, scrollY: 0, },
+                    margin: { top: 0, right: 0, bottom: 0, left: -2.5, },
                 });
 
                 this.close();
+                this.overlay = false;
             },
 
             resetForm() {

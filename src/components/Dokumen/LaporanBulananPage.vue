@@ -65,351 +65,353 @@
             </v-card>
 
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%;overflow-x: hidden">
-                <span id="Laporan">
+                <span>
                     <v-spacer />
                     <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
                     <v-spacer />
 
-                    <v-card-text style="padding:30px; margin-top: 3%">
-                        <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Bulanan Agen LPG 3 KG (Bersubsidi) Periode {{ form.nomor_bulan }} Tahun {{ form.tahun }}</h2>
-                        <span style="float:left;">Nama Agen</span> <span style="float:left;margin-left:40.5px">: </span> <span style="float:left;margin-left:5px"> PT Satria Permana Jaya</span> <br/>
-                        <span style="float:left;">Alamat Agen</span> <span style="float:left;margin-left:33.8px">: </span> <span style="float:left;margin-left:5px"> Gadungsari RT 10/RW 13 No. 253</span> <br/>
-                        <span style="float:left;">Email</span> <span style="float:left;margin-left:79px">: </span> <span style="float:left;margin-left:5px"> satriapermanajaya@gmail.com</span> <br/>
-                        <span style="float:left;">No. Sold To</span> <span style="float:left;margin-left:41.2px">: </span> <span style="float:left;margin-left:5px"> 738293</span> <br/>
-                        <span style="float:left;">Wilayah</span> <span style="float:left;margin-left:63.8px">: </span> <span style="float:left;margin-left:5px"> DI Yogyakarta, Kabupaten Gunung Kidul</span> <br/><br/>
-                        <strong style="float:left">A. Laporan Stok Tabung Penyalur / Agen LPG 3 kg</strong> <br/><br/>
-                        
-                        <v-row no-gutters>
-                            <v-col
-                                cols="6"
-                                md="10"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                    <span id="LaporanBulanan">
+                        <v-card-text style="padding:30px; margin-top: 3%">
+                            <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Bulanan Agen LPG 3 KG (Bersubsidi) Periode {{ form.nomor_bulan }} Tahun {{ form.tahun }}</h2>
+                            <span style="float:left;">Nama Agen</span> <span style="float:left;margin-left:40.5px">: </span> <span style="float:left;margin-left:5px"> PT Satria Permana Jaya</span> <br/>
+                            <span style="float:left;">Alamat Agen</span> <span style="float:left;margin-left:33.8px">: </span> <span style="float:left;margin-left:5px"> Gadungsari RT 10/RW 13 No. 253</span> <br/>
+                            <span style="float:left;">Email</span> <span style="float:left;margin-left:79px">: </span> <span style="float:left;margin-left:5px"> satriapermanajaya@gmail.com</span> <br/>
+                            <span style="float:left;">No. Sold To</span> <span style="float:left;margin-left:41.2px">: </span> <span style="float:left;margin-left:5px"> 738293</span> <br/>
+                            <span style="float:left;">Wilayah</span> <span style="float:left;margin-left:63.8px">: </span> <span style="float:left;margin-left:5px"> DI Yogyakarta, Kabupaten Gunung Kidul</span> <br/><br/>
+                            <strong style="float:left">A. Laporan Stok Tabung Penyalur / Agen LPG 3 kg</strong> <br/><br/>
+                            
+                            <v-row no-gutters>
+                                <v-col
+                                    cols="6"
+                                    md="10"
                                 >
-                                    <strong>Stok Tabung Agen</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Stok Tabung Agen</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>Total</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Total</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="10"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="10"
                                 >
-                                    Stok Awal Bulan
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        Stok Awal Bulan
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    Total
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        Total
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="10"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="10"
                                 >
-                                    Total Penerimaan
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        Total Penerimaan
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    Total
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        Total
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="10"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="10"
                                 >
-                                    Total Penyaluran
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        Total Penyaluran
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    Total
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        Total
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="10"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="10"
                                 >
-                                    Stok Akhir Bulan
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        Stok Akhir Bulan
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    Total
-                                </v-card>
-                            </v-col>
-                        </v-row><br/>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        Total
+                                    </v-card>
+                                </v-col>
+                            </v-row><br/>
 
-                        <strong style="float:left">B. Rekapitulasi Laporan Bulanan Sub Penyalur / Pangkalan LPG 3 kg</strong> <br/><br/>
-                        
-                        <v-row no-gutters>
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                            <strong style="float:left">B. Rekapitulasi Laporan Bulanan Sub Penyalur / Pangkalan LPG 3 kg</strong> <br/><br/>
+                            
+                            <v-row no-gutters>
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <strong>No</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>No</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>ID Registrasi</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>ID Registrasi</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="3"
                                 >
-                                    <strong>Pangkalan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Pangkalan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    outlined
-                                    tile
-                                    style="text-align:center;padding: 8px 0 8px 0"
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <strong>Stok Awal</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        outlined
+                                        tile
+                                        style="text-align:center;padding: 8px 0 8px 0"
+                                    >
+                                        <strong>Stok Awal</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>Penerimaan</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Penerimaan</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <strong>Penyaluran</strong>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <strong>Penyaluran</strong>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="1"
-                            >
-                                <v-card
-                                    outlined
-                                    tile
-                                    style="text-align:center;padding: 8px 0 8px 0"
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <strong>Stok Akhir</strong>
-                                </v-card>
-                            </v-col>
-                        </v-row>
+                                    <v-card
+                                        outlined
+                                        tile
+                                        style="text-align:center;padding: 8px 0 8px 0"
+                                    >
+                                        <strong>Stok Akhir</strong>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
 
-                        <v-row no-gutters
-                            v-for="item in transaksi"
-                            :key="item.id_transaksi"
-                        >
-                            <v-col
-                                cols="6"
-                                md="1"
+                            <v-row no-gutters
+                                v-for="item in transaksi"
+                                :key="item.id_transaksi"
                             >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="1"
                                 >
-                                    <span>{{item.no}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.no}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.tanggal_pembelian}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.tanggal_pembelian}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:center;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span>{{item.jumlah_pembelian}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.jumlah_pembelian}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="3"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="3"
                                 >
-                                    <span style="margin-left:5px">{{item.nama_pembeli}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.nama_pembeli}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.ktp_pembeli}}</span>
-                                </v-card>
-                            </v-col>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.ktp_pembeli}}</span>
+                                    </v-card>
+                                </v-col>
 
-                            <v-col
-                                cols="6"
-                                md="2"
-                            >
-                                <v-card
-                                    class="pa-2"
-                                    outlined
-                                    tile
-                                    style="text-align:left;"
+                                <v-col
+                                    cols="6"
+                                    md="2"
                                 >
-                                    <span style="margin-left:5px">{{item.kategori}}</span>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:left;"
+                                    >
+                                        <span style="margin-left:5px">{{item.kategori}}</span>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </span>
                 </span>
             </v-card>
         </v-dialog>
@@ -423,6 +425,8 @@
 </template>
 
 <script>
+    import html2PDF from "jspdf-html2canvas";
+
     export default {
         name: "SuratKuasaPage",
 
@@ -529,8 +533,10 @@
             prosesHandler() {
                 if(this.checkForm() === 0)
                 {
+                    this.overlay = true;
+
                     this.form.bulan = this.getNamaBulan(this.form.nomor_bulan);
-                    this.dialog=true;
+                    this.getDataReport();
                 }
                 else
                 {
@@ -554,6 +560,56 @@
                 return 0;
             },
 
+            getDataReport(){
+                var url = this.$api + "/kelangkaanGas/getReport";
+                var body = { 'bulan': this.form.nomor_bulan, 'tahun': this.form.tahun }
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            this.transaksi = [];
+                            let temp = response.data.data;
+
+                            for(let i = 0; i < temp.length; i++)
+                            {
+                                this.transaksi.push(
+                                    {
+                                        presentase: 50,
+                                        no: parseInt(i) + parseInt(1),
+                                        kecamatan: temp[i].nama_kecamatan, 
+                                        kelurahan: temp[i].nama_kelurahan,
+                                        nama_pangkalan: temp[i].nama_pangkalan,
+                                        jumlah_permintaan: temp[i].jumlah_permintaan, 
+                                        id_kelangkaan_gas: temp[i].id_kelangkaan_gas,
+                                    }
+                                )
+                            }
+
+                            this.overlay = false;
+                            this.dialog=true;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+
+                        if(error.request.status === 404)
+                        {
+                            this.transaksi = [];
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = 'Data Stok Gas Bulanan Tidak Ditemukan';
+                        }
+                    });
+            },
+
             getNamaBulan(nomor_bulan) {
                 for(let i = 0; i < this.bulan.length; i++)
                 {
@@ -565,7 +621,23 @@
             },
 
             cetak() {
+                var report;
+                var reportName = "";
+                this.overlay = true;
 
+                report = document.getElementById("LaporanBulanan");
+                reportName = "Laporan Bulanan_" + this.form.bulan + "_" + this.form.tahun;
+
+                html2PDF(report, {
+                    imageType: "image/jpeg",
+                    jsPDF: { format: "a4", },
+                    output: reportName + ".pdf",
+                    html2canvas: { scrollX: 0, scrollY: 0, },
+                    margin: { top: 0, right: 0, bottom: 0, left: -2.5, },
+                });
+
+                this.close();
+                this.overlay = false;
             },
 
             resetForm() {
