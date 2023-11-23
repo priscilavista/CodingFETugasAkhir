@@ -31,22 +31,22 @@
             <v-card-text>
                 <v-container style="padding-left: 5px; padding-right: 5px; padding-bottom:47.5px">
                     <v-select
-                        :rules="bulanRules"
-                        v-model="form.nomor_bulan"
-                        :items="bulan"
-                        item-text="nama_bulan"
-                        item-value="id_bulan"
                         label="Bulan"
+                        :items="bulan"
+                        :rules="bulanRules"
+                        item-value="id_bulan"
+                        item-text="nama_bulan"
+                        v-model="form.nomor_bulan"
                         style="margin-top:-12.5px"
                     />
 
                     <v-select
+                        label="Tahun"
+                        :items="tahun"
                         :rules="tahunRules"
                         v-model="form.tahun"
-                        :items="tahun"
                         item-text="nama_tahun"
                         item-value="nama_tahun"
-                        label="Tahun"
                         style="margin-top:-10px"
                     />
                     
@@ -79,9 +79,9 @@
                                 md="1"
                             >
                                 <v-card
-                                    class="pa-2"
-                                    outlined
                                     tile
+                                    outlined
+                                    class="pa-2"
                                     style="text-align:center;"
                                 >
                                     <strong>No</strong>
@@ -89,13 +89,13 @@
                             </v-col>
 
                             <v-col
-                                cols="6"
                                 md="2"
+                                cols="6"
                             >
                                 <v-card
-                                    class="pa-2"
-                                    outlined
                                     tile
+                                    outlined
+                                    class="pa-2"
                                     style="text-align:center;"
                                 >
                                     <strong>Kecamatan</strong>
@@ -103,13 +103,13 @@
                             </v-col>
 
                             <v-col
-                                cols="6"
                                 md="2"
+                                cols="6"
                             >
                                 <v-card
-                                    class="pa-2"
-                                    outlined
                                     tile
+                                    outlined
+                                    class="pa-2"
                                     style="text-align:center;"
                                 >
                                     <strong>Kelurahan</strong>
@@ -385,21 +385,17 @@
             },
 
             checkForm() {
+                if(this.form.tahun === null)
+                {
+                    return 1;
+                }
+                
                 if(this.form.nomor_bulan === null)
                 {
                     return 1;
                 }
-                else
-                {
-                    if(this.form.tahun === null)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
+                
+                return 0;
             },
 
             getNamaBulan(nomor_bulan) {

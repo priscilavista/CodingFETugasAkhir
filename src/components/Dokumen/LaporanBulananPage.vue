@@ -463,9 +463,9 @@
                     },
                 ],
                 form: {
-                    nomor_bulan: null,
                     bulan: null,
                     tahun: null,
+                    nomor_bulan: null,
                 },
             }
         },
@@ -541,21 +541,17 @@
             },
 
             checkForm() {
+                if(this.form.tahun === null)
+                {
+                    return 1;
+                }
+
                 if(this.form.nomor_bulan === null)
                 {
                     return 1;
                 }
-                else
-                {
-                    if(this.form.tahun === null)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
+                
+                return 0;
             },
 
             getNamaBulan(nomor_bulan) {
@@ -574,9 +570,9 @@
 
             resetForm() {
                 this.form = {
-                    nomor_bulan: null,
                     bulan: null,
                     tahun: null,
+                    nomor_bulan: null,
                 };
             },
         },

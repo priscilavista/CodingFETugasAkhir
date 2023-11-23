@@ -96,12 +96,13 @@
 
         data() {
             return {
+                color: "",
                 jabatan: "",
-                role: localStorage.getItem("role"),
+                monthNow: "",
+                overlay: false,
                 snackbar: false,
                 error_message: "",
-                color: "",
-                overlay: false,
+                role: localStorage.getItem("role"),
                 isWideScreen: window.innerWidth >= 1000,
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 breadCrumbItems: [
@@ -111,61 +112,60 @@
                         href: '/dashboard-page',
                     },
                 ],
-                monthNow: "",
 
                 // Manager Variable
-                totalPembelian: 0,
-                totalPengambilanGas: 0,
-                totalPengirimanGas: 0,
-                kelangkaanGasBulanan: 0,
-                gasNormal: 0,
                 gasBocor: 0,
+                gasNormal: 0,
+                totalPembelian: 0,
+                totalPengirimanGas: 0,
+                totalPengambilanGas: 0,
+                dataRiwayatManager: [],
+                kelangkaanGasBulanan: 0,
                 headersManajer: [
                     { text: 'Tanggal', align: 'start', value: 'tanggal_transaksi' },
                     { text: 'Jumlah', value: 'jumlah_pembelian' },
                 ],
-                dataRiwayatManager: [],
 
                 //Driver Variable
-                pengambilanGasSelesaiDriver: 0,
+                dataRiwayatDriver: [],
+                daftarKegiatanDriver: [],
+                pengirimanGasSisaDriver: 0,
                 pengambilanGasSisaDriver: 0,
                 pengirimanGasSelesaiDriver: 0,
-                pengirimanGasSisaDriver: 0,
+                pengambilanGasSelesaiDriver: 0,
                 headersDriver: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
                     { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
-                dataRiwayatDriver: [],
-                daftarKegiatanDriver: [],
 
                 // Admin Variable
-                pengambilanGasSisaAdmin: 0,
-                pengirimanGasSisaAdmin: 0,
                 users: [],
+                dataRiwayatAdmin: [],
+                pengirimanGasSisaAdmin: 0,
+                pengambilanGasSisaAdmin: 0,
                 headersAdmin: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
                     { text: 'Tanggal Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
-                dataRiwayatAdmin: [],
 
                 //Pangkalan Variable
+                jadwalRabu: [],
+                jadwalSenin: [],
+                jadwalKamis: [],
+                jadwalJumat: [],
+                jadwalSabtu: [],
+                jadwalSelasa: [],
+                pangkalanItems: [],
                 stokAwalPangkalan: 0,
                 stokAkhirPangkalan: 0,
-                pangkalanItems: [],
                 headersPangkalan: [
                     { text: 'Nama Driver', align: 'text-left' }, 
                     { text: 'Jumlah Alokasi', align: 'text-right' }
                 ],
-                jadwalSenin: [],
-                jadwalSelasa: [],
-                jadwalRabu: [],
-                jadwalKamis: [],
-                jadwalJumat: [],
-                jadwalSabtu: [],
             }
         },
 

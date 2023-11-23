@@ -467,28 +467,22 @@
             },
 
             checkForm() {
+                if(this.form.tahun === null)
+                {
+                    return 1;
+                }
+
                 if(this.form.nomor_bulan === null)
                 {
                     return 1;
                 }
-                else
+                
+                if(this.form.id_pangkalan === null)
                 {
-                    if(this.form.tahun === null)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        if(this.form.id_pangkalan === null)
-                        {
-                            return 1;
-                        }
-                        else
-                        {
-                            return 0;
-                        }
-                    }
+                    return 1;
                 }
+                
+                return 0;
             },
 
             setDataPangkalan(id_pangkalan){

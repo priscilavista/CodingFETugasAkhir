@@ -31,48 +31,48 @@
             <v-card-text>
                 <v-container style="padding-left: 5px; padding-right: 5px; padding-bottom:47.5px">
                     <v-text-field
-                        :rules="tanggalRules"
                         type="date"
-                        v-model="form.tanggal_pengambilan_gas"
-                        label="Tanggal Pengambilan Gas"
+                        :rules="tanggalRules"
                         style="margin-top:-5px"
+                        label="Tanggal Pengambilan Gas"
+                        v-model="form.tanggal_pengambilan_gas"
                     />
 
                     <v-select
-                        :rules="sppbeRules"
-                        v-model="form.id_sppbe"
+                        label="SPPBE"
                         :items="sppbe"
+                        :rules="sppbeRules"
                         item-text="nama_sppbe"
                         item-value="id_sppbe"
-                        label="SPPBE"
+                        v-model="form.id_sppbe"
                         style="margin-top:-10px"
                     />
 
                     <v-text-field
                         :rules="armadaRules"
-                        v-model="form.nomor_armada"
                         label="Nomor Armada"
                         style="margin-top:-10px"
+                        v-model="form.nomor_armada"
                     />
 
                     <v-select
-                        :rules="driverRules"
-                        v-model="form.id_driver"
-                        :items="driver"
-                        item-text="nama_pegawai"
-                        item-value="id_pegawai"
                         label="Driver"
+                        :items="driver"
+                        :rules="driverRules"
+                        item-value="id_pegawai"
+                        v-model="form.id_driver"
+                        item-text="nama_pegawai"
                         style="margin-top:-10px"
                     />
 
                     <v-select
-                        :rules="alokasiRules"
-                        v-model="form.kuantitas_tabung"
                         :items="alokasi"
                         item-text="jumlah"
                         item-value="jumlah"
-                        label="Kuantitas tabung yang diambil"
+                        :rules="alokasiRules"
                         style="margin-top:-10px"
+                        v-model="form.kuantitas_tabung"
+                        label="Kuantitas tabung yang diambil"
                     />
 
                     <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
@@ -146,20 +146,13 @@
                 snackbar: false,
                 error_message: "",
                 isWideScreen: window.innerWidth >= 1000,
+                alokasi: [ { jumlah: 360 }, { jumlah: 560 }, ],
                 sppbeRules: [(v) => !!v || "SPPBE is Required"],
                 driverRules: [(v) => !!v || "Driver is Required"],
                 tanggalRules: [(v) => !!v || "Tanggal is Required"],
                 armadaRules: [(v) => !!v || "Nomor Armada is Required"],
                 alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
-                alokasi: [
-                    {
-                        jumlah: 360
-                    },
-                    {
-                        jumlah: 560
-                    },
-                ],
                 items: [
                     { 
                         text: "Dashboard",
@@ -256,42 +249,32 @@
             },
 
             checkForm() {
-                if(this.form.tanggal_pengambilan_gas === null)
+                if(this.form.id_sppbe === null)
                 {
                     return 1;
                 }
-                else
+                
+                if(this.form.id_driver === null)
                 {
-                    if(this.form.id_sppbe === null)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        if(this.form.nomor_armada === null)
-                        {
-                            return 1;
-                        }
-                        else
-                        {
-                            if(this.form.id_driver === null)
-                            {
-                                return 1;
-                            }
-                            else
-                            {
-                                if(this.form.kuantitas_tabung === null)
-                                {
-                                    return 1;
-                                }
-                                else
-                                {
-                                    return 0;
-                                }
-                            }
-                        }
-                    }
+                    return 1;
                 }
+                
+                if(this.form.kuantitas_tabung === null)
+                {
+                    return 1;
+                }
+                
+                if(this.form.nomor_armada === null || this.form.nomor_armada === '')
+                {
+                    return 1;
+                }
+
+                if(this.form.tanggal_pengambilan_gas === null || this.form.tanggal_pengambilan_gas === '')
+                {
+                    return 1;
+                }
+                
+                return 0;
             },
 
             getNamaSPPBE(id_sppbe) {
@@ -322,9 +305,9 @@
                 reportName = "Surat Kuasa_" + this.form.nama_driver;
 
                 html2PDF(report, {
-                    jsPDF: {
-                        format: "a4",
-                    },
+                    imageType: "image/jpeg",
+                    jsPDF: { format: "a4", },
+                    output: reportName + ".pdf",
                     margin: {
                         top: 0,
                         right: 0,
@@ -335,9 +318,6 @@
                         scrollX: 0,
                         scrollY: 0,
                     },
-
-                    imageType: "image/jpeg",
-                    output: reportName + ".pdf",
                 });
 
                 this.close();
@@ -357,8 +337,8 @@
         },
 
         mounted() {
-            this.readDataDriver();
             this.readDataSPPBE();
+            this.readDataDriver();
         }
     }
 </script>

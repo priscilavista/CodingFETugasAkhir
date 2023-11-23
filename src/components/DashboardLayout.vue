@@ -401,23 +401,23 @@
 
     data() {
       return {
-        menuTitle: localStorage.getItem("menu"),
-        jabatan: localStorage.getItem("role"),
-        role: localStorage.getItem("jabatan"),
+        color: "",
+        drawer: true,
+        overlay: false,
+        clipped: false,
+        snackbar: false,
+        error_message: "",
+        miniVariant: false,
         dialogLogout: false,
         dialogProfil: false,
         dialogPassword: false,
-        error_message: "",
-        color: "",
-        snackbar: false,
-        drawer: true,
-        miniVariant: false,
-        overlay: false,
-        clipped: false,
         showOldPassword: false,
         showNewPassword: false,
         img: require("@/assets/isatria.png"),
+        jabatan: localStorage.getItem("role"),
+        role: localStorage.getItem("jabatan"),
         isWideScreen: window.innerWidth >= 650,
+        menuTitle: localStorage.getItem("menu"),
         routeA: [
           { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
           { title: "Pegawai", icon: "mdi-account-group", to: "/pegawai-page" },
@@ -451,17 +451,6 @@
           { title: "Kelangkaan Gas Pangkalan", icon: "mdi-meter-gas", to: "/tambah-kelangkaan-gas-page" },
           { title: "Gas Bocor Pangkalan", icon: "mdi-gas-station-off", to: "/tambah-gas-bocor-page" },
         ],
-        emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
-        ],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        roleRules: [(v) => !!v || "Role is Required"],
-        passwordRules: [(v) => !!v || "Password is Required"],
-        nomor_teleponRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
-        ],
         form: {
           role: null,
           nama: null,
@@ -471,6 +460,17 @@
           nomor_telepon: null,
           tanggal_lahir: null,
         },
+        namaRules: [(v) => !!v || "Nama is Required"],
+        roleRules: [(v) => !!v || "Role is Required"],
+        passwordRules: [(v) => !!v || "Password is Required"],
+        emailRules: [
+          (v) => !!v || "Email is Required",
+          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+        ],
+        nomor_teleponRules: [
+          (v) => !!v || "Nomor Telepon is Required",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+        ],
       };
     },
 

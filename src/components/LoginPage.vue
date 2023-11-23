@@ -9,8 +9,8 @@
                     cols="12" lg="6" md="6" 
                     class="left-login white fill-height d-flex flex-column justify-center align-center"
                 >
-                    <h2 style="font-weight: bold; margin-top:6.5%">Selamat datang di iSatria!</h2>
-                    <h5>Silahkan login untuk melanjutkan</h5>
+                    <h2 style="font-weight: bold; margin-top:6.5%">Selamat Datang di iSatria!</h2>
+                    <h5>Silahkan Login Untuk Melanjutkan</h5>
                     <v-img
                         contain
                         width="50%"
@@ -37,7 +37,7 @@
                                         width="90%"
                                         height="90%"
                                         :src="image"
-                                        style="margin-left: 15%; "
+                                        style="margin-left: 15%;"
                                     />
                                 </v-col>
                             </v-row>
@@ -66,11 +66,11 @@
                                     counter
                                     required
                                     label="Password"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                    @click:append="showPassword = !showPassword"
                                     v-model="password"
                                     :rules="passwordRules"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    @click:append="showPassword = !showPassword"
+                                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 />
                             </v-form>
                         </v-card-text>
@@ -105,44 +105,42 @@
         watch: {
             $route: {
                 immediate: true,
+
                 handler() {
-                    document.title = "iSatria";
+                    document.title = "Login iSatria";
                 },
             },
         },
 
-        data(){
-            return{
-                snackbar: false,
-                showPassword: false,
-                error_message: "",
+        data() {
+            return {
                 color: "",
-                role: "pegawai",
-                roleData: [
-                    {label: 'Pegawai', value: 'pegawai'}, 
-                    {label: 'Pangkalan', value: 'pangkalan'}
-                ],
-                roleRules: [(v) => !!v || "Jabatan Harus Dipilih"],
-                password: "",
-                passwordRules: [(v) => !!v || "Password Wajib Dimasukkan"],
                 email: "",
+                password: "",
+                overlay: false,
+                role: "pegawai",
+                snackbar: false,
+                error_message: "",
+                showPassword: false,
+                image: require("@/assets/isatria.png"),
+                image2: require("@/assets/pertamina.jpg"),
+                roleData: [ {label: 'Pegawai', value: 'pegawai'},  {label: 'Pangkalan', value: 'pangkalan'} ],
+                roleRules: [(v) => !!v || "Jabatan Harus Dipilih"],
+                passwordRules: [(v) => !!v || "Password Wajib Dimasukkan"],
                 emailRules: [
                     (v) => !!v || "Email Wajib Dimasukkan",
                     (v) => /.+@.+\..+/.test(v) || "Format Email Harus Valid",
                 ],
-                overlay: false,
-                image: require("@/assets/isatria.png"),
-                image2: require("@/assets/pertamina.jpg"),
             }
         },
 
-        methods:{
-            login(){
+        methods: {
+            login() {
                 if(this.email !== '' && this.password !== '')
                 {
                     this.overlay = true;
                     var url = this.$api;
-                    var body;
+                    var body = {};
 
                     if(this.role === 'pegawai')
                     {
@@ -155,15 +153,10 @@
                         body = {email_pangkalan: this.email, password: this.password};
                     }
 
-                    this.$http
-                        .post(url, body)
+                    this.$http.post(url, body)
                         .then((response) => {
                             if(response.data.code === 200)
                             {
-                                this.color = "green";
-                                this.snackbar = true;
-                                this.overlay = false;
-                                this.error_message = response.data.message;
                                 if(this.role === 'pegawai')
                                 {
                                     localStorage.setItem("id", response.data.user.id_pegawai);
@@ -180,12 +173,18 @@
                                     localStorage.setItem("jabatan", response.data.user.role_pegawai);
                                 }
 
+                                this.color = "green";
+                                this.snackbar = true;
+                                this.overlay = false;
+                                this.error_message = response.data.message;
+
                                 this.$router.push({ name: "Dashboard" });
                             }
                             else
                             {
                                 this.color = "red";
                                 this.snackbar = true;
+                                this.overlay = false;
                                 this.error_message = response.data.message;
                             }
                         })
@@ -200,6 +199,7 @@
                 {
                     this.color = "red";
                     this.snackbar = true;
+                    this.overlay = false;
                     this.error_message = 'Mohon Masukkan Data yang Dibutuhkan!';
                 }
             }
