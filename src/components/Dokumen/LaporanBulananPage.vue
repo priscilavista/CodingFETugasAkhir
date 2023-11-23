@@ -428,7 +428,7 @@
     import html2PDF from "jspdf-html2canvas";
 
     export default {
-        name: "SuratKuasaPage",
+        name: "LaporanBulananPage",
 
         watch: {
             $route: {
@@ -456,14 +456,14 @@
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 
-                        text: "Dashboard",
                         disabled: false,
+                        text: "Dashboard",
                         href: '/dashboard-page',
                     },
                     { 
-                        text: "Laporan Stok dan Distribusi Bulanan",
                         disabled: true,
                         href: '/laporan-bulanan-page',
+                        text: "Laporan Stok dan Distribusi Bulanan",
                     },
                 ],
                 form: {
@@ -602,8 +602,8 @@
 
                         if(error.request.status === 404)
                         {
-                            this.transaksi = [];
                             this.color = "red";
+                            this.transaksi = [];
                             this.snackbar = true;
                             this.error_message = 'Data Stok Gas Bulanan Tidak Ditemukan';
                         }

@@ -336,6 +336,7 @@
                 tahun: [],
                 color: '',
                 pangkalan: [],
+                transaksi: [],
                 dialog: false,
                 overlay: false,
                 snackbar: false,
@@ -347,13 +348,13 @@
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 
-                        text: "Dashboard",
                         disabled: false,
+                        text: "Dashboard",
                         href: '/dashboard-page',
                     },
                     { 
-                        text: "Laporan Transaksi Pangkalan",
                         disabled: true,
+                        text: "Laporan Transaksi Pangkalan",
                         href: '/laporan-transaksi-pangkalan-page',
                     },
                 ],
@@ -365,13 +366,6 @@
                     nama_pangkalan: null,
                     alamat_pangkalan: null,
                 },
-                transaksi: [
-                    { no: 1, id_transaksi: 1, tanggal_pembelian: '01/10/2023', jumlah_pembelian: 1, nama_pembeli: 'A', ktp_pembeli: '111', kategori: 'Rumah Tangga' },
-                    { no: 2, id_transaksi: 2, tanggal_pembelian: '02/10/2023', jumlah_pembelian: 2, nama_pembeli: 'B', ktp_pembeli: '222', kategori: 'Usaha Mikro' },
-                    { no: 3, id_transaksi: 3, tanggal_pembelian: '03/10/2023', jumlah_pembelian: 3, nama_pembeli: 'C', ktp_pembeli: '333', kategori: 'Lainnya' },
-                    { no: 4, id_transaksi: 4, tanggal_pembelian: '04/10/2023', jumlah_pembelian: 4, nama_pembeli: 'D', ktp_pembeli: '444', kategori: 'Rumah Tangga' },
-                    { no: 5, id_transaksi: 5, tanggal_pembelian: '05/10/2023', jumlah_pembelian: 5, nama_pembeli: 'E', ktp_pembeli: '555', kategori: 'Usaha Mikro' },
-                ],
             }
         },
 
@@ -533,8 +527,8 @@
 
                         if(error.request.status === 404)
                         {
-                            this.transaksi = [];
                             this.color = "red";
+                            this.transaksi = [];
                             this.snackbar = true;
                             this.error_message = 'Data Transaksi Tidak Ditemukan';
                         }

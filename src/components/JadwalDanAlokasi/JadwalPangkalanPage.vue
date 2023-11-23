@@ -151,7 +151,7 @@
             />
 
             <v-spacer />
-            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
             <v-spacer />
         </v-container>
         </v-card-text>
@@ -196,13 +196,19 @@
     data() {
       return {
         color: "",
+        editId: "",
         search: null,
+        deleteId: "",
         dialog: false,
+        pangkalan: [],
         overlay: false,
         snackbar: false,
+        jadwaltemp : [],
         error_message: "",
+        grupPangkalan: [],
         inputType: "Tambah",
         dialogConfirm: false,
+        jadwal: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
@@ -217,8 +223,6 @@
           { id: 5, day: "Jumat" , style: { 'background-color': '#6f00ff' } }, 
           { id: 6, day: "Sabtu", style: { 'background-color': 'purple' } },
         ],
-        jadwaltemp : [],
-        jadwal: new FormData(),
         form: {
           nama_pangkalan: null,
           grup_pangkalan: null,
@@ -227,14 +231,10 @@
           alokasi_penerimaan_gas: null,
           id_jadwal_rutin_pangkalan: null,
         },
-        pangkalan: [],
-        grupPangkalan: [],
-        deleteId: "",
-        editId: "",
-        hariRules: [(v) => !!v || "Hari Penerimaan is Required"],
         grupRules: [(v) => !!v || "Grup Pangkalan is Required"],
-        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
         pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
+        hariRules: [(v) => !!v || "Hari Penerimaan is Required"],
+        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
       };
     },
 
@@ -325,72 +325,154 @@
       },
 
       save() {
-        this.jadwal.append("grup_pangkalan", this.form.grup_pangkalan);
-        this.jadwal.append("Pangkalanid_pangkalan", this.Pangkalanid_pangkalan);
-        this.jadwal.append("hari_penerimaan_gas", this.form.hari_penerimaan_gas);
-        this.jadwal.append("alokasi_penerimaan_gas", this.form.alokasi_penerimaan_gas);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.jadwal.append("grup_pangkalan", this.form.grup_pangkalan);
+          this.jadwal.append("Pangkalanid_pangkalan", this.Pangkalanid_pangkalan);
+          this.jadwal.append("hari_penerimaan_gas", this.form.hari_penerimaan_gas);
+          this.jadwal.append("alokasi_penerimaan_gas", this.form.alokasi_penerimaan_gas);
 
-        var url = this.$api + "/jadwalRutinPangkalan/create";
-        this.$http.post(url, this.jadwal)
-          .then((response) => {
-            this.error_message = response.data.message;
-            this.color = "green";
-            this.snackbar = true;
-            this.load = true;
-            this.cancel();
-          })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.snackbar = true;
-            this.color = "red";
-            this.load = false;
-          });
+          var url = this.$api + "/jadwalRutinPangkalan/create";
+          this.$http.post(url, this.jadwal)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.load = true;
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.overlay = false;
+                this.snackbar = true;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
+              this.error_message = error.response.data.message;
+              this.snackbar = true;
+              this.overlay = false;
+              this.color = "red";
+              this.load = false;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       //ubah data jadwal
       update() {
-        let newData = {
-          Pangkalanid_pangkalan: this.form.Pangkalanid_pangkalan,
-          hari_penerimaan_gas: this.form.hari_penerimaan_gas,
-          alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            grup_pangkalan: this.form.grup_pangkalan,
+            hari_penerimaan_gas: this.form.hari_penerimaan_gas,
+            Pangkalanid_pangkalan: this.form.Pangkalanid_pangkalan,
+            alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
+          };
 
-        var url = this.$api + "/jadwalRutinPangkalan/update/" + this.editId;
-        this.$http.put(url, newData)
+          var url = this.$api + "/jadwalRutinPangkalan/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.overlay = false;
+                this.snackbar = true;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
+              this.error_message = error.response.data.message;
+              this.snackbar = true;
+              this.overlay = false;
+              this.color = "red";
+              this.load = false;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
+      },
+
+      //non aktif data jadwal
+      deleteData() {
+        this.overlay = true;
+        var url = this.$api + "/jadwalRutinPangkalan/delete/" + this.deleteId;
+        this.$http.delete(url)
           .then((response) => {
-            this.cancel();
-            this.resetForm();
-            this.color = "green";
-            this.snackbar = true;
-            this.inputType = "Tambah";
-            this.error_message = response.data.message;
+            if(response.data.code === 200)
+            {
+              this.cancel();
+              this.resetForm();
+              this.color = "green";
+              this.snackbar = true;
+              this.inputType = "Tambah";
+              this.error_message = response.data.message;
+              location.reload();
+            }
+            else
+            {
+              this.color = "red";
+              this.overlay = false;
+              this.snackbar = true;
+              this.error_message = response.data.message;
+            }
           })
           .catch((error) => {
             this.error_message = error.response.data.message;
             this.snackbar = true;
+            this.overlay = false;
             this.color = "red";
             this.load = false;
           });
       },
 
-      //non aktif data jadwal
-      deleteData() {
-        var url = this.$api + "/jadwalRutinPangkalan/delete/" + this.deleteId;
-        this.$http.delete(url)
-          .then((response) => {
-            this.cancel();
-            this.resetForm();
-            this.color = "green";
-            this.snackbar = true;
-            this.inputType = "Tambah";
-            this.error_message = response.data.message;
-          })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.snackbar = true;
-            this.color = "red";
-            this.load = false;
-          });
+      checkForm() {
+        if(this.form.grup_pangkalan === null || this.form.grup_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.hari_penerimaan_gas === null || this.form.hari_penerimaan_gas === '')
+        {
+          return 1;
+        }
+
+        if(this.form.Pangkalanid_pangkalan === null || this.form.Pangkalanid_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.alokasi_penerimaan_gas === null || this.form.alokasi_penerimaan_gas === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       addHandler(){
@@ -418,7 +500,6 @@
 
       cancel() {
         this.resetForm();
-        // location.reload();
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
@@ -496,10 +577,6 @@
     font-size: 22px;
     /* color: #1976d2; */
   }
-
-  /* .v-card__subtitle, .v-card__text, .v-card__title {
-    padding: 1%;
-  } */
 
   .v-select__selection--comma {
     font-size: 12.5px;

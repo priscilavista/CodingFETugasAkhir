@@ -294,13 +294,13 @@
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 
-                        text: "Dashboard",
                         disabled: false,
+                        text: "Dashboard",
                         href: '/dashboard-page',
                     },
                     { 
-                        text: "Laporan Kelangkaan Gas",
                         disabled: true,
+                        text: "Laporan Kelangkaan Gas",
                         href: '/laporan-kelangkaan-gas-page',
                     },
                 ],
@@ -440,8 +440,8 @@
 
                         if(error.request.status === 404)
                         {
-                            this.kelangkaan = [];
                             this.color = "red";
+                            this.kelangkaan = [];
                             this.snackbar = true;
                             this.error_message = 'Data Kelangkaan Gas Tidak Ditemukan';
                         }
