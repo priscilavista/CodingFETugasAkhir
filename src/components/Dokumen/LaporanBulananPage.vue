@@ -72,7 +72,7 @@
 
                     <span id="LaporanBulanan">
                         <v-card-text style="padding:30px; margin-top: 3%">
-                            <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Bulanan Agen LPG 3 KG (Bersubsidi) Periode {{ form.nomor_bulan }} Tahun {{ form.tahun }}</h2>
+                            <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Bulanan Agen LPG 3 KG (Bersubsidi) Periode {{ form.bulan }} Tahun {{ form.tahun }}</h2>
                             <span style="float:left;">Nama Agen</span> <span style="float:left;margin-left:40.5px">: </span> <span style="float:left;margin-left:5px"> PT Satria Permana Jaya</span> <br/>
                             <span style="float:left;">Alamat Agen</span> <span style="float:left;margin-left:33.8px">: </span> <span style="float:left;margin-left:5px"> Gadungsari RT 10/RW 13 No. 253</span> <br/>
                             <span style="float:left;">Email</span> <span style="float:left;margin-left:79px">: </span> <span style="float:left;margin-left:5px"> satriapermanajaya@gmail.com</span> <br/>
@@ -133,7 +133,7 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        Total
+                                        {{ formReport.stok_awal }}
                                     </v-card>
                                 </v-col>
 
@@ -161,7 +161,7 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        Total
+                                        {{ formReport.total_penerimaan }}
                                     </v-card>
                                 </v-col>
 
@@ -189,7 +189,7 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        Total
+                                        {{ formReport.total_penyaluran }}
                                     </v-card>
                                 </v-col>
 
@@ -217,7 +217,7 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        Total
+                                        {{ formReport.stok_akhir }}
                                     </v-card>
                                 </v-col>
                             </v-row><br/>
@@ -350,7 +350,35 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        <span>{{item.tanggal_pembelian}}</span>
+                                        <span>{{item.id_registrasi}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="3"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span>{{item.nama_pangkalan}}</span>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col
+                                    cols="6"
+                                    md="1"
+                                >
+                                    <v-card
+                                        class="pa-2"
+                                        outlined
+                                        tile
+                                        style="text-align:center;"
+                                    >
+                                        <span style="margin-left:5px">{{item.stok_awal}}</span>
                                     </v-card>
                                 </v-col>
 
@@ -364,21 +392,7 @@
                                         tile
                                         style="text-align:center;"
                                     >
-                                        <span>{{item.jumlah_pembelian}}</span>
-                                    </v-card>
-                                </v-col>
-
-                                <v-col
-                                    cols="6"
-                                    md="3"
-                                >
-                                    <v-card
-                                        class="pa-2"
-                                        outlined
-                                        tile
-                                        style="text-align:left;"
-                                    >
-                                        <span style="margin-left:5px">{{item.nama_pembeli}}</span>
+                                        <span style="margin-left:5px">{{item.total_penerimaan}}</span>
                                     </v-card>
                                 </v-col>
 
@@ -390,23 +404,23 @@
                                         class="pa-2"
                                         outlined
                                         tile
-                                        style="text-align:left;"
+                                        style="text-align:center;"
                                     >
-                                        <span style="margin-left:5px">{{item.ktp_pembeli}}</span>
+                                        <span style="margin-left:5px">{{item.total_penyaluran}}</span>
                                     </v-card>
                                 </v-col>
 
                                 <v-col
                                     cols="6"
-                                    md="2"
+                                    md="1"
                                 >
                                     <v-card
                                         class="pa-2"
                                         outlined
                                         tile
-                                        style="text-align:left;"
+                                        style="text-align:center;"
                                     >
-                                        <span style="margin-left:5px">{{item.kategori}}</span>
+                                        <span style="margin-left:5px">{{item.stok_akhir}}</span>
                                     </v-card>
                                 </v-col>
                             </v-row>
@@ -470,6 +484,12 @@
                     bulan: null,
                     tahun: null,
                     nomor_bulan: null,
+                },
+                formReport: {
+                    stok_awal: null,
+                    stok_akhir: null,
+                    total_penerimaan: null,
+                    total_penyaluran: null,
                 },
             }
         },
@@ -536,7 +556,7 @@
                     this.overlay = true;
 
                     this.form.bulan = this.getNamaBulan(this.form.nomor_bulan);
-                    this.getDataReport();
+                    this.getDataStock();
                 }
                 else
                 {
@@ -560,9 +580,45 @@
                 return 0;
             },
 
+            getDataStock(){
+                var url = this.$api + "/stokBulananAgen/getReport";
+                var body = { 'bulan': this.form.bulan, 'tahun': this.form.tahun }
+                this.$http.post(url, body)
+                    .then((response) => {
+                        if(response.data.code === 200)
+                        {
+                            let temp = response.data.data;
+                            this.formReport.stok_awal = temp.stok_awal_bulan_agen;
+                            this.formReport.stok_akhir = temp.stok_akhir_bulan_agen;
+                            this.formReport.total_penerimaan = temp.total_penerimaan_agen;
+                            this.formReport.total_penyaluran = temp.total_penyaluran_agen;
+
+                            this.getDataReport();
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.overlay = false;
+                        console.log(error)
+
+                        if(error.request.status === 404)
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.error_message = 'Data Stok Gas Bulanan Tidak Ditemukan';
+                        }
+                    });
+            },
+
             getDataReport(){
-                var url = this.$api + "/kelangkaanGas/getReport";
-                var body = { 'bulan': this.form.nomor_bulan, 'tahun': this.form.tahun }
+                var url = this.$api + "/stokBulananPangkalan/getReport";
+                var body = { 'bulan': this.form.bulan, 'tahun': this.form.tahun }
                 this.$http.post(url, body)
                     .then((response) => {
                         if(response.data.code === 200)
@@ -574,13 +630,13 @@
                             {
                                 this.transaksi.push(
                                     {
-                                        presentase: 50,
                                         no: parseInt(i) + parseInt(1),
-                                        kecamatan: temp[i].nama_kecamatan, 
-                                        kelurahan: temp[i].nama_kelurahan,
+                                        id_registrasi: temp[i].id_registrasi,
                                         nama_pangkalan: temp[i].nama_pangkalan,
-                                        jumlah_permintaan: temp[i].jumlah_permintaan, 
-                                        id_kelangkaan_gas: temp[i].id_kelangkaan_gas,
+                                        stok_awal: temp[i].stok_awal_bulan_pangkalan,
+                                        stok_akhir: temp[i].stok_akhir_bulan_pangkalan,
+                                        total_penerimaan: temp[i].total_penerimaan_pangkalan,
+                                        total_penyaluran: temp[i].total_penyaluran_pangkalan,
                                     }
                                 )
                             }
@@ -645,6 +701,13 @@
                     bulan: null,
                     tahun: null,
                     nomor_bulan: null,
+                };
+
+                this.formReport = {
+                    stok_awal: null,
+                    stok_akhir: null,
+                    total_penerimaan: null,
+                    total_penyaluran: null,
                 };
             },
         },

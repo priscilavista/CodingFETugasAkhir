@@ -501,11 +501,11 @@
                                     {
                                         no: parseInt(i) + parseInt(1), 
                                         id_transaksi: temp[i].id_transaksi, 
-                                        tanggal_pembelian: temp[i].tanggal_transaksi, 
-                                        jumlah_pembelian: temp[i].jumlah_pembelian, 
                                         nama_pembeli: temp[i].nama_pembeli, 
-                                        ktp_pembeli: temp[i].nomor_ktp_pembeli, 
                                         kategori: temp[i].kategori_pembeli,
+                                        ktp_pembeli: temp[i].nomor_ktp_pembeli, 
+                                        jumlah_pembelian: temp[i].jumlah_pembelian, 
+                                        tanggal_pembelian: temp[i].tanggal_transaksi, 
                                     }
                                 )
                             }
