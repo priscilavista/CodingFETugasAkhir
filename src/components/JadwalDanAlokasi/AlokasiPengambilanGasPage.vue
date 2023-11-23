@@ -107,35 +107,17 @@
         :search="search"
         style="padding: 10px 20px 20px 20px"
       >
-        <template v-slot:[`item.actions`]="{ item }">
+        <!-- <template v-slot:[`item.actions`]="{ item }">
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip>
+                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                  mdi-pencil
+                </v-icon>
               </span>
             </template>
-
-            <v-list width="90" class="py-0" style="margin-top: 20px">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">mdi-pencil</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                  
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_alokasi_pengambilan_gas)">
-                      <v-icon color="#C94141">mdi-account-remove</v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
           </v-menu>
-        </template>
+        </template> -->
       </v-data-table>
     </v-card>
 
@@ -152,37 +134,37 @@
         <v-card-text>
           <v-container style="padding-left: 5px; padding-right: 5px">
             <v-text-field
-              :rules="tanggalRules"
               type="date"
+              :rules="tanggalRules"
               v-model="form.tanggal_pengambilan_gas"
               label="Tanggal Alokasi Pengambilan Gas"
             />
 
             <v-select
-              :rules="jenisRules"
-              v-model="form.jenis_alokasi_pengambilan_gas"
-              :items="jenis_alokasi"
-              item-text="nama_jenis"
-              item-value="nama_jenis"
-              label="Jenis Alokasi"
               required
+              :rules="jenisRules"
+              label="Jenis Alokasi"
+              item-text="nama_jenis"
+              :items="jenis_alokasi"
+              item-value="nama_jenis"
+              v-model="form.jenis_alokasi_pengambilan_gas"
             />
 
             <v-text-field
-              :rules="alokasiRules"
-              v-model="form.jumlah_alokasi_pengambilan_gas"
-              label="Jumlah Alokasi"
               type="number"
+              :rules="alokasiRules"
+              label="Jumlah Alokasi"
+              v-model="form.jumlah_alokasi_pengambilan_gas"
             />
 
             <v-select
-              :rules="SPPBERules"
-              v-model="form.SPPBEid_sppbe"
-              :items="sppbe"
-              item-text="nama_sppbe"
-              item-value="id_sppbe"
-              label="SPPBE"
               required
+              label="SPPBE"
+              :items="sppbe"
+              :rules="SPPBERules"
+              item-value="id_sppbe"
+              item-text="nama_sppbe"
+              v-model="form.SPPBEid_sppbe"
             />
             
             <v-spacer />
@@ -208,6 +190,7 @@
     watch: {
       $route: {
         immediate: true,
+
         handler() {
           document.title = "Alokasi Pengambilan Gas";
         },
@@ -216,24 +199,28 @@
 
     data() {
       return {
-        inputType: "Tambah",
+        color: "",
+        sppbe: [],
+        search: null,
+        alokasis: [],
+        dialog: false,
         overlay: false,
         snackbar: false,
         error_message: "",
-        color: "",
-        search: null,
-        dialog: false,
+        inputType: "Tambah",
+        alokasi: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+        jenis_alokasi: [ { id: 1, nama_jenis: 'Reguler' }, { id: 2, nama_jenis: 'Fakultatif' }, ],
         items: [
           {
-            text: "Dashboard",
             disabled: false,
+            text: "Dashboard",
             href: '/dashboard-page',
           },
           {
-            text: "Alokasi Pengambilan Gas",
             disabled: true,
+            text: "Alokasi Pengambilan Gas",
             href: '/alokasi-pengambilan-gas-page',
           },
         ],
@@ -242,24 +229,18 @@
           { text: "Jenis Alokasi", value: "jenis_alokasi_pengambilan_gas" },
           { text: "Jumlah Alokasi", align: "center", value: "jumlah_alokasi_pengambilan_gas" },
           { text: "SPPBE", value: "nama_sppbe" },
+          { text: "", value: 'actions', sortable: false }
         ],
-        alokasi: new FormData(),
-        alokasis: [],
         form: {
-          id_alokasi_pengambilan_gas: null,
-          tanggal_pengambilan_gas: null,
           SPPBEid_sppbe: null,
+          tanggal_pengambilan_gas: null,
+          id_alokasi_pengambilan_gas: null,
           jenis_alokasi_pengambilan_gas: null,
           jumlah_alokasi_pengambilan_gas: null,
         },
-        jenis_alokasi: [
-          { id: 1, nama_jenis: 'Reguler' },
-          { id: 2, nama_jenis: 'Fakultatif' },
-        ],
-        sppbe: [],
         SPPBERules: [(v) => !!v || "SPPBE is Required"],
-        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
         jenisRules: [(v) => !!v || "Jenis Alokasi is Required"],
+        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
         tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
       };
     },
@@ -284,10 +265,10 @@
           .then((response) => {
             if(response.data.code == 200)
             {
-              this.alokasis = response.data.data;
               this.color = "green";
               this.snackbar = true;
               this.overlay = false;
+              this.alokasis = response.data.data;
               this.error_message = response.data.message;
             }
             else
@@ -331,58 +312,94 @@
       },
 
       save() {
-        this.alokasi.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
-        this.alokasi.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
-        this.alokasi.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
-        this.alokasi.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.alokasi.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
+          this.alokasi.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
+          this.alokasi.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
+          this.alokasi.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
 
-        var url = this.$api + "/alokasiPengambilanGas/create";
-        this.$http.post(url, this.alokasi)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/alokasiPengambilanGas/create";
+          this.$http.post(url, this.alokasi)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
+      },
+
+      checkForm() {
+        if(this.form.SPPBEid_sppbe === null || this.form.SPPBEid_sppbe === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_pengambilan_gas === null || this.form.tanggal_pengambilan_gas === '')
+        {
+          return 1;
+        }
+
+        if(this.form.jenis_alokasi_pengambilan_gas === null || this.form.jenis_alokasi_pengambilan_gas === '')
+        {
+          return 1;
+        }
+
+        if(this.form.jumlah_alokasi_pengambilan_gas === null || this.form.jumlah_alokasi_pengambilan_gas === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       addHandler(){
-        this.inputType = "Tambah";
         this.readSPPBE();
+        this.inputType = "Tambah";
+
         this.dialog = true;
       },
 
       cancel() {
-        this.resetForm();
         this.sppbe = [];
+        this.resetForm();
         this.dialog = false;
         this.inputType = "Tambah";
-        location.reload();
       },
 
       resetForm() {
         this.form = {
-          id_alokasi_pengambilan_gas: null,
-          tanggal_pengambilan_gas: null,
           SPPBEid_sppbe: null,
+          tanggal_pengambilan_gas: null,
+          id_alokasi_pengambilan_gas: null,
           jenis_alokasi_pengambilan_gas: null,
           jumlah_alokasi_pengambilan_gas: null,
         };
@@ -409,6 +426,7 @@
     flex-wrap: nowrap;
     overflow: scroll;
   }
+
   .flex-item {
     flex: 0 0 auto;
   }
@@ -418,25 +436,31 @@
     vertical-align: middle;
     overflow-x: scroll; 
   }
+
   .inline-item {
     display: inline-block;
     vertical-align: middle;
     height: 96px;
     margin-right: -4px;
   }
+
   .v-btn {
     letter-spacing: .020em;
   }
+
   .v-btn.v-size--small {
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
   }
+
   .v-text-field input {
     font-size: 12.5px;
   }
+
   .v-text-field .v-label {
     font-size: 14px;
   }
+
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */

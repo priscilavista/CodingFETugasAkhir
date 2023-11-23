@@ -81,15 +81,15 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                <v-icon v-if="item.status_pangkalan=='A'" color="primary" @click="editHandler(item)" style="margin-right: 15px;">
                   mdi-pencil
                 </v-icon>
 
                 <v-icon v-if="item.status_pangkalan=='A'" @click="deleteHandler(item)" color="error">
-                  mdi-account-remove
+                  mdi-store-remove
                 </v-icon>
                 <v-icon v-else @click="deleteHandler(item)" color="success">
-                  mdi-account-check
+                  mdi-store-check
                 </v-icon>
               </span>
             </template>
@@ -107,7 +107,7 @@
         </v-card-title>
       </v-card>
 
-      <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+      <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 4.5%">
         <v-card-text>
           <v-container>
             <v-text-field
@@ -169,7 +169,6 @@
             />
 
             <v-text-field
-              :rules="mapsRules"
               v-model="form.url_maps_pangkalan"
               label="URL Maps"
             />
@@ -184,8 +183,6 @@
               loading="lazy" 
               referrerpolicy="no-referrer-when-downgrade" 
             />
-            
-            <!-- <a v-if="form.url_maps_pangkalan!=null" href="form.url_maps_pangkalan" target="_blank">Lihat Lokasi Pangkalan</a> -->
             
             <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
@@ -205,8 +202,13 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px" v-if="form.status_pangkalan=='A'">Anda yakin ingin menonaktifkan status pangkalan ini?</v-card-text>
-        <v-card-text style="padding-bottom:5px" v-else>Anda yakin ingin mengaktifkan status pangkalan ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-if="form.status_pangkalan=='A'">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin menonaktifkan status pangkalan ini?</h6>
+        </v-card-text>
+
+        <v-card-text style="padding-bottom:5px" v-else>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin mengaktifkan status pangkalan ini?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -275,29 +277,28 @@
           { text: "Nomor Telepon", value: "nomor_telepon_pangkalan" },
           { text: "Alamat", value: "alamat_pangkalan" },
           { text: "Status", value: "status_pangkalan" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form: {
           id_pangkalan: null,
+          id_kecamatan: null,
+          id_kelurahan: null,
+          id_padukuhan: null,
+          nama_kecamatan: null,
+          nama_padukuhan: null,
+          nama_kelurahan: null,
           nama_pangkalan: null,
+          email_pangkalan: null,
+          alamat_pangkalan: null,
+          status_pangkalan: null,
+          url_maps_pangkalan: null,
+          nomor_telepon_pangkalan: null,
           id_registrasi_pangkalan: null,
           tanggal_kontrak_pangkalan: null,
-          email_pangkalan: null,
-          nomor_telepon_pangkalan: null,
-          alamat_pangkalan: null,
-          id_kecamatan: null,
-          nama_kecamatan: null,
-          id_kelurahan: null,
-          nama_kelurahan: null,
-          id_padukuhan: null,
-          nama_padukuhan: null,
-          url_maps_pangkalan: null,
-          status_pangkalan: null,
         },
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
         alamatRules: [(v) => !!v || "Alamat is Required"],
-        mapsRules: [(v) => !!v || "URL Maps is Required"],
         idRules: [(v) => !!v || "ID Registrasi is Required"],
         kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
         kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
@@ -386,17 +387,20 @@
             {
               let temp = response.data.data;
               this.kelurahan = temp;
+              this.overlay = false;
             }
             else
             {
               this.color = "red";
               this.dialog = false;
+              this.overlay = false;
               this.snackbar = true;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
+            this.dialog = false;
             this.snackbar = true;
             this.overlay = false;
             this.error_message = error.response.data.message;
@@ -404,84 +408,109 @@
       },
       
       save() {
-        this.pangkalan.append("nama_pangkalan", this.form.nama_pangkalan);
-        this.pangkalan.append("email_pangkalan", this.form.email_pangkalan);
-        this.pangkalan.append("alamat_pangkalan", this.form.alamat_pangkalan);
-        this.pangkalan.append("url_maps_pangkalan", this.form.url_maps_pangkalan);
-        this.pangkalan.append("id_registrasi", this.form.id_registrasi_pangkalan);
-        this.pangkalan.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
-        this.pangkalan.append("nomor_telepon_pangkalan", this.form.nomor_telepon_pangkalan);
-        this.pangkalan.append("tanggal_kontrak_pangkalan", this.form.tanggal_kontrak_pangkalan);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.pangkalan.append("nama_pangkalan", this.form.nama_pangkalan);
+          this.pangkalan.append("email_pangkalan", this.form.email_pangkalan);
+          this.pangkalan.append("alamat_pangkalan", this.form.alamat_pangkalan);
+          this.pangkalan.append("url_maps_pangkalan", this.form.url_maps_pangkalan);
+          this.pangkalan.append("id_registrasi", this.form.id_registrasi_pangkalan);
+          this.pangkalan.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
+          this.pangkalan.append("nomor_telepon_pangkalan", this.form.nomor_telepon_pangkalan);
+          this.pangkalan.append("tanggal_kontrak_pangkalan", this.form.tanggal_kontrak_pangkalan);
 
-        var url = this.$api + "/pangkalan/create";
-        this.$http.post(url, this.pangkalan)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/pangkalan/create";
+          this.$http.post(url, this.pangkalan)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       update() {
-        let newData = {
-          nama_pangkalan: this.form.nama_pangkalan,
-          email_pangkalan: this.form.email_pangkalan,
-          alamat_pangkalan: this.form.alamat_pangkalan,
-          url_maps_pangkalan: this.form.url_maps_pangkalan,
-          id_registrasi: this.form.id_registrasi_pangkalan,
-          Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
-          nomor_telepon_pangkalan: this.form.nomor_telepon_pangkalan,
-          tanggal_kontrak_pangkalan: this.form.tanggal_kontrak_pangkalan,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            nama_pangkalan: this.form.nama_pangkalan,
+            email_pangkalan: this.form.email_pangkalan,
+            alamat_pangkalan: this.form.alamat_pangkalan,
+            url_maps_pangkalan: this.form.url_maps_pangkalan,
+            id_registrasi: this.form.id_registrasi_pangkalan,
+            Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
+            nomor_telepon_pangkalan: this.form.nomor_telepon_pangkalan,
+            tanggal_kontrak_pangkalan: this.form.tanggal_kontrak_pangkalan,
+          };
 
-        var url = this.$api + "/pangkalan/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/pangkalan/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/pangkalan/updateStatus/" + this.deleteId;
         this.$http.put(url)
           .then((response) => {
@@ -500,14 +529,55 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
+      },
+
+      checkForm() {
+        if(this.form.id_kelurahan === null || this.form.id_kelurahan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.id_registrasi === null || this.form.id_registrasi === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nama_pangkalan === null || this.form.nama_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.email_pangkalan === null || this.form.email_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.alamat_pangkalan === null || this.form.alamat_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_telepon_pangkalan === null || this.form.nomor_telepon_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_kontrak_pangkalan === null || this.form.tanggal_kontrak_pangkalan === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       addHandler(){
@@ -517,6 +587,7 @@
       },
 
       editHandler(item) {
+        this.overlay = true;
         this.inputType = "Edit";
         this.getDataKecamatan();
         this.editId = item.id_pangkalan;

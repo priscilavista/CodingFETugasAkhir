@@ -68,6 +68,8 @@
           />
 
           <v-btn small color="primary" dark style="float:left;" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;" class="ml-4" @click="resetData()">Reset</v-btn>
         </v-container>
 
         <v-container v-else style="padding-left: 5px; padding-right: 5px; padding-bottom:50px">
@@ -98,6 +100,8 @@
           />
 
           <v-btn small color="primary" dark style="float:left;margin-top:10px" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
         </v-container>
       </v-card-text>
     </v-card>
@@ -139,7 +143,7 @@
                   mdi-pencil
                 </v-icon>
                 <v-icon @click="deleteHandler(item)" color="error">
-                  mdi-account-remove
+                  mdi-file-document-remove
                 </v-icon>
               </span>
             </template>
@@ -223,7 +227,9 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px">Anda Yakin Ingin Menghapus Data Tersebut?</v-card-text>
+        <v-card-text style="padding-bottom:5px">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda Yakin Ingin Menghapus Data Tersebut?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -248,6 +254,7 @@
     watch: {
       $route: {
         immediate: true,
+        
         handler() {
           document.title = "Transaksi";
         },
@@ -273,13 +280,13 @@
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
           { 
-            text: "Dashboard",
             disabled: false,
+            text: "Dashboard",
             href: '/dashboard-page',
           },
           { 
-            text: "Transaksi",
             disabled: true,
+            text: "Transaksi",
             href: '/transaksi-page',
           },
         ],
@@ -296,7 +303,7 @@
           { text: "Nomor KTP Pembeli", value: "nomor_ktp_pembeli" },
           { text: "Nomor Telepon Pembeli", value: "nomor_telepon_pembeli" },
           { text: "Kategori Pembeli", value: "kategori_pembeli" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form_filter: {
           bulan_transaksi: null,
@@ -306,13 +313,13 @@
         form: {
           id_transaksi: null,
           id_pangkalan: null,
-          nama_pangkalan: null,
-          tanggal_transaksi: null,
-          jumlah_pembelian: null,
           nama_pembeli: null,
+          nama_pangkalan: null,
+          jumlah_pembelian: null,
+          kategori_pembeli: null,
+          tanggal_transaksi: null,
           nomor_ktp_pembeli: null,
           nomor_telepon_pembeli: null,
-          kategori_pembeli: null,
         },
         namaRules: [(v) => !!v || "Nama Pembeli is Required"],
         ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
@@ -340,8 +347,7 @@
           .then((response) => {
             if(response.data.code === 200)
             {
-              var res = response.data.data;
-              this.transaksis = res;
+              this.transaksis = response.data.data;
               
               this.color = "green";
               this.snackbar = true;
@@ -444,52 +450,60 @@
 
       //ubah data transaksi
       update() {
-        let newData = {
-          nama_pembeli: this.form.nama_pembeli,
-          jumlah_pembelian: this.form.jumlah_pembelian,
-          kategori_pembeli: this.form.kategori_pembeli,
-          Pangkalanid_pangkalan: this.form.id_pangkalan,
-          nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
-          tanggal_transaksi: this.form.tanggal_transaksi,
-          nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            nama_pembeli: this.form.nama_pembeli,
+            jumlah_pembelian: this.form.jumlah_pembelian,
+            kategori_pembeli: this.form.kategori_pembeli,
+            Pangkalanid_pangkalan: this.form.id_pangkalan,
+            nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
+            tanggal_transaksi: this.form.tanggal_transaksi,
+            nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
+          };
 
-        var url = this.$api + "/transaksi/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/transaksi/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       //non aktif data transaksi
       deleteData() {
-        var url = this.$api + "/transaksiDelete/" + this.deleteId;
-        this.$http
-          .put(url, {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          })
+        this.overlay = true;
+        var url = this.$api + "/transaksi/delete/" + this.deleteId;
+        this.$http.delete(url)
           .then((response) => {
             if(response.data.code === 200)
             {
@@ -505,26 +519,68 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
       },
 
+      checkForm() {
+        if(this.form.id_pangkalan === null || this.form.id_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nama_pembeli === null || this.form.nama_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.jumlah_pembelian === null || this.form.jumlah_pembelian === '')
+        {
+          return 1;
+        }
+
+        if(this.form.kategori_pembeli === null || this.form.kategori_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_ktp_pembeli === null || this.form.nomor_ktp_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_transaksi === null || this.form.tanggal_transaksi === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_telepon_pembeli === null || this.form.nomor_telepon_pembeli === '')
+        {
+          return 1;
+        }
+
+        return 0;
+      },
+
       editHandler(item) {
         this.editId = item.id_transaksi;
+        this.form.id_pangkalan = item.id_pangkalan;
         this.form.nama_pembeli = item.nama_pembeli;
         this.form.nama_pangkalan = item.nama_pangkalan;
-        this.form.id_pangkalan = item.id_pangkalan;
         this.form.jumlah_pembelian = item.jumlah_pembelian;
         this.form.kategori_pembeli = item.kategori_pembeli;
         this.form.nomor_ktp_pembeli = item.nomor_ktp_pembeli;
         this.form.tanggal_transaksi = item.tanggal_transaksi;
         this.form.nomor_telepon_pembeli = item.nomor_telepon_pembeli;
+
         this.dialog = true;
       },
 
@@ -539,18 +595,29 @@
         this.dialogConfirm = false;
       },
 
+      resetData() {
+        this.resetForm();
+        this.readData();
+      },
+
       resetForm() {
         this.form = {
           id_transaksi: null,
           id_pangkalan: null,
-          nama_pangkalan: null,
-          tanggal_transaksi: null,
-          jumlah_pembelian: null,
           nama_pembeli: null,
+          nama_pangkalan: null,
+          jumlah_pembelian: null,
+          kategori_pembeli: null,
+          tanggal_transaksi: null,
           nomor_ktp_pembeli: null,
           nomor_telepon_pembeli: null,
-          kategori_pembeli: null,
         };
+
+        this.form_filter = {
+          bulan_transaksi: null,
+          tahun_transaksi: null,
+          pangkalan_transaksi: null,
+        }
       },
     },
 
@@ -571,6 +638,7 @@
     flex-wrap: nowrap;
     overflow: scroll;
   }
+
   .flex-item {
     flex: 0 0 auto;
   }
@@ -580,25 +648,31 @@
     vertical-align: middle;
     overflow-x: scroll; 
   }
+
   .inline-item {
     display: inline-block;
     vertical-align: middle;
     height: 96px;
     margin-right: -4px;
   }
+
   .v-btn {
     letter-spacing: .020em;
   }
+
   .v-btn.v-size--small {
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
   }
+
   .v-text-field input {
     font-size: 12.5px;
   }
+
   .v-text-field .v-label {
     font-size: 14px;
   }
+
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */

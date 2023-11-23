@@ -7,7 +7,7 @@
     />
     
     <div v-if="isWideScreen" style="margin-bottom: 5%">
-      <h3 style="float:left">Transaksi</h3>
+      <h3 style="float:left">Transaksi Pangkalan</h3>
       <v-spacer />
       <v-btn
         small
@@ -21,7 +21,7 @@
     </div>
 
     <div v-else-if="isMediumScreen" style="margin-bottom: 12.5%">
-      <h3 style="float:left">Transaksi</h3>
+      <h3 style="float:left">Transaksi Pangkalan</h3>
       <v-spacer />
       <v-btn
         small
@@ -35,7 +35,7 @@
     </div>
 
     <div v-else style="margin-bottom: 17.5%">
-      <h3 style="float:left">Transaksi</h3>
+      <h3 style="float:left">Transaksi Pangkalan</h3>
       <v-spacer />
       <v-btn
         small
@@ -85,7 +85,7 @@
                   mdi-pencil
                 </v-icon>
                 <v-icon @click="deleteHandler(item)" color="error">
-                  mdi-account-remove
+                  mdi-file-document-remove
                 </v-icon>
               </span>
             </template>
@@ -166,7 +166,9 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
+        <v-card-text>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda Yakin Ingin Menghapus Data Tersebut?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -193,7 +195,7 @@
         immediate: true,
         
         handler() {
-          document.title = "Transaksi";
+          document.title = "Transaksi Pangkalan";
         },
       },
     },
@@ -214,15 +216,16 @@
         transaksi: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+        kategori: [ { kategori_pembeli: "Rumah Tangga" }, { kategori_pembeli: "Usaha Mikro" }, { kategori_pembeli: "Lainnya" }, ],
         items: [
           { 
-            text: "Dashboard",
             disabled: false,
+            text: "Dashboard",
             href: '/dashboard-page',
           },
           { 
-            text: "Transaksi",
             disabled: true,
+            text: "Transaksi",
             href: '/transaksi-pangkalan-page',
           },
         ],
@@ -238,24 +241,19 @@
           { text: "Nomor KTP Pembeli", value: "nomor_ktp_pembeli" },
           { text: "Nomor Telepon Pembeli", value: "nomor_telepon_pembeli" },
           { text: "Kategori Pembeli", value: "kategori_pembeli" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form: {
+          nama_pembeli: null,
           id_transaksi: null,
           id_pangkalan: null,
           nama_pangkalan: null,
-          tanggal_transaksi: null,
-          jumlah_pembelian: null,
-          nama_pembeli: null,
-          nomor_ktp_pembeli: null,
-          nomor_telepon_pembeli: null,
           kategori_pembeli: null,
+          jumlah_pembelian: null,
+          nomor_ktp_pembeli: null,
+          tanggal_transaksi: null,
+          nomor_telepon_pembeli: null,
         },
-        kategori: [
-          { kategori_pembeli: "Rumah Tangga" },
-          { kategori_pembeli: "Usaha Mikro" },
-          { kategori_pembeli: "Lainnya" },
-        ],
         namaRules: [(v) => !!v || "Nama Pembeli is Required"],
         ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
         jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
@@ -320,81 +318,106 @@
       },
       
       save() {
-        this.transaksi.append("nama_pembeli", this.form.nama_pembeli);
-        this.transaksi.append("jumlah_pembelian", this.form.jumlah_pembelian);
-        this.transaksi.append("kategori_pembeli", this.form.kategori_pembeli);
-        this.transaksi.append("nomor_ktp_pembeli", this.form.nomor_ktp_pembeli);
-        this.transaksi.append("tanggal_transaksi", this.form.tanggal_transaksi);
-        this.transaksi.append("nomor_telepon_pembeli", this.form.nomor_telepon_pembeli);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.transaksi.append("nama_pembeli", this.form.nama_pembeli);
+          this.transaksi.append("jumlah_pembelian", this.form.jumlah_pembelian);
+          this.transaksi.append("kategori_pembeli", this.form.kategori_pembeli);
+          this.transaksi.append("nomor_ktp_pembeli", this.form.nomor_ktp_pembeli);
+          this.transaksi.append("tanggal_transaksi", this.form.tanggal_transaksi);
+          this.transaksi.append("nomor_telepon_pembeli", this.form.nomor_telepon_pembeli);
 
-        var url = this.$api + "/transaksi/create";
-        this.$http.post(url, this.transaksi)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/transaksi/create";
+          this.$http.post(url, this.transaksi)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       //ubah data transaksi
       update() {
-        let newData = {
-          nama_pembeli: this.form.nama_pembeli,
-          jumlah_pembelian: this.form.jumlah_pembelian,
-          kategori_pembeli: this.form.kategori_pembeli,
-          nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
-          tanggal_transaksi: this.form.tanggal_transaksi,
-          Pangkalanid_pangkalan: localStorage.getItem('id'),
-          nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            nama_pembeli: this.form.nama_pembeli,
+            jumlah_pembelian: this.form.jumlah_pembelian,
+            kategori_pembeli: this.form.kategori_pembeli,
+            nomor_ktp_pembeli: this.form.nomor_ktp_pembeli,
+            tanggal_transaksi: this.form.tanggal_transaksi,
+            Pangkalanid_pangkalan: localStorage.getItem('id'),
+            nomor_telepon_pembeli: this.form.nomor_telepon_pembeli,
+          };
 
-        var url = this.$api + "/transaksi/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/transaksi/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       //non aktif data transaksi
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/transaksi/delete/" + this.deleteId;
         this.$http.delete(url)
           .then((response) => {
@@ -412,14 +435,50 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
+      },
+
+      checkForm() {
+        if(this.form.nama_pembeli === null || this.form.nama_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.jumlah_pembelian === null || this.form.jumlah_pembelian === '')
+        {
+          return 1;
+        }
+
+        if(this.form.kategori_pembeli === null || this.form.kategori_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_ktp_pembeli === null || this.form.nomor_ktp_pembeli === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_transaksi === null || this.form.tanggal_transaksi === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_telepon_pembeli === null || this.form.nomor_telepon_pembeli === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       editHandler(item) {
@@ -470,8 +529,8 @@
     },
 
     mounted() {
-      localStorage.setItem("menu", "Transaksi");
       this.readData();
+      localStorage.setItem("menu", "Transaksi");
     },
   };
 </script>
@@ -483,6 +542,7 @@
     flex-wrap: nowrap;
     overflow: scroll;
   }
+
   .flex-item {
     flex: 0 0 auto;
   }
@@ -492,25 +552,31 @@
     vertical-align: middle;
     overflow-x: scroll; 
   }
+
   .inline-item {
     display: inline-block;
     vertical-align: middle;
     height: 96px;
     margin-right: -4px;
   }
+
   .v-btn {
     letter-spacing: .020em;
   }
+
   .v-btn.v-size--small {
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
   }
+
   .v-text-field input {
     font-size: 12.5px;
   }
+
   .v-text-field .v-label {
     font-size: 14px;
   }
+
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */

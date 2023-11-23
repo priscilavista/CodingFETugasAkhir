@@ -83,12 +83,8 @@
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
-                  mdi-pencil
+                  mdi-magnify
                 </v-icon>
-
-                <!-- <v-icon @click="deleteHandler(item.id_alokasi_fakultatif)" color="error">
-                  mdi-account-remove
-                </v-icon> -->
               </span>
             </template>
           </v-menu>
@@ -135,7 +131,7 @@
                 </v-icon>
 
                 <v-icon @click="deleteHandler(item.id_alokasi_fakultatif)" color="error">
-                  mdi-account-remove
+                  mdi-file-document-remove
                 </v-icon>
               </span>
             </template>
@@ -179,12 +175,8 @@
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
-                  mdi-pencil
+                  mdi-magnify
                 </v-icon>
-
-                <!-- <v-icon @click="deleteHandler(item.id_alokasi_fakultatif)" color="error">
-                  mdi-account-remove
-                </v-icon> -->
               </span>
             </template>
           </v-menu>
@@ -195,7 +187,13 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
         <v-card-title>
-          <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data Alokasi Fakultatif</h3>
+          <h3 v-if="form.status_persetujuan_pangkalan !== 'P' && inputType === 'Edit'" style="font-size:20px; color:#ffffff">
+            Detail Data Alokasi Fakultatif
+          </h3>
+          
+          <h3 v-else style="font-size:20px; color:#ffffff">
+            {{ formTitle }} Data Alokasi Fakultatif
+          </h3>
           <v-spacer />
           <v-icon @click="cancel" link>mdi-close</v-icon>
         </v-card-title>
@@ -261,7 +259,7 @@
             />
 
             <v-spacer />
-            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="saveProfil">Simpan</v-btn>
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
             <v-spacer />
           </v-container>
         </v-card-text>
@@ -278,7 +276,9 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
+        <v-card-text>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;">Anda Yakin Ingin Menghapus Data Tersebut?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -331,13 +331,13 @@
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
           { 
-            text: "Dashboard",
             disabled: false,
+            text: "Dashboard",
             href: '/dashboard-page',
           },
           { 
-            text: "Alokasi Fakultatif",
             disabled: true,
+            text: "Alokasi Fakultatif",
             href: '/alokasi-fakultatif-page',
           },
         ],
@@ -351,7 +351,7 @@
           { text: "Pangkalan", value: "nama_pangkalan" },
           { text: "Tanggal Penambahan Alokasi", value: "tanggal_penambahan_alokasi" },
           { text: "Alokasi Tambahan", value: "alokasi_tambahan" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form: {
           id_pangkalan: null,
@@ -362,6 +362,9 @@
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
         },
+        alokasiRules: [(v) => !!v || "Alokasi is Required"],
+        pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
+        tanggalPenambahanRules: [(v) => !!v || "Tanggal Penambahan is Required"],
       };
     },
 
@@ -446,78 +449,103 @@
       },
 
       save() {
-        this.fakultatif.append("status_persetujuan_pangkalan", 'P');
-        this.fakultatif.append("alokasi_tambahan", this.form.alokasi_tambahan);
-        this.fakultatif.append("Pangkalanid_pangkalan", this.form.id_pangkalan);
-        this.fakultatif.append("tanggal_pengajuan", this.form.tanggal_pengajuan);
-        this.fakultatif.append("tanggal_penambahan_alokasi", this.form.tanggal_penambahan_alokasi);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.fakultatif.append("status_persetujuan_pangkalan", 'P');
+          this.fakultatif.append("alokasi_tambahan", this.form.alokasi_tambahan);
+          this.fakultatif.append("Pangkalanid_pangkalan", this.form.id_pangkalan);
+          this.fakultatif.append("tanggal_pengajuan", this.form.tanggal_pengajuan);
+          this.fakultatif.append("tanggal_penambahan_alokasi", this.form.tanggal_penambahan_alokasi);
 
-        var url = this.$api + "/alokasiFakultatif/create";
-        this.$http.post(url, this.fakultatif)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/alokasiFakultatif/create";
+          this.$http.post(url, this.fakultatif)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       update() {
-        let newData = {
-          alokasi_tambahan: this.form.alokasi_tambahan,
-          Pangkalanid_pangkalan: this.form.id_pangkalan,
-          tanggal_pengajuan: this.form.tanggal_pengajuan,
-          tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
-          status_persetujuan_pangkalan: this.form.status_persetujuan_pangkalan,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            alokasi_tambahan: this.form.alokasi_tambahan,
+            Pangkalanid_pangkalan: this.form.id_pangkalan,
+            tanggal_pengajuan: this.form.tanggal_pengajuan,
+            tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
+            status_persetujuan_pangkalan: this.form.status_persetujuan_pangkalan,
+          };
 
-        var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
 
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/alokasiFakultatif/delete/" + this.deleteId;
         this.$http.delete(url)
           .then((response) => {
@@ -536,14 +564,45 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
+      },
+
+      checkForm() {
+        if(this.form.id_pangkalan === null || this.form.id_pangkalan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.alokasi_tambahan === null || this.form.alokasi_tambahan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_pengajuan === null || this.form.tanggal_pengajuan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_penambahan_alokasi === null || this.form.tanggal_penambahan_alokasi === '')
+        {
+          return 1;
+        }
+
+        if(this.form.status_persetujuan_pangkalan === null || this.form.status_persetujuan_pangkalan === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       addHandler(){

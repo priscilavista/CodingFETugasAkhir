@@ -45,9 +45,8 @@
 
                 <div v-if="jabatan === 'Admin' && jabatan !== ''">
                     <dashboard-admin 
-                        :avatar="avatar" :users="users" 
-                        :headers="headersAdmin" :dataRiwayat="dataRiwayatAdmin" 
-                        :items="items" :monthNow="monthNow"
+                        :users="users" :headers="headersAdmin"
+                        :dataRiwayat="dataRiwayatAdmin" :monthNow="monthNow"
                         :pengambilanGasSisa="pengambilanGasSisaAdmin" :pengirimanGasSisa="pengirimanGasSisaAdmin"
                     />
                 </div>

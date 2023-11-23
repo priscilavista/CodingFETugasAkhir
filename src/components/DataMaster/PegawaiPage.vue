@@ -70,8 +70,8 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+              <span v-if="item.id_pegawai !== idUser" v-bind="attrs" v-on="on" style="cursor: pointer">
+                <v-icon v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
                   mdi-pencil
                 </v-icon>
                 <v-icon v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error">
@@ -80,33 +80,8 @@
                 <v-icon v-else @click="deleteHandler(item)" color="success">
                   mdi-account-check
                 </v-icon>
-                <!-- <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip> -->
               </span>
             </template>
-
-            <!-- <v-list width="90" class="py-0">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-bottom: 10px">
-                    <v-btn small @click="editHandler(item)">
-                      <v-icon color="#E39348">
-                        mdi-pencil
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_pegawai)">
-                      <v-icon color="#C94141">
-                        mdi-account-remove
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list> -->
           </v-menu>
         </template>
       </v-data-table>
@@ -177,8 +152,13 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px" v-if="form.status_pegawai=='A'">Anda yakin ingin menonaktifkan status pegawai ini?</v-card-text>
-        <v-card-text style="padding-bottom:5px" v-else>Anda yakin ingin mengaktifkan status pegawai ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-if="form.status_pegawai=='A'">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin menonaktifkan status pegawai ini?</h6>
+        </v-card-text>
+        
+        <v-card-text style="padding-bottom:5px" v-else>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin mengaktifkan status pegawai ini?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -226,6 +206,7 @@
         dialogConfirm: false,
         pegawai: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
+        idUser: parseInt(localStorage.getItem('id')),
         roles: [{ role: "Admin" }, { role: "Manajer" }, { role: "Driver"}],
         isMediumScreen: window.innerWidth >= 650 && window.innerWidth < 1000,
         items: [
@@ -247,7 +228,7 @@
           { text: "Email", value: "email_pegawai" },
           { text: "Nomor Telepon", value: "nomor_telepon_pegawai" },
           { text: "Status", value: "status_pegawai" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form: {
           id_pegawai: null,
@@ -314,78 +295,103 @@
       },
 
       save() {
-        this.pegawai.append("role_pegawai", this.form.role_pegawai);
-        this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
-        this.pegawai.append("email_pegawai", this.form.email_pegawai);
-        this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);
-        this.pegawai.append("nomor_telepon_pegawai", this.form.nomor_telepon_pegawai);
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          this.pegawai.append("role_pegawai", this.form.role_pegawai);
+          this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
+          this.pegawai.append("email_pegawai", this.form.email_pegawai);
+          this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);
+          this.pegawai.append("nomor_telepon_pegawai", this.form.nomor_telepon_pegawai);
 
-        var url = this.$api + "/pegawai/create";
-        this.$http.post(url, this.pegawai)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/pegawai/create";
+          this.$http.post(url, this.pegawai)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.overlay = false;
+                this.snackbar = true;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
+              this.overlay = false;
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       update() {
-        let newData = {
-          role_pegawai: this.form.role_pegawai,
-          nama_pegawai: this.form.nama_pegawai,
-          email_pegawai: this.form.email_pegawai,
-          tanggal_lahir_pegawai: this.form.tanggal_lahir_pegawai,
-          nomor_telepon_pegawai: this.form.nomor_telepon_pegawai,
-        };
+        if(this.checkForm() === 0)
+        {
+          this.overlay = true;
+          let newData = {
+            role_pegawai: this.form.role_pegawai,
+            nama_pegawai: this.form.nama_pegawai,
+            email_pegawai: this.form.email_pegawai,
+            tanggal_lahir_pegawai: this.form.tanggal_lahir_pegawai,
+            nomor_telepon_pegawai: this.form.nomor_telepon_pegawai,
+          };
 
-        var url = this.$api + "/pegawai/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/pegawai/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.overlay = false;
+                this.snackbar = true;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
+              this.overlay = false;
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/pegawai/updateStatus/" + this.deleteId;
         this.$http.put(url)
           .then((response) => {
@@ -404,14 +410,45 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
+      },
+
+      checkForm() {
+        if(this.form.nama_pegawai === null || this.form.nama_pegawai === '')
+        {
+          return 1;
+        }
+
+        if(this.form.role_pegawai === null || this.form.role_pegawai === '')
+        {
+          return 1;
+        }
+
+        if(this.form.email_pegawai === null || this.form.email_pegawai === '')
+        {
+          return 1;
+        }
+
+        if(this.form.tanggal_lahir_pegawai === null || this.form.tanggal_lahir_pegawai === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_telepon_pegawai === null || this.form.nomor_telepon_pegawai === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       editHandler(item) {

@@ -81,43 +81,18 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                <v-icon v-if="item.status_sppbe=='A'" color="primary" @click="editHandler(item)" style="margin-right: 15px;">
                   mdi-pencil
                 </v-icon>
                 
                 <v-icon v-if="item.status_sppbe=='A'" @click="deleteHandler(item)" color="error">
-                  mdi-account-remove
+                  mdi-store-remove
                 </v-icon>
                 <v-icon v-else @click="deleteHandler(item)" color="success">
-                  mdi-account-check
+                  mdi-store-check
                 </v-icon>
-                <!-- <v-chip link color="#E7C913">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
-                </v-chip> -->
               </span>
             </template>
-
-            <!-- <v-list width="90" class="py-0">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title style="color: #000000; margin-bottom: 10px">
-                    <v-btn small>
-                      <v-icon color="#E39348">
-                        mdi-pencil
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-
-                  <v-list-item-title style="color: #000000; margin-top: 10px">
-                    <v-btn small @click="deleteHandler(item.id_pangkalan)">
-                      <v-icon color="#C94141">
-                        mdi-account-remove
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list> -->
           </v-menu>
         </template>
       </v-data-table>
@@ -181,7 +156,6 @@
             />
 
             <v-text-field
-              :rules="mapsRules"
               v-model="form.url_maps_sppbe"
               label="URL Maps"
             />
@@ -196,8 +170,6 @@
               loading="lazy" 
               referrerpolicy="no-referrer-when-downgrade"
             />
-
-            <!-- <a v-if="form.url_maps_sppbe!=null" href="form.url_maps_sppbe" target="_blank">Lihat Lokasi SPPBE</a> -->
             
             <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
@@ -217,8 +189,12 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px" v-if="form.status_sppbe=='A'">Anda yakin ingin menonaktifkan status SPPBE ini?</v-card-text>
-        <v-card-text style="padding-bottom:5px" v-else>Anda yakin ingin mengaktifkan status SPPBE ini?</v-card-text>
+        <v-card-text style="padding-bottom:5px" v-if="form.status_sppbe=='A'">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin menonaktifkan status SPPBE ini?</h6>
+        </v-card-text>
+        <v-card-text style="padding-bottom:5px" v-else>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin mengaktifkan status SPPBE ini?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
@@ -287,7 +263,7 @@
           { text: "Nomor Telepon", value: "nomor_telepon_sppbe" },
           { text: "Alamat", value: "alamat_sppbe" },
           { text: "Status", value: "status_sppbe" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
         form: {
           id_sppbe: null,
@@ -307,7 +283,6 @@
         roleRules: [(v) => !!v || "Role is Required"],
         namaRules: [(v) => !!v || "Nama is Required"],
         alamatRules: [(v) => !!v || "Alamat is Required"],
-        mapsRules: [(v) => !!v || "URL Maps is Required"],
         kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
         kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
         emailRules: [
@@ -394,17 +369,20 @@
             {
               let temp = response.data.data;
               this.kelurahan = temp;
+              this.overlay = false;
             }
             else
             {
               this.color = "red";
               this.dialog = false;
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
+            this.dialog = false;
             this.snackbar = true;
             this.overlay = false;
             this.error_message = error.response.data.message;
@@ -412,89 +390,114 @@
       },
       
       save() {
-        this.sppbe.append("nama_sppbe", this.form.nama_sppbe);
-        this.sppbe.append("email_sppbe", this.form.email_sppbe);
-        this.sppbe.append("alamat_sppbe", this.form.alamat_sppbe);
-        this.sppbe.append("nomor_telepon_sppbe", this.form.nomor_telepon_sppbe);
-        this.sppbe.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
-        if(this.form.url_maps_sppbe !== null && this.form.url_maps_sppbe !== 'null')
+        if(this.checkForm() === 0)
         {
-          this.sppbe.append("url_maps_sppbe", this.form.url_maps_sppbe);
-        }
+          this.overlay = true;
+          this.sppbe.append("nama_sppbe", this.form.nama_sppbe);
+          this.sppbe.append("email_sppbe", this.form.email_sppbe);
+          this.sppbe.append("alamat_sppbe", this.form.alamat_sppbe);
+          this.sppbe.append("nomor_telepon_sppbe", this.form.nomor_telepon_sppbe);
+          this.sppbe.append("Master_Kelurahanid_kelurahan", this.form.id_kelurahan);
+          if(this.form.url_maps_sppbe !== null && this.form.url_maps_sppbe !== 'null')
+          {
+            this.sppbe.append("url_maps_sppbe", this.form.url_maps_sppbe);
+          }
 
-        var url = this.$api + "/sppbe/create";
-        this.$http.post(url, this.sppbe)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/sppbe/create";
+          this.$http.post(url, this.sppbe)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       update() {
-        let url_maps = null;
-        if(this.form.url_maps_sppbe !== null && this.form.url_maps_sppbe !== 'null')
+        if(this.checkForm() === 0)
         {
-          url_maps = this.form.url_maps_sppbe;
-        }
-        
-        let newData = {
-          url_maps_sppbe: url_maps,
-          nama_sppbe: this.form.nama_sppbe,
-          email_sppbe: this.form.email_sppbe,
-          alamat_sppbe: this.form.alamat_sppbe,
-          nomor_telepon_sppbe: this.form.nomor_telepon_sppbe,
-          Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
-        };
+          this.overlay = true;
+          let url_maps = null;
+          if(this.form.url_maps_sppbe !== null && this.form.url_maps_sppbe !== 'null' && this.form.url_maps_sppbe !== '')
+          {
+            url_maps = this.form.url_maps_sppbe;
+          }
+          
+          let newData = {
+            url_maps_sppbe: url_maps,
+            nama_sppbe: this.form.nama_sppbe,
+            email_sppbe: this.form.email_sppbe,
+            alamat_sppbe: this.form.alamat_sppbe,
+            nomor_telepon_sppbe: this.form.nomor_telepon_sppbe,
+            Master_Kelurahanid_kelurahan: this.form.id_kelurahan,
+          };
 
-        var url = this.$api + "/sppbe/update/" + this.editId;
-        this.$http.put(url, newData)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.cancel();
-              this.readData();
-              this.resetForm();
-              this.color = "green";
-              this.snackbar = true;
-              this.inputType = "Tambah";
-              this.error_message = response.data.message;
-              location.reload();
-            }
-            else
-            {
+          var url = this.$api + "/sppbe/update/" + this.editId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.inputType = "Tambah";
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.error_message = error.response.data.message;
-          });
+              this.overlay = false;
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
       },
       
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/sppbe/updateStatus/" + this.deleteId;
         this.$http.put(url)
           .then((response) => {
@@ -513,14 +516,45 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
+      },
+
+      checkForm() {
+        if(this.form.id_kelurahan === null || this.form.id_kelurahan === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nama_sppbe === null || this.form.nama_sppbe === '')
+        {
+          return 1;
+        }
+
+        if(this.form.email_sppbe === null || this.form.email_sppbe === '')
+        {
+          return 1;
+        }
+
+        if(this.form.alamat_sppbe === null || this.form.alamat_sppbe === '')
+        {
+          return 1;
+        }
+
+        if(this.form.nomor_telepon_sppbe === null || this.form.nomor_telepon_sppbe === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       addHandler(){
@@ -530,6 +564,7 @@
       },
 
       editHandler(item) {
+        this.overlay = true;
         this.inputType = "Edit";
         this.getDataKecamatan();
         this.editId = item.id_sppbe;

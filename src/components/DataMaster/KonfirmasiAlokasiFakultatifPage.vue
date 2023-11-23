@@ -88,11 +88,17 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text> Anda Yakin Ingin <strong>Menyetujui</strong> Permintaan Alokasi Fakultatif Ini? </v-card-text>
+        <v-card-text>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">
+            Anda Yakin Ingin <strong>Menyetujui</strong> Permintaan Alokasi Fakultatif Ini?
+          </h6>
+        </v-card-text>
 
-        <v-spacer />
-        <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
-        <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -106,11 +112,17 @@
           </v-card-title>
         </v-card>
 
-        <v-card-text> Anda Yakin Ingin <strong>Menolak</strong> Permintaan Alokasi Fakultatif Ini? </v-card-text>
+        <v-card-text>
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">
+            Anda Yakin Ingin <strong>Menolak</strong> Permintaan Alokasi Fakultatif Ini?
+          </h6>
+        </v-card-text>
 
-        <v-spacer />
-        <v-btn color="#E53935" text @click="updateStatus">Tolak</v-btn>
-        <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="#E53935" text @click="updateStatus">Tolak</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -153,13 +165,13 @@
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [
           { 
-            text: "Dashboard",
             disabled: false,
+            text: "Dashboard",
             href: '/dashboard-page',
           },
           { 
-            text: "Alokasi Fakultatif",
             disabled: true,
+            text: "Alokasi Fakultatif",
             href: '/konfirmasi-alokasi-fakultatif-page',
           },
         ],
@@ -172,7 +184,7 @@
           },
           { text: "Tanggal Penambahan Alokasi", value: "tanggal_penambahan_alokasi" },
           { text: "Alokasi Tambahan", value: "alokasi_tambahan" },
-          { text: "Konfirmasi", value: "actions" },
+          { text: "Konfirmasi", value: "actions", sortable: false },
         ],
         form: {
           id_pangkalan: null,

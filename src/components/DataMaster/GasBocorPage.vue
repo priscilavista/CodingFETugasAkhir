@@ -142,7 +142,7 @@
           { text: "Pangkalan", value: "nama_pangkalan" },
           { text: "Nomor Tabung", value: "nomor_tabung" },
           { text: "Status Tabung", value: "status_tabung" },
-          { text: "", value: "actions" },
+          { text: "", value: "actions", sortable: false },
         ],
       };
     },
@@ -190,6 +190,7 @@
 
       //non aktif data gasbocor
       deleteData() {
+        this.overlay = true;
         var url = this.$api + "/gasBocor/updateStatus/" + this.deleteId;
         this.$http.put(url)
           .then((response) => {
@@ -206,12 +207,14 @@
             {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
           })
           .catch((error) => {
             this.color = "red";
             this.snackbar = true;
+            this.overlay = false;
             this.error_message = error.response.data.message;
           });
       },
@@ -227,8 +230,8 @@
     },
 
     mounted() {
-      localStorage.setItem("menu", "Gas Bocor");
       this.readData();
+      localStorage.setItem("menu", "Gas Bocor");
     },
   };
 </script>
@@ -240,6 +243,7 @@
       flex-wrap: nowrap;
       overflow: scroll;
     }
+
     .flex-item {
       flex: 0 0 auto;
     }
@@ -249,25 +253,31 @@
       vertical-align: middle;
       overflow-x: scroll; 
     }
+
     .inline-item {
       display: inline-block;
       vertical-align: middle;
       height: 96px;
       margin-right: -4px;
     }
+
     .v-btn {
       letter-spacing: .020em;
     }
+
     .v-btn.v-size--small {
       font-size: .70rem;
       font-family: "Helvetica", Arial, sans-serif;
     }
+
     .v-text-field input {
       font-size: 12.5px;
     }
+
     .v-text-field .v-label {
       font-size: 14px;
     }
+    
     .v-icon.v-icon.mdi-magnify {
       font-size: 22px;
       /* color: #1976d2; */

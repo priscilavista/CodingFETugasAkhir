@@ -346,9 +346,9 @@
               required
             />
 
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 4%" @click="savePassword">Simpan</v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer />
           </v-container>
         </v-card-text>
       </v-card>
@@ -357,16 +357,22 @@
     <!-- Dialog for Logout -->
     <v-dialog v-model="dialogLogout" persistent max-width="400px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Keluar!</span>
-        </v-card-title>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:20px; color:#ffffff">Keluar!</h3>
+            <v-spacer />
+            <v-icon @click="dialogLogout = false" link>mdi-close</v-icon>
+          </v-card-title>
+        </v-card>
 
-        <v-card-text>Apakah Anda Yakin Untuk Keluar?</v-card-text>
+        <v-card-text style="padding-bottom:5px">
+          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Apakah Anda Yakin Untuk Keluar?</h6>
+        </v-card-text>
 
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="setLogout()">Keluar</v-btn>
-          <v-btn color="blue darken-1" text @click="dialogLogout = false">Tidak</v-btn> 
+          <v-btn color="#E53935" text @click="setLogout()">Keluar</v-btn>
+          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogLogout = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -386,6 +392,7 @@
     watch: {
       $route: {
         immediate: true,
+
         handler() {
           document.title = "Dashboard";
         },
@@ -458,11 +465,11 @@
         form: {
           role: null,
           nama: null,
-          nomor_telepon: null,
-          tanggal_lahir: null,
           email: null,
           oldPassword: null,
           newPassword: null,
+          nomor_telepon: null,
+          tanggal_lahir: null,
         },
       };
     },
@@ -531,94 +538,154 @@
       },
 
       saveChangeProfile() {
-        this.overlay = true;
-        this.dialogProfil = false;
-        var url = this.$api;
-        var body;
-
-        if(this.jabatan === 'pegawai')
+        if(this.checkFormProfile() === 0)
         {
-          url = url + "/pegawai/update/" + localStorage.getItem("id");
-          body = {
-            role_pegawai: this.form.role,
-            nama_pegawai: this.form.nama,
-            nomor_telepon_pegawai: this.form.nomor_telepon,
-            tanggal_lahir_pegawai: this.form.tanggal_lahir,
-            email_pegawai: this.form.email,
-          };
-        }
-        else if(this.jabatan === 'pangkalan')
-        {
-          url = url + "/pangkalan/update/" + localStorage.getItem("id");
-          body = {
-            oldPassword: this.form.oldPassword, 
-            newPassword: this.form.newPassword
-          };
-        }
+          var body = {};
+          var url = this.$api;
+          this.overlay = true;
+          this.dialogProfil = false;
 
-        this.$http.put(url, body)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.color = "green";
-              this.snackbar = true;
-              this.overlay = false;
-              this.error_message = response.data.message;
-            }
-            else
-            {
+          if(this.jabatan === 'pegawai')
+          {
+            url = url + "/pegawai/update/" + localStorage.getItem("id");
+            body = {
+              role_pegawai: this.form.role,
+              nama_pegawai: this.form.nama,
+              nomor_telepon_pegawai: this.form.nomor_telepon,
+              tanggal_lahir_pegawai: this.form.tanggal_lahir,
+              email_pegawai: this.form.email,
+            };
+          }
+          else if(this.jabatan === 'pangkalan')
+          {
+            url = url + "/pangkalan/update/" + localStorage.getItem("id");
+          }
+
+          this.$http.put(url, body)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.color = "green";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
               this.overlay = false;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.overlay = false;
-            this.error_message = error.response.data.message;
-          });
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
+      },
+
+      checkFormProfile() {
+        if(this.jabatan === 'pegawai')
+        {
+          if(this.form.role === null || this.form.role === '')
+          {
+            return 1;
+          }
+
+          if(this.form.nama === null || this.form.nama === '')
+          {
+            return 1;
+          }
+
+          if(this.form.nomor_telepon === null || this.form.nomor_telepon === '')
+          {
+            return 1;
+          }
+
+          if(this.form.tanggal_lahir === null || this.form.tanggal_lahir === '')
+          {
+            return 1;
+          }
+
+          if(this.form.email === null || this.form.email === '')
+          {
+            return 1;
+          }
+
+          return 0;
+        }
       },
 
       savePassword() {
-        this.dialogPassword = false;
-        this.overlay = true;
-        var url = this.$api;
-        var body = {oldPassword: this.form.oldPassword, newPassword: this.form.newPassword};
-
-        if(this.jabatan === 'pegawai')
+        if(this.checkFormPassword() === 0)
         {
-          url = url + "/pegawai/updatePassword/" + localStorage.getItem("id");
-        }
-        else if(this.jabatan === 'pangkalan')
-        {
-          url = url + "/pangkalan/updatePassword/" + localStorage.getItem("id");
-        }
+          this.overlay = true;
+          var url = this.$api;
+          this.dialogPassword = false;
+          var body = {oldPassword: this.form.oldPassword, newPassword: this.form.newPassword};
 
-        this.$http.put(url, body)
-          .then((response) => {
-            if(response.data.code === 200)
-            {
-              this.color = "green";
-              this.snackbar = true;
-              this.error_message = response.data.message;
-              setTimeout(() => this.logout(), 750);
-            }
-            else
-            {
+          if(this.jabatan === 'pegawai')
+          {
+            url = url + "/pegawai/updatePassword/" + localStorage.getItem("id");
+          }
+          else if(this.jabatan === 'pangkalan')
+          {
+            url = url + "/pangkalan/updatePassword/" + localStorage.getItem("id");
+          }
+
+          this.$http.put(url, body)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                setTimeout(() => this.logout(), 750);
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
               this.color = "red";
               this.snackbar = true;
               this.overlay = false;
-              this.error_message = response.data.message;
-            }
-          })
-          .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
-            this.overlay = false;
-            this.error_message = error.response.data.message;
-          });
+              this.error_message = error.response.data.message;
+            });
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Data Tidak Lengkap!!';
+        }
+      },
+
+      checkFormPassword() {
+        if(this.form.oldPassword === null || this.form.oldPassword === '')
+        {
+          return 1;
+        }
+
+        if(this.form.newPassword === null || this.form.newPassword === '')
+        {
+          return 1;
+        }
+
+        return 0;
       },
 
       setLogout() {
@@ -633,9 +700,9 @@
       logout() {
         this.overlay = false;
         localStorage.removeItem("id");
-        localStorage.removeItem("token");
         localStorage.removeItem("menu");
         localStorage.removeItem("role");
+        localStorage.removeItem("token");
         localStorage.removeItem("jabatan");
         this.$router.push({ path: "/login" });
       },
@@ -643,18 +710,18 @@
       cancel() {
         this.resetForm();
         this.dialogProfil = false;
-        this.dialogPassword = false;
         this.dialogLogout = false;
+        this.dialogPassword = false;
       },
 
       resetForm() {
         this.form = {
           role: null,
           nama: null,
-          nomor_telepon: null,
           email: null,
           oldPassword: null,
           newPassword: null,
+          nomor_telepon: null,
         };
       },
     },
@@ -690,7 +757,4 @@
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
   }
-  /* .v-icon:hover {
-  background-color: #BDBDBD;
-  } */
 </style>

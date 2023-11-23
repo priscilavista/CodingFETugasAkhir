@@ -19,6 +19,26 @@
         </div>
 
         <div>
+            <v-row>
+                <v-col
+                    sm="3"
+                    md="3"
+                    lg="3"
+                    cols="3"
+                >
+                    <v-row align="center" justify="left" class="ml-1">
+                        <v-icon small style="float:left;" color="#673AB7">mdi-square</v-icon>
+                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Reguler</span>
+                    </v-row>
+                    <v-row align="center" justify="left" class="ml-1 mt-5">
+                        <v-icon small style="float:left;" color="#b73a42">mdi-square</v-icon>
+                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Fakultatif</span>
+                    </v-row>
+                </v-col>
+            </v-row>
+        </div>
+
+        <div class="mt-5">
             <v-app>
                 <v-row>
                     <v-col>
@@ -60,7 +80,7 @@
                         </div>
 
                         <div class="mt-5">
-                            <v-sheet height="575">
+                            <v-sheet height="500">
                                 <v-calendar
                                     :type="type"
                                     ref="calendar"
@@ -82,18 +102,18 @@
                                                         v-ripple
                                                         v-on="on"
                                                         class="my-event-reguler"
-                                                        v-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Reguler'"
                                                         style="width: 92.5%; text-align:left; padding-left:5px"
                                                         v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
+                                                        v-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Reguler'"
                                                     />
                                                     
                                                     <div
                                                         v-ripple
                                                         v-on="on"
                                                         class="my-event-fakultatif"
-                                                        v-else-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Fakultatif'"
                                                         style="width: 92.5%; text-align:left; padding-left:5px"
                                                         v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
+                                                        v-else-if="!event.time && event.jenis_alokasi_pengambilan_gas === 'Fakultatif'"
                                                     />
                                                 </template>
 
@@ -344,7 +364,9 @@
                     <span class="headline" />
                 </v-card-title>
 
-                <v-card-text> Anda Yakin Ingin Menghapus Data Tersebut? </v-card-text>
+                <v-card-text>
+                    <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda Yakin Ingin Menghapus Data Tersebut?</h6>
+                </v-card-text>
 
                 <v-spacer />
                 <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
@@ -367,6 +389,7 @@
         watch: {
             $route: {
                 immediate: true,
+
                 handler() {
                     document.title = "Kalender Alokasi Pengambilan Gas";
                 },
@@ -376,6 +399,10 @@
         data() {
             return{
                 color: "",
+                sppbe: [],
+                editId: "",
+                events: [],
+                deleteId: "",
                 type: 'month',
                 dialog: false,
                 snackbar: false,
@@ -384,26 +411,27 @@
                 inputType: "Tambah",
                 dialogConfirm: false,
                 isWideScreen: window.innerWidth >= 1000,
+                alokasi_pengambilan_gas: new FormData(),
                 start: new Date().toLocaleDateString("sv-se").split('T')[0],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+                jenis_alokasi: [ { id: 1, nama_jenis: 'Reguler' }, { id: 2, nama_jenis: 'Fakultatif' }, ],
                 items: [
                     { 
-                        text: "Dashboard",
                         disabled: false,
+                        text: "Dashboard",
                         href: '/dashboard-page',
                     },
                     { 
-                        text: "Alokasi Pengambilan Gas",
                         disabled: false,
+                        text: "Alokasi Pengambilan Gas",
                         href: '/alokasi-pengambilan-gas-page',
                     },
                     { 
-                        text: "Alokasi Pengambilan Gas",
                         disabled: true,
+                        text: "Kalender Alokasi Pengambilan Gas",
                         href: '/kalender-alokasi-pengambilan-gas-page',
                     },
                 ],
-                alokasi_pengambilan_gas: new FormData(),
                 form: {
                     nama_sppbe: null,
                     SPPBEid_sppbe: null,
@@ -412,9 +440,6 @@
                     jenis_alokasi_pengambilan_gas: null,
                     jumlah_alokasi_pengambilan_gas: null,
                 },
-                sppbe: [],
-                deleteId: "",
-                editId: "",
                 form_event: {
                     nama_sppbe: null,
                     SPPBEid_sppbe: null,
@@ -423,14 +448,9 @@
                     jenis_alokasi_pengambilan_gas: null,
                     jumlah_alokasi_pengambilan_gas: null,
                 },
-                events: [],
-                jenis_alokasi: [
-                    { id: 1, nama_jenis: 'Reguler' },
-                    { id: 2, nama_jenis: 'Fakultatif' },
-                ],
                 SPPBERules: [(v) => !!v || "SPPBE is Required"],
-                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
                 jenisRules: [(v) => !!v || "Jenis Alokasi is Required"],
+                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
                 tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
             }
         },
@@ -539,8 +559,8 @@
             save() {
                 this.alokasi_pengambilan_gas.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
                 this.alokasi_pengambilan_gas.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
-                this.alokasi_pengambilan_gas.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
                 this.alokasi_pengambilan_gas.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
+                this.alokasi_pengambilan_gas.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
 
                 var url = this.$api + "/alokasiPengambilanGas/create";
                 this.$http.post(url, this.alokasi_pengambilan_gas)
@@ -640,13 +660,14 @@
             editHandler(item) {
                 this.readSPPBE();
                 this.inputType = "Edit";
-                this.editId = item.id_alokasi_pengambilan_gas;
                 this.form.nama_sppbe = item.nama_sppbe;
                 this.form.SPPBEid_sppbe = item.SPPBEid_sppbe;
+                this.editId = item.id_alokasi_pengambilan_gas;
                 this.form.tanggal_pengambilan_gas = item.tanggal_pengambilan_gas;
                 this.form.id_alokasi_pengambilan_gas = item.id_alokasi_pengambilan_gas;
                 this.form.jenis_alokasi_pengambilan_gas = item.jenis_alokasi_pengambilan_gas;
                 this.form.jumlah_alokasi_pengambilan_gas = item.jumlah_alokasi_pengambilan_gas;
+
                 this.dialog = true;
             },
 
@@ -656,11 +677,10 @@
             },
 
             close() {
-                this.resetForm();
                 this.sppbe = [];
+                this.resetForm();
                 this.dialog = false;
                 this.inputType = "Tambah";
-                // location.reload();
             },
 
             resetForm() {
@@ -676,9 +696,9 @@
         },
 
         mounted() {
-            this.$refs.calendar.checkChange()
             this.readSPPBE();
             this.readEvent();
+            this.$refs.calendar.checkChange()
             localStorage.setItem("menu", "Kalender Alokasi Pengambilan Gas");
         },
     }
