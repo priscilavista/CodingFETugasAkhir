@@ -262,7 +262,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Profil</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -460,16 +460,16 @@
           nomor_telepon: null,
           tanggal_lahir: null,
         },
-        namaRules: [(v) => !!v || "Nama is Required"],
-        roleRules: [(v) => !!v || "Role is Required"],
-        passwordRules: [(v) => !!v || "Password is Required"],
+        namaRules: [(v) => !!v || "Nama tidak boleh kosong"],
+        roleRules: [(v) => !!v || "Jabatan tidak boleh kosong"],
+        passwordRules: [(v) => !!v || "Password tidak boleh kosong"],
         emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+          (v) => !!v || "Email tidak boleh kosong",
+          (v) => /.+@.+\..+/.test(v) || "Email tidak valid",
         ],
         nomor_teleponRules: [
           (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number tidak valid",
         ],
       };
     },
@@ -648,6 +648,7 @@
               {
                 this.color = "green";
                 this.snackbar = true;
+                this.resetForm();
                 this.error_message = response.data.message;
                 setTimeout(() => this.logout(), 750);
               }
@@ -656,6 +657,7 @@
                 this.color = "red";
                 this.snackbar = true;
                 this.overlay = false;
+                this.resetForm();
                 this.error_message = response.data.message;
               }
             })
@@ -663,6 +665,7 @@
               this.color = "red";
               this.snackbar = true;
               this.overlay = false;
+              this.resetForm();
               this.error_message = error.response.data.message;
             });
         }
