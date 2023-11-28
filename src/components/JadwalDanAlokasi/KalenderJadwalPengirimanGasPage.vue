@@ -137,7 +137,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
                     <v-spacer />
-                    <v-icon @click="close()" link>mdi-close</v-icon>
+                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -225,7 +225,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Data</h3>
                     <v-spacer />
-                    <v-icon @click="closeDialog" link>mdi-close</v-icon>
+                    <v-icon @click="closeDialog" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -344,9 +344,9 @@
                 text: 'Alokasi sudah terpenuhi semua!',
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
-                driverRules: [(v) => !!v || "Nama Driver is Required"],
-                pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
-                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
+                driverRules: [(v) => !!v || "Nama Driver Tidak Boleh Kosong"],
+                pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
+                tanggalRules: [(v) => !!v || "Tanggal Alokasi Tidak Boleh Kosong"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 

@@ -134,8 +134,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
                     <v-spacer />
-                    
-                    <v-icon @click="close()" link>mdi-close</v-icon>
+                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -331,10 +330,10 @@
                 text: 'Alokasi sudah terpenuhi semua!',
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
-                SPPBERules: [(v) => !!v || "SPPBE is Required"],
-                driverRules: [(v) => !!v || "Nama Driver is Required"],
-                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
-                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
+                SPPBERules: [(v) => !!v || "SPPBE Tidak Boleh Kosong"],
+                driverRules: [(v) => !!v || "Nama Driver Tidak Boleh Kosong"],
+                alokasiRules: [(v) => !!v || "Jumlah Alokasi Tidak Boleh Kosong"],
+                tanggalRules: [(v) => !!v || "Tanggal Alokasi Tidak Boleh Kosong"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 form: {
                     id_sppbe: null,

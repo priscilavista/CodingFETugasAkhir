@@ -70,7 +70,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Konfirmasi Pengambilan Gas Bocor</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 

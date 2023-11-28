@@ -129,7 +129,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Detail Data Jadwal Pengambilan Gas</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -281,10 +281,10 @@
             jumlah: 560
           },
         ],
-        tanggalRules: [(v) => !!v || "Tanggal Pengambilan is Required"],
-        alokasiRules: [(v) => !!v || "Jumlah Pengambilan is Required"],
-        SPPBERules: [(v) => !!v || "SPPBE is Required"],
-        driverRules: [(v) => !!v || "Driver is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Pengambilan Tidak Boleh Kosong"],
+        alokasiRules: [(v) => !!v || "Jumlah Pengambilan Tidak Boleh Kosong"],
+        SPPBERules: [(v) => !!v || "SPPBE Tidak Boleh Kosong"],
+        driverRules: [(v) => !!v || "Driver Tidak Boleh Kosong"],
       };
     },
 

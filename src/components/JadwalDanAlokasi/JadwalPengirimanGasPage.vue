@@ -132,7 +132,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Detail Data Jadwal Pengiriman Gas</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -283,9 +283,9 @@
             jumlah: 560
           },
         ],
-        tanggalRules: [(v) => !!v || "Tanggal Pengiriman is Required"],
-        pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
-        driverRules: [(v) => !!v || "Driver is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Pengiriman Tidak Boleh Kosong"],
+        pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
+        driverRules: [(v) => !!v || "Driver Tidak Boleh Kosong"],
       };
     },
 

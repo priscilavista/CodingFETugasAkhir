@@ -108,7 +108,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Penerimaan</h3>
                     <v-spacer />
-                    <v-icon @click="dialog = false">mdi-close</v-icon>
+                    <v-icon @click="dialog = false" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 

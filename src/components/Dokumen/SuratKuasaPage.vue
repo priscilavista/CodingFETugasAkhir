@@ -85,7 +85,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Pratinjau</h3>
                     <v-spacer />
-                    <v-icon @click="close()" color="#ffffff" link>mdi-close</v-icon>
+                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -147,11 +147,11 @@
                 error_message: "",
                 isWideScreen: window.innerWidth >= 1000,
                 alokasi: [ { jumlah: 360 }, { jumlah: 560 }, ],
-                sppbeRules: [(v) => !!v || "SPPBE is Required"],
-                driverRules: [(v) => !!v || "Driver is Required"],
-                tanggalRules: [(v) => !!v || "Tanggal is Required"],
-                armadaRules: [(v) => !!v || "Nomor Armada is Required"],
-                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
+                sppbeRules: [(v) => !!v || "SPPBE Tidak Boleh Kosong"],
+                driverRules: [(v) => !!v || "Driver Tidak Boleh Kosong"],
+                tanggalRules: [(v) => !!v || "Tanggal Tidak Boleh Kosong"],
+                armadaRules: [(v) => !!v || "Nomor Armada Tidak Boleh Kosong"],
+                alokasiRules: [(v) => !!v || "Jumlah Alokasi Tidak Boleh Kosong"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 

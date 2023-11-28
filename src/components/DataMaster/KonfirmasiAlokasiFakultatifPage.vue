@@ -84,7 +84,7 @@
           <v-card-title>
             <h3 style="font-size:18px; color:#ffffff">Konfirmasi Alokasi Fakultatif</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -108,7 +108,7 @@
           <v-card-title>
             <h3 style="font-size:18px; color:#ffffff">Konfirmasi Alokasi Fakultatif</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 

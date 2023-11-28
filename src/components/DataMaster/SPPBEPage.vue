@@ -103,7 +103,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data SPPBE</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -185,7 +185,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Ubah Status SPPBE</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -280,18 +280,18 @@
           url_maps_sppbe: null,
           nomor_telepon_sppbe: null,
         },
-        roleRules: [(v) => !!v || "Role is Required"],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        alamatRules: [(v) => !!v || "Alamat is Required"],
-        kecamatanRules: [(v) => !!v || "Kecamatan is Required"],
-        kelurahanRules: [(v) => !!v || "Kelurahan is Required"],
+        roleRules: [(v) => !!v || "Role Tidak Boleh Kosong"],
+        namaRules: [(v) => !!v || "Nama Tidak Boleh Kosong"],
+        alamatRules: [(v) => !!v || "Alamat Tidak Boleh Kosong"],
+        kecamatanRules: [(v) => !!v || "Kecamatan Tidak Boleh Kosong"],
+        kelurahanRules: [(v) => !!v || "Kelurahan Tidak Boleh Kosong"],
         emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+          (v) => !!v || "Email Tidak Boleh Kosong",
+          (v) => /.+@.+\..+/.test(v) || "Email Tidak Valid",
         ],
         telpRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+          (v) => !!v || "Nomor Telepon Tidak Boleh Kosong",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Tidak Valid",
         ],
       };
     },
@@ -579,13 +579,16 @@
               this.form.nama_sppbe = res.nama_sppbe;
               this.form.email_sppbe = res.email_sppbe;
               this.form.alamat_sppbe = res.alamat_sppbe;
-              this.form.url_maps_sppbe = res.url_maps_sppbe;
               this.form.nama_kecamatan = res.nama_kecamatan;
               this.form.nama_kelurahan = res.nama_kelurahan;
               this.form.nomor_telepon_sppbe = res.nomor_telepon_sppbe;
               this.form.id_kelurahan = res.Master_Kelurahanid_kelurahan;
               this.getDataKelurahan(parseInt(res.Master_Kecamatanid_kecamatan));
               this.form.id_kecamatan = parseInt(res.Master_Kecamatanid_kecamatan);
+              if(res.url_maps_sppbe !== null && res.url_maps_sppbe !== 'null')
+              {
+                this.form.url_maps_sppbe = res.url_maps_sppbe;
+              }
 
               this.dialog = true;
             }

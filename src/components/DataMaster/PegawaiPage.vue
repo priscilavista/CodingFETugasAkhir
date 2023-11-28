@@ -92,7 +92,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -148,7 +148,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Ubah Status Pegawai</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -239,16 +239,16 @@
           nomor_telepon_pegawai: null,
           status_pegawai: null,
         },
-        roleRules: [(v) => !!v || "Role is Required"],
-        namaRules: [(v) => !!v || "Nama is Required"],
-        ttlRules: [(v) => !!v || "Tanggal Lahir is Required"],
+        roleRules: [(v) => !!v || "Role Tidak Boleh Kosong"],
+        namaRules: [(v) => !!v || "Nama Tidak Boleh Kosong"],
+        ttlRules: [(v) => !!v || "Tanggal Lahir Tidak Boleh Kosong"],
         emailRules: [
-          (v) => !!v || "Email is Required",
-          (v) => /.+@.+\..+/.test(v) || "Email must be valid",
+          (v) => !!v || "Email Tidak Boleh Kosong",
+          (v) => /.+@.+\..+/.test(v) || "Email Tidak Valid",
         ],
         telpRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number must be valid",
+          (v) => !!v || "Nomor Telepon Tidak Boleh Kosong",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Tidak Valid",
         ],
       };
     },

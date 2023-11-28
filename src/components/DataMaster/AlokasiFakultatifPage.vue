@@ -195,7 +195,7 @@
             {{ formTitle }} Data Alokasi Fakultatif
           </h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -272,7 +272,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Hapus Data Alokasi Fakultatif</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -362,9 +362,9 @@
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
         },
-        alokasiRules: [(v) => !!v || "Alokasi is Required"],
-        pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
-        tanggalPenambahanRules: [(v) => !!v || "Tanggal Penambahan is Required"],
+        alokasiRules: [(v) => !!v || "Alokasi Tidak Boleh Kosong"],
+        pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
+        tanggalPenambahanRules: [(v) => !!v || "Tanggal Penambahan Tidak Boleh Kosong"],
       };
     },
 

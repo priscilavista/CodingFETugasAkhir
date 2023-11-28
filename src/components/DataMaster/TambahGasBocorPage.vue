@@ -56,7 +56,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Konfirmasi Penambahan Gas Bocor</h3>
           <v-spacer />
-          <v-icon @click="close()" color="#ffffff" link>mdi-close</v-icon>
+          <v-icon @click="close()" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -140,8 +140,8 @@
           nomor_tabung: null,
           tanggal_pengisian: null,
         },
-        tanggalRules: [(v) => !!v || "Tanggal is Required"],
-        nomorTabungRules: [(v) => !!v || "Nomor Tabung is Required"],
+        tanggalRules: [(v) => !!v || "Tanggal Tidak Boleh Kosong"],
+        nomorTabungRules: [(v) => !!v || "Nomor Tabung Tidak Boleh Kosong"],
       };
     },
 

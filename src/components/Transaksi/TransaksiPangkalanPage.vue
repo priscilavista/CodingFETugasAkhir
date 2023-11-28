@@ -99,7 +99,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data Transaksi</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -162,7 +162,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Hapus Data Transaksi</h3>
             <v-spacer />
-            <v-icon @click="cancel" link>mdi-close</v-icon>
+            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -254,14 +254,14 @@
           tanggal_transaksi: null,
           nomor_telepon_pembeli: null,
         },
-        namaRules: [(v) => !!v || "Nama Pembeli is Required"],
-        ktpRules: [(v) => !!v || "Nomor KTP Pembeli is Required"],
-        jumlahRules: [(v) => !!v || "Jumlah Pembelian is Required"],
-        tanggalRules: [(v) => !!v || "Tanggal Transaksi is Required"],
-        kategoriRules: [(v) => !!v || "Kategori Pembeli is Required"],
+        namaRules: [(v) => !!v || "Nama Pembeli Tidak Boleh Kosong"],
+        ktpRules: [(v) => !!v || "Nomor KTP Pembeli Tidak Boleh Kosong"],
+        jumlahRules: [(v) => !!v || "Jumlah Pembelian Tidak Boleh Kosong"],
+        tanggalRules: [(v) => !!v || "Tanggal Transaksi Tidak Boleh Kosong"],
+        kategoriRules: [(v) => !!v || "Kategori Pembeli Tidak Boleh Kosong"],
         telpRules: [
-          (v) => !!v || "Nomor Telepon Pembeli is Required", 
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli must be valid",
+          (v) => !!v || "Nomor Telepon Pembeli Tidak Boleh Kosong", 
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Pembeli Tidak Valid",
         ],
       };
     },

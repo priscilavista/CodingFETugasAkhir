@@ -110,7 +110,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Pratinjau</h3>
                     <v-spacer />
-                    <v-icon @click="close()" color="#ffffff" link>mdi-close</v-icon>
+                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -342,9 +342,9 @@
                 snackbar: false,
                 error_message: "",
                 isWideScreen: window.innerWidth >= 1000,
-                bulanRules: [(v) => !!v || "Bulan is Required"],
-                tahunRules: [(v) => !!v || "Tahun is Required"],
-                pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
+                bulanRules: [(v) => !!v || "Bulan Tidak Boleh Kosong"],
+                tahunRules: [(v) => !!v || "Tahun Tidak Boleh Kosong"],
+                pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 items: [
                     { 

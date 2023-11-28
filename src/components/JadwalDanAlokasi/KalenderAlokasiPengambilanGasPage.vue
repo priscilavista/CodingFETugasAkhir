@@ -307,7 +307,7 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
                     <v-spacer />
-                    <v-icon @click="close()" link>mdi-close</v-icon>
+                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
                 </v-card-title>
             </v-card>
 
@@ -448,10 +448,10 @@
                     jenis_alokasi_pengambilan_gas: null,
                     jumlah_alokasi_pengambilan_gas: null,
                 },
-                SPPBERules: [(v) => !!v || "SPPBE is Required"],
-                jenisRules: [(v) => !!v || "Jenis Alokasi is Required"],
-                alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
-                tanggalRules: [(v) => !!v || "Tanggal Alokasi is Required"],
+                SPPBERules: [(v) => !!v || "SPPBE Tidak Boleh Kosong"],
+                jenisRules: [(v) => !!v || "Jenis Alokasi Tidak Boleh Kosong"],
+                alokasiRules: [(v) => !!v || "Jumlah Alokasi Tidak Boleh Kosong"],
+                tanggalRules: [(v) => !!v || "Tanggal Alokasi Tidak Boleh Kosong"],
             }
         },
         

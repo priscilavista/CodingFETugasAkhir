@@ -106,7 +106,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -231,10 +231,10 @@
           alokasi_penerimaan_gas: null,
           id_jadwal_rutin_pangkalan: null,
         },
-        grupRules: [(v) => !!v || "Grup Pangkalan is Required"],
-        pangkalanRules: [(v) => !!v || "Pangkalan is Required"],
-        hariRules: [(v) => !!v || "Hari Penerimaan is Required"],
-        alokasiRules: [(v) => !!v || "Jumlah Alokasi is Required"],
+        grupRules: [(v) => !!v || "Grup Pangkalan Tidak Boleh Kosong"],
+        pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
+        hariRules: [(v) => !!v || "Hari Penerimaan Tidak Boleh Kosong"],
+        alokasiRules: [(v) => !!v || "Jumlah Alokasi Tidak Boleh Kosong"],
       };
     },
 

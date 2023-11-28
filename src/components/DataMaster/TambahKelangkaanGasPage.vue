@@ -57,7 +57,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Konfirmasi Penambahan Kelangkaan Gas</h3>
           <v-spacer />
-          <v-icon @click="close()" color="#ffffff" link>mdi-close</v-icon>
+          <v-icon @click="close()" link large color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -140,8 +140,8 @@
           tanggal_pengisian: null,
           jumlah_permintaan: null,
         },
-        jumlahRules: [(v) => !!v || "Jumlah Permintaan is Required"],
-        tanggalRules: [(v) => !!v || "Tanggal Pengisian is Required"],
+        jumlahRules: [(v) => !!v || "Jumlah Permintaan Tidak Boleh Kosong"],
+        tanggalRules: [(v) => !!v || "Tanggal Pengisian Tidak Boleh Kosong"],
       };
     },
 

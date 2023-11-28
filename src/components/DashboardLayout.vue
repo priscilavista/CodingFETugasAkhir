@@ -262,7 +262,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Profil</h3>
           <v-spacer />
-          <v-icon @click="cancel" link color="error">mdi-close</v-icon>
+          <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -317,7 +317,7 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Ubah Password</h3>
           <v-spacer />
-          <v-icon @click="cancel" link>mdi-close</v-icon>
+          <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
         </v-card-title>
       </v-card>
 
@@ -361,7 +361,7 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Keluar!</h3>
             <v-spacer />
-            <v-icon @click="dialogLogout = false" link>mdi-close</v-icon>
+            <v-icon @click="dialogLogout = false" large link color="error">mdi-close</v-icon>
           </v-card-title>
         </v-card>
 
@@ -460,16 +460,16 @@
           nomor_telepon: null,
           tanggal_lahir: null,
         },
-        namaRules: [(v) => !!v || "Nama tidak boleh kosong"],
-        roleRules: [(v) => !!v || "Jabatan tidak boleh kosong"],
-        passwordRules: [(v) => !!v || "Password tidak boleh kosong"],
+        namaRules: [(v) => !!v || "Nama Tidak Boleh Kosong"],
+        roleRules: [(v) => !!v || "Jabatan Tidak Boleh Kosong"],
+        passwordRules: [(v) => !!v || "Password Tidak Boleh Kosong"],
         emailRules: [
-          (v) => !!v || "Email tidak boleh kosong",
-          (v) => /.+@.+\..+/.test(v) || "Email tidak valid",
+          (v) => !!v || "Email Tidak Boleh Kosong",
+          (v) => /.+@.+\..+/.test(v) || "Email Tidak Valid",
         ],
         nomor_teleponRules: [
-          (v) => !!v || "Nomor Telepon is Required",
-          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Phone Number tidak valid",
+          (v) => !!v || "Nomor Telepon Tidak Boleh Kosong",
+          (v) => /^([0][8][0-9]{8,10})$/g.test(v) || "Nomor Telepon Tidak Valid",
         ],
       };
     },
