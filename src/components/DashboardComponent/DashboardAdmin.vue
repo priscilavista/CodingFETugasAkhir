@@ -17,10 +17,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Sisa Pengiriman Gas
+                                    Total Pengiriman Gas
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Sisa Pengiriman Gas Sebanyak {{ pengirimanGasSisa }} Kali</v-list-item-subtitle>
+                                <v-list-item-subtitle>Total Pengiriman Gas Sebanyak {{ pengirimanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -33,10 +33,10 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <v-list-item-title class="text-h6 mb-1">
-                                    Sisa Pengambilan Gas
+                                    Total Pengambilan Gas
                                 </v-list-item-title>
                                 
-                                <v-list-item-subtitle>Sisa Pengambilan Gas Sebanyak {{ pengambilanGasSisa }} Kali</v-list-item-subtitle>
+                                <v-list-item-subtitle>Total Pengambilan Gas Sebanyak {{ pengambilanGasSisa }} Kali</v-list-item-subtitle>
                             </v-list-item-content>
                             
                             <v-list-item-avatar size="50">
@@ -52,7 +52,7 @@
                     >
                         <v-card-title class="indigo white--text text-h5">
                             <v-icon medium left style="vertical-align: middle; color: #fff">mdi-clipboard-text-clock-outline</v-icon>
-                            <span class="text-h6 font-weight-light">Daftar Kegiatan yang Selesai</span>
+                            <span class="text-h6 font-weight-light">Daftar Kegiatan Hari Ini</span>
                         </v-card-title>
 
                         <v-card-text class="mt-3">
@@ -168,6 +168,16 @@
                                     </v-col>
 
                                     <v-col>{{ selected.nomor_telepon_pegawai }}</v-col>
+
+                                    <v-col
+                                        class="text-right mr-4 mb-2"
+                                        tag="strong"
+                                        cols="5"
+                                    >
+                                        Total Pengambilan:
+                                    </v-col>
+
+                                    <v-col>{{ selected.jumlah_pengambilan }}</v-col>
 
                                     <v-col
                                         class="text-right mr-4 mb-2"

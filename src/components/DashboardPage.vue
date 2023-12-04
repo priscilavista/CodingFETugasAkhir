@@ -147,7 +147,7 @@
                 pengambilanGasSisaAdmin: 0,
                 headersAdmin: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
-                    { text: 'Tanggal Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    // { text: 'Tanggal Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
@@ -483,6 +483,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.divideDataDriver(tempList);
                         this.overlay = false;
                         console.log(error)
                     });
@@ -490,7 +491,7 @@
 
             divideDataDriver(tempList)
             {
-                var date = new Date();
+                var date = new Date().setHours(0,0,0,0);
                 var temp = tempList;
                 var index = 1;
                 var color = '';
@@ -498,12 +499,12 @@
                 var berjalan = [];
 
                 temp.forEach(element => {
-                    var tempDate = new Date(element.tanggal_kegiatan);
-                    if(tempDate <= date)
+                    var tempDate = new Date(element.tanggal_kegiatan).setHours(0,0,0,0);
+                    if(tempDate > date)
                     {
                         riwayat = [...riwayat, element];
                     }
-                    else
+                    else if(tempDate === date)
                     {
                         if(element.jenis_kegiatan === 'Pengambilan')
                         {
@@ -537,7 +538,6 @@
             getDataPengambilanAdmin()
             {
                 var url = this.$api + "/jadwalPengambilanGas/postBySearchDataAdmin";
-                var date = new Date();
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
@@ -548,26 +548,19 @@
                         {
                             var tempList = [];
                             var res = response.data.data;
-                            
                             res.forEach(element => {
-                                var tempDate = new Date(element.tanggal_pengambilan_gas);
-                                if(tempDate > date)
-                                {
-                                    this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
-                                }
+                                this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
 
-                                if(tempDate < date)
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengambilan',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_pengambilan_gas,
-                                            'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
-                                        }
-                                    ];
-                                }
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengambilan',
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jumlah_gas': element.alokasi_pengambilan_gas,
+                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
+                                    }
+                                ];
+                                console.log(tempList)
                             });
 
                             this.getDataPengirimanAdmin(tempList)
@@ -582,7 +575,6 @@
             getDataPengirimanAdmin(tempList)
             {
                 var url = this.$api + "/jadwalPengirimanGas/postBySearchDataAdmin";
-                var date = new Date();
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
@@ -594,38 +586,31 @@
                             var res = response.data.data;
                             
                             res.forEach(element => {
-                                var tempDate = new Date(element.tanggal_pengambilan_gas);
-                                if(tempDate > date)
-                                {
-                                    this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
-                                }
+                                this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
 
-                                if(tempDate < date)
+                                if(element.id_jadwal_pengiriman_gas)
                                 {
-                                    if(element.id_jadwal_pengiriman_gas)
-                                    {
-                                        tempList = [
-                                            ...tempList,
-                                            {
-                                                'jenis_kegiatan': 'Pengiriman',
-                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                                'jumlah_gas': element.alokasi_pengambilan_gas,
-                                                'jenis_alokasi': 'Reguler'
-                                            }
-                                        ]
-                                    }
-                                    else
-                                    {
-                                        tempList = [
-                                            ...tempList,
-                                            {
-                                                'jenis_kegiatan': 'Pengiriman',
-                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                                'jumlah_gas': element.alokasi_tambahan,
-                                                'jenis_alokasi': 'Fakultatif'
-                                            }
-                                        ]
-                                    }
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'jenis_alokasi': 'Reguler'
+                                        }
+                                    ]
+                                }
+                                else
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengiriman',
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_tambahan,
+                                            'jenis_alokasi': 'Fakultatif'
+                                        }
+                                    ]
                                 }
                             });
 
@@ -636,6 +621,7 @@
                         }
                     })
                     .catch((error) => {
+                        this.dataRiwayatAdmin = tempList;
                         this.overlay = false;
                         console.log(error)
                     });
