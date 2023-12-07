@@ -6,7 +6,9 @@
         lg="4"
     >
         <v-card height="260px">
-            <v-card-subtitle :style="backgroundColor" class="white--text">{{ dateName }}</v-card-subtitle>
+            <v-card-subtitle :style="backgroundColor" class="white--text">
+                <strong>{{ dateName }}</strong>
+            </v-card-subtitle>
             
             <v-card-text>
                 <template>

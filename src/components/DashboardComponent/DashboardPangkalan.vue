@@ -78,7 +78,7 @@
         >
             <v-row>
                 <v-col>
-                    <v-card color="#673bb7" dark>
+                    <!-- <v-card color="#673bb7" dark>
                         <v-list-item three-line>
                             <v-list-item-avatar size="50">
                                 <v-icon large>mdi-store-plus-outline</v-icon>
@@ -94,7 +94,7 @@
                         </v-list-item>
                     </v-card>
                     
-                    <v-card color="#ee534f" dark class="mt-5">
+                    <v-card color="#ee534f" dark class="mt-5 mb-5">
                         <v-list-item three-line>
                             <v-list-item-avatar size="50">
                                 <v-icon large>mdi-store-minus-outline</v-icon>
@@ -108,9 +108,9 @@
                                 <v-list-item-subtitle>Sisa Stok Pangkalan Saat Ini Sebanyak {{ stokAkhir }} Tabung</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
-                    </v-card>
+                    </v-card> -->
 
-                    <v-card style="display: flex !important; flex-direction: column;" height="435px" class="mt-5">
+                    <v-card style="display: flex !important; flex-direction: column;" height="650px">
                         <v-card-title class="indigo white--text text-h5">
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-check-decagram</v-icon>
                             <span class="text-h6 font-weight-light">Persetujuan Alokasi Fakultatif</span>

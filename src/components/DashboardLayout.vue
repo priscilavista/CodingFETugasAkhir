@@ -300,7 +300,26 @@
             </div>
 
             <div v-if="jabatan === 'pangkalan'">
+              <v-text-field
+                v-model="form.nama"
+                label="Nama"
+                :rules="namaRules"
+                disabled
+              />
 
+              <v-text-field
+                v-model="form.email"
+                label="Email"
+                :rules="emailRules"
+                required
+              />
+
+              <v-text-field
+                v-model="form.nomor_telepon"
+                label="Nomor Telepon"
+                :rules="nomor_teleponRules"
+                required
+              />
             </div>
 
             <v-spacer />
@@ -516,10 +535,9 @@
               {
                 this.dialogProfil = true;
                 var res = response.data.data;
-                this.form.role = res.role_pegawai;
-                this.form.nama = res.nama_pegawai;
-                this.form.email = res.email_pegawai;
-                this.form.nomor_telepon = res.nomor_telepon_pegawai;
+                this.form.nama = res.nama_pangkalan;
+                this.form.email = res.email_pangkalan;
+                this.form.nomor_telepon = res.nomor_telepon_pangkalan;
               }
               else
               {
@@ -559,6 +577,11 @@
           else if(this.jabatan === 'pangkalan')
           {
             url = url + "/pangkalan/update/" + localStorage.getItem("id");
+            body = {
+              nama_pangkalan: this.form.nama,
+              nomor_telepon_pangkalan: this.form.nomor_telepon,
+              email_pangkalan: this.form.email,
+            };
           }
 
           this.$http.put(url, body)

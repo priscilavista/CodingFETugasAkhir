@@ -66,7 +66,7 @@
                         </div>
 
                         <div class="mt-5">
-                            <v-sheet height="500">
+                            <v-sheet height="600">
                                 <v-calendar
                                     ref="calendar"
                                     v-model="start"

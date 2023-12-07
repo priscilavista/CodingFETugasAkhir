@@ -122,8 +122,8 @@
                 dataRiwayatManager: [],
                 kelangkaanGasBulanan: 0,
                 headersManajer: [
-                    { text: 'Tanggal', align: 'start', value: 'tanggal_transaksi' },
-                    { text: 'Jumlah', value: 'jumlah_pembelian' },
+                    { text: 'Pangkalan', align: 'start', value: 'nama_pangkalan' },
+                    { text: 'Total Tabung', align: 'end', value: 'jumlah_pembelian' },
                 ],
 
                 //Driver Variable
@@ -135,7 +135,8 @@
                 pengambilanGasSelesaiDriver: 0,
                 headersDriver: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
-                    { text: 'Tanggal Pelaksanaan Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Tanggal Pelaksanaan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Lokasi Pengambilan / Pengiriman', align: 'center', value: 'lokasi_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
@@ -147,7 +148,8 @@
                 pengambilanGasSisaAdmin: 0,
                 headersAdmin: [
                     { text: 'Jenis Kegiatan', align: 'start', value: 'jenis_kegiatan' },
-                    // { text: 'Tanggal Kegiatan', align: 'center', value: 'tanggal_kegiatan' },
+                    // { text: 'Tanggal Pelaksanaan', align: 'center', value: 'tanggal_kegiatan' },
+                    { text: 'Lokasi Pengambilan / Pengiriman', align: 'center', value: 'lokasi_kegiatan' },
                     { text: 'Jenis Alokasi', align: 'start', value: 'jenis_alokasi' },
                     { text: 'Jumlah Tabung Gas', align: 'end', value: 'jumlah_gas' },
                 ],
@@ -251,9 +253,8 @@
             //Method Manajer
             getDataKelangkaanBulanan() {
                 var url = this.$api;
-                var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
-                var body = { 'bulan': bulan, 'tahun': thn };
+                var body = { 'tahun': thn };
 
                 url = url + "/kelangkaanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
@@ -261,7 +262,10 @@
                         if(response.data.code == 200)
                         {
                             var res = response.data.data;
-                            this.kelangkaanGasBulanan = parseInt(res.jumlah_permintaan);
+                            if(res.jumlah_permintaan !== null)
+                            {
+                                this.kelangkaanGasBulanan = parseInt(res.jumlah_permintaan);
+                            }
                         }
                     })
                     .catch((error) => {
@@ -272,8 +276,9 @@
 
             getDataPengambilanTahunan() {
                 var url = this.$api;
+                var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
-                var body = { 'tahun': thn };
+                var body = { 'bulan': bulan, 'tahun': thn };
 
                 url = url + "/jadwalPengambilanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
@@ -292,8 +297,9 @@
 
             getDataPengirimanTahunan() {
                 var url = this.$api;
+                var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
-                var body = { 'tahun': thn };
+                var body = { 'bulan': bulan, 'tahun': thn };
 
                 url = url + "/jadwalPengirimanGas/postBySearchDataManajer";
                 this.$http.post(url, body)
@@ -322,7 +328,11 @@
                         if(response.data.code === 200)
                         {
                             var res = response.data.data;
-                            var normal = parseInt(res.total_alokasi_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                            var normal = 0;
+                            if(res.total_alokasi_pengambilan_gas !== null)
+                            {
+                                normal = parseInt(res.total_alokasi_pengambilan_gas) - parseInt(res.jumlah_gas_bocor);
+                            }
                             var bocor = parseInt(res.jumlah_gas_bocor);
 
                             this.gasNormal = normal;
@@ -412,9 +422,10 @@
                                     ...tempList,
                                     {
                                         'jenis_kegiatan': 'Pengambilan',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'lokasi_kegiatan': element.nama_sppbe,
                                         'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
                                     }
                                 ];
                             });
@@ -444,6 +455,7 @@
                             
                             res.forEach(element => {
                                 var tempDate = new Date(element.tanggal_pengambilan_gas);
+                                
                                 if(tempDate <= date)
                                 {
                                     this.pengirimanGasSelesaiDriver = 1 + this.pengirimanGasSelesaiDriver;
@@ -452,31 +464,17 @@
                                 {
                                     this.pengirimanGasSisaDriver = 1 + this.pengirimanGasSisaDriver;
                                 }
-                                
-                                if(element.id_jadwal_pengiriman_gas)
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_pengambilan_gas,
-                                            'jenis_alokasi': 'Reguler'
-                                        }
-                                    ]
-                                }
-                                else
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_tambahan,
-                                            'jenis_alokasi': 'Fakultatif'
-                                        }
-                                    ]
-                                }
+
+                                tempList = [
+                                    ...tempList,
+                                    {
+                                        'jenis_kegiatan': 'Pengiriman',
+                                        'lokasi_kegiatan': element.nama_pangkalan,
+                                        'jumlah_gas': element.alokasi_penerimaan_gas,
+                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
+                                    }
+                                ]
                             });
 
                             this.divideDataDriver(tempList);
@@ -517,11 +515,12 @@
 
                         var object = {
                             index: index,
-                            jenis_alokasi: element.jenis_alokasi_pengambilan_gas,
+                            color: color,
                             jumlah_gas: element.jumlah_gas,
-                            tanggal_kegiatan: element.tanggal_kegiatan,
+                            jenis_alokasi: element.jenis_alokasi,
                             jenis_kegiatan: element.jenis_kegiatan,
-                            color: color
+                            lokasi_kegiatan: element.lokasi_kegiatan,
+                            tanggal_kegiatan: element.tanggal_kegiatan,
                         };
 
                         berjalan = [...berjalan, object];
@@ -530,6 +529,14 @@
 
                 this.dataRiwayatDriver = riwayat.sort(this.sortDataByDate);
                 this.daftarKegiatanDriver = berjalan.sort(this.sortDataByDate);
+
+                this.dataRiwayatDriver.forEach(element => {
+                    element.tanggal_kegiatan = new Date(element.tanggal_kegiatan).toLocaleString('id-ID', { day: "2-digit", month: 'long', year: "numeric" });
+                });
+
+                this.daftarKegiatanDriver.forEach(element => {
+                    element.tanggal_kegiatan = new Date(element.tanggal_kegiatan).toLocaleString('id-ID', { day: "2-digit", month: 'long', year: "numeric" });
+                });
 
                 this.overlay = false;
             },
@@ -541,6 +548,7 @@
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
+                var date = new Date().setHours(0,0,0,0);
                 
                 this.$http.post(url, body)
                     .then((response) => {
@@ -551,16 +559,20 @@
                             res.forEach(element => {
                                 this.pengambilanGasSisaAdmin = 1 + this.pengambilanGasSisaAdmin;
 
-                                tempList = [
-                                    ...tempList,
-                                    {
-                                        'jenis_kegiatan': 'Pengambilan',
-                                        'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                        'jumlah_gas': element.alokasi_pengambilan_gas,
-                                        'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
-                                    }
-                                ];
-                                console.log(tempList)
+                                var tempDate = new Date(element.tanggal_pengambilan_gas).setHours(0,0,0,0);
+                                if(tempDate === date)
+                                {
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            'jenis_kegiatan': 'Pengambilan',
+                                            'lokasi_kegiatan': element.nama_sppbe,
+                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'jenis_alokasi': element.jenis_alokasi_pengambilan_gas
+                                        }
+                                    ];
+                                }
                             });
 
                             this.getDataPengirimanAdmin(tempList)
@@ -578,6 +590,7 @@
                 var bulan = new Date().getMonth() + 1;
                 var thn = new Date().getFullYear();
                 var body = { 'bulan': bulan, 'tahun': thn };
+                var date = new Date().setHours(0,0,0,0);
                 
                 this.$http.post(url, body)
                     .then((response) => {
@@ -588,27 +601,17 @@
                             res.forEach(element => {
                                 this.pengirimanGasSisaAdmin = 1 + this.pengirimanGasSisaAdmin;
 
-                                if(element.id_jadwal_pengiriman_gas)
+                                var tempDate = new Date(element.tanggal_pengambilan_gas).setHours(0,0,0,0);
+                                if(tempDate === date)
                                 {
                                     tempList = [
                                         ...tempList,
                                         {
                                             'jenis_kegiatan': 'Pengiriman',
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                            'lokasi_kegiatan': element.nama_pangkalan,
                                             'jumlah_gas': element.alokasi_pengambilan_gas,
-                                            'jenis_alokasi': 'Reguler'
-                                        }
-                                    ]
-                                }
-                                else
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
                                             'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jumlah_gas': element.alokasi_tambahan,
-                                            'jenis_alokasi': 'Fakultatif'
+                                            'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
                                         }
                                     ]
                                 }
@@ -700,37 +703,40 @@
 
                             res.forEach(element => {
                                 var tempDate = new Date(element.tanggal_pengajuan);
-
-                                if(tempDate >= date.getDate() + 1)
+                                
+                                if((tempDate.getDate() - date.getDate()) >= 0)
                                 {
-                                    color = 'red';
-                                    icon = 'mdi-bell-alert-outline';
-                                }
-                                else if(tempDate >= date.getDate() + 3)
-                                {
-                                    color = 'yellow';
-                                    icon = 'mdi-bell-badge-outline';
-                                }
-                                else
-                                {
-                                    color = 'green';
-                                    icon = 'mdi-bell-outline';
-                                }
-
-                                tempList = [
-                                    ...tempList,
+                                    if((tempDate.getDate() - date.getDate()) === 0)
                                     {
-                                        icon: icon,
-                                        color: color,
-                                        title: 'Konfirmasi Alokasi Pada ' + element.tanggal_pengajuan,
-                                        subtitle: 'Terdapat Permintaan Penambahan Alokasi Fakultatif Sejumlah ' + element.alokasi_tambahan + ' Tabung Gas',
+                                        color = 'red';
+                                        icon = 'mdi-bell-alert-outline';
                                     }
-                                ];
+                                    else if((tempDate.getDate() - date.getDate()) <= 5)
+                                    {
+                                        color = 'yellow';
+                                        icon = 'mdi-bell-badge-outline';
+                                    }
+                                    else
+                                    {
+                                        color = 'green';
+                                        icon = 'mdi-bell-outline';
+                                    }
 
-                                tempList = [
-                                    ...tempList,
-                                    { divider: true, inset: true },
-                                ]
+                                    tempList = [
+                                        ...tempList,
+                                        {
+                                            icon: icon,
+                                            color: color,
+                                            subtitle: 'Terdapat Permintaan Penambahan Alokasi Fakultatif Sejumlah ' + element.alokasi_tambahan + ' Tabung Gas',
+                                            title: 'Konfirmasi Alokasi Pada ' + new Date(element.tanggal_pengajuan).toLocaleString('id-ID', { day: "2-digit", month: 'long', year: "numeric" }),
+                                        }
+                                    ];
+
+                                    tempList = [
+                                        ...tempList,
+                                        { divider: true, inset: true },
+                                    ]
+                                }
                             });
 
                             this.pangkalanItems = tempList;

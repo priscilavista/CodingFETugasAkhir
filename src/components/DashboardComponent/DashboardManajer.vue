@@ -15,7 +15,7 @@
 
                         <v-list-item-content>
                             <v-list-item-title class="text-h6 mb-1">
-                                Total Pembelian Tahunan
+                                Total Transaksi Tahunan
                             </v-list-item-title>
 
                             <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPembelian }} Pembelian Tabung Gas</v-list-item-subtitle>
@@ -38,7 +38,7 @@
 
                         <v-list-item-content>
                             <v-list-item-title class="text-h6 mb-1">
-                                Total Pengambilan Gas
+                                Total Pengambilan Gas - {{ monthNow }}
                             </v-list-item-title>
                             
                             <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPengambilanGas }} Kali Pengambilan Gas</v-list-item-subtitle>
@@ -61,7 +61,7 @@
 
                         <v-list-item-content>
                             <v-list-item-title class="text-h6 mb-1">
-                                Total Pengiriman Gas
+                                Total Pengiriman Gas - {{ monthNow }}
                             </v-list-item-title>
                             
                             <v-list-item-subtitle style="font-size: 15px;">Terdapat Total {{ totalPengirimanGas }} Kali Pengiriman Gas</v-list-item-subtitle>
@@ -83,7 +83,7 @@
                 <v-card height="510px">
                     <v-card-title class="indigo white--text">
                         <v-icon medium left style="vertical-align: middle; color: #fff;">mdi-chart-line</v-icon>
-                        <span class="text-h6 font-weight-light">Kelangkaan Gas Bulanan</span>
+                        <span class="text-h6 font-weight-light">Kelangkaan Gas Tahunan</span>
                     </v-card-title>
 
                     <v-card-text class="mt-2">
@@ -95,7 +95,7 @@
 
                                 <v-list-item-content>
                                     <v-list-item-title class="text-h6 mb-1">
-                                        Total Kelangkaan Gas Bulan {{ monthNow }}
+                                        Total Kelangkaan Gas Tahunan
                                     </v-list-item-title>
                                     
                                     <v-list-item-subtitle style="font-size: 17px;">
@@ -131,7 +131,7 @@
                             style="display: flex !important; flex-direction: column;"
                         >
 
-                            <v-card-title class="indigo white--text">Riwayat Transaksi {{ monthNow }}</v-card-title>
+                            <v-card-title class="indigo white--text">Riwayat Transaksi - {{ monthNow }}</v-card-title>
 
                             <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                                 <template>
@@ -158,10 +158,10 @@
                         <v-card height="510px">
                             <v-card-title class="text-h6 indigo white--text">
                                 <v-icon medium left style="vertical-align: middle; color: #fff;">mdi-chart-donut</v-icon>
-                                <span class="text-h6 font-weight-light">Persentase Kondisi Gas</span>
+                                <span class="text-h6 font-weight-light">Kondisi Gas - {{ monthNow }}</span>
                             </v-card-title>
 
-                            <v-card-text class="text--primary mt-1">
+                            <v-card-text class="text--primary mt-2">
                                 <div class="d-flex justify-center bg-surface-variant">
                                     <doughnut-chart />
                                 </div>

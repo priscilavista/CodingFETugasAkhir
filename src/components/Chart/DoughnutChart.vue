@@ -105,9 +105,27 @@
                 })
                 .catch((error) => {
                     console.log(error)
+                    this.doughnutChartData = {
+                        labels: ['Normal', 'Bocor'],
+                        datasets: [
+                            {
+                                backgroundColor: ['#00D8FF', '#ee534f'],
+                                data: [0, 0]
+                            }
+                        ],
+                    };
                 });
             } catch (error) {
                 console.log(error)
+                this.doughnutChartData = {
+                    labels: ['Normal', 'Bocor'],
+                    datasets: [
+                        {
+                            backgroundColor: ['#00D8FF', '#ee534f'],
+                            data: [0, 0]
+                        }
+                    ],
+                };
             }
         },
     }
