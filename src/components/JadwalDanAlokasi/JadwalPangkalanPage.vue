@@ -89,8 +89,18 @@
                     <td>{{ jadwal.nama_pangkalan }}</td>
                     <td>{{ jadwal.alokasi_penerimaan_gas }}</td>
                     <td>
-                      <v-icon small @click="editHandler(jadwal)" color="primary" style="margin-right: 5px;">mdi-pencil</v-icon>
-                      <v-icon small @click="deleteHandler(jadwal.id_jadwal_rutin_pangkalan)" color="error" style="margin-left:5px">mdi-delete</v-icon>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on" small @click="editHandler(jadwal)" color="primary" style="margin-right: 5px;">mdi-pencil</v-icon>
+                        </template>
+                        <span>Edit Data</span>
+                      </v-tooltip>
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on" small @click="deleteHandler(jadwal.id_jadwal_rutin_pangkalan)" color="error" style="margin-left:5px">mdi-delete</v-icon>
+                        </template>
+                        <span>Hapus Data</span>
+                      </v-tooltip>
                     </td>
                   </tr>
                 </tbody>
@@ -106,7 +116,12 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
           <v-spacer />
-          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+            </template>
+            <span>Tutup</span>
+          </v-tooltip>
         </v-card-title>
       </v-card>
 
@@ -160,6 +175,28 @@
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title >
+            <h3 style="font-size:20px; color:#ffffff">Hapus Jadwal Pangkalan</h3>
+            <v-spacer />
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="dialogConfirm = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
+          </v-card-title>
+        </v-card>
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">Apakah anda yakin untuk menghapus data tersebut?</p>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="#E53935" text @click="deleteData">Hapus</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
+      </v-card>
+      <!-- <v-card>
         <v-card-title>
           <span class="headline" />
         </v-card-title>
@@ -169,7 +206,7 @@
         <v-spacer />
         <v-btn small style="font-size:12px" color="#E53935" text @click="deleteData">Hapus</v-btn>
         <v-btn small style="font-size:12px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
-      </v-card>
+      </v-card> -->
     </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
@@ -201,6 +238,7 @@
         deleteId: "",
         dialog: false,
         pangkalan: [],
+        jumlahDriver: null,
         overlay: false,
         snackbar: false,
         jadwaltemp : [],
@@ -307,6 +345,33 @@
             if(response.data.code === 200)
             {
               this.pangkalan = response.data.data;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
+      readJumlahDriver() {
+        var url = this.$api + "pegawai/getJumlahDriver";
+        console.log("jumlah driver 1");
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              console.log("jumlah driver");
+              console.log(response.data.data);
+              this.jumlahDriver = response.data.data;
             }
             else
             {
@@ -478,11 +543,15 @@
       addHandler(){
         this.dialog = true;
         this.readPangkalan();
+        // this.readJumlahDriver();
+        // this.convertGrupPangkalan(this.jumlahDriver);
       },
       
       editHandler(item) {
         this.dialog = true;
         this.readPangkalan();
+        // this.readJumlahDriver();
+        // this.convertGrupPangkalan(this.jumlahDriver);
         this.inputType = "Edit";
         this.editId = item.id_jadwal_rutin_pangkalan;
         this.form.nama_pangkalan = item.nama_pangkalan;
@@ -525,7 +594,6 @@
 
     mounted() {
       localStorage.setItem("menu", "Jadwal Rutin Pangkalan");
-      this.convertGrupPangkalan();
       this.readData();
     },
   };

@@ -70,16 +70,32 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
-              <span v-if="item.id_pegawai !== idUser" v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
-                  mdi-pencil
-                </v-icon>
-                <v-icon v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error">
-                  mdi-account-remove
-                </v-icon>
-                <v-icon v-else @click="deleteHandler(item)" color="success">
-                  mdi-account-check
-                </v-icon>
+              <!-- <span v-if="item.id_pegawai !== idUser" v-bind="attrs" v-on="on" style="cursor: pointer"> -->
+              <span v-bind="attrs" v-on="on" style="cursor: pointer">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                      mdi-pencil
+                    </v-icon>
+                  </template>
+                  <span>Ubah Data</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error">
+                      mdi-account-remove
+                    </v-icon>
+                  </template>
+                  <span>Non Aktifkan Status</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pegawai=='D'" @click="deleteHandler(item)" color="success">
+                      mdi-account-check
+                    </v-icon>
+                  </template>
+                  <span>Aktifkan Status</span>
+                </v-tooltip>
               </span>
             </template>
           </v-menu>
@@ -92,7 +108,12 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">{{ formTitle }} Data</h3>
           <v-spacer />
-          <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+            </template>
+            <span>Tutup</span>
+          </v-tooltip>
         </v-card-title>
       </v-card>
 
@@ -148,23 +169,28 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Ubah Status Pegawai</h3>
             <v-spacer />
-            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px" v-if="form.status_pegawai=='A'">
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin menonaktifkan status pegawai ini?</h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px" v-if="form.status_pegawai=='A'">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">Anda yakin ingin menonaktifkan status pegawai ini?</p>
         </v-card-text>
         
-        <v-card-text style="padding-bottom:5px" v-else>
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Anda yakin ingin mengaktifkan status pegawai ini?</h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px" v-else>
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">Anda yakin ingin mengaktifkan status pegawai ini?</p>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer />
           <v-btn v-if="form.status_pegawai=='A'" color="#E53935" text @click="deleteData">Non Aktif</v-btn>
           <v-btn v-else color="#E53935" text @click="deleteData">Aktif</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -559,5 +585,13 @@
 
   .v-select__selection--comma {
     font-size: 12.5px;
+  }
+
+  .v-application--is-ltr .v-card__actions>.v-btn.v-btn+.v-btn {
+    margin-left: 0px;
+  }
+
+  .v-dialog>.v-card>.v-card__title {
+    padding: 16px 24px;
   }
 </style>

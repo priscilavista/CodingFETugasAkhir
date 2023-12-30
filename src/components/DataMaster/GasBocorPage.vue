@@ -54,9 +54,14 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon color="primary" @click="deleteHandler(item)" style="margin-right: 15px;">
-                  mdi-check
-                </v-icon>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="deleteHandler(item)" style="margin-right: 15px;">
+                      mdi-progress-check
+                    </v-icon>
+                  </template>
+                  <span>Konfirmasi Gas Sudah Diambil</span>
+                </v-tooltip>
               </span>
             </template>
           </v-menu>
@@ -70,18 +75,23 @@
           <v-card-title>
             <h3 style="font-size:20px; color:#ffffff">Konfirmasi Pengambilan Gas Bocor</h3>
             <v-spacer />
-            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
           </v-card-title>
         </v-card>
 
-        <v-card-text>
-          <h6 style="font-size:16px; justify-content: start; align-items: start;">Apakah Gas Bocor Sudah Diambil dari Pangkalan?</h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000">Apakah gas bocor sudah diambil dari pangkalan?</p>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer />
           <v-btn color="#1E88E5" text @click="deleteData">Konfirmasi</v-btn>
-          <v-btn style="margin-right:12.5px" color="#E53935" text @click="dialogConfirm = false">Batal</v-btn>
+          <v-btn color="#E53935" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

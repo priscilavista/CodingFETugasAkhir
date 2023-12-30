@@ -64,13 +64,22 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon color="primary" @click="confirmHandler(item)" style="margin-right: 15px;">
-                  mdi-check
-                </v-icon>
-
-                <v-icon @click="rejectHandler(item)" color="error">
-                  mdi-close
-                </v-icon>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="confirmHandler(item)" style="margin-right: 15px;">
+                      mdi-check
+                    </v-icon>
+                  </template>
+                  <span>Terima Alokasi Fakultatif</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" @click="rejectHandler(item)" color="error">
+                      mdi-close
+                    </v-icon>
+                  </template>
+                  <span>Tolak Alokasi Fakultatif</span>
+                </v-tooltip>
               </span>
             </template>
           </v-menu>
@@ -84,20 +93,25 @@
           <v-card-title>
             <h3 style="font-size:18px; color:#ffffff">Konfirmasi Alokasi Fakultatif</h3>
             <v-spacer />
-            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
           </v-card-title>
         </v-card>
 
-        <v-card-text>
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">
-            Anda Yakin Ingin <strong>Menyetujui</strong> Permintaan Alokasi Fakultatif Ini?
-          </h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">
+            Anda yakin ingin <strong>menyetujui</strong> permintaan alokasi fakultatif ini?
+          </p>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer />
           <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -108,20 +122,25 @@
           <v-card-title>
             <h3 style="font-size:18px; color:#ffffff">Konfirmasi Alokasi Fakultatif</h3>
             <v-spacer />
-            <v-icon @click="cancel" link large color="error">mdi-close</v-icon>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
           </v-card-title>
         </v-card>
 
-        <v-card-text>
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">
-            Anda Yakin Ingin <strong>Menolak</strong> Permintaan Alokasi Fakultatif Ini?
-          </h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">
+            Anda yakin ingin <strong>menolak</strong> permintaan alokasi fakultatif ini?
+          </p>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer />
           <v-btn color="#E53935" text @click="updateStatus">Tolak</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogReject = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -373,5 +392,11 @@
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */
+  }
+  .v-application--is-ltr .v-card__actions>.v-btn.v-btn+.v-btn {
+    margin-left: 0px;
+  }
+  .v-dialog>.v-card>.v-card__title {
+    padding: 16px 24px;
   }
 </style>

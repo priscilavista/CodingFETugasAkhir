@@ -56,13 +56,18 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Konfirmasi Penambahan Gas Bocor</h3>
           <v-spacer />
-          <v-icon @click="close()" link large color="error">mdi-close</v-icon>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+            </template>
+            <span>Tutup</span>
+          </v-tooltip>
         </v-card-title>
       </v-card>
 
       <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 2.5%; overflow-x: hidden">
-        <v-card-text class="justify-left">
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Apakah Anda Yakin dengan Data Gas Bocor di Bawah Ini?</h6>
+        <v-card-text style="padding: 10px 24px 5px 20px">
+          <p style="font-size:16px; text-align:left; color:#000000; padding-left:5px;" class="mt-3">Apakah anda yakin dengan data gas bocor di bawah ini?</p>
 
           <v-container style="padding-left: 5px; padding-right: 5px">
             <v-text-field
@@ -82,9 +87,9 @@
           </v-container>
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions style="float:right; padding-right:26px">
           <v-spacer />
-          <v-btn small color="primary" dark text style="float:right;" @click="save">Konfirmasi</v-btn>
+          <v-btn small color="primary" dark style="float:right;" @click="save">Konfirmasi</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -277,5 +282,18 @@
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */
+  }
+
+  .v-application--is-ltr .v-card__actions>.v-btn.v-btn+.v-btn {
+    margin-left: 0px;
+  }
+
+
+  .v-dialog>.v-card>.v-card__title {
+    padding: 16px 24px;
+  }
+
+  .v-application p {
+    margin-bottom: 0;
   }
 </style>

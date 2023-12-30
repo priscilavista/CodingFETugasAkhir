@@ -137,7 +137,12 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
                     <v-spacer />
-                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
                 </v-card-title>
             </v-card>
 
@@ -207,7 +212,12 @@
                                         <v-menu offset-y style="float: left">
                                             <template v-slot:activator="{ on, attrs }">
                                                 <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                                                    <v-icon small @click="editHandler(item)" color="primary">mdi-magnify</v-icon>
+                                                    <v-tooltip left>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-icon v-bind="attrs" v-on="on" small @click="editHandler(item)" color="primary">mdi-arrow-expand</v-icon>
+                                                        </template>
+                                                        <span>Lihat Detail</span>
+                                                    </v-tooltip>
                                                 </span>
                                             </template>
                                         </v-menu>
@@ -225,7 +235,12 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Data</h3>
                     <v-spacer />
-                    <v-icon @click="closeDialog" link large color="error">mdi-close</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
                 </v-card-title>
             </v-card>
 

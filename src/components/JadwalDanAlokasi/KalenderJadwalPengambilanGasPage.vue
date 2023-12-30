@@ -32,7 +32,7 @@
                     </v-row>
                     <v-row align="center" justify="left" class="ml-1 mt-5">
                         <v-icon small style="float:left;" color="#E91E63">mdi-square</v-icon>
-                        <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Yang Terpenuhi</span>
+                        <span style="float:left; margin-left:3.5px; font-size:15px;">Jadwal Pengambilan Gas</span>
                     </v-row>
                 </v-col>
             </v-row>
@@ -134,7 +134,12 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
                     <v-spacer />
-                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
                 </v-card-title>
             </v-card>
 

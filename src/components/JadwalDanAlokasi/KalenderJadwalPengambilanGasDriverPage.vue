@@ -107,7 +107,7 @@
                                                         </v-toolbar-title>
                                                         
                                                         <v-spacer />
-
+<!-- 
                                                         <v-tooltip right>
                                                             <template v-slot:activator="{ on, attrs }">
                                                                 <v-btn
@@ -116,12 +116,20 @@
                                                                     icon
                                                                     style="height:30px"
                                                                 >
-                                                                    <v-icon small>mdi-close</v-icon>
+                                                                    <v-icon small color="error" style="font-size: 23px">mdi-close</v-icon>
                                                                 </v-btn>
                                                             </template>
 
                                                             <span>Tutup</span>
+                                                        </v-tooltip> -->
+
+                                                        <v-tooltip left>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-icon v-bind="attrs" v-on="on" style="font-size: 24px" link color="error">mdi-close</v-icon>
+                                                            </template>
+                                                            <span>Tutup</span>
                                                         </v-tooltip>
+
                                                     </v-toolbar>
 
                                                     <v-container class="grey lighten-5">

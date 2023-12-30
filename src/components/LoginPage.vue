@@ -240,7 +240,6 @@
 
     .v-btn {
         letter-spacing: 0;
-        text-transform: capitalize;
         font-weight: 550;
     }
 

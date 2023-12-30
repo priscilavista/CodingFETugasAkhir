@@ -31,8 +31,9 @@
                   :to="item.to"
                   color="#1B3963"
                   style="margin-top: 10px"
+                  @click="test"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="'http://localhost:8081'+item.to=='http://localhost:8081/dashboard-page'">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -262,7 +263,12 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Profil</h3>
           <v-spacer />
-          <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+            </template>
+            <span>Tutup</span>
+          </v-tooltip>
         </v-card-title>
       </v-card>
 
@@ -336,7 +342,12 @@
         <v-card-title>
           <h3 style="font-size:20px; color:#ffffff">Ubah Password</h3>
           <v-spacer />
-          <v-icon @click="cancel" large link color="error">mdi-close</v-icon>
+          <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+            </template>
+            <span>Tutup</span>
+          </v-tooltip>
         </v-card-title>
       </v-card>
 
@@ -377,21 +388,26 @@
     <v-dialog v-model="dialogLogout" persistent max-width="400px">
       <v-card>
         <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
-          <v-card-title>
+          <v-card-title >
             <h3 style="font-size:20px; color:#ffffff">Keluar!</h3>
             <v-spacer />
-            <v-icon @click="dialogLogout = false" large link color="error">mdi-close</v-icon>
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="dialogLogout = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
           </v-card-title>
         </v-card>
 
-        <v-card-text style="padding-bottom:5px">
-          <h6 style="font-size:16px; justify-content: start; align-items: start;" class="mt-3">Apakah Anda Yakin Untuk Keluar?</h6>
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">Apakah anda yakin untuk keluar?</p>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer />
           <v-btn color="#E53935" text @click="setLogout()">Keluar</v-btn>
-          <v-btn style="margin-right:12.5px" color="#1E88E5" text @click="dialogLogout = false">Batal</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogLogout = false">Batal</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -418,8 +434,13 @@
       },
     },
 
+    created(){
+            console.log("cek")
+            console.log(window.location.href)
+        },
     data() {
       return {
+        currentUrl: "",
         color: "",
         drawer: true,
         overlay: false,
@@ -442,8 +463,8 @@
           { title: "Pegawai", icon: "mdi-account-group", to: "/pegawai-page" },
           { title: "Pangkalan", icon: "mdi-store-marker", to: "/pangkalan-page" },
           { title: "SPPBE", icon: "mdi-warehouse", to: "/sppbe-page" },
-          { title: "Transaksi Admin", icon: "mdi-cash-register", to: "/transaksi-page" },
-          { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/alokasi-pengambilan-gas-page" },
+          { title: "Data Transaksi", icon: "mdi-cash-register", to: "/transaksi-page" },
+          { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/kalender-alokasi-pengambilan-gas-page" },
           { title: "Surat Kuasa", icon: "mdi-email-newsletter", to: "/surat-kuasa-pengambilan-gas-page" },
         ],
         routeD: [
@@ -455,8 +476,8 @@
         routeM: [
           { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
           { title: "Jadwal Rutin Pangkalan", icon: "mdi-calendar-cursor", to: "/jadwal-rutin-pangkalan-page" },
-          { title: "Jadwal Pengambilan Gas", icon: "mdi-calendar-arrow-left", to: "/jadwal-pengambilan-gas-page" },
-          { title: "Jadwal Pengiriman Gas", icon: "mdi-calendar-arrow-right", to: "/jadwal-pengiriman-gas-page" },
+          { title: "Jadwal Pengambilan Gas", icon: "mdi-calendar-arrow-left", to: "/kalender-jadwal-pengambilan-gas-page" },
+          { title: "Jadwal Pengiriman Gas", icon: "mdi-calendar-arrow-right", to: "/kalender-jadwal-pengiriman-gas-page" },
           { title: "Alokasi Fakultatif Manager", icon: "mdi-order-bool-ascending-variant", to: "/alokasi-fakultatif-page" },
           { title: "Laporan Bulanan", icon: "mdi-file", to: "/laporan-bulanan-page" },
           { title: "Laporan Transaksi", icon: "mdi-file-sign", to: "/laporan-transaksi-pangkalan-page" },
@@ -494,6 +515,9 @@
     },
 
     methods: {
+      test(){
+        this.currentUrl = window.location.href;
+      },
       getDataUser() {
         var url = this.$api;
 
@@ -782,5 +806,13 @@
   .v-btn.v-size--small {
     font-size: .70rem;
     font-family: "Helvetica", Arial, sans-serif;
+  }
+
+  .v-application--is-ltr .v-card__actions>.v-btn.v-btn+.v-btn {
+    margin-left: 0px;
+  }
+
+  .v-dialog>.v-card>.v-card__title {
+    padding: 16px 24px;
   }
 </style>

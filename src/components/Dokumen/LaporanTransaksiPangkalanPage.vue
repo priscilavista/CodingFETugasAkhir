@@ -110,7 +110,12 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Pratinjau</h3>
                     <v-spacer />
-                    <v-icon @click="close()" link large color="error">mdi-close</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
                 </v-card-title>
             </v-card>
 
@@ -373,6 +378,7 @@
             close() {
                 this.resetForm();
                 this.dialog = false;
+                location.reload();
             },
 
             readDataBulan() {
@@ -574,6 +580,8 @@
 
                 this.close();
                 this.overlay = false;
+                this.resetForm();
+                location.reload();
             },
 
             resetForm() {

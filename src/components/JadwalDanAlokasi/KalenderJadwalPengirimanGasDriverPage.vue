@@ -108,7 +108,12 @@
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Pengiriman</h3>
                     <v-spacer />
-                    <v-icon @click="dialog = false" link large color="error">mdi-close</v-icon>
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="dialog = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
                 </v-card-title>
             </v-card>
 
@@ -131,7 +136,7 @@
                                     lg="6"
                                 >
                                     <v-card>
-                                        <v-card-title style="width:150px" class="subheading font-weight-bold">
+                                        <v-card-title style="width:270px" class="subheading font-weight-bold">
                                             {{ item.nama_pangkalan }} 
                                         </v-card-title>
 
