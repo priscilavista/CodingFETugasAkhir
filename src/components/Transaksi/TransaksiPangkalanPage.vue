@@ -341,6 +341,7 @@
         if(this.checkForm() === 0)
         {
           this.overlay = true;
+          this.transaksi.append("Pangkalanid_pangkalan", localStorage.getItem('id'));
           this.transaksi.append("nama_pembeli", this.form.nama_pembeli);
           this.transaksi.append("jumlah_pembelian", this.form.jumlah_pembelian);
           this.transaksi.append("kategori_pembeli", this.form.kategori_pembeli);

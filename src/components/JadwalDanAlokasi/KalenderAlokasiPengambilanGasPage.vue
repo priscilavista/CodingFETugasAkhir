@@ -26,11 +26,11 @@
                     lg="3"
                     cols="3"
                 >
-                    <v-row align="center" justify="left" class="ml-1">
+                    <v-row align="center" class="ml-1">
                         <v-icon small style="float:left;" color="#673AB7">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Reguler</span>
                     </v-row>
-                    <v-row align="center" justify="left" class="ml-1 mt-5">
+                    <v-row align="center" class="ml-1 mt-5">
                         <v-icon small style="float:left;" color="#b73a42">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Fakultatif</span>
                     </v-row>

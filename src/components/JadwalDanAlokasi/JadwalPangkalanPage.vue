@@ -363,15 +363,13 @@
       },
 
       readJumlahDriver() {
-        var url = this.$api + "pegawai/getJumlahDriver";
-        console.log("jumlah driver 1");
+        var url = this.$api + "/pegawai/getJumlahDriver";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
-              console.log("jumlah driver");
-              console.log(response.data.data);
-              this.jumlahDriver = response.data.data;
+              this.jumlahDriver = parseInt(response.data.data.jumlah_driver);
+              this.convertGrupPangkalan(this.jumlahDriver);
             }
             else
             {
@@ -541,17 +539,15 @@
       },
 
       addHandler(){
-        this.dialog = true;
         this.readPangkalan();
-        // this.readJumlahDriver();
-        // this.convertGrupPangkalan(this.jumlahDriver);
+        this.readJumlahDriver();
+        
+        this.dialog = true;
       },
       
       editHandler(item) {
-        this.dialog = true;
         this.readPangkalan();
-        // this.readJumlahDriver();
-        // this.convertGrupPangkalan(this.jumlahDriver);
+        this.readJumlahDriver();
         this.inputType = "Edit";
         this.editId = item.id_jadwal_rutin_pangkalan;
         this.form.nama_pangkalan = item.nama_pangkalan;
@@ -560,6 +556,8 @@
         this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
         this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
         this.form.Pangkalanid_pangkalan = parseInt(item.Pangkalanid_pangkalan);
+
+        this.dialog = true;
       },
 
       deleteHandler(id) {

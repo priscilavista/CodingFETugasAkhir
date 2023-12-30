@@ -131,7 +131,7 @@
                             style="display: flex !important; flex-direction: column;"
                         >
 
-                            <v-card-title class="indigo white--text">Riwayat Transaksi - {{ monthNow }}</v-card-title>
+                            <v-card-title class="indigo white--text">Riwayat Kegiatan - {{ monthNow }}</v-card-title>
 
                             <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                                 <template>

@@ -31,9 +31,8 @@
                   :to="item.to"
                   color="#1B3963"
                   style="margin-top: 10px"
-                  @click="test"
                 >
-                  <v-list-item-icon v-if="'http://localhost:8081'+item.to=='http://localhost:8081/dashboard-page'">
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -52,7 +51,7 @@
                   color="#1B3963"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -71,7 +70,7 @@
                   color="#1B3963"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -91,7 +90,7 @@
                   color="#1B3963"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -434,13 +433,8 @@
       },
     },
 
-    created(){
-            console.log("cek")
-            console.log(window.location.href)
-        },
     data() {
       return {
-        currentUrl: "",
         color: "",
         drawer: true,
         overlay: false,
@@ -453,6 +447,7 @@
         dialogPassword: false,
         showOldPassword: false,
         showNewPassword: false,
+        currentUrl: window.location.href,
         img: require("@/assets/isatria.png"),
         jabatan: localStorage.getItem("role"),
         role: localStorage.getItem("jabatan"),
@@ -515,9 +510,11 @@
     },
 
     methods: {
-      test(){
-        this.currentUrl = window.location.href;
+      isCurrentRoute(to) {
+        // Mengecek apakah rute saat ini sama dengan rute item menu
+        return window.location.pathname === to;
       },
+
       getDataUser() {
         var url = this.$api;
 
