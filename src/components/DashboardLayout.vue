@@ -511,7 +511,6 @@
 
     methods: {
       isCurrentRoute(to) {
-        // Mengecek apakah rute saat ini sama dengan rute item menu
         return window.location.pathname === to;
       },
 
