@@ -74,7 +74,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;font-size: 20px">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -82,7 +82,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error" style="font-size: 20px">
                       mdi-account-remove
                     </v-icon>
                   </template>
@@ -90,7 +90,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pegawai=='D'" @click="deleteHandler(item)" color="success">
+                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pegawai=='D'" @click="deleteHandler(item)" color="success" style="font-size: 20px">
                       mdi-account-check
                     </v-icon>
                   </template>

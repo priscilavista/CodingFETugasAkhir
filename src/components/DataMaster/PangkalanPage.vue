@@ -83,7 +83,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='A'" color="primary" @click="editHandler(item)" style="margin-right: 15px">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='A'" color="primary" @click="editHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -91,7 +91,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='A'" @click="deleteHandler(item)" color="error">
+                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='A'" @click="deleteHandler(item)" color="error" style="font-size: 20px">
                       mdi-store-remove
                     </v-icon>
                   </template>
@@ -99,7 +99,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='D'" @click="deleteHandler(item)" color="success">
+                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pangkalan=='D'" @click="deleteHandler(item)" color="success" style="font-size: 20px">
                       mdi-store-check
                     </v-icon>
                   </template>
