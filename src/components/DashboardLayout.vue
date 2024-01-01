@@ -7,12 +7,13 @@
       v-if="isWideScreen" 
       :permanent="drawer"
       style="height:100%"
+      color="#196b4d"
       :mini-variant.sync="miniVariant"
     >
       <div class="">
-        <v-sheet color="#ffffff" class="">
-          <div class="text-center mt-4">
-            <v-avatar class="mb-4" color="grey darken-1" size="94">
+        <v-sheet color="#ffffff" class="pt-4 pb-4">
+          <div class="text-center mt-4 mb-4">
+            <v-avatar color="grey darken-1" size="94">
               <v-img aspect-ratio="30" :src="img" />
             </v-avatar>
           </div>
@@ -20,7 +21,7 @@
 
         <v-divider />
 
-        <v-list dense class="fullheight" style="margin-top: -10px">
+        <v-list dense class="fullheight" color="#196b4d">
           <span v-if="jabatan === 'pegawai'">
             <span v-if="role === 'Admin'">
               <v-list-item
@@ -29,7 +30,7 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
@@ -810,5 +811,9 @@
 
   .v-dialog>.v-card>.v-card__title {
     padding: 16px 24px;
+  }
+
+  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+    color: rgb(255, 255, 255);
   }
 </style>
