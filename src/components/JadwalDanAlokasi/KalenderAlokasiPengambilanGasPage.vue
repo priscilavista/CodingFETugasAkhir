@@ -500,6 +500,7 @@
 
             viewDay ({ date }) {
                 this.dialog=true;
+                this.readSPPBE();
                 this.form.tanggal_pengambilan_gas = date;
             },
 
