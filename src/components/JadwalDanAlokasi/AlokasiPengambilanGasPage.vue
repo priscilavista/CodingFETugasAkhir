@@ -78,7 +78,92 @@
       </v-btn>
     </div>
 
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
+    <v-card width="350px" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+      <v-card-title>
+        <h3 style="font-size:20px; color:#ffffff">Filter Data</h3>
+      </v-card-title>
+    </v-card>
+
+    <v-card style="border-radius: 0px 0px 4px 4px;width:350px;height:">
+      <v-card-text>
+        <v-container v-if="isWideScreen" style="padding-left: 5px; padding-right: 5px; padding-bottom:30px">
+          <v-row style="margin-top:-30px">
+            <v-col 
+              cols="12"
+              md="7"
+            >
+              <v-select
+                v-model="form_filter.bulan_alokasi"
+                :items="bulan"
+                item-text="nama_bulan"
+                item-value="id_bulan"
+                label="Bulan"
+              />
+            </v-col>
+
+            <v-col
+              cols="6"
+              md="5"
+            >
+              <v-select
+                v-model="form_filter.tahun_alokasi"
+                :items="tahun"
+                item-text="nama_tahun"
+                item-value="nama_tahun"
+                label="Tahun"
+              />
+            </v-col>
+          </v-row>
+
+          <v-select
+            v-model="form_filter.sppbe_alokasi"
+            :items="sppbe"
+            item-text="nama_sppbe"
+            item-value="id_sppbe"
+            label="SPPBE"
+            style="margin-top:-25px"
+          />
+
+          <v-btn small color="primary" dark style="float:left;" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;" class="ml-4" @click="resetData()">Reset</v-btn>
+        </v-container>
+
+        <v-container v-else style="padding-left: 5px; padding-right: 5px; padding-bottom:50px">
+          <v-select
+            v-model="form_filter.bulan_alokasi"
+            :items="bulan"
+            item-text="nama_bulan"
+            item-value="id_bulan"
+            label="Bulan"
+            style="margin-top:-12.5px"
+          />
+
+          <v-select
+            v-model="form_filter.tahun_alokasi"
+            :items="tahun"
+            item-text="nama_tahun"
+            item-value="nama_tahun"
+            label="Tahun"
+            style="width:50%"
+          />
+          
+          <v-select
+            v-model="form_filter.sppbe_alokasi"
+            :items="sppbe"
+            item-text="nama_sppbe"
+            item-value="id_sppbe"
+            label="SPPBE"
+          />
+
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
+        </v-container>
+      </v-card-text>
+    </v-card>
+
+    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
           v-if="isWideScreen"
@@ -107,17 +192,17 @@
         :search="search"
         style="padding: 10px 20px 20px 20px"
       >
-        <!-- <template v-slot:[`item.actions`]="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon @click="editHandler(item)" color="primary" style="margin-right: 15px;">
-                  mdi-pencil
+                <v-icon @click="editHandler(item)" color="success" style="margin-right: 15px;">
+                  mdi-check
                 </v-icon>
               </span>
             </template>
           </v-menu>
-        </template> -->
+        </template>
       </v-data-table>
     </v-card>
 
@@ -201,6 +286,8 @@
       return {
         color: "",
         sppbe: [],
+        bulan: [],
+        tahun: [],
         search: null,
         alokasis: [],
         dialog: false,
@@ -212,6 +299,11 @@
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         jenis_alokasi: [ { id: 1, nama_jenis: 'Reguler' }, { id: 2, nama_jenis: 'Fakultatif' }, ],
+        form_filter: {
+          bulan_alokasi: null,
+          tahun_alokasi: null,
+          sppbe_alokasi: null,
+        },
         items: [
           {
             disabled: false,
@@ -257,11 +349,64 @@
         }
       },
 
+      readDataBulan() {
+        var url = this.$api + "/bulan/getAll";
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              this.bulan = response.data.data;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
+      readDataTahun() {
+        var url = this.$api + "/tahun/getAll";
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              this.tahun= response.data.data;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
       readData() {
         this.overlay = true;
+        var body = { 
+          'bulan': this.form_filter.bulan_alokasi, 
+          'tahun': this.form_filter.tahun_alokasi, 
+          'id_sppbe': this.form_filter.sppbe_alokasi 
+        };
 
-        var url = this.$api + "/alokasiPengambilanGas/getAll";
-        this.$http.get(url)
+        var url = this.$api + "/alokasiPengambilanGas/postBySearchData";
+        this.$http.post(url, body)
           .then((response) => {
             if(response.data.code == 200)
             {
@@ -280,10 +425,15 @@
             }
           })
           .catch((error) => {
-            this.color = "red";
-            this.snackbar = true;
             this.overlay = false;
-            this.error_message = error.response.data.message;
+
+            if(error.request.status === 404)
+            {
+              this.alokasis = [];
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = 'Data Alokasi Pengambilan Gas Tidak Ditemukan';
+            }
           });
       },
 
@@ -403,6 +553,17 @@
           jenis_alokasi_pengambilan_gas: null,
           jumlah_alokasi_pengambilan_gas: null,
         };
+
+        this.form_filter = {
+          bulan_alokasi: null,
+          tahun_alokasi: null,
+          sppbe_alokasi: null,
+        }
+      },
+      
+      resetData() {
+        this.resetForm();
+        this.readData();
       },
     },
 
@@ -415,6 +576,9 @@
     mounted() {
       localStorage.setItem("menu", "Alokasi Pengambilan Gas");
       this.readData(); 
+      this.readDataBulan();
+      this.readDataTahun();
+      this.readSPPBE();
     },
   };
 </script>

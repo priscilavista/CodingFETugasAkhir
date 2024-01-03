@@ -384,7 +384,6 @@
           })
           .catch((error) => {
             this.overlay = false;
-            console.log(error)
 
             if(error.request.status === 404)
             {
