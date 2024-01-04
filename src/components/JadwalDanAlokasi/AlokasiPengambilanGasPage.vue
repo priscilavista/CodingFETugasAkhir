@@ -196,7 +196,7 @@
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
-                <v-icon @click="editHandler(item)" color="success" style="margin-right: 15px;">
+                <v-icon v-if="item.status_alokasi_pengambilan_gas === 'P'" @click="appproveHandler(item)" color="success" style="margin-right: 15px;">
                   mdi-check
                 </v-icon>
               </span>
@@ -259,6 +259,35 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    
+    <v-dialog v-model="dialogConfirm" persistent max-width="400px">
+      <v-card>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title>
+            <h3 style="font-size:18px; color:#ffffff">Konfirmasi Alokasi Pengambilan Gas</h3>
+            <v-spacer />
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="dialogConfirm = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
+          </v-card-title>
+        </v-card>
+
+        <v-card-text style="padding-bottom:5px; padding-left:16px">
+          <p style="font-size:16px; text-align:left; color:#000000" class="mt-3">
+            Anda yakin ingin <strong>menyetujui</strong> permintaan alokasi pengambilan gas ini?
+          </p>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="#E53935" text @click="updateStatus">Setuju</v-btn>
+          <v-btn color="#1E88E5" text @click="dialogConfirm = false">Batal</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
@@ -288,6 +317,7 @@
         sppbe: [],
         bulan: [],
         tahun: [],
+        itemId: null,
         search: null,
         alokasis: [],
         dialog: false,
@@ -295,6 +325,7 @@
         snackbar: false,
         error_message: "",
         inputType: "Tambah",
+        dialogConfirm: false,
         alokasi: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
@@ -469,6 +500,7 @@
           this.alokasi.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
           this.alokasi.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
           this.alokasi.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
+          this.alokasi.append("status_alokasi_pengambilan_gas", 'P');
 
           var url = this.$api + "/alokasiPengambilanGas/create";
           this.$http.post(url, this.alokasi)
@@ -507,6 +539,56 @@
         }
       },
 
+      updateStatus() {
+        let statusPersetujuan = '';
+
+        if(this.dialogConfirm === true)
+        {
+          statusPersetujuan = 'A';
+        }
+        // else if(this.dialogReject === true)
+        // {
+        //   statusPersetujuan = 'D';
+        // }
+
+        if(statusPersetujuan !== '')
+        {
+          let newData = {
+            SPPBEid_sppbe: this.form.SPPBEid_sppbe,
+            tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
+            jenis_alokasi_pengambilan_gas: this.form.jenis_alokasi_pengambilan_gas,
+            jumlah_alokasi_pengambilan_gas: this.form.jumlah_alokasi_pengambilan_gas,
+            status_alokasi_pengambilan_gas: statusPersetujuan,
+          };
+
+          var url = this.$api + "/alokasiPengambilanGas/update/" + this.itemId;
+          this.$http.put(url, newData)
+            .then((response) => {
+              if(response.data.code === 200)
+              {
+                this.cancel();
+                this.readData();
+                this.resetForm();
+                this.color = "green";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+                location.reload();
+              }
+              else
+              {
+                this.color = "red";
+                this.snackbar = true;
+                this.error_message = response.data.message;
+              }
+            })
+            .catch((error) => {
+              this.color = "red";
+              this.snackbar = true;
+              this.error_message = error.response.data.message;
+            });
+        }
+      },
+
       checkForm() {
         if(this.form.SPPBEid_sppbe === null || this.form.SPPBEid_sppbe === '')
         {
@@ -536,6 +618,16 @@
         this.inputType = "Tambah";
 
         this.dialog = true;
+      },
+
+      appproveHandler(item) {
+        this.itemId = item.id_alokasi_pengambilan_gas;
+        this.form.SPPBEid_sppbe = item.SPPBEid_sppbe;
+        this.form.id_alokasi_pengambilan_gas = item.id_alokasi_pengambilan_gas;
+        this.form.jenis_alokasi_pengambilan_gas = item.jenis_alokasi_pengambilan_gas;
+        this.form.jumlah_alokasi_pengambilan_gas = item.jumlah_alokasi_pengambilan_gas;
+        this.form.tanggal_pengambilan_gas = item.tanggal_pengambilan_gas;
+        this.dialogConfirm = true;
       },
 
       cancel() {
