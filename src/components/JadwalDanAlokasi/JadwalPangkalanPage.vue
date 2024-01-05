@@ -345,6 +345,8 @@
             if(response.data.code === 200)
             {
               this.pangkalan = response.data.data;
+              console.log("cek id");
+              console.log(this.pangkalan[0].id_pangkalan);
             }
             else
             {
@@ -392,7 +394,7 @@
         {
           this.overlay = true;
           this.jadwal.append("grup_pangkalan", this.form.grup_pangkalan);
-          this.jadwal.append("Pangkalanid_pangkalan", this.Pangkalanid_pangkalan);
+          this.jadwal.append("Pangkalanid_pangkalan", parseInt(this.form.Pangkalanid_pangkalan));
           this.jadwal.append("hari_penerimaan_gas", this.form.hari_penerimaan_gas);
           this.jadwal.append("alokasi_penerimaan_gas", this.form.alokasi_penerimaan_gas);
 
