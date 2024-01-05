@@ -561,7 +561,7 @@
             status_alokasi_pengambilan_gas: statusPersetujuan,
           };
 
-          var url = this.$api + "/alokasiPengambilanGas/update/" + this.itemId;
+          var url = this.$api + "/alokasiPengambilanGas/updateStatus/" + this.itemId;
           this.$http.put(url, newData)
             .then((response) => {
               if(response.data.code === 200)
