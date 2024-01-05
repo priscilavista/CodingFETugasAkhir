@@ -442,7 +442,7 @@
           let newData = {
             grup_pangkalan: this.form.grup_pangkalan,
             hari_penerimaan_gas: this.form.hari_penerimaan_gas,
-            Pangkalanid_pangkalan: this.form.Pangkalanid_pangkalan,
+            Pangkalanid_pangkalan: parseInt(this.form.Pangkalanid_pangkalan),
             alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
           };
 
