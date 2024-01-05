@@ -553,7 +553,7 @@
         this.inputType = "Edit";
         this.editId = item.id_jadwal_rutin_pangkalan;
         this.form.nama_pangkalan = item.nama_pangkalan;
-        this.form.grup_pangkalan = item.grup_pangkalan;
+        this.form.grup_pangkalan = parseInt(item.grup_pangkalan);
         this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
         this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
         this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
