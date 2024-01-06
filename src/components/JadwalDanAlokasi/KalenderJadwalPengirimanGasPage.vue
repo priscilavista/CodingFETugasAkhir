@@ -533,6 +533,7 @@
 
             //jadwal full atribut
             readJadwal() {
+                this.overlay = true;
                 var url = this.$api + "/jadwalPengirimanGas/getAll";
                 this.$http.get(url)
                     .then((response) => {
