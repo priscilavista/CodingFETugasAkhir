@@ -609,7 +609,7 @@
                                         {
                                             'jenis_kegiatan': 'Pengiriman',
                                             'lokasi_kegiatan': element.nama_pangkalan,
-                                            'jumlah_gas': element.alokasi_pengambilan_gas,
+                                            'jumlah_gas': element.alokasi_penerimaan_gas,
                                             'tanggal_kegiatan': element.tanggal_pengambilan_gas,
                                             'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
                                         }
