@@ -155,8 +155,8 @@
                             <div v-if="daftarKegiatanDriver.length > 0">
                                 <v-timeline dense>
                                     <v-timeline-item
-                                        v-for="data in daftarKegiatanDriver"
-                                        :key="data.index"
+                                        v-for="(data, index) in daftarKegiatanDriver"
+                                        :key="index"
                                         :color="data.color"
                                         small
                                     >
