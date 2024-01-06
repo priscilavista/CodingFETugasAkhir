@@ -7,7 +7,7 @@
     >
         <v-card height="260px">
             <v-card-subtitle :style="backgroundColor" class="white--text">
-                <strong>{{ dateName }}</strong>
+                <strong class="text-h6"><b>{{ dateName }}</b></strong>
             </v-card-subtitle>
             
             <v-card-text>
@@ -26,13 +26,21 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody v-if="items.length > 0">
                                 <tr
                                     v-for="item in items"
                                     :key="item.nama_pegawai"
                                 >
                                     <td class="text-left">{{ item.nama_pegawai }}</td>
                                     <td class="text-right">{{ item.alokasi_penerimaan_gas }}</td>
+                                </tr>
+                            </tbody>
+
+                            <tbody v-else>
+                                <tr>
+                                    <td colspan="2">
+                                        <b>Tidak Ada Jadwal</b>
+                                    </td>
                                 </tr>
                             </tbody>
                         </template>

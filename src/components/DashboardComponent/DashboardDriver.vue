@@ -232,7 +232,6 @@
             }
         },
 
-        
         data(){
             return{
                 image: require("@/assets/well-done.png"),

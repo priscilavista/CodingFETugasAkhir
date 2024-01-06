@@ -466,7 +466,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     }
                                 );
 
@@ -479,7 +479,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     }
                                 );
                             }

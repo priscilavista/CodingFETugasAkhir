@@ -153,7 +153,6 @@
                             <v-card outlined style="border-radius: 0px">
                                 <v-simple-table
                                     fixed-header
-                                    height="300px"
                                 >
                                     <template v-slot:default>
                                         <thead style="background-color: #546E7A;">
@@ -617,7 +616,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     },
                                 );
                             }

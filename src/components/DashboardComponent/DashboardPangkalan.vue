@@ -117,7 +117,7 @@
                         </v-card-title>
 
                         <v-card-text style="flex-grow: 1; overflow: auto;">
-                            <v-list three-line>
+                            <v-list v-if="items.length > 0" three-line>
                                 <template v-for="(item, index) in items">
                                     <v-subheader
                                         v-if="item.header"
@@ -151,7 +151,16 @@
                                         </v-list-item-content>
                                     </v-list-item>
                                 </template>
-                                </v-list>
+                            </v-list>
+
+                            <v-row v-else align="center" justify="center" style="height: 570px;" class="mt-2">
+                                <v-img 
+                                    contain
+                                    width="65%"
+                                    height="65%"
+                                    :src="image"
+                                />
+                            </v-row>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -222,6 +231,12 @@
             jadwalSabtu: {
                 type: Array,
                 default: () => []
+            }
+        },
+        
+        data(){
+            return{
+                image: require("@/assets/no-notification.png"),
             }
         }
     }
