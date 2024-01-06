@@ -26,11 +26,11 @@
                     lg="3"
                     cols="3"
                 >
-                    <v-row align="center" justify="left" class="ml-1">
+                    <v-row align="center" class="ml-1">
                         <v-icon small style="float:left;" color="#673AB7">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengambilan Gas</span>
                     </v-row>
-                    <v-row align="center" justify="left" class="ml-1 mt-5">
+                    <v-row align="center" class="ml-1 mt-5">
                         <v-icon small style="float:left;" color="#E91E63">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Jadwal Pengambilan Gas</span>
                     </v-row>
@@ -94,9 +94,9 @@
                                     color="#E0E0E0"
                                 >
                                     <template v-slot:day="{ date }">
-                                        <template v-for="event in eventsMap[date]">
+                                        <template v-for="(event, index) in eventsMap[date]">
                                             <v-menu
-                                                :key="event.jumlah_alokasi_pengambilan_gas"
+                                                :key="index"
                                                 v-model="event.open"
                                                 offset-x
                                                 min-width="300px"
