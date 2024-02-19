@@ -201,7 +201,7 @@
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-    <v-overlay :value="overlay">
+    <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
   </v-main>
@@ -335,12 +335,14 @@
       },
 
       readJadwalPangkalan() {
+        this.overlay = true;
         var url = this.$api + "/jadwalRutinPangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.jadwalPangkalan = response.data.data;
+              this.overlay = false;
             }
             else
             {
@@ -382,12 +384,14 @@
       // },
 
       readDriver() {
+        this.overlay = true;
         var url = this.$api + "/pegawai/getDriver";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.driver = response.data.data;
+              this.overlay = false;
             }
             else
             {
@@ -406,12 +410,14 @@
       },
 
       readDataPangkalan() {
+        this.overlay = true;
         var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.pangkalan = response.data.data;
+              this.overlay = false;
             }
             else
             {

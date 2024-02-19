@@ -114,7 +114,7 @@
                                                         class="my-event"
                                                         @click="lihatDetail(event)"
                                                         v-if="event.title=='jadwal'"
-                                                        v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
+                                                        v-html="event.alokasi_pengambilan_gas + ' Tabung'"
                                                         style="width: 92.5%; text-align:left; padding-left:5px;background-color:#E91E63; color:#ffffff"
                                                     />
                                                 </template>
@@ -181,7 +181,7 @@
                                                 <v-list-item-content>Alokasi:</v-list-item-content>
 
                                                 <v-list-item-content style="text-align: left">
-                                                    {{ item.jumlah_alokasi_pengambilan_gas }}
+                                                    {{ item.alokasi_pengambilan_gas }}
                                                 </v-list-item-content>
                                             </v-list-item>
 
@@ -290,7 +290,7 @@
 
         <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-        <v-overlay :value="overlay">
+        <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
             <v-progress-circular indeterminate size="64" />
         </v-overlay>
     </v-main>
@@ -434,6 +434,10 @@
                             }
 
                             this.readDataJadwal();
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
                         }
                         else
                         {
@@ -452,6 +456,7 @@
             },
 
             readDataJadwal() {
+                this.overlay = true;
                 var url = this.$api + "/jadwalPengambilanGas/getAll";
                 this.$http.get(url)
                     .then((response) => {
@@ -466,7 +471,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     }
                                 );
 
@@ -479,7 +484,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     }
                                 );
                             }
@@ -539,7 +544,7 @@
                     }
                     else
                     {
-                        this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + this.jadwalForEvent[i].jumlah_alokasi_pengambilan_gas;
+                        this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas = this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas + this.jadwalForEvent[i].alokasi_pengambilan_gas;
                     }
                 }
                 
@@ -550,7 +555,7 @@
                             title: "jadwal",
                             tanggal_pengambilan_gas: this.tempEvents[i].tanggal_pengambilan_gas,
                             jenis_alokasi_pengambilan_gas: this.tempEvents[i].jenis_alokasi_pengambilan_gas,
-                            jumlah_alokasi_pengambilan_gas: this.tempEvents[i].jumlah_alokasi_pengambilan_gas,
+                            alokasi_pengambilan_gas: this.tempEvents[i].alokasi_pengambilan_gas,
                         }
                     );
                 }

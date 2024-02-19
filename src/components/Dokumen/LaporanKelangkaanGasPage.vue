@@ -261,7 +261,7 @@
 
         <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-        <v-overlay :value="overlay">
+        <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
             <v-progress-circular indeterminate size="64" />
         </v-overlay>
     </v-main>
@@ -332,6 +332,7 @@
                         if(response.data.code === 200)
                         {
                             this.bulan = response.data.data;
+                            this.overlay = false;
                         }
                         else
                         {
@@ -350,6 +351,7 @@
             },
 
             readDataTahun() {
+                this.overlay = true;
                 var url = this.$api + "/tahun/getAll";
                 this.$http.get(url)
                     .then((response) => {

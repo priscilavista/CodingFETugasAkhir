@@ -390,7 +390,7 @@
 
         <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-        <v-overlay :value="overlay">
+        <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
             <v-progress-circular indeterminate size="64" />
         </v-overlay>
     </v-main>
@@ -548,12 +548,14 @@
             },
 
             readSPPBE() {
+                this.overlay = true;
                 var url = this.$api + "/sppbe/getAll";
                 this.$http.get(url)
                     .then((response) => {
                         if(response.data.code === 200)
                         {
                             this.sppbe = response.data.data;
+                            this.overlay = false;
                         }
                         else
                         {
@@ -572,6 +574,7 @@
             },
 
             save() {
+                this.overlay = true;
                 this.alokasi_pengambilan_gas.append("SPPBEid_sppbe", this.form.SPPBEid_sppbe);
                 this.alokasi_pengambilan_gas.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
                 this.alokasi_pengambilan_gas.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
@@ -588,6 +591,7 @@
                         this.color = "green";
                         this.snackbar = true;
                         this.inputType = "Tambah";
+                        this.overlay = false;
                         this.error_message = response.data.message;
                         location.reload();
                     }
@@ -595,18 +599,21 @@
                     {
                         this.color = "red";
                         this.snackbar = true;
+                        this.overlay = false;
                         this.error_message = response.data.message;
                     }
                 })
                 .catch((error) => {
                     this.color = "red";
                     this.snackbar = true;
+                    this.overlay = false;
                     this.error_message = error.response.data.message;
                 });
             },
 
             //ubah data alokasi
             update() {
+                this.overlay = true;
                 let newData = {
                     SPPBEid_sppbe: this.form.SPPBEid_sppbe,
                     tanggal_pengambilan_gas: this.form.tanggal_pengambilan_gas,
@@ -625,6 +632,7 @@
                             this.color = "green";
                             this.snackbar = true;
                             this.inputType = "Tambah";
+                            this.overlay = false;
                             this.error_message = response.data.message;
                             location.reload();
                         }
@@ -632,18 +640,21 @@
                         {
                             this.color = "red";
                             this.snackbar = true;
+                            this.overlay = false;
                             this.error_message = response.data.message;
                         }
                     })
                     .catch((error) => {
                         this.color = "red";
                         this.snackbar = true;
+                        this.overlay = false;
                         this.error_message = error.response.data.message;
                     });
             },
 
             //non aktif data alokasi
             deleteData() {
+                this.overlay = true;
                 var url = this.$api + "/alokasiPengambilanGas/delete/" + this.deleteId;
                 this.$http.delete(url)
                     .then((response) => {
@@ -655,6 +666,7 @@
                             this.color = "green";
                             this.snackbar = true;
                             this.inputType = "Tambah";
+                            this.overlay = false;
                             this.error_message = response.data.message;
                             location.reload();
                         }
@@ -662,12 +674,14 @@
                         {
                             this.color = "red";
                             this.snackbar = true;
+                            this.overlay = false;
                             this.error_message = response.data.message;
                         }
                     })
                     .catch((error) => {
                         this.color = "red";
                         this.snackbar = true;
+                        this.overlay = false;
                         this.error_message = error.response.data.message;
                     });
             },

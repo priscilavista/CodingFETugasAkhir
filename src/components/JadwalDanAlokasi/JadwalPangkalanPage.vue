@@ -168,7 +168,7 @@
             <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
             <v-spacer />
-        </v-container>
+          </v-container>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -211,7 +211,7 @@
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-    <v-overlay :value="overlay">
+    <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
   </v-main>
@@ -339,14 +339,14 @@
       },
 
       readPangkalan() {
+        this.overlay = true;
         var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.pangkalan = response.data.data;
-              console.log("cek id");
-              console.log(this.pangkalan[0].id_pangkalan);
+              this.overlay = false;
             }
             else
             {
@@ -365,6 +365,7 @@
       },
 
       readJumlahDriver() {
+        this.overlay = true;
         var url = this.$api + "/pegawai/getJumlahDriver";
         this.$http.get(url)
           .then((response) => {
@@ -372,6 +373,7 @@
             {
               this.jumlahDriver = parseInt(response.data.data.jumlah_driver);
               this.convertGrupPangkalan(this.jumlahDriver);
+              this.overlay = false;
             }
             else
             {
@@ -407,6 +409,7 @@
                 this.load = true;
                 this.color = "green";
                 this.snackbar = true;
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -456,6 +459,7 @@
                 this.color = "green";
                 this.snackbar = true;
                 this.inputType = "Tambah";
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -496,6 +500,7 @@
               this.color = "green";
               this.snackbar = true;
               this.inputType = "Tambah";
+              this.overlay = false;
               this.error_message = response.data.message;
               location.reload();
             }

@@ -147,7 +147,7 @@
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-    <v-overlay :value="overlay">
+    <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
   </v-main>
@@ -251,6 +251,7 @@
 
       //ubah data fakultatif
       updateStatus() {
+        this.overlay = true;
         let statusPersetujuan = '';
 
         if(this.dialogConfirm === true)
@@ -282,6 +283,7 @@
                 this.resetForm();
                 this.color = "green";
                 this.snackbar = true;
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -289,12 +291,14 @@
               {
                 this.color = "red";
                 this.snackbar = true;
+                this.overlay = false;
                 this.error_message = response.data.message;
               }
             })
             .catch((error) => {
               this.color = "red";
               this.snackbar = true;
+              this.overlay = false;
               this.error_message = error.response.data.message;
             });
         }

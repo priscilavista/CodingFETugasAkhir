@@ -319,7 +319,7 @@
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-    <v-overlay :value="overlay">
+    <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
   </v-main>
@@ -454,12 +454,17 @@
       },
 
       readPangkalan() {
+        this.overlay = true;
         var url = this.$api + "/pangkalan/getAll";
         this.$http.get(url)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.pangkalan = response.data.data;
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
             }
             else
             {
@@ -498,6 +503,7 @@
                 this.color = "green";
                 this.snackbar = true;
                 this.inputType = "Tambah";
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -547,6 +553,7 @@
                 this.color = "green";
                 this.snackbar = true;
                 this.inputType = "Tambah";
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -586,6 +593,7 @@
               this.color = "green";
               this.snackbar = true;
               this.inputType = "Tambah";
+              this.overlay = false;
               this.error_message = response.data.message;
               location.reload();
             }

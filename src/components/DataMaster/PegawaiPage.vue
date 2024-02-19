@@ -70,11 +70,10 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-menu offset-y style="float: left">
             <template v-slot:activator="{ on, attrs }">
-              <!-- <span v-if="item.id_pegawai !== idUser" v-bind="attrs" v-on="on" style="cursor: pointer"> -->
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;font-size: 20px">
+                    <v-icon v-bind="attrs" v-on="on" v-show="item.status_pegawai=='A'" @click="editHandler(item)" color="primary" style="margin-right: 15px;font-size: 20px">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -82,7 +81,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" v-if="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error" style="font-size: 20px">
+                    <v-icon v-bind="attrs" v-on="on" v-show="item.status_pegawai=='A'" @click="deleteHandler(item)" color="error" style="font-size: 20px">
                       mdi-account-remove
                     </v-icon>
                   </template>
@@ -90,7 +89,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon  v-bind="attrs" v-on="on" v-if="item.status_pegawai=='D'" @click="deleteHandler(item)" color="success" style="font-size: 20px">
+                    <v-icon  v-bind="attrs" v-on="on" v-show="item.status_pegawai=='D'" @click="deleteHandler(item)" color="success" style="font-size: 20px">
                       mdi-account-check
                     </v-icon>
                   </template>
@@ -197,7 +196,7 @@
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-    <v-overlay :value="overlay">
+    <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
   </v-main>
@@ -302,6 +301,7 @@
               this.snackbar = true;
               this.overlay = false;
               this.pegawais = response.data.data;
+              this.overlay = false;
               this.error_message = response.data.message;
             }
             else
@@ -341,6 +341,7 @@
                 this.color = "green";
                 this.snackbar = true;
                 this.inputType = "Tambah";
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -390,6 +391,7 @@
                 this.color = "green";
                 this.snackbar = true;
                 this.inputType = "Tambah";
+                this.overlay = false;
                 this.error_message = response.data.message;
                 location.reload();
               }
@@ -429,6 +431,7 @@
               this.color = "green";
               this.snackbar = true;
               this.inputType = "Tambah";
+              this.overlay = false;
               this.error_message = response.data.message;
               location.reload();
             }

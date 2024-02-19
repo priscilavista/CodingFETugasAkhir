@@ -172,8 +172,8 @@
                                                 v-for="driver in driverPerHari"
                                                 :key="driver"
                                             >
-                                                <td v-if="checkDriver==driver" style="background-color:#C8E6C9">{{ driver }}</td>
-                                                <td v-else>{{ driver }}</td>
+                                                <td v-if="checkDriver==driver" style="background-color:#C8E6C9">{{ driver.nama_pegawai }}</td>
+                                                <td v-else>{{ driver.nama_pegawai }}</td>
                                                 <td v-if="checkDriver==driver" style="background-color:#C8E6C9">
                                                     <v-tooltip right>
                                                         <template v-slot:activator="{ on, attrs }">
@@ -200,7 +200,21 @@
                         <v-divider vertical />
 
                         <v-col cols="12" lg="6" md="8">
-                            <span style="float:left">Tanggal Pengiriman: {{ temp_tanggal }}</span>
+                            <span style="float:left">Tanggal Pengiriman: {{ this.hariJadwalPengirimanGas }}, {{ temp_tanggal }}</span>
+                            <v-btn
+                                v-if="lihatPangkalan==true && this.buttonEdit==true"
+                                small
+                                color="primary"
+                                dark
+                                @click="editHandler()"
+                                style="float:right; margin-top:-2.5px"
+                            >
+                                Ubah
+                            </v-btn>
+                            <br/>
+                            <span v-if="lihatPangkalan==true" style="float:left">Alokasi Pengambilan Gas: {{ this.checkDriver.alokasi_pengambilan_gas }}</span>
+                            <br/>
+                            <span v-if="lihatPangkalan==true" style="float:left">Grup Pangkalan: {{ this.pangkalanPerDriver[0].grup_pangkalan }} - {{ this.checkDriver.hari_penerimaan_gas }}</span>
                             <br/>
                             <v-card v-if="lihatPangkalan==true" fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%;">
                                 <v-data-table
@@ -214,7 +228,7 @@
                                                 <span v-bind="attrs" v-on="on" style="cursor: pointer">
                                                     <v-tooltip left>
                                                         <template v-slot:activator="{ on, attrs }">
-                                                            <v-icon v-bind="attrs" v-on="on" small @click="editHandler(item)" color="primary">mdi-arrow-expand</v-icon>
+                                                            <v-icon v-bind="attrs" v-on="on" small @click="detailHandler(item)" color="primary">mdi-arrow-expand</v-icon>
                                                         </template>
                                                         <span>Lihat Detail</span>
                                                     </v-tooltip>
@@ -289,6 +303,52 @@
             </v-card>
         </v-dialog>
 
+        <v-dialog v-model="dialogEdit" persistent max-width="600px">
+            <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+                <v-card-title>
+                    <h3 style="font-size:20px; color:#ffffff">Ubah Data</h3>
+                    <v-spacer />
+                    <v-tooltip left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                        </template>
+                        <span>Tutup</span>
+                    </v-tooltip>
+                </v-card-title>
+            </v-card>   
+
+            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+                <v-card-text>
+                    <v-container style="padding-left: 5px; padding-right: 5px">
+                        <v-select
+                        :rules="hariRules"
+                        v-model="form.hari_penerimaan_gas"
+                        :items="hari"
+                        item-text="day"
+                        item-value="day"
+                        label="Hari Penerimaan Gas"
+                        v-on:change="readGrupPangkalan(form.hari_penerimaan_gas)"
+                        required
+                        />
+
+                        <v-select
+                        :rules="grupRules"
+                        v-model="form.grup_pangkalan"
+                        :items="grup_pangkalan"
+                        item-text="grup_pangkalan"
+                        item-value="grup_pangkalan"
+                        label="Grup Pangkalan"
+                        required
+                        />
+
+                        <v-spacer />
+                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="updateJadwal">Simpan</v-btn>
+                        <v-spacer />
+                    </v-container>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
         <v-snackbar
             v-model="snackbarJadwal"
             :vertical="vertical"
@@ -309,7 +369,7 @@
 
         <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
-        <v-overlay :value="overlay">
+        <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
             <v-progress-circular indeterminate size="64" />
         </v-overlay>
     </v-main>
@@ -337,25 +397,31 @@
                 events: [],
                 editId: "",
                 type: 'month',
+                hariJadwalPengirimanGas: "",
+                buttonEdit: false,
+                total_alokasi_harian: "",
                 dialog: false,
+                dialogData: false,
+                dialogConfirm: false,
+                dialogEdit: false,
                 pangkalan: [],
                 tempEvents: [],
                 vertical: true,
                 overlay: false,
                 snackbar: false,
                 checkDriver: "",
+                checkEvent: "",
                 temp_tanggal: '',
                 error_message: "",
-                dialogData: false,
                 driverPerHari: [],
                 jadwalForEvent: [],
                 dialogClose: false,
                 inputType: "Tambah",
-                dialogConfirm: false,
                 snackbarJadwal: false,
                 lihatPangkalan: false,
                 pangkalanPerDriver: [],
                 jadwalPengambilanGas: [],
+                grup_pangkalan:[],
                 text: 'Alokasi sudah terpenuhi semua!',
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
@@ -386,6 +452,14 @@
                     { text: "Total Alokasi", value: "total_alokasi_pengiriman_gas" },
                     { text: "",  value:"actions", sortable: false},
                 ],
+                hari: [
+                    { id: 1, day: "Senin", style: { 'background-color': 'red' } }, 
+                    { id: 2, day: "Selasa", style: { 'background-color': 'orange' } }, 
+                    { id: 3, day: "Rabu", style: { 'background-color': 'green' } },
+                    { id: 4, day: "Kamis", style: { 'background-color': '#00AFFF' } }, 
+                    { id: 5, day: "Jumat" , style: { 'background-color': '#6f00ff' } }, 
+                    { id: 6, day: "Sabtu", style: { 'background-color': 'purple' } },
+                ],
                 form: {
                     id_driver: null,
                     nama_driver: null,
@@ -396,6 +470,8 @@
                     id_jadwal_rutin_pangkalan: null,
                     total_alokasi_pengiriman_gas: null,
                     jenis_alokasi_pengiriman_gas: null,
+                    grup_pangkalan: null,
+                    hari_penerimaan_gas: null,
                 },
             }
         },
@@ -419,11 +495,50 @@
             },
 
             eventHandler(event) {
+                this.checkEvent = event;
                 this.driverPerHari=[];
                 this.getDriver(event.tanggal);
                 this.temp_tanggal = event.tanggal;
+                var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                this.hariJadwalPengirimanGas = days[new Date(event.tanggal).getDay()];
+                this.readTotalAlokasiHarian(this.hariJadwalPengirimanGas);
+
+                if(event.jumlah_alokasi>this.total_alokasi_harian)
+                    this.buttonEdit = true;
+
+                // if(event.jumlah_alokasi>2760)
+                //     this.buttonEdit = true;
                 
                 this.dialogData=true;
+            },
+
+            readTotalAlokasiHarian(hariJadwalPengirimanGas) {
+                this.overlay = true;
+                var url = this.$api + "/jadwalRutinPangkalan/getTotalAlokasiByDay/" + hariJadwalPengirimanGas;
+                this.$http.get(url)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                    this.color = "green";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.total_alokasi_harian = response.data.data.total_alokasi_harian;
+                    this.error_message = response.data.message;
+                    }
+                    else
+                    {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                });
             },
 
             pangkalanHandler(date,driver) {
@@ -436,17 +551,31 @@
             getDriver(date) {
                 for (let i = 0; i < this.jadwal.length; i++) 
                 {
-                    if(this.jadwal[i].tanggal_pengiriman_gas === date && this.searchDriver(this.jadwal[i].nama_pegawai)==0) 
+                    if(this.jadwal[i].tanggal_pengiriman_gas === date 
+                        && this.searchDriver(this.jadwal[i])==0) 
                     {
-                        this.driverPerHari.push(this.jadwal[i].nama_pegawai);
+                        this.driverPerHari.push({
+                            nama_pegawai: this.jadwal[i].nama_pegawai,
+                            alokasi_pengambilan_gas: this.jadwal[i].alokasi_pengambilan_gas,
+                            id_jadwal_pengambilan_gas: this.jadwal[i].id_jadwal_pengambilan_gas,
+                            grup_pangkalan: this.jadwal[i].grup_pangkalan,
+                            hari_penerimaan_gas: this.jadwal[i].hari_penerimaan_gas,
+                        })
                     }
                 }
+
+                function compareByGrup(a, b) {
+                    return a.grup_pangkalan - b.grup_pangkalan;
+                }
+
+                this.driverPerHari.sort(compareByGrup);
             },
 
-            searchDriver(name) {
+            searchDriver(jadwal) {
                 for (let i = 0; i < this.driverPerHari.length; i++)
                 {
-                    if(this.driverPerHari[i] === name) 
+                    if(this.driverPerHari[i].nama_pegawai === jadwal.nama_pegawai 
+                        && this.driverPerHari[i].id_jadwal_pengambilan_gas === jadwal.id_jadwal_pengambilan_gas) 
                     {
                         return 1;
                     }
@@ -458,12 +587,15 @@
             tampilPangkalan(date, driver) {
                 for (let i = 0; i < this.jadwal.length; i++) 
                 {
-                    if(this.jadwal[i].tanggal_pengiriman_gas === date && this.jadwal[i].nama_pegawai === driver) 
+                    if(this.jadwal[i].tanggal_pengiriman_gas === date 
+                        && this.jadwal[i].nama_pegawai === driver.nama_pegawai
+                        && this.jadwal[i].id_jadwal_pengambilan_gas === driver.id_jadwal_pengambilan_gas) 
                     {
                         this.pangkalanPerDriver.push(this.jadwal[i]);
                     }
                 } 
             },
+
 
             readEvent() {
                 this.events = [];
@@ -481,8 +613,6 @@
                             id: parseInt(this.jadwalPengambilanGas[i].id_jadwal_pengambilan_gas) + 1000,
                         }
                     ];
-                    
-                    this.overlay = false;
                 }
 
                 //jadwal pengiriman gas
@@ -518,6 +648,8 @@
                         }
                     ];
                 }
+
+                this.overlay = false;
             },
 
             searchDate(date) {
@@ -534,12 +666,15 @@
 
             //jadwal full atribut
             readJadwal() {
+                this.overlay = true;
                 var url = this.$api + "/jadwalPengirimanGas/getAll";
                 this.$http.get(url)
                     .then((response) => {
                         if(response.data.code == 200)
                         {
                             let temp = response.data.data;
+                            this.jadwalForEvent = [];
+                            this.jadwal = [];
 
                             for (let i = 0; i < temp.length; i++) 
                             {
@@ -563,12 +698,17 @@
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_rutin_pangkalan: parseInt(temp[i].id_jadwal_rutin_pangkalan),
                                         total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_penerimaan_gas),
+                                        grup_pangkalan: temp[i].grup_pangkalan,
+                                        alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
+                                        id_jadwal_pengambilan_gas: temp[i].id_jadwal_pengambilan_gas,
+                                        hari_penerimaan_gas: temp[i].hari_penerimaan_gas,
                                     },
                                 );
                             }
 
                             this.color = "green";
                             this.snackbar = true;
+                            this.overlay = false;
                             this.error_message = response.data.message;
 
                             this.readJadwalPengambilan();
@@ -589,6 +729,48 @@
                     });
             },
 
+            readGrupPangkalan(hari_penerimaan_gas) {
+                this.overlay = true;
+                var url = this.$api + "/jadwalRutinPangkalan/postGrupPangkalanByAlokasi";
+                var body = { 
+                    'hari_penerimaan_gas': hari_penerimaan_gas, 
+                    'alokasi_grup_pangkalan': this.checkDriver.alokasi_pengambilan_gas, 
+                };
+
+                this.$http.post(url, body)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        let temp = response.data.data;
+                        this.grup_pangkalan = temp;
+                        console.log("grup ", this.grup_pangkalan[0].grup_pangkalan);
+                        
+                        this.color = "green";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    this.overlay = false;
+
+                    if(error.request.status === 404)
+                    {
+                        this.transaksis = [];
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.error_message = 'Jadwal Tidak Ditemukan';
+                    }
+                });
+            },
+
             searchDatePengambilan(date) {
                 for (let i = 0; i < this.jadwalPengambilanGas.length; i++)
                 {
@@ -602,12 +784,14 @@
             },
 
             readJadwalPengambilan(){
+                this.overlay = true;
                 var url = this.$api + "/jadwalPengambilanGas/getAll";
                 this.$http.get(url)
                     .then((response) => {
                         if(response.data.code == 200)
                         {
                             let tempArray = [];
+                            this.jadwalPengambilanGas = [];
                             let temp = response.data.data;
 
                             for (let i = 0; i < temp.length; i++) 
@@ -617,7 +801,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     },
                                 );
                             }
@@ -635,6 +819,7 @@
                             }
 
                             this.readEvent();
+                            this.overlay = false;
                         }
                         else
                         {
@@ -653,12 +838,14 @@
             },
 
             readPangkalan() {
+                this.overlay = true;
                 var url = this.$api + "/pangkalan/getAll";
                 this.$http.get(url)
                     .then((response) => {
                         if(response.data.code === 200)
                         {
                             this.pangkalan = response.data.data;
+                            this.overlay = false;
                         }
                         else
                         {
@@ -676,7 +863,53 @@
                     });
             },
 
-            editHandler(item) {
+            editHandler() {
+                this.form.grup_pangkalan = this.checkDriver.grup_pangkalan;
+
+                this.dialogData = false;
+                this.dialogEdit = true;
+            },
+
+            updateJadwal() {
+                this.overlay = true;
+                var url = this.$api + "/jadwalPengirimanGas/updateJadwalPengirimanGasByGrupPangkalan";
+                var body = { 
+                    'hari_penerimaan_gas': this.form.hari_penerimaan_gas, 
+                    'grup_pangkalan': this.form.grup_pangkalan,
+                    'id_jadwal_pengambilan_gas': this.checkDriver.id_jadwal_pengambilan_gas,
+                };
+
+                this.$http.post(url, body)
+                .then((response) => {
+                if(response.data.code === 200)
+                {
+                    this.color = "green";
+                    this.snackbar = true;
+                    this.error_message = response.data.message;
+                    this.checkDriver = "";
+                    this.lihatPangkalan = false;
+                    this.overlay = false;
+                    this.resetForm();
+                    this.close();
+                    this.eventHandler(this.checkEvent);
+                }
+                else
+                {
+                    this.color = "red";
+                    this.overlay = false;
+                    this.snackbar = true;
+                    this.error_message = response.data.message;
+                }
+                })
+                .catch((error) => {
+                this.color = "red";
+                this.overlay = false;
+                this.snackbar = true;
+                this.error_message = error.response.data.message;
+                });
+            },
+
+            detailHandler(item) {
                 this.readPangkalan();
                 this.inputType = "Edit";
                 this.form.id_driver = item.id_pegawai;
@@ -699,16 +932,21 @@
                 this.checkDriver = "";
                 this.inputType = "Tambah";
                 this.pangkalanPerDriver = [];
+                this.readJadwal();
 
                 this.lihatPangkalan = false;
                 this.dialogConfirm = false;
                 this.dialogData = false;
                 this.dialog = false;
+                this.dialogEdit = false;
+                this.buttonEdit = false;
             },
 
             closeDialog() {
+                this.resetForm();
                 this.dialogData = true;
                 this.dialog = false;
+                this.dialogEdit = false;
             },
 
             resetForm() {
@@ -722,6 +960,8 @@
                     id_jadwal_rutin_pangkalan: null,
                     total_alokasi_pengiriman_gas: null,
                     jenis_alokasi_pengiriman_gas: null,
+                    grup_pangkalan: null,
+                    hari_penerimaan_gas: null,
                 };
             },
         },
@@ -730,6 +970,8 @@
             this.readJadwal();
             this.$refs.calendar.checkChange();
             localStorage.setItem("menu", "Kalender Jadwal Pengiriman Gas");
+
+            this.readTotalAlokasiHarian("Senin");
         },
     }
 </script>

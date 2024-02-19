@@ -49,7 +49,7 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
@@ -68,7 +68,7 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
@@ -88,7 +88,7 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
