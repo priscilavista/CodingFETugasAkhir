@@ -26,11 +26,11 @@
                     lg="3"
                     cols="3"
                 >
-                    <v-row align="center" justify="left" class="ml-1">
+                    <v-row align="center" class="ml-1">
                         <v-icon small style="float:left;" color="#673AB7">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Alokasi Pengambilan Gas</span>
                     </v-row>
-                    <v-row align="center" justify="left" class="ml-1 mt-5">
+                    <v-row align="center" class="ml-1 mt-5">
                         <v-icon small style="float:left;" color="#E91E63">mdi-square</v-icon>
                         <span style="float:left; margin-left:3.5px; font-size:15px;">Jadwal Pengambilan Gas</span>
                     </v-row>
@@ -94,9 +94,9 @@
                                     color="#E0E0E0"
                                 >
                                     <template v-slot:day="{ date }">
-                                        <template v-for="event in eventsMap[date]">
+                                        <template v-for="(event, index) in eventsMap[date]">
                                             <v-menu
-                                                :key="event.jumlah_alokasi_pengambilan_gas"
+                                                :key="index"
                                                 v-model="event.open"
                                                 offset-x
                                                 min-width="300px"
@@ -114,7 +114,7 @@
                                                         class="my-event"
                                                         @click="lihatDetail(event)"
                                                         v-if="event.title=='jadwal'"
-                                                        v-html="event.alokasi_pengambilan_gas + ' Tabung'"
+                                                        v-html="event.jumlah_alokasi_pengambilan_gas + ' Tabung'"
                                                         style="width: 92.5%; text-align:left; padding-left:5px;background-color:#E91E63; color:#ffffff"
                                                     />
                                                 </template>
@@ -347,7 +347,7 @@
                     nama_pegawai: null,
                     tanggal_pengambilan_gas: null,
                     id_jadwal_pengambilan_gas: null,
-                    jumlah_alokasi_pengambilan_gas: null,
+                    alokasi_pengambilan_gas: null,
                     alokasi_fakultatif_pengambilan_gas: null,
                 },
                 items: [
@@ -471,7 +471,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
+                                        jumlah_alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                     }
                                 );
 
@@ -544,7 +544,7 @@
                     }
                     else
                     {
-                        this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas = this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].alokasi_pengambilan_gas + this.jadwalForEvent[i].alokasi_pengambilan_gas;
+                        this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.tempEvents[this.searchDateJadwal(this.jadwalForEvent[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + this.jadwalForEvent[i].jumlah_alokasi_pengambilan_gas;
                     }
                 }
                 
@@ -555,7 +555,7 @@
                             title: "jadwal",
                             tanggal_pengambilan_gas: this.tempEvents[i].tanggal_pengambilan_gas,
                             jenis_alokasi_pengambilan_gas: this.tempEvents[i].jenis_alokasi_pengambilan_gas,
-                            alokasi_pengambilan_gas: this.tempEvents[i].alokasi_pengambilan_gas,
+                            jumlah_alokasi_pengambilan_gas: this.tempEvents[i].jumlah_alokasi_pengambilan_gas,
                         }
                     );
                 }
@@ -625,7 +625,7 @@
                     nama_pegawai: null,
                     tanggal_pengambilan_gas: null,
                     id_jadwal_pengambilan_gas: null,
-                    jumlah_alokasi_pengambilan_gas: null,
+                    alokasi_pengambilan_gas: null,
                     alokasi_fakultatif_pengambilan_gas: null,
                 };
             },

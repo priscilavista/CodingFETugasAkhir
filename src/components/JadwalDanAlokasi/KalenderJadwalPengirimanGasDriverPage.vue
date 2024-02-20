@@ -356,7 +356,7 @@
                                 {
                                     this.events.push(
                                         {
-                                            alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                            alokasi_pengambilan_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                             jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
                                             tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                             nama_pangkalan: temp[i].nama_pangkalan,
@@ -366,12 +366,12 @@
                                 }
                                 else
                                 {
-                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas + parseInt(temp[i].jumlah_alokasi_pengambilan_gas);
+                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas + parseInt(temp[i].alokasi_penerimaan_gas);
                                 }
 
                                 this.fullEvents.push(
                                     {
-                                        alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                         jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pangkalan: temp[i].nama_pangkalan,

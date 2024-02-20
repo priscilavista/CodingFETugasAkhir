@@ -153,7 +153,6 @@
                             <v-card outlined style="border-radius: 0px">
                                 <v-simple-table
                                     fixed-header
-                                    height="300px"
                                 >
                                     <template v-slot:default>
                                         <thead style="background-color: #546E7A;">

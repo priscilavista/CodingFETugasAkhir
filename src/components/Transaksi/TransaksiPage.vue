@@ -231,7 +231,6 @@
       </v-card>
     </v-dialog>
     
-
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
         <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">

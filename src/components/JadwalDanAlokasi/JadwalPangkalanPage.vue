@@ -83,7 +83,7 @@
                 <tbody>
                   <tr
                     v-for="jadwal in convertJadwal(item.day)"
-                    :key="jadwal.hari_penerimaan_gas"
+                    :key="jadwal.Pangkalanid_pangkalan"
                   >
                     <td>{{ jadwal.grup_pangkalan }}</td>
                     <td>{{ jadwal.nama_pangkalan }}</td>

@@ -333,7 +333,7 @@
                                 {
                                     this.events.push(
                                         {
-                                            jumlah_alokasi_pengambilan_gas: parseInt(temp[i].jumlah_alokasi_pengambilan_gas),
+                                            jumlah_alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
                                             nama_sppbe: temp[i].nama_sppbe,
                                             tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                             url_maps_sppbe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.3179886116654!2d110.60751207469967!3d-7.9660523793959435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7bb35c043e46a3%3A0xebf21f55d252602!2sSATRIA%20PERMANA%20JAYA.%20PT!5e0!3m2!1sen!2sid!4v1693234689734!5m2!1sen!2sid",
@@ -342,7 +342,7 @@
                                 }
                                 else
                                 {
-                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + parseInt(temp[i].jumlah_alokasi_pengambilan_gas);
+                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + parseInt(temp[i].alokasi_pengambilan_gas);
                                 }
                             }
 
