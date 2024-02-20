@@ -94,9 +94,9 @@
                                     color="#E0E0E0"
                                 >
                                     <template v-slot:day="{ date }">
-                                        <template v-for="(event, index) in eventsMap[date]">
+                                        <template v-for="event in eventsMap[date]">
                                             <v-menu
-                                                :key="index"
+                                                :key="event.jumlah_alokasi_pengambilan_gas"
                                                 v-model="event.open"
                                                 offset-x
                                                 min-width="300px"
