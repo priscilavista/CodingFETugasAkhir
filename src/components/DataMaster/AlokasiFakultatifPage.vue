@@ -341,6 +341,9 @@
 
     data() {
       return {
+        minDate: "",
+        minDateMessage: "",
+        today: "",
         color: "",
         editId: "",
         deleteId: "",
@@ -390,6 +393,7 @@
           id_alokasi_fakultatif: null,
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
+          id_jadwal_pengambilan_gas: null,
         },
         alokasiRules: [(v) => !!v || "Alokasi Tidak Boleh Kosong"],
         pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
@@ -409,6 +413,49 @@
         }
       },
 
+      setDate() {
+        this.today = new Date;
+        console.log("today " + this.today);
+        let day = this.today.getDate();
+        console.log("day " + day);
+        let month = this.today.getMonth();
+        let nextMonth = month;
+        let year = this.today.getFullYear();
+        let nextYear = year;
+        if(month!=11)
+        {
+          month = month + 1;
+          nextMonth = nextMonth + 2;
+          if(month<10)
+          {
+            month = "0" + month;
+          }
+
+          if(nextMonth<10)
+          {
+            nextMonth = "0" + nextMonth;
+          }
+        }
+        else
+        {
+          month = 12;
+          nextMonth = "0" + 1;
+          nextYear = year + 1;
+        }
+        
+        if(day < 10)
+        {
+          day = "0" + day;
+        }
+        
+        this.today = year + "-" + month + "-" + day;
+        this.minDateMessage = "01/" + nextMonth + "/" + nextYear;
+        this.minDate = nextYear + "-" + nextMonth + "-01";
+        console.log("today " + this.today);
+        console.log("minDateMessage " + this.minDateMessage);
+        console.log("minDate " + this.minDate);
+      },
+
       readData() {
         this.overlay = true;
 
@@ -422,7 +469,7 @@
                 {
                   this.fakultatifA = [...this.fakultatifA, element];
                 }
-                else if(element.status_persetujuan_pangkalan === 'P')
+                else if(element.status_persetujuan_pangkalan === 'P' && element.tanggal_penambahan_alokasi >= this.minDate)
                 {
                   this.fakultatifP = [...this.fakultatifP, element];
                 }
@@ -489,7 +536,7 @@
           this.fakultatif.append("status_persetujuan_pangkalan", 'P');
           this.fakultatif.append("alokasi_tambahan", this.form.alokasi_tambahan);
           this.fakultatif.append("Pangkalanid_pangkalan", this.form.id_pangkalan);
-          this.fakultatif.append("tanggal_pengajuan", this.form.tanggal_pengajuan);
+          this.fakultatif.append("tanggal_pengajuan", this.today);
           this.fakultatif.append("tanggal_penambahan_alokasi", this.form.tanggal_penambahan_alokasi);
 
           var url = this.$api + "/alokasiFakultatif/create";
@@ -522,11 +569,17 @@
               this.error_message = error.response.data.message;
             });
         }
-        else
+        else if(this.checkForm() === 1)
         {
           this.color = "red";
           this.snackbar = true;
           this.error_message = 'Data Tidak Lengkap!!';
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Tanggal Tidak Boleh Sebelum ' + this.minDateMessage;
         }
       },
 
@@ -540,6 +593,7 @@
             tanggal_pengajuan: this.form.tanggal_pengajuan,
             tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
             status_persetujuan_pangkalan: this.form.status_persetujuan_pangkalan,
+            Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: this.form.id_jadwal_pengambilan_gas,
           };
 
           var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
@@ -624,19 +678,14 @@
           return 1;
         }
 
-        if(this.form.tanggal_pengajuan === null || this.form.tanggal_pengajuan === '')
-        {
-          return 1;
-        }
-
         if(this.form.tanggal_penambahan_alokasi === null || this.form.tanggal_penambahan_alokasi === '')
         {
           return 1;
         }
 
-        if(this.form.status_persetujuan_pangkalan === null || this.form.status_persetujuan_pangkalan === '')
+        if(this.form.tanggal_penambahan_alokasi < this.minDate)
         {
-          return 1;
+          return 2;
         }
 
         return 0;
@@ -659,6 +708,8 @@
         this.form.id_alokasi_fakultatif = item.id_alokasi_fakultatif;
         this.form.tanggal_penambahan_alokasi = item.tanggal_penambahan_alokasi;
         this.form.status_persetujuan_pangkalan = item.status_persetujuan_pangkalan;
+        this.form.id_jadwal_pengambilan_gas = parseInt(item.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas);
+        console.log(this.form.tanggal_penambahan_alokasi);
         
         this.dialog = true;
       },
@@ -684,6 +735,7 @@
           id_alokasi_fakultatif: null,
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
+          id_jadwal_pengambilan_gas: null,
         };
       },
     },
@@ -697,6 +749,7 @@
     mounted() {
       localStorage.setItem("menu", "Alokasi Fakultatif");
       this.readData();
+      this.setDate();
     },
   };
 </script>

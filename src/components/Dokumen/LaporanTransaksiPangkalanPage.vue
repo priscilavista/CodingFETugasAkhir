@@ -29,7 +29,7 @@
         
         <v-card style="border-radius: 0px 0px 4px 4px;width:350px;height:">
             <v-card-text>
-                <v-container v-if="isWideScreen" style="padding-left: 5px; padding-right: 5px; padding-bottom:30px">
+                <v-container v-if="isWideScreen" style="padding-left: 5px; padding-right: 5px; padding-bottom:47.5px">
                     <v-row style="margin-top:-30px">
                         <v-col 
                             cols="12"
@@ -70,7 +70,9 @@
                         style="margin-top:-25px"
                     />
 
-                    <v-btn small @click="prosesHandler" color="primary" dark style="float:left;" >Proses</v-btn>
+                    <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px" >Proses</v-btn>
+                    <v-spacer />
+                    <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
                 </v-container>
 
                 <v-container v-else style="padding-left: 5px; padding-right: 5px; padding-bottom:50px">
@@ -101,6 +103,8 @@
                     />
 
                     <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
+                    <v-spacer />
+                    <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
                 </v-container>
             </v-card-text>
         </v-card>
@@ -586,6 +590,10 @@
                 this.overlay = false;
                 this.resetForm();
                 location.reload();
+            },
+            
+            resetData() {
+                this.resetForm();
             },
 
             resetForm() {

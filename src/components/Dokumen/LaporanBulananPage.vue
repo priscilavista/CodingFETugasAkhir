@@ -51,6 +51,8 @@
                     />
 
                     <v-btn small @click="prosesHandler" color="primary" dark style="float:left;margin-top:10px">Proses</v-btn>
+                    <v-spacer />
+                    <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
                 </v-container>
             </v-card-text>
         </v-card>
@@ -704,6 +706,10 @@
                 this.resetForm();
                 this.overlay = false;
                 location.reload();
+            },
+
+            resetData() {
+                this.resetForm();
             },
 
             resetForm() {
