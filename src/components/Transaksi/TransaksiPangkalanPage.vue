@@ -47,8 +47,76 @@
         Tambah
       </v-btn>
     </div>
+
+    <v-card width="350px" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+      <v-card-title>
+        <h3 style="font-size:20px; color:#ffffff">Filter Data</h3>
+      </v-card-title>
+    </v-card>
+
+    <v-card style="border-radius: 0px 0px 4px 4px;width:350px;height:">
+      <v-card-text>
+        <v-container v-if="isWideScreen" style="padding-left: 5px; padding-right: 5px; padding-bottom:30px">
+          <v-row style="margin-top:-30px">
+            <v-col 
+              cols="12"
+              md="7"
+            >
+              <v-select
+                v-model="form_filter.bulan_transaksi"
+                :items="bulan"
+                item-text="nama_bulan"
+                item-value="id_bulan"
+                label="Bulan"
+              />
+            </v-col>
+
+            <v-col
+              cols="6"
+              md="5"
+            >
+              <v-select
+                v-model="form_filter.tahun_transaksi"
+                :items="tahun"
+                item-text="nama_tahun"
+                item-value="nama_tahun"
+                label="Tahun"
+              />
+            </v-col>
+          </v-row>
+
+          <v-btn small color="primary" dark style="float:left;" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;" class="ml-4" @click="resetData()">Reset</v-btn>
+        </v-container>
+
+        <v-container v-else style="padding-left: 5px; padding-right: 5px; padding-bottom:50px">
+          <v-select
+            v-model="form_filter.bulan_transaksi"
+            :items="bulan"
+            item-text="nama_bulan"
+            item-value="id_bulan"
+            label="Bulan"
+            style="margin-top:-12.5px"
+          />
+
+          <v-select
+            v-model="form_filter.tahun_transaksi"
+            :items="tahun"
+            item-text="nama_tahun"
+            item-value="nama_tahun"
+            label="Tahun"
+            style="width:50%"
+          />
+
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" @click="readData">Filter</v-btn>
+          <v-spacer />
+          <v-btn small color="primary" dark style="float:left;margin-top:10px" class="ml-4" @click="resetData()">Reset</v-btn>
+        </v-container>
+      </v-card-text>
+    </v-card>
     
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
+    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
           v-if="isWideScreen"
@@ -83,7 +151,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                    <v-icon v-show="item.tanggal_transaksi < this.minDate || item.tanggal_transaksi >= this.maxDate" v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -91,7 +159,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error">
+                    <v-icon v-show="item.tanggal_transaksi < this.minDate || item.tanggal_transaksi >= this.maxDate" v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error">
                       mdi-file-document-remove
                     </v-icon>
                   </template>
@@ -222,10 +290,15 @@
 
     data() {
       return {
+        today: "",
+        maxDate: "",
+        minDate: "",
         color: "",
         editId: "",
         search: null,
         deleteId: "",
+        bulan: [],
+        tahun: [],
         dialog: false,
         overlay: false,
         transaksis: [],
@@ -263,6 +336,10 @@
           { text: "Kategori Pembeli", value: "kategori_pembeli" },
           { text: "", value: "actions", sortable: false },
         ],
+        form_filter: {
+          bulan_transaksi: null,
+          tahun_transaksi: null,
+        },
         form: {
           nama_pembeli: null,
           id_transaksi: null,
@@ -298,10 +375,57 @@
         }
       },
 
+      setDate() {
+        this.today = new Date;
+        console.log("today " + this.today);
+        let day = this.today.getDate();
+        console.log("day " + day);
+        let month = this.today.getMonth();
+        let nextMonth = month;
+        let year = this.today.getFullYear();
+        let nextYear = year;
+        if(month!=11)
+        {
+          month = month + 1;
+          nextMonth = nextMonth + 2;
+          if(month<10)
+          {
+            month = "0" + month;
+          }
+
+          if(nextMonth<10)
+          {
+            nextMonth = "0" + nextMonth;
+          }
+        }
+        else
+        {
+          month = 12;
+          nextMonth = "0" + 1;
+          nextYear = year + 1;
+        }
+        
+        if(day < 10)
+        {
+          day = "0" + day;
+        }
+        
+        this.today = year + "-" + month + "-" + day;
+        this.minDate = year + "-" + month + "-01";
+        this.maxDate = nextYear + "-" + nextMonth + "-01";
+        console.log("today " + this.today);
+        console.log("maxDate " + this.maxDate);
+        console.log("minDate " + this.minDate);
+      },
+
       readData() {
         this.overlay = true;
         var url = this.$api + "/transaksi/postBySearchData";
-        var body = { 'id_pangkalan': localStorage.getItem('id') };
+        var body = {
+          'bulan': this.form_filter.bulan_transaksi, 
+          'tahun': this.form_filter.tahun_transaksi,
+          'id_pangkalan': localStorage.getItem('id') 
+        };
 
         this.$http.post(url, body)
           .then((response) => {
@@ -337,6 +461,58 @@
           });
       },
       
+      readDataBulan() {
+        this.overlay = true;
+        var url = this.$api + "/bulan/getAll";
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              this.bulan = response.data.data;
+              this.overlay = false;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
+      readDataTahun() {
+        this.overlay = true;
+        var url = this.$api + "/tahun/getAll";
+        this.$http.get(url)
+          .then((response) => {
+            if(response.data.code === 200)
+            {
+              this.tahun= response.data.data;
+              this.overlay = false;
+            }
+            else
+            {
+              this.color = "red";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
+            }
+          })
+          .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+          });
+      },
+
       save() {
         if(this.checkForm() === 0)
         {
@@ -378,11 +554,17 @@
               this.error_message = error.response.data.message;
             });
         }
-        else
+        else if(this.checkForm() === 1)
         {
           this.color = "red";
           this.snackbar = true;
           this.error_message = 'Data Tidak Lengkap!!';
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Tanggal Transaksi Harus Dalam Bulan Ini!';
         }
       },
 
@@ -502,6 +684,11 @@
           return 1;
         }
 
+        if(this.form.tanggal_transaksi < this.minDate || this.form.tanggal_transaksi >= this.maxDate)
+        {
+          return 2;
+        }
+
         return 0;
       },
 
@@ -531,6 +718,11 @@
         this.dialogConfirm = false;
       },
 
+      resetData() {
+        this.resetForm();
+        this.readData();
+      },
+
       resetForm() {
         this.form = {
           nama_pembeli: null,
@@ -543,6 +735,11 @@
           nomor_ktp_pembeli: null,
           nomor_telepon_pembeli: null,
         };
+
+        this.form_filter = {
+          bulan_transaksi: null,
+          tahun_transaksi: null,
+        }
       },
     },
 
@@ -554,6 +751,9 @@
 
     mounted() {
       this.readData();
+      this.setDate();
+      this.readDataBulan();
+      this.readDataTahun();
       localStorage.setItem("menu", "Transaksi");
     },
   };
@@ -604,6 +804,10 @@
   .v-icon.v-icon.mdi-magnify {
     font-size: 22px;
     /* color: #1976d2; */
+  }
+
+  .v-select__selection--comma {
+    font-size: 12.5px;
   }
 
   .v-application--is-ltr .v-card__actions>.v-btn.v-btn+.v-btn {

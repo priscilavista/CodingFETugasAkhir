@@ -162,11 +162,12 @@
           .then((response) => {
             if(response.data.code === 200)
             {
+              this.close();
               this.resetForm();
               this.overlay = false;
               this.color = "green";
-              this.snackbar = true;
               this.error_message = response.data.message;
+              this.snackbar = true;
               location.reload();
             }
             else
@@ -186,8 +187,8 @@
       },
 
       close() {
-        this.resetForm();
         this.dialog = false;
+        this.resetForm();
       },
 
       checkForm() {

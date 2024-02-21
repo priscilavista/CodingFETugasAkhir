@@ -163,6 +163,7 @@
           .then((response) => {
             if(response.data.code === 200)
             {
+              this.close();
               this.resetForm();
               this.overlay = false;
               this.color = "green";
@@ -188,8 +189,8 @@
       },
 
       close() {
-        this.resetForm();
         this.dialog = false;
+        this.resetForm();
       },
 
       checkForm() {

@@ -313,6 +313,9 @@
 
     data() {
       return {
+        minDate: "",
+        minDateMessage: "",
+        today: "",
         color: "",
         sppbe: [],
         bulan: [],
@@ -378,6 +381,49 @@
         {
           this.save();
         }
+      },
+
+      setDate() {
+        this.today = new Date;
+        console.log("today " + this.today);
+        let day = this.today.getDate();
+        console.log("day " + day);
+        let month = this.today.getMonth();
+        let nextMonth = month;
+        let year = this.today.getFullYear();
+        let nextYear = year;
+        if(month!=11)
+        {
+          month = month + 1;
+          nextMonth = nextMonth + 2;
+          if(month<10)
+          {
+            month = "0" + month;
+          }
+
+          if(nextMonth<10)
+          {
+            nextMonth = "0" + nextMonth;
+          }
+        }
+        else
+        {
+          month = 12;
+          nextMonth = "0" + 1;
+          nextYear = year + 1;
+        }
+        
+        if(day < 10)
+        {
+          day = "0" + day;
+        }
+        
+        this.today = year + "-" + month + "-" + day;
+        this.minDateMessage = "01/" + nextMonth + "/" + nextYear;
+        this.minDate = nextYear + "-" + nextMonth + "-01";
+        console.log("today " + this.today);
+        console.log("minDateMessage " + this.minDateMessage);
+        console.log("minDate " + this.minDate);
       },
 
       readDataBulan() {
@@ -538,11 +584,17 @@
               this.error_message = error.response.data.message;
             });
         }
-        else
+        else if(this.checkForm() === 1)
         {
           this.color = "red";
           this.snackbar = true;
           this.error_message = 'Data Tidak Lengkap!!';
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Tanggal Tidak Boleh Sebelum ' + this.minDateMessage;
         }
       },
 
@@ -621,6 +673,11 @@
           return 1;
         }
 
+        if(this.form.tanggal_transaksi < this.minDate)
+        {
+          return 2;
+        }
+
         return 0;
       },
 
@@ -682,6 +739,7 @@
       this.readDataBulan();
       this.readDataTahun();
       this.readSPPBE();
+      this.setDate();
     },
   };
 </script>

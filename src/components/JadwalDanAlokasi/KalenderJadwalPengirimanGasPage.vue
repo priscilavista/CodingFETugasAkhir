@@ -389,6 +389,8 @@
 
         data() {
             return{
+                today: "",
+                minDate: "",
                 color: "",
                 sppbe: [],
                 driver: [],
@@ -493,6 +495,47 @@
                 alert(event.title)
             },
 
+            setDate() {
+                this.today = new Date;
+                console.log("today " + this.today);
+                let day = this.today.getDate();
+                console.log("day " + day);
+                let month = this.today.getMonth();
+                let nextMonth = month;
+                let year = this.today.getFullYear();
+                let nextYear = year;
+                if(month!=11)
+                {
+                month = month + 1;
+                nextMonth = nextMonth + 2;
+                if(month<10)
+                {
+                    month = "0" + month;
+                }
+
+                if(nextMonth<10)
+                {
+                    nextMonth = "0" + nextMonth;
+                }
+                }
+                else
+                {
+                month = 12;
+                nextMonth = "0" + 1;
+                nextYear = year + 1;
+                }
+                
+                if(day < 10)
+                {
+                day = "0" + day;
+                }
+                
+                this.today = year + "-" + month + "-" + day;
+                this.minDate = nextYear + "-" + nextMonth + "-01";
+                console.log("today " + this.today);
+                console.log("minDate " + this.minDate);
+            },
+
             eventHandler(event) {
                 this.checkEvent = event;
                 this.driverPerHari=[];
@@ -502,7 +545,7 @@
                 this.hariJadwalPengirimanGas = days[new Date(event.tanggal).getDay()];
                 this.readTotalAlokasiHarian(this.hariJadwalPengirimanGas);
 
-                if(event.jumlah_alokasi>this.total_alokasi_harian)
+                if(event.jumlah_alokasi>this.total_alokasi_harian && event.tanggal_pengambilan_gas>=this.minDate)
                     this.buttonEdit = true;
 
                 // if(event.jumlah_alokasi>2760)
@@ -969,7 +1012,7 @@
             this.readJadwal();
             this.$refs.calendar.checkChange();
             localStorage.setItem("menu", "Kalender Jadwal Pengiriman Gas");
-
+            this.setDate();
             this.readTotalAlokasiHarian("Senin");
         },
     }

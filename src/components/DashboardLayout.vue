@@ -103,7 +103,12 @@
       </div>
     </v-navigation-drawer>
 
-    <v-navigation-drawer v-else v-model="drawer" app>
+    <v-navigation-drawer 
+      v-else 
+      v-model="drawer" 
+      app
+      style="height:100%"
+      color="#196b4d">
       <div class="">
         <v-sheet color="#ffffff" class="pa-4">
           <div class="text-center mt-4">
@@ -124,10 +129,10 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -143,10 +148,10 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -162,10 +167,10 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
@@ -182,10 +187,10 @@
                   link
                   tag="router-link"
                   :to="item.to"
-                  color="#1B3963"
+                  color="#ffffff"
                   style="margin-top: 10px"
                 >
-                  <v-list-item-icon>
+                  <v-list-item-icon v-if="isCurrentRoute(item.to)">
                     <v-icon dark>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">

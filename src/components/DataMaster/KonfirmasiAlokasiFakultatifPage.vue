@@ -171,6 +171,8 @@
       return {
         color: "",
         itemId: "",
+        today: "",
+        minDate: "",
         alert: true,
         search: null,
         overlay: false,
@@ -216,6 +218,47 @@
     },
 
     methods: {
+      setDate() {
+        this.today = new Date;
+        console.log("today " + this.today);
+        let day = this.today.getDate();
+        console.log("day " + day);
+        let month = this.today.getMonth();
+        let nextMonth = month;
+        let year = this.today.getFullYear();
+        let nextYear = year;
+        if(month!=11)
+        {
+          month = month + 1;
+          nextMonth = nextMonth + 2;
+          if(month<10)
+          {
+            month = "0" + month;
+          }
+
+          if(nextMonth<10)
+          {
+            nextMonth = "0" + nextMonth;
+          }
+        }
+        else
+        {
+          month = 12;
+          nextMonth = "0" + 1;
+          nextYear = year + 1;
+        }
+        
+        if(day < 10)
+        {
+          day = "0" + day;
+        }
+        
+        this.today = year + "-" + month + "-" + day;
+        this.minDate = nextYear + "-" + nextMonth + "-01";
+        console.log("today " + this.today);
+        console.log("minDate " + this.minDate);
+      },
+      
       readData() {
         this.overlay = true;
 
@@ -225,8 +268,13 @@
             if(response.data.code == 200)
             {
               var res = response.data.data;
-              this.fakultatifs = res;
-              this.permintaanFakultatif = res.length;
+              res.forEach(element => {
+                if(element.tanggal_penambahan_alokasi >= this.minDate)
+                {
+                  this.fakultatifs = [...this.fakultatifs, element];
+                }
+              });
+              this.permintaanFakultatif = this.fakultatifs.length;
 
               this.color = "green";
               this.snackbar = true;
@@ -343,6 +391,7 @@
     
     mounted() {
       localStorage.setItem("menu", "Alokasi Fakultatif");
+      this.setDate();
       this.readData();
     },
   };

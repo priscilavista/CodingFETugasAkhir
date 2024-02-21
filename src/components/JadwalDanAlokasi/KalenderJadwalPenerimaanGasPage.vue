@@ -136,7 +136,7 @@
                                     lg="6"
                                 >
                                     <v-card>
-                                        <v-card-title style="width:150px" class="subheading font-weight-bold">
+                                        <v-card-title style="width:270px" class="subheading font-weight-bold">
                                             {{ item.nama_driver }} 
                                         </v-card-title>
 
