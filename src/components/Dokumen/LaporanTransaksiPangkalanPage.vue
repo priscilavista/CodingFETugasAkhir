@@ -324,7 +324,9 @@
 </template>
 
 <script>
-    import html2PDF from "jspdf-html2canvas";
+    import html2canvas from 'html2canvas';
+    import jsPDF from 'jspdf';
+    import 'jspdf-autotable';
 
     export default {
         name: "LaporanTransaksiPangkalanPage",
@@ -576,20 +578,34 @@
                 this.overlay = true;
 
                 report = document.getElementById("LaporanTransaksiPangkalan");
-                reportName = "Laporan Transaksi Pangkalan_" + this.form.nama_pangkalan + "_" + this.form.bulan + "_" + this.form.tahun;
+                reportName = "Laporan Transaksi Pangkalan_" + this.form.nama_pangkalan + "_" + this.form.bulan_transaksi + "_" + this.form.tahun_transaksi;
 
-                html2PDF(report, {
-                    imageType: "image/jpeg",
-                    jsPDF: { format: "a4", },
-                    output: reportName + ".pdf",
-                    html2canvas: { scrollX: 0, scrollY: 0, },
-                    margin: { top: 0, right: 0, bottom: 0, left: -2.5, },
+                html2canvas(report).then((canvas) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF();
+                    const imgWidth = 210;
+                    const pageHeight = 295;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+
+                    pdf.save(reportName + '.pdf');
+
+                    this.close();
+                    this.resetForm();
+                    this.overlay = false;
+                    location.reload();
                 });
-
-                this.close();
-                this.overlay = false;
-                this.resetForm();
-                location.reload();
             },
             
             resetData() {
