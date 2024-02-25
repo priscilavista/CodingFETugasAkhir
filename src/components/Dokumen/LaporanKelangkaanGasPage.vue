@@ -76,7 +76,6 @@
                     <v-spacer />
                     <v-btn small color="primary" dark style="float:right; margin-top: 3%;margin-right:3%" @click="cetak">Cetak</v-btn>
                     <v-spacer />
-
                     <span id="LaporanKelangkaanGas">
                         <v-card-text style="padding:30px; margin-top: 3%">
                             <h2 style="margin-top:7.5px;padding-bottom:40px">Laporan Kelangkaan Gas Periode {{ form.bulan }} Tahun {{ form.tahun }}</h2>
@@ -97,7 +96,7 @@
                                 </v-col>
 
                                 <v-col
-                                    md="2"
+                                    md="3"
                                     cols="6"
                                 >
                                     <v-card
@@ -111,7 +110,7 @@
                                 </v-col>
 
                                 <v-col
-                                    md="2"
+                                    md="3"
                                     cols="6"
                                 >
                                     <v-card
@@ -152,7 +151,7 @@
                                     </v-card>
                                 </v-col>
 
-                                <v-col
+                                <!-- <v-col
                                     cols="6"
                                     md="2"
                                 >
@@ -164,7 +163,7 @@
                                     >
                                         <strong>Presentase</strong>
                                     </v-card>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
 
                             <v-row no-gutters
@@ -187,7 +186,7 @@
 
                                 <v-col
                                     cols="6"
-                                    md="2"
+                                    md="3"
                                 >
                                     <v-card
                                         class="pa-2"
@@ -201,7 +200,7 @@
 
                                 <v-col
                                     cols="6"
-                                    md="2"
+                                    md="3"
                                 >
                                     <v-card
                                         class="pa-2"
@@ -241,7 +240,7 @@
                                     </v-card>
                                 </v-col>
 
-                                <v-col
+                                <!-- <v-col
                                     cols="6"
                                     md="2"
                                 >
@@ -253,7 +252,7 @@
                                     >
                                         <span style="margin-left:5px">{{item.presentase}}%</span>
                                     </v-card>
-                                </v-col>
+                                </v-col> -->
                             </v-row>
                         </v-card-text>
                     </span>
@@ -422,7 +421,7 @@
                             {
                                 this.kelangkaan.push(
                                     {
-                                        presentase: 50,
+                                        // presentase: 50,
                                         no: parseInt(i) + parseInt(1),
                                         kecamatan: temp[i].nama_kecamatan, 
                                         kelurahan: temp[i].nama_kelurahan,
