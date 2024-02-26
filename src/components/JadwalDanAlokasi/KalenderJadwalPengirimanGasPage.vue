@@ -543,9 +543,14 @@
                 this.temp_tanggal = event.tanggal;
                 var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
                 this.hariJadwalPengirimanGas = days[new Date(event.tanggal).getDay()];
+                console.log(this.hariJadwalPengirimanGas);
                 this.readTotalAlokasiHarian(this.hariJadwalPengirimanGas);
+                console.log(this.total_alokasi_harian);
+                console.log(event.jumlah_alokasi);
+                console.log(event.tanggal);
+                console.log(this.minDate);
 
-                if(event.jumlah_alokasi>this.total_alokasi_harian && event.tanggal_pengambilan_gas>=this.minDate)
+                if(event.jumlah_alokasi>this.total_alokasi_harian && event.tanggal>=this.minDate)
                     this.buttonEdit = true;
 
                 // if(event.jumlah_alokasi>2760)
