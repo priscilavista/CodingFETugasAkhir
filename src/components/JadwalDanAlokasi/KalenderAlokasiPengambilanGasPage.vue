@@ -612,6 +612,7 @@
                 this.alokasi_pengambilan_gas.append("tanggal_pengambilan_gas", this.form.tanggal_pengambilan_gas);
                 this.alokasi_pengambilan_gas.append("jenis_alokasi_pengambilan_gas", this.form.jenis_alokasi_pengambilan_gas);
                 this.alokasi_pengambilan_gas.append("jumlah_alokasi_pengambilan_gas", this.form.jumlah_alokasi_pengambilan_gas);
+                this.alokasi_pengambilan_gas.append("status_alokasi_pengambilan_gas", 'P');
 
                 var url = this.$api + "/alokasiPengambilanGas/create";
                 this.$http.post(url, this.alokasi_pengambilan_gas)

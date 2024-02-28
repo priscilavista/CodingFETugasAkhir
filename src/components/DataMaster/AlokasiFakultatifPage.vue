@@ -626,11 +626,17 @@
               this.error_message = error.response.data.message;
             });
         }
-        else
+        else if(this.checkForm() === 1)
         {
           this.color = "red";
           this.snackbar = true;
           this.error_message = 'Data Tidak Lengkap!!';
+        }
+        else
+        {
+          this.color = "red";
+          this.snackbar = true;
+          this.error_message = 'Tanggal Tidak Boleh Sebelum ' + this.minDateMessage;
         }
       },
 
