@@ -83,8 +83,16 @@
                                             >
                                                 <template v-slot:activator="{ on }">
                                                     <div
-                                                        style="width: 92.5%; text-align:left; padding-left:5px"
-                                                        v-if="!event.time"
+                                                        style="width: 92.5%; text-align:left; padding-left:5px; background-color:#E91E63; color:#ffffff"
+                                                        v-if="event.title=='Reguler'"
+                                                        v-ripple
+                                                        class="my-event"
+                                                        v-on="on"
+                                                        v-html="event.jumlah_alokasi_pengambilan_gas + ' tabung'"
+                                                    />
+                                                    <div
+                                                        style="width: 92.5%; text-align:left; padding-left:5px; background-color:#F9A825; color:#ffffff"
+                                                        v-if="event.title=='Fakultatif'"
                                                         v-ripple
                                                         class="my-event"
                                                         v-on="on"
@@ -160,6 +168,37 @@
                                                                     style="text-align:left;"
                                                                 >
                                                                     <span style="margin-left:5px">{{ event.tanggal_pengambilan_gas }}</span>
+                                                                </v-card>
+                                                            </v-col>
+                                                        </v-row>
+
+                                                        <v-row no-gutters>
+                                                            <v-col
+                                                                cols="6"
+                                                                md="4"
+                                                            >
+                                                                <v-card
+                                                                    class="pa-2"
+                                                                    outlined
+                                                                    tile
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <strong style="margin-left:5px">Jenis</strong>
+                                                                </v-card>
+                                                            </v-col>
+
+                                                            <v-col
+                                                                cols="6"
+                                                                sm="6"
+                                                                md="8"
+                                                            >
+                                                                <v-card
+                                                                    class="pa-2"
+                                                                    outlined
+                                                                    tile
+                                                                    style="text-align:left;"
+                                                                >
+                                                                    <span style="margin-left:5px">{{ event.title }}</span>
                                                                 </v-card>
                                                             </v-col>
                                                         </v-row>
@@ -319,6 +358,8 @@
 
             readEvent() {
                 this.overlay = true;
+                var tempReguler = [];
+                var tempFakultatif = [];
 
                 var url = this.$api + "/jadwalPengambilanGas/getByDriver/" + localStorage.getItem('id');
                 this.$http.get(url)
@@ -327,22 +368,54 @@
                         {
                             let temp = response.data.data;
 
-                            for (let i = 0; i < temp.length; i++) 
+                            temp.forEach(element => {
+                                if(element.jenis_alokasi_pengambilan_gas == 'Reguler')
+                                {
+                                    tempReguler = [...tempReguler, element];
+                                }
+                                else
+                                {
+                                    tempFakultatif = [...tempFakultatif, element];
+                                }
+                            });
+
+                            for (let i = 0; i < tempReguler.length; i++) 
                             {
-                                if(i == 0 || this.searchDateJadwal(temp[i].tanggal_pengambilan_gas) == null)
+                                if(i == 0 || this.searchDateJadwal(tempReguler[i].tanggal_pengambilan_gas) == null)
                                 {
                                     this.events.push(
                                         {
-                                            jumlah_alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
-                                            nama_sppbe: temp[i].nama_sppbe,
-                                            tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
-                                            url_maps_sppbe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.3179886116654!2d110.60751207469967!3d-7.9660523793959435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7bb35c043e46a3%3A0xebf21f55d252602!2sSATRIA%20PERMANA%20JAYA.%20PT!5e0!3m2!1sen!2sid!4v1693234689734!5m2!1sen!2sid",
+                                            jumlah_alokasi_pengambilan_gas: parseInt(tempReguler[i].alokasi_pengambilan_gas),
+                                            nama_sppbe: tempReguler[i].nama_sppbe,
+                                            tanggal_pengambilan_gas: tempReguler[i].tanggal_pengambilan_gas,
+                                            url_maps_sppbe: tempReguler[i].url_maps_sppbe,
+                                            title: 'Reguler',
                                         }
                                     );
                                 }
                                 else
                                 {
-                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + parseInt(temp[i].alokasi_pengambilan_gas);
+                                    this.events[this.searchDateJadwal(tempReguler[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + parseInt(temp[i].alokasi_pengambilan_gas);
+                                }
+                            }
+
+                            for (let i = 0; i < tempFakultatif.length; i++) 
+                            {
+                                if(i == 0 || this.searchDateJadwal(tempFakultatif[i].tanggal_pengambilan_gas) == null)
+                                {
+                                    this.events.push(
+                                        {
+                                            jumlah_alokasi_pengambilan_gas: parseInt(tempFakultatif[i].alokasi_pengambilan_gas),
+                                            nama_sppbe: tempFakultatif[i].nama_sppbe,
+                                            tanggal_pengambilan_gas: tempFakultatif[i].tanggal_pengambilan_gas,
+                                            url_maps_sppbe: tempFakultatif[i].url_maps_sppbe,
+                                            title: 'Fakultatif',
+                                        }
+                                    );
+                                }
+                                else
+                                {
+                                    this.events[this.searchDateJadwal(tempFakultatif[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas)].jumlah_alokasi_pengambilan_gas + parseInt(temp[i].alokasi_pengambilan_gas);
                                 }
                             }
 

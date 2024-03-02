@@ -162,8 +162,11 @@
                                     lg="6"
                                 >
                                     <v-card>
-                                        <v-card-title style="width:200px" class="subheading font-weight-bold">
+                                        <v-card-title style="width:400px" class="subheading font-weight-bold">
                                             {{ item.nama_pegawai }}
+                                            <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-left: 15px;font-size: 20px">
+                                                mdi-pencil
+                                            </v-icon>
                                         </v-card-title>
 
                                         <v-divider />
@@ -270,6 +273,40 @@
             </v-card>
         </v-dialog>
 
+        <v-dialog v-model="dialog" persistent max-width="400px">
+            <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;">
+                <v-card-title>
+                <h3 style="font-size:20px; color:#ffffff">Ubah Driver</h3>
+                <v-spacer />
+                <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                    </template>
+                    <span>Tutup</span>
+                </v-tooltip>
+                </v-card-title>
+            </v-card>
+
+            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+                <v-card-text>
+                    <v-container>
+                        <v-select
+                        :rules="driverRules"
+                        v-model="form.id_pegawai"
+                        :items="drivers"
+                        item-text="nama_pegawai"
+                        item-value="id_pegawai"
+                        label="Driver"
+                        required
+                        />
+                        <v-spacer />
+                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="updateDriver">Simpan</v-btn>
+                        <v-spacer />
+                    </v-container>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
         <v-snackbar
             v-model="snackbarJadwal"
             :vertical="vertical"
@@ -325,6 +362,7 @@
                 itemsPerPage: 2,
                 snackbar: false,
                 dialogData: false,
+                dialog: false,
                 jadwalAlokasi: [],
                 error_message: "",
                 jadwalForEvent: [],
@@ -332,23 +370,16 @@
                 jadwalPerTanggal: [],
                 snackbarJadwal: false,
                 itemsPerPageArray: [2, 4, 8, 12],
+                drivers: [],
                 text: 'Alokasi sudah terpenuhi semua!',
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
-                SPPBERules: [(v) => !!v || "SPPBE Tidak Boleh Kosong"],
                 driverRules: [(v) => !!v || "Nama Driver Tidak Boleh Kosong"],
-                alokasiRules: [(v) => !!v || "Jumlah Alokasi Tidak Boleh Kosong"],
-                tanggalRules: [(v) => !!v || "Tanggal Alokasi Tidak Boleh Kosong"],
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
                 form: {
-                    id_sppbe: null,
-                    nama_sppbe: null,
+                    id_alokasi_pengambilan_gas: null,
                     id_pegawai: null,
-                    nama_pegawai: null,
-                    tanggal_pengambilan_gas: null,
-                    id_jadwal_pengambilan_gas: null,
                     alokasi_pengambilan_gas: null,
-                    alokasi_fakultatif_pengambilan_gas: null,
                 },
                 items: [
                     { 
@@ -480,11 +511,12 @@
                                         nama_sppbe: temp[i].nama_sppbe,
                                         nama_pegawai: temp[i].nama_pegawai,
                                         id_sppbe: parseInt(temp[i].SPPBEid_sppbe),
-                                        id_pegawai: parseInt(temp[i].Pegawaiid_pegawai),
+                                        id_pegawai: temp[i].Pegawaiid_pegawai,
+                                        id_alokasi_pengambilan_gas: temp[i].Alokasi_Pengambilan_Gasid_alokasi_pengambilan_gas,
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: parseInt(temp[i].id_jadwal_pengambilan_gas),
-                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_pengambilan_gas),
+                                        alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
                                     }
                                 );
                             }
@@ -608,9 +640,81 @@
                 this.dialogData = true;
             },
 
+            readDriver() {
+                this.overlay = true;
+                var url = this.$api + "/pegawai/getDriver";
+                this.$http.get(url)
+                .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.drivers = response.data.data;
+                        this.overlay = false;
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                })
+                .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                });
+            },
+
+            editHandler(item) {
+                this.dialog = true;
+                this.editId = item.id_jadwal_pengambilan_gas;
+                this.form.id_alokasi_pengambilan_gas = item.id_alokasi_pengambilan_gas;
+                this.form.id_pegawai = item.id_pegawai;
+                this.form.alokasi_pengambilan_gas = item.alokasi_pengambilan_gas;
+            },
+
+            updateDriver() {
+                this.overlay = true;
+                let newData = {
+                    Alokasi_Pengambilan_Gasid_alokasi_pengambilan_gas: this.form.id_alokasi_pengambilan_gas,
+                    Pegawaiid_pegawai: this.form.id_pegawai,
+                    alokasi_pengambilan_gas: this.form.alokasi_pengambilan_gas,
+                };
+
+                var url = this.$api + "/jadwalPengambilanGas/update/" + this.editId;
+                this.$http.put(url, newData)
+                    .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.close();
+                        this.readDataAlokasi();
+                        this.readDriver();
+                        this.resetForm();
+                        this.color = "green";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                        location.reload();
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                    })
+                    .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                    });
+            },
+
             close() {
                 this.resetForm();
-                this.inputType = "Tambah";
 
                 this.dialogConfirm = false;
                 this.dialogData = false;
@@ -619,20 +723,16 @@
 
             resetForm() {
                 this.form = {
-                    id_sppbe: null,
-                    nama_sppbe: null,
+                    id_alokasi_pengambilan_gas: null,
                     id_pegawai: null,
-                    nama_pegawai: null,
-                    tanggal_pengambilan_gas: null,
-                    id_jadwal_pengambilan_gas: null,
                     alokasi_pengambilan_gas: null,
-                    alokasi_fakultatif_pengambilan_gas: null,
                 };
             },
         },
 
         mounted() {
             this.readDataAlokasi();
+            this.readDriver();
             this.$refs.calendar.checkChange();
             localStorage.setItem("menu", "Kalender Jadwal Pengambilan Gas");
         },

@@ -201,7 +201,7 @@
                         <v-col cols="12" lg="6" md="8">
                             <span style="float:left">Tanggal Pengiriman: {{ this.hariJadwalPengirimanGas }}, {{ temp_tanggal }}</span>
                             <v-btn
-                                v-if="lihatPangkalan==true && this.buttonEdit==true"
+                                v-if="lihatPangkalan==true && this.buttonEdit==true && this.checkDriver.jenis_alokasi_pengambilan_gas=='Reguler'"
                                 small
                                 color="primary"
                                 dark
@@ -213,7 +213,7 @@
                             <br/>
                             <span v-if="lihatPangkalan==true" style="float:left">Alokasi Pengambilan Gas: {{ this.checkDriver.alokasi_pengambilan_gas }}</span>
                             <br/>
-                            <span v-if="lihatPangkalan==true" style="float:left">Grup Pangkalan: {{ this.pangkalanPerDriver[0].grup_pangkalan }} - {{ this.checkDriver.hari_penerimaan_gas }}</span>
+                            <span v-if="lihatPangkalan==true && this.checkDriver.jenis_alokasi_pengambilan_gas=='Reguler'" style="float:left">Grup Pangkalan: {{ this.pangkalanPerDriver[0].grup_pangkalan }} - {{ this.checkDriver.hari_penerimaan_gas }}</span>
                             <br/>
                             <v-card v-if="lihatPangkalan==true" fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%;">
                                 <v-data-table
@@ -607,6 +607,7 @@
                             id_jadwal_pengambilan_gas: this.jadwal[i].id_jadwal_pengambilan_gas,
                             grup_pangkalan: this.jadwal[i].grup_pangkalan,
                             hari_penerimaan_gas: this.jadwal[i].hari_penerimaan_gas,
+                            jenis_alokasi_pengambilan_gas: this.jadwal[i].jenis_alokasi_pengambilan_gas,
                         })
                     }
                 }
@@ -663,23 +664,23 @@
                 }
 
                 //jadwal pengiriman gas
-                for (let i = 0; i < this.jadwal.length; i++) 
+                for (let i = 0; i < this.jadwalForEvent.length; i++) 
                 {
-                    if(i==0 || this.searchDate(this.jadwal[i].tanggal_pengiriman_gas) == null)
+                    if(i==0 || this.searchDate(this.jadwalForEvent[i].tanggal_pengiriman_gas) == null)
                     {
                         this.tempEvents = [
                             ...this.tempEvents, 
                             {
-                                id: this.jadwal[i].id_jadwal_pengiriman_gas,
-                                tanggal: this.jadwal[i].tanggal_pengiriman_gas,
-                                jumlah_alokasi: this.jadwal[i].total_alokasi_pengiriman_gas,
+                                id: this.jadwalForEvent[i].id_jadwal_pengiriman_gas,
+                                tanggal: this.jadwalForEvent[i].tanggal_pengiriman_gas,
+                                jumlah_alokasi: this.jadwalForEvent[i].total_alokasi_pengiriman_gas,
                             }
                         ];
                     }
                     else
                     {
-                        let temp = this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].jumlah_alokasi + this.jadwal[i].total_alokasi_pengiriman_gas;
-                        this.tempEvents[this.searchDate(this.jadwal[i].tanggal_pengiriman_gas)].jumlah_alokasi = temp;
+                        let temp = this.tempEvents[this.searchDate(this.jadwalForEvent[i].tanggal_pengiriman_gas)].jumlah_alokasi + this.jadwalForEvent[i].total_alokasi_pengiriman_gas;
+                        this.tempEvents[this.searchDate(this.jadwalForEvent[i].tanggal_pengiriman_gas)].jumlah_alokasi = temp;
                     }
                 }
 
@@ -749,6 +750,70 @@
                                         alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: temp[i].id_jadwal_pengambilan_gas,
                                         hari_penerimaan_gas: temp[i].hari_penerimaan_gas,
+                                    },
+                                );
+                            }
+
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+
+                            this.readJadwalFakultatif();
+                            // this.readJadwalPengambilan();
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = error.response.data.message;
+                    });
+            },
+
+            readJadwalFakultatif()
+            {
+                this.overlay = true;
+                var url = this.$api + "/alokasiFakultatif/getAllApproved";
+                this.$http.get(url)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            let temp = response.data.data;
+
+                            for (let i = 0; i < temp.length; i++) 
+                            {
+                                this.jadwalForEvent.push(
+                                    {
+                                        tanggal_pengiriman_gas: temp[i].tanggal_penambahan_alokasi,
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_alokasi_fakultatif) + 1000,
+                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_tambahan),
+                                    }
+                                );
+                                
+                                this.jadwal.push(
+                                    {
+                                        nama_pegawai: temp[i].nama_pegawai,
+                                        nama_pangkalan: temp[i].nama_pangkalan,
+                                        id_pegawai: parseInt(temp[i].Pegawaiid_pegawai),
+                                        id_pangkalan: parseInt(temp[i].Pangkalanid_pangkalan),
+                                        tanggal_pengiriman_gas: temp[i].tanggal_penambahan_alokasi,
+                                        id_jadwal_pengiriman_gas: parseInt(temp[i].id_alokasi_fakultatif),
+                                        jenis_alokasi_pengambilan_gas: temp[i].jenis_alokasi_pengambilan_gas,
+                                        id_jadwal_rutin_pangkalan: '',
+                                        total_alokasi_pengiriman_gas: parseInt(temp[i].alokasi_tambahan),
+                                        grup_pangkalan: '',
+                                        alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
+                                        id_jadwal_pengambilan_gas: temp[i].id_jadwal_pengambilan_gas,
+                                        hari_penerimaan_gas: '',
                                     },
                                 );
                             }

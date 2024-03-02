@@ -83,8 +83,17 @@
                                             >
                                                 <template v-slot:activator="{ on }">
                                                     <div
-                                                        style="width: 92.5%; text-align:left; padding-left:5px"
-                                                        v-if="!event.time"
+                                                        style="width: 92.5%; text-align:left; padding-left:5px; background-color:#E91E63; color:#ffffff"
+                                                        v-if="event.title=='Reguler'"
+                                                        v-ripple
+                                                        class="my-event"
+                                                        v-on="on"
+                                                        v-html="event.alokasi_pengambilan_gas + ' Tabung (' + event.jenis_alokasi + ')'"
+                                                        @click="lihatDetail(event)"
+                                                    />
+                                                    <div
+                                                        style="width: 92.5%; text-align:left; padding-left:5px; background-color:#F9A825; color:#ffffff"
+                                                        v-if="event.title=='Fakultatif'"
                                                         v-ripple
                                                         class="my-event"
                                                         v-on="on"
@@ -360,7 +369,8 @@
                                             jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
                                             tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                             nama_pangkalan: temp[i].nama_pangkalan,
-                                            url_maps_pangkalan: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.3179886116654!2d110.60751207469967!3d-7.9660523793959435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7bb35c043e46a3%3A0xebf21f55d252602!2sSATRIA%20PERMANA%20JAYA.%20PT!5e0!3m2!1sen!2sid!4v1693234689734!5m2!1sen!2sid",
+                                            url_maps_pangkalan: temp[i].url_maps_pangkalan,
+                                            title: 'Reguler',
                                         }
                                     );
                                 }
@@ -375,14 +385,78 @@
                                         jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pangkalan: temp[i].nama_pangkalan,
-                                        url_maps_pangkalan: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.3179886116654!2d110.60751207469967!3d-7.9660523793959435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7bb35c043e46a3%3A0xebf21f55d252602!2sSATRIA%20PERMANA%20JAYA.%20PT!5e0!3m2!1sen!2sid!4v1693234689734!5m2!1sen!2sid",
+                                        url_maps_pangkalan: temp[i].url_maps_pangkalan,
                                     }
                                 )
                             }
 
+                            this.readJadwalFakultatif();
+
                             this.overlay = false;
                             this.color = "green";
                             this.snackbar = true;
+                            this.error_message = response.data.message;
+                        }
+                        else
+                        {
+                            this.color = "red";
+                            this.snackbar = true;
+                            this.overlay = false;
+                            this.error_message = response.data.message;
+                        }
+                    })
+                    .catch((error) => {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = error.response.data.message;
+                    });
+            },
+
+            readJadwalFakultatif()
+            {
+                this.overlay = true;
+                var url = this.$api + "/alokasiFakultatif/getAllApprovedByDriver/" + localStorage.getItem('id');
+                this.$http.get(url)
+                    .then((response) => {
+                        if(response.data.code == 200)
+                        {
+                            let temp = response.data.data;
+
+                            for (let i = 0; i < temp.length; i++) 
+                            {
+                                if(i == 0 || this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas) == null)
+                                {
+                                    this.events.push(
+                                        {
+                                            alokasi_pengambilan_gas: parseInt(temp[i].alokasi_tambahan),
+                                            jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
+                                            tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
+                                            nama_pangkalan: temp[i].nama_pangkalan,
+                                            url_maps_pangkalan: temp[i].url_maps_pangkalan,
+                                            title: 'Fakultatif',
+                                        }
+                                    );
+                                }
+                                else
+                                {
+                                    this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas = this.events[this.searchDateJadwal(temp[i].tanggal_pengambilan_gas, temp[i].jenis_alokasi_pengambilan_gas)].alokasi_pengambilan_gas + parseInt(temp[i].alokasi_tambahan);
+                                }
+
+                                this.fullEvents.push(
+                                    {
+                                        alokasi_pengambilan_gas: parseInt(temp[i].alokasi_tambahan),
+                                        jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
+                                        tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
+                                        nama_pangkalan: temp[i].nama_pangkalan,
+                                        url_maps_pangkalan: temp[i].url_maps_pangkalan,
+                                    }
+                                )
+                            }
+
+                            this.color = "green";
+                            this.snackbar = true;
+                            this.overlay = false;
                             this.error_message = response.data.message;
                         }
                         else
