@@ -54,7 +54,7 @@
       </v-card-title>
     </v-card>
 
-    <v-card style="border-radius: 0px 0px 4px 4px;width:350px;height:">
+    <v-card style="border-radius: 0px 0px 4px 4px;width:350px;">
       <v-card-text>
         <v-container v-if="isWideScreen" style="padding-left: 5px; padding-right: 5px; padding-bottom:30px">
           <v-row style="margin-top:-30px">

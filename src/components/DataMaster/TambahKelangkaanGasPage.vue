@@ -21,14 +21,14 @@
       <v-spacer />
     </div>
     
-    <v-card height="14%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+    <v-card height="14%" width="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
       <v-card-title>
         <h3 style="font-size:20px; color:#ffffff">Tambah Data Kelangkaan Gas</h3>
         <v-spacer />
       </v-card-title>
     </v-card>
 
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+    <v-card fill-height width="30%" class="flex-item" elevation="5" style="border-radius: 0px 0px 4px 4px; padding-bottom: 4%">
       <v-card-text>
         <v-container style="padding-left: 5px; padding-right: 5px">
           <v-text-field
