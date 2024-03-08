@@ -173,6 +173,13 @@
                                                 </v-list-item-content>
                                             </v-list-item>
 
+                                            <v-list-item>
+                                                <v-list-item-content>Tidak Terkirim:</v-list-item-content>
+                                                <v-list-item-content style="text-align: left">
+                                                    {{ item.gas_tidak_terkirim }} Tabung
+                                                </v-list-item-content>
+                                            </v-list-item>
+
                                             <iframe 
                                                 :src="item.url_maps_pangkalan" 
                                                 width="90%" 
@@ -386,6 +393,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pangkalan: temp[i].nama_pangkalan,
                                         url_maps_pangkalan: temp[i].url_maps_pangkalan,
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
                                     }
                                 )
                             }
@@ -450,6 +458,7 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         nama_pangkalan: temp[i].nama_pangkalan,
                                         url_maps_pangkalan: temp[i].url_maps_pangkalan,
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
                                     }
                                 )
                             }

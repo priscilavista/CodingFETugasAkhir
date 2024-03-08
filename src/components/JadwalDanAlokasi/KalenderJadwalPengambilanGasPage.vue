@@ -164,9 +164,14 @@
                                     <v-card>
                                         <v-card-title style="width:400px" class="subheading font-weight-bold">
                                             {{ item.nama_pegawai }}
-                                            <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-left: 15px;font-size: 20px">
-                                                mdi-pencil
-                                            </v-icon>
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-left: 15px;font-size: 20px">
+                                                        mdi-pencil
+                                                    </v-icon>
+                                                </template>
+                                                <span>Ganti Driver</span>
+                                            </v-tooltip>
                                         </v-card-title>
 
                                         <v-divider />

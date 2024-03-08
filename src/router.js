@@ -179,6 +179,19 @@ const router = new VueRouter({
                   else next({ name: "LoginPage" });
               },
             },
+            //Gas Tidak Terkirim
+            {
+              path: "/gas-tidak-terkirim-page",
+              name: "Gas Tidak Terkirim",
+              meta: { 
+                title: "GasTidakTerkirimPage" ,
+              },
+              component: importComponent("JadwalDanAlokasi/GasTidakTerkirimPage"),
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
+            },
             //Kalender Alokasi Pengambilan Gas
             {
               path: "/kalender-alokasi-pengambilan-gas-page",

@@ -146,7 +146,15 @@
                                 >
                                     <v-card>
                                         <v-card-title style="width:270px" class="subheading font-weight-bold">
-                                            {{ item.nama_driver }} 
+                                            {{ item.nama_driver }}
+                                            <v-tooltip v-if="item.status_gas_tidak_terkirim==='D'" top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-left: 15px;font-size: 20px">
+                                                        mdi-cart-minus
+                                                    </v-icon>
+                                                </template>
+                                                <span>Lapor Gas Tidak Terkirim</span>
+                                            </v-tooltip>
                                         </v-card-title>
 
                                         <v-divider />
@@ -170,6 +178,23 @@
                                                 <v-list-item-content>Alokasi:</v-list-item-content>
                                                 <v-list-item-content style="text-align: left">
                                                     {{ item.total_alokasi_penerimaan_gas }} Tabung
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item>
+                                                <v-list-item-content>Tidak Terkirim:</v-list-item-content>
+                                                <v-list-item-content style="text-align: left">
+                                                    {{ item.gas_tidak_terkirim }} Tabung
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                            <v-list-item v-if="item.status_gas_tidak_terkirim!=='D'">
+                                                <v-list-item-content>Status:</v-list-item-content>
+                                                <v-list-item-content v-if="item.status_gas_tidak_terkirim==='R'" style="text-align: left">
+                                                    Menunggu Admin
+                                                </v-list-item-content>
+                                                <v-list-item-content v-else style="text-align: left">
+                                                    Sudah Dikonfirmasi
                                                 </v-list-item-content>
                                             </v-list-item>
                                         </v-list>
@@ -250,6 +275,37 @@
             </v-card>
         </v-dialog>
 
+        <v-dialog v-model="dialogRequest" persistent max-width="400px">
+            <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;">
+                <v-card-title>
+                <h3 style="font-size:20px; color:#ffffff">Lapor Gas Tidak Terkirim</h3>
+                <v-spacer />
+                <v-tooltip left>
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                    </template>
+                    <span>Tutup</span>
+                </v-tooltip>
+                </v-card-title>
+            </v-card>
+
+            <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 6.5%">
+                <v-card-text>
+                    <v-container>
+                        <v-text-field
+                            :rules="jumlahRules"
+                            v-model="form.gas_tidak_terkirim"
+                            label="Jumlah Gas Tidak Terkirim"
+                            type="number"
+                        />
+                        <v-spacer />
+                        <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="update">Simpan</v-btn>
+                        <v-spacer />
+                    </v-container>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
         <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
         <v-overlay :value="overlay" class="align-center justify-center" style="zIndex: 100000">
@@ -279,16 +335,33 @@
                 events: [],
                 type: 'month',
                 dialog: false,
+                dialogRequest: false,
                 fullEvents: [],
                 overlay: false,
                 snackbar: false,
                 itemsPerPage: 2,
                 error_message: "",
+                editId: "",
                 jadwalPerTanggal: [],
                 itemsPerPageArray: [2, 4, 8, 12],
                 isWideScreen: window.innerWidth >= 1000,
                 start: new Date().toISOString().slice(0, 10),
                 isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+                jumlahRules: [(v) => !!v || "Jumlah Gas Tidak Boleh Kosong"],
+                form: {
+                    jenis_alokasi: null,
+                    id_jadwal_pengiriman_gas: null,
+                    Jadwal_Tetap_Pangkalanid_kitir_pangkalan: null,
+                    Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: null,
+                    gas_tidak_terkirim: null,
+                    status_gas_tidak_terkirim: null,
+                    id_alokasi_fakultatif: null,
+                    Pangkalanid_pangkalan: null,
+                    tanggal_pengajuan: null,
+                    tanggal_penambahan_alokasi: null,
+                    alokasi_tambahan: null,
+                    status_persetujuan_pangkalan: null,
+                },
                 items: [
                     { 
                         text: "Dashboard",
@@ -377,6 +450,17 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         total_alokasi_penerimaan_gas: parseInt(temp[i].alokasi_penerimaan_gas),
                                         jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
+                                        status_gas_tidak_terkirim: temp[i].status_gas_tidak_terkirim,
+                                        id_jadwal_pengiriman_gas: temp[i].id_jadwal_pengiriman_gas,
+                                        Jadwal_Tetap_Pangkalanid_kitir_pangkalan: temp[i].Jadwal_Tetap_Pangkalanid_kitir_pangkalan,
+                                        Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: temp[i].Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas,
+                                        id_alokasi_fakultatif: '',
+                                        Pangkalanid_pangkalan: '',
+                                        tanggal_pengajuan: '',
+                                        tanggal_penambahan_alokasi: '',
+                                        alokasi_tambahan: '',
+                                        status_persetujuan_pangkalan: '',
                                     }
                                 )
                             }
@@ -439,6 +523,17 @@
                                         tanggal_pengambilan_gas: temp[i].tanggal_pengambilan_gas,
                                         total_alokasi_penerimaan_gas: parseInt(temp[i].alokasi_tambahan),
                                         jenis_alokasi: temp[i].jenis_alokasi_pengambilan_gas,
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
+                                        status_gas_tidak_terkirim: temp[i].status_gas_tidak_terkirim,
+                                        Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: temp[i].Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas,
+                                        id_alokasi_fakultatif: temp[i].id_alokasi_fakultatif,
+                                        Pangkalanid_pangkalan: temp[i].Pangkalanid_pangkalan,
+                                        tanggal_pengajuan: temp[i].tanggal_pengajuan,
+                                        tanggal_penambahan_alokasi: temp[i].tanggal_penambahan_alokasi,
+                                        alokasi_tambahan: temp[i].alokasi_tambahan,
+                                        status_persetujuan_pangkalan: temp[i].status_persetujuan_pangkalan,
+                                        id_jadwal_pengiriman_gas: '',
+                                        Jadwal_Tetap_Pangkalanid_kitir_pangkalan: '',
                                     }
                                 )
                             }
@@ -498,6 +593,119 @@
                 }
             },
 
+            editHandler(item) {
+                if(item.jenis_alokasi === 'Reguler')
+                {
+                    this.editId = item.id_jadwal_pengiriman_gas;
+                }
+                else
+                {
+                    this.editId = item.id_alokasi_fakultatif;
+                }
+                this.form.jenis_alokasi= item.jenis_alokasi;
+                this.form.id_jadwal_pengiriman_gas= item.id_jadwal_pengiriman_gas;
+                this.form.Jadwal_Tetap_Pangkalanid_kitir_pangkalan= item.Jadwal_Tetap_Pangkalanid_kitir_pangkalan;
+                this.form.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas= item.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas;
+                this.form.gas_tidak_terkirim= item.gas_tidak_terkirim;
+                this.form.status_gas_tidak_terkirim= item.status_gas_tidak_terkirim;
+                this.form.id_alokasi_fakultatif= item.id_alokasi_fakultatif;
+                this.form.Pangkalanid_pangkalan= item.Pangkalanid_pangkalan;
+                this.form.tanggal_pengajuan= item.tanggal_pengajuan;
+                this.form.tanggal_penambahan_alokasi= item.tanggal_penambahan_alokasi;
+                this.form.alokasi_tambahan= item.alokasi_tambahan;
+                this.form.status_persetujuan_pangkalan= item.status_persetujuan_pangkalan;
+                this.dialogRequest = true;
+            },
+
+            update()
+            {
+                if(this.form.jenis_alokasi==='Reguler')
+                {
+                    this.updateReguler();
+                }
+                else
+                {
+                    this.updateFakultatif();
+                }
+            },
+
+            updateReguler() {
+                this.overlay = true;
+                let newData = {
+                    id_jadwal_pengiriman_gas: this.form.id_jadwal_pengiriman_gas,
+                    Jadwal_Tetap_Pangkalanid_kitir_pangkalan: this.form.Jadwal_Tetap_Pangkalanid_kitir_pangkalan,
+                    Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: this.form.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas,
+                    gas_tidak_terkirim: this.form.gas_tidak_terkirim,
+                    status_gas_tidak_terkirim: 'R',
+                };
+
+                var url = this.$api + "/jadwalPengirimanGas/update/" + this.editId;
+                this.$http.put(url, newData)
+                    .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.close();
+                        this.readEvent();
+                        this.resetForm();
+                        this.color = "green";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                        location.reload();
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                    })
+                    .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                    });
+            },
+
+            updateFakultatif() {
+                this.overlay = true;
+                let newData = {
+                    gas_tidak_terkirim: this.form.gas_tidak_terkirim,
+                    status_gas_tidak_terkirim: 'R',
+                };
+
+                var url = this.$api + "/alokasiFakultatif/updateStatus/" + this.editId;
+                this.$http.put(url, newData)
+                    .then((response) => {
+                    if(response.data.code === 200)
+                    {
+                        this.close();
+                        this.readEvent();
+                        this.resetForm();
+                        this.color = "green";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                        location.reload();
+                    }
+                    else
+                    {
+                        this.color = "red";
+                        this.snackbar = true;
+                        this.overlay = false;
+                        this.error_message = response.data.message;
+                    }
+                    })
+                    .catch((error) => {
+                    this.color = "red";
+                    this.snackbar = true;
+                    this.overlay = false;
+                    this.error_message = error.response.data.message;
+                    });
+            },
+
             lihatDetail(event)
             {
                 this.jadwalPerTanggal = [];
@@ -512,6 +720,31 @@
 
                 this.dialog = true;
             },
+
+            close() {
+                this.resetForm();
+
+                this.dialogRequest = false;
+                this.dialog = false;
+            },
+
+            resetForm()
+            {
+                this.form = {
+                    jenis_alokasi: null,
+                    id_jadwal_pengiriman_gas: null,
+                    Jadwal_Tetap_Pangkalanid_kitir_pangkalan: null,
+                    Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: null,
+                    gas_tidak_terkirim: null,
+                    status_gas_tidak_terkirim: null,
+                    id_alokasi_fakultatif: null,
+                    Pangkalanid_pangkalan: null,
+                    tanggal_pengajuan: null,
+                    tanggal_penambahan_alokasi: null,
+                    alokasi_tambahan: null,
+                    status_persetujuan_pangkalan: null,
+                }
+            }
         },
 
         mounted() {

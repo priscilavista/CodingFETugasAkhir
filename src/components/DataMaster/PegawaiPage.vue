@@ -143,6 +143,12 @@
             />
 
             <v-text-field
+              :rules="ktpRules"
+              v-model="form.nomor_ktp_pegawai"
+              label="Nomor KTP"
+            />
+
+            <v-text-field
               :rules="emailRules"
               v-model="form.email_pegawai"
               label="Email"
@@ -250,6 +256,7 @@
           { text: "Jabatan", align: "start", sortable: true, value: "role_pegawai", },
           { text: "Nama", value: "nama_pegawai" },
           { text: "Tanggal Lahir", value: "tanggal_lahir_pegawai" },
+          { text: "Nomor KTP", value: "nomor_ktp_pegawai" },
           { text: "Email", value: "email_pegawai" },
           { text: "Nomor Telepon", value: "nomor_telepon_pegawai" },
           { text: "Status", value: "status_pegawai" },
@@ -260,12 +267,14 @@
           role_pegawai: null,
           nama_pegawai: null,
           tanggal_lahir_pegawai: null,
+          nomor_ktp_pegawai: null,
           email_pegawai: null,
           nomor_telepon_pegawai: null,
           status_pegawai: null,
         },
         roleRules: [(v) => !!v || "Role Tidak Boleh Kosong"],
         namaRules: [(v) => !!v || "Nama Tidak Boleh Kosong"],
+        ktpRules: [(v) => !!v || "Nomor KTP Tidak Boleh Kosong"],
         ttlRules: [(v) => !!v || "Tanggal Lahir Tidak Boleh Kosong"],
         emailRules: [
           (v) => !!v || "Email Tidak Boleh Kosong",
@@ -327,6 +336,7 @@
           this.pegawai.append("role_pegawai", this.form.role_pegawai);
           this.pegawai.append("nama_pegawai", this.form.nama_pegawai);
           this.pegawai.append("email_pegawai", this.form.email_pegawai);
+          this.pegawai.append("nomor_ktp_pegawai", this.form.nomor_ktp_pegawai);
           this.pegawai.append("tanggal_lahir_pegawai", this.form.tanggal_lahir_pegawai);
           this.pegawai.append("nomor_telepon_pegawai", this.form.nomor_telepon_pegawai);
 
@@ -376,6 +386,7 @@
             role_pegawai: this.form.role_pegawai,
             nama_pegawai: this.form.nama_pegawai,
             email_pegawai: this.form.email_pegawai,
+            nomor_ktp_pegawai: this.form.nomor_ktp_pegawai,
             tanggal_lahir_pegawai: this.form.tanggal_lahir_pegawai,
             nomor_telepon_pegawai: this.form.nomor_telepon_pegawai,
           };
@@ -467,6 +478,11 @@
           return 1;
         }
 
+        if(this.form.nomor_ktp_pegawai === null || this.form.nomor_ktp_pegawai === '')
+        {
+          return 1;
+        }
+
         if(this.form.tanggal_lahir_pegawai === null || this.form.tanggal_lahir_pegawai === '')
         {
           return 1;
@@ -487,6 +503,7 @@
         this.form.role_pegawai = item.role_pegawai;
         this.form.nama_pegawai = item.nama_pegawai;
         this.form.email_pegawai = item.email_pegawai;
+        this.form.nomor_ktp_pegawai = item.nomor_ktp_pegawai;
         this.form.tanggal_lahir_pegawai = item.tanggal_lahir_pegawai;
         this.form.nomor_telepon_pegawai = item.nomor_telepon_pegawai;
       },
@@ -510,6 +527,7 @@
           role_pegawai: null,
           nama_pegawai: null,
           email_pegawai: null,
+          nomor_ktp_pegawai: null,
           status_pegawai: null,
           tanggal_lahir_pegawai: null,
           nomor_telepon_pegawai: null,

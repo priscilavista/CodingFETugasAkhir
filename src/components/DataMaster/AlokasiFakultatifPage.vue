@@ -394,6 +394,8 @@
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
           id_jadwal_pengambilan_gas: null,
+          gas_tidak_terkirim: null,
+          status_gas_tidak_terkirim: null,
         },
         alokasiRules: [(v) => !!v || "Alokasi Tidak Boleh Kosong"],
         pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
@@ -538,6 +540,8 @@
           this.fakultatif.append("Pangkalanid_pangkalan", this.form.id_pangkalan);
           this.fakultatif.append("tanggal_pengajuan", this.today);
           this.fakultatif.append("tanggal_penambahan_alokasi", this.form.tanggal_penambahan_alokasi);
+          this.fakultatif.append("gas_tidak_terkirim", 0);
+          this.fakultatif.append("status_gas_tidak_terkirim", 'D');
 
           var url = this.$api + "/alokasiFakultatif/create";
           this.$http.post(url, this.fakultatif)
@@ -594,6 +598,8 @@
             tanggal_penambahan_alokasi: this.form.tanggal_penambahan_alokasi,
             status_persetujuan_pangkalan: this.form.status_persetujuan_pangkalan,
             Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas: this.form.id_jadwal_pengambilan_gas,
+            gas_tidak_terkirim: 0,
+            status_gas_tidak_terkirim: 'D',
           };
 
           var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
@@ -715,6 +721,8 @@
         this.form.tanggal_penambahan_alokasi = item.tanggal_penambahan_alokasi;
         this.form.status_persetujuan_pangkalan = item.status_persetujuan_pangkalan;
         this.form.id_jadwal_pengambilan_gas = parseInt(item.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas);
+        this.form.gas_tidak_terkirim = item.gas_tidak_terkirim;
+        this.form.status_gas_tidak_terkirim = item.status_gas_tidak_terkirim;
         console.log(this.form.tanggal_penambahan_alokasi);
         
         this.dialog = true;
@@ -742,6 +750,8 @@
           tanggal_penambahan_alokasi: null,
           status_persetujuan_pangkalan: null,
           id_jadwal_pengambilan_gas: null,
+          gas_tidak_terkirim: null,
+          status_gas_tidak_terkirim: null,
         };
       },
     },

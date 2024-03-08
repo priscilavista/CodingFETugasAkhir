@@ -466,6 +466,7 @@
           { title: "SPPBE", icon: "mdi-warehouse", to: "/sppbe-page" },
           { title: "Data Transaksi", icon: "mdi-cash-register", to: "/transaksi-page" },
           { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/alokasi-pengambilan-gas-page" },
+          { title: "Gas Tidak Terkirim", icon: "mdi-cart-minus", to: "/gas-tidak-terkirim-page" },
           { title: "Surat Kuasa", icon: "mdi-email-newsletter", to: "/surat-kuasa-pengambilan-gas-page" },
         ],
         routeD: [

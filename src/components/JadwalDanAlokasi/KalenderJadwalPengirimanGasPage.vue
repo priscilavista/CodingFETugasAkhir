@@ -297,6 +297,12 @@
                             label="Driver yang Bertugas"
                             readonly
                         />
+
+                        <v-text-field
+                            v-model="form.gas_tidak_terkirim"
+                            label="Tidak Terkirim"
+                            readonly
+                        />
                     </v-container>
                 </v-card-text>
             </v-card>
@@ -473,6 +479,8 @@
                     jenis_alokasi_pengiriman_gas: null,
                     grup_pangkalan: null,
                     hari_penerimaan_gas: null,
+                    gas_tidak_terkirim: null,
+                    status_gas_tidak_terkirim: null,
                 },
             }
         },
@@ -750,6 +758,8 @@
                                         alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: temp[i].id_jadwal_pengambilan_gas,
                                         hari_penerimaan_gas: temp[i].hari_penerimaan_gas,
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
+                                        status_gas_tidak_terkirim: temp[i].status_gas_tidak_terkirim,
                                     },
                                 );
                             }
@@ -814,6 +824,8 @@
                                         alokasi_pengambilan_gas: temp[i].alokasi_pengambilan_gas,
                                         id_jadwal_pengambilan_gas: temp[i].id_jadwal_pengambilan_gas,
                                         hari_penerimaan_gas: '',
+                                        gas_tidak_terkirim: temp[i].gas_tidak_terkirim,
+                                        status_gas_tidak_terkirim: temp[i].status_gas_tidak_terkirim,
                                     },
                                 );
                             }
@@ -989,6 +1001,8 @@
                     'hari_penerimaan_gas': this.form.hari_penerimaan_gas, 
                     'grup_pangkalan': this.form.grup_pangkalan,
                     'id_jadwal_pengambilan_gas': this.checkDriver.id_jadwal_pengambilan_gas,
+                    'gas_tidak_terkirim': 0,
+                    'status_gas_tidak_terkirim': 'D',
                 };
 
                 this.$http.post(url, body)
@@ -1034,6 +1048,8 @@
                 this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
                 this.form.total_alokasi_pengiriman_gas = item.total_alokasi_pengiriman_gas;
                 this.form.jenis_alokasi_pengiriman_gas = item.jenis_alokasi_pengambilan_gas;
+                this.form.gas_tidak_terkirim = item.gas_tidak_terkirim;
+                this.form.status_gas_tidak_terkirim = item.status_gas_tidak_terkirim;
 
                 this.dialogData = false;
                 this.dialog = true;
