@@ -601,7 +601,7 @@
 
       editHandler(item) {
         this.overlay = true;
-        this.inputType = "Edit";
+        this.inputType = "Ubah";
         this.getDataKecamatan();
         this.editId = item.id_sppbe;
         var url = this.$api + "/sppbe/getById";

@@ -387,6 +387,10 @@
             if(response.data.code === 200)
             {
               this.kecamatan = response.data.data;
+              this.color = "green";
+              this.snackbar = true;
+              this.overlay = false;
+              this.error_message = response.data.message;
             }
             else
             {
@@ -621,7 +625,7 @@
 
       editHandler(item) {
         this.overlay = true;
-        this.inputType = "Edit";
+        this.inputType = "Ubah";
         this.getDataKecamatan();
         this.editId = item.id_pangkalan;
         var url = this.$api + "/pangkalan/getById";

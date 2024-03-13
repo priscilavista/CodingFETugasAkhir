@@ -151,7 +151,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-show="item.tanggal_transaksi < this.minDate || item.tanggal_transaksi >= this.maxDate" v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -159,7 +159,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-show="item.tanggal_transaksi < this.minDate || item.tanggal_transaksi >= this.maxDate" v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error">
+                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error">
                       mdi-file-document-remove
                     </v-icon>
                   </template>
@@ -418,6 +418,18 @@
         console.log("minDate " + this.minDate);
       },
 
+      checkDate(item)
+      {
+        if(item.tanggal_transaksi >= this.minDate || item.tanggal_transaksi < this.maxDate)
+        {
+          return 1;
+        }
+        else
+        {
+          return 0;
+        }
+      },
+
       readData() {
         this.overlay = true;
         var url = this.$api + "/transaksi/postBySearchData";
@@ -433,7 +445,7 @@
             {
               var res = response.data.data;
               this.transaksis = res;
-              
+              console.log(this.transaksis[0].tanggal_transaksi);
               this.color = "green";
               this.snackbar = true;
               this.overlay = false;
@@ -750,8 +762,8 @@
     },
 
     mounted() {
-      this.readData();
       this.setDate();
+      this.readData();
       this.readDataBulan();
       this.readDataTahun();
       localStorage.setItem("menu", "Transaksi");
