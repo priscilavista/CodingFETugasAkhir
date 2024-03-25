@@ -22,7 +22,6 @@
     </div>
     
     <v-alert
-      v-if="this.checkStock()==1"
       v-model="alert"
       dismissible
       color="primary"
