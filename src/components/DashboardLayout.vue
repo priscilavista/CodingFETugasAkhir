@@ -471,9 +471,9 @@
         ],
         routeD: [
           { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
-          { title: "Jadwal Pengambilan Gas Driver", icon: "mdi-calendar-check", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
-          { title: "Jadwal Pengiriman Gas Driver", icon: "mdi-calendar-clock", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
-          { title: "Gas Bocor Driver", icon: "mdi-gas-cylinder", to: "/gas-bocor-page" },
+          { title: "Jadwal Pengambilan Gas", icon: "mdi-calendar-check", to: "/kalender-jadwal-pengambilan-gas-driver-page" },
+          { title: "Jadwal Pengiriman Gas", icon: "mdi-calendar-clock", to: "/kalender-jadwal-pengiriman-gas-driver-page" },
+          { title: "Gas Bocor", icon: "mdi-gas-cylinder", to: "/gas-bocor-page" },
         ],
         routeM: [
           { title: "Dashboard", icon: "mdi-chart-line", to: "/dashboard-page" },
