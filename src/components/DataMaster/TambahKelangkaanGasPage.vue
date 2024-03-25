@@ -21,14 +21,28 @@
       <v-spacer />
     </div>
     
-    <v-card height="14%" width="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
+    <v-alert
+      v-if="this.checkStock()==1"
+      v-model="alert"
+      dismissible
+      color="primary"
+      border="left"
+      elevation="2"
+      colored-border
+      icon="mdi-bell"
+      style="align:right; padding:5px 15px 5px 15px; text-align: left; margin-top:-5px"
+    >
+      Stok gas anda masih ada <strong>{{ stock }}</strong> tabung.
+    </v-alert>
+
+    <v-card v-if="this.checkStock()==0" height="14%" width="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
       <v-card-title>
         <h3 style="font-size:20px; color:#ffffff">Tambah Data Kelangkaan Gas</h3>
         <v-spacer />
       </v-card-title>
     </v-card>
 
-    <v-card fill-height width="30%" class="flex-item" elevation="5" style="border-radius: 0px 0px 4px 4px; padding-bottom: 4%">
+    <v-card v-if="this.checkStock()==0" fill-height width="30%" class="flex-item" elevation="5" style="border-radius: 0px 0px 4px 4px; padding-bottom: 4%">
       <v-card-text>
         <v-container style="padding-left: 5px; padding-right: 5px">
           <v-text-field
@@ -124,6 +138,7 @@
         dialog: false,
         overlay: false,
         snackbar: false,
+        stock: 0,
         error_message: "",
         kelangkaanGas: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
@@ -186,6 +201,42 @@
           });
       },
 
+      checkStock()
+      {
+        if(this.stock > 0)
+          return 1;
+        else
+          return 0;
+      },
+
+      getStock()
+      {
+        this.overlay = true;
+        var url = this.$api + "/stokBulananPangkalan/getLastStockByPangkalan/" + localStorage.getItem('id');
+        this.$http.get(url)
+        .then((response) => {
+            if(response.data.code === 200)
+            {
+                this.stock = response.data.data.stok_akhir_bulan_pangkalan;
+                console.log("cek stok ", this.stock);
+                this.overlay = false;
+            }
+            else
+            {
+                this.color = "red";
+                this.snackbar = true;
+                this.overlay = false;
+                this.error_message = response.data.message;
+            }
+        })
+        .catch((error) => {
+            this.color = "red";
+            this.snackbar = true;
+            this.overlay = false;
+            this.error_message = error.response.data.message;
+        });
+      },
+
       close() {
         this.dialog = false;
         this.resetForm();
@@ -233,6 +284,7 @@
 
     mounted() {
       localStorage.setItem("menu", "Tambah Kelangkaan Gas");
+      this.getStock();
     },
   };
 </script>

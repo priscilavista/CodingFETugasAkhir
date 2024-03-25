@@ -65,7 +65,7 @@
               height="300px"
             >
               <template v-slot:default>
-                <thead>
+                <!-- <thead>
                   <tr>
                     <th style="font-size:15px" class="text-center">
                       Grup
@@ -78,29 +78,35 @@
                     </th>
                     <th style="font-size:15px" class="text-center" />
                   </tr>
-                </thead>
+                </thead> -->
 
                 <tbody>
                   <tr
-                    v-for="jadwal in convertJadwal(item.day)"
-                    :key="jadwal.Pangkalanid_pangkalan"
+                    v-for="grup in grupPangkalan"
+                    :key="grup.nomor"
                   >
-                    <td>{{ jadwal.grup_pangkalan }}</td>
-                    <td>{{ jadwal.nama_pangkalan }}</td>
-                    <td>{{ jadwal.alokasi_penerimaan_gas }}</td>
+                    <td>Grup {{ grup.nomor }}</td>
+                    <!-- <td>{{ jadwal.nama_pangkalan }}</td>
+                    <td>{{ jadwal.alokasi_penerimaan_gas }}</td> -->
                     <td>
                       <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on" small @click="detailHandler(item.day,grup.nomor)" color="primary" style="margin-right: 5px;">mdi-arrow-expand</v-icon>
+                        </template>
+                        <span>Detail Data</span>
+                      </v-tooltip>
+                      <!-- <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
                           <v-icon v-bind="attrs" v-on="on" small @click="editHandler(jadwal)" color="primary" style="margin-right: 5px;">mdi-pencil</v-icon>
                         </template>
                         <span>Edit Data</span>
-                      </v-tooltip>
-                      <v-tooltip top>
+                      </v-tooltip> -->
+                      <!-- <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
                           <v-icon v-bind="attrs" v-on="on" small @click="deleteHandler(jadwal.id_jadwal_rutin_pangkalan)" color="error" style="margin-left:5px">mdi-delete</v-icon>
                         </template>
                         <span>Hapus Data</span>
-                      </v-tooltip>
+                      </v-tooltip> -->
                     </td>
                   </tr>
                 </tbody>
@@ -118,7 +124,7 @@
           <v-spacer />
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
-              <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
             </template>
             <span>Tutup</span>
           </v-tooltip>
@@ -129,6 +135,7 @@
         <v-card-text>
           <v-container style="padding-left: 5px; padding-right: 5px">
             <v-select
+              v-if="this.inputType=='Tambah'"
               :rules="hariRules"
               v-model="form.hari_penerimaan_gas"
               :items="hari"
@@ -139,6 +146,31 @@
             />
 
             <v-select
+              v-else
+              readonly
+              :rules="hariRules"
+              v-model="form.hari_penerimaan_gas"
+              :items="hari"
+              item-text="day"
+              item-value="day"
+              label="Hari Penerimaan Gas"
+              required
+            />
+
+            <v-select
+              v-if="this.inputType=='Tambah'"
+              :rules="grupRules"
+              v-model="form.grup_pangkalan"
+              :items="grupPangkalan"
+              item-text="nomor"
+              item-value="nomor"
+              label="Grup Pangkalan"
+              required
+            />
+
+            <v-select
+              v-else
+              readonly
               :rules="grupRules"
               v-model="form.grup_pangkalan"
               :items="grupPangkalan"
@@ -172,6 +204,65 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    
+    <v-dialog v-model="dialogDetail" persistent max-width="800px">
+      <v-card>
+        <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
+          <v-card-title >
+            <h3 style="font-size:20px; color:#ffffff">Detail Jadwal Pangkalan</h3>
+            <v-spacer />
+            <v-tooltip left>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon v-bind="attrs" v-on="on" @click="cancel" style="font-size: 28px" link color="error">mdi-close</v-icon>
+              </template>
+              <span>Tutup</span>
+            </v-tooltip>
+          </v-card-title>
+        </v-card>
+        <v-card class="flex-item mx-auto" elevation="5" width="80%">
+          <v-card-title class="text-right" style="display: inherit;">
+            <v-text-field
+              v-if="isWideScreen"
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Cari"
+              single-line
+              hide-details
+              style="margin-left: 75%; width: 25%;"
+            />
+          </v-card-title>
+
+          <v-data-table
+            :headers="headers"
+            :items="jadwalPerHari"
+            :search="search"
+            style="padding: 10px 20px 20px 20px"
+          >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-menu offset-y style="float: left">
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on" style="cursor: pointer">
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-bind="attrs" v-on="on" small @click="editHandler(item)" color="primary" style="margin-right: 5px;">mdi-pencil</v-icon>
+                      </template>
+                      <span>Edit Data</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-icon v-bind="attrs" v-on="on" small @click="deleteHandler(item)" color="error" style="margin-left:5px">mdi-delete</v-icon>
+                      </template>
+                      <span>Hapus Data</span>
+                    </v-tooltip>
+                  </span>
+                </template>
+              </v-menu>
+            </template>
+          </v-data-table>
+        </v-card>
+        <br>
+      </v-card>
+    </v-dialog>
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
@@ -181,7 +272,7 @@
             <v-spacer />
             <v-tooltip left>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon v-bind="attrs" v-on="on" @click="dialogConfirm = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
               </template>
               <span>Tutup</span>
             </v-tooltip>
@@ -237,11 +328,13 @@
         search: null,
         deleteId: "",
         dialog: false,
+        dialogDetail: false,
         pangkalan: [],
         jumlahDriver: null,
         overlay: false,
         snackbar: false,
         jadwaltemp : [],
+        jadwalPerHari : [],
         error_message: "",
         grupPangkalan: [],
         inputType: "Tambah",
@@ -249,6 +342,13 @@
         jadwal: new FormData(),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
+        headers: [
+          { text: "Pangkalan", align: "start", sortable: true, value: "nama_pangkalan", },
+          { text: "Hari", value: "hari_penerimaan_gas" },
+          { text: "Grup Pangkalan", value: "grup_pangkalan" },
+          { text: "Alokasi Penerimaan", value: "alokasi_penerimaan_gas" },
+          { text: "", value: "actions", sortable: false },
+        ],
         items: [
           { text: "Dashboard", disabled: false, href: '/dashboard-page' },
           { text: "Jadwal Rutin Pangkalan", disabled: true, href: '/jadwal-rutin-pangkalan-page' },
@@ -262,6 +362,14 @@
           { id: 6, day: "Sabtu", style: { 'background-color': 'purple' } },
         ],
         form: {
+          nama_pangkalan: null,
+          grup_pangkalan: null,
+          hari_penerimaan_gas: null,
+          Pangkalanid_pangkalan: null,
+          alokasi_penerimaan_gas: null,
+          id_jadwal_rutin_pangkalan: null,
+        },
+        formBefore: {
           nama_pangkalan: null,
           grup_pangkalan: null,
           hari_penerimaan_gas: null,
@@ -309,17 +417,29 @@
         }
       },
 
-      readData() {
+      detailHandler(day,grup)
+      {
+        this.readData(day,grup);
+        this.dialogDetail = true;
+      },
+
+      readData(day,grup) {
+        this.jadwalPerHari= [],
         this.overlay = true;
-        var url = this.$api + "/jadwalRutinPangkalan/getAll";
-        this.$http.get(url)
+        // var url = this.$api + "/jadwalRutinPangkalan/getAll";
+        var url = this.$api + "/jadwalRutinPangkalan/PostBySearchData";
+        var body = { 
+            'hari_penerimaan_gas': day, 
+            'grup_pangkalan': grup,
+        };
+        this.$http.post(url,body)
           .then((response) => {
             if(response.data.code === 200)
             {
               this.color = "green";
               this.snackbar = true;
               this.overlay = false;
-              this.jadwaltemp = response.data.data;
+              this.jadwalPerHari = response.data.data;
               this.error_message = response.data.message;
             }
             else
@@ -399,6 +519,7 @@
           this.jadwal.append("Pangkalanid_pangkalan", parseInt(this.form.Pangkalanid_pangkalan));
           this.jadwal.append("hari_penerimaan_gas", this.form.hari_penerimaan_gas);
           this.jadwal.append("alokasi_penerimaan_gas", this.form.alokasi_penerimaan_gas);
+          this.jadwal.append("status_jadwal_rutin_pangkalan", "A");
 
           var url = this.$api + "/jadwalRutinPangkalan/create";
           this.$http.post(url, this.jadwal)
@@ -443,10 +564,11 @@
         {
           this.overlay = true;
           let newData = {
-            grup_pangkalan: this.form.grup_pangkalan,
-            hari_penerimaan_gas: this.form.hari_penerimaan_gas,
-            Pangkalanid_pangkalan: parseInt(this.form.Pangkalanid_pangkalan),
-            alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
+            grup_pangkalan: this.formBefore.grup_pangkalan,
+            hari_penerimaan_gas: this.formBefore.hari_penerimaan_gas,
+            Pangkalanid_pangkalan: parseInt(this.formBefore.Pangkalanid_pangkalan),
+            alokasi_penerimaan_gas: this.formBefore.alokasi_penerimaan_gas,
+            status_jadwal_rutin_pangkalan: 'D',
           };
 
           var url = this.$api + "/jadwalRutinPangkalan/update/" + this.editId;
@@ -454,14 +576,15 @@
             .then((response) => {
               if(response.data.code === 200)
               {
-                this.cancel();
-                this.resetForm();
-                this.color = "green";
-                this.snackbar = true;
-                this.inputType = "Tambah";
-                this.overlay = false;
-                this.error_message = response.data.message;
-                location.reload();
+                this.save();
+                // this.cancel();
+                // this.resetForm();
+                // this.color = "green";
+                // this.snackbar = true;
+                // this.inputType = "Tambah";
+                // this.overlay = false;
+                // this.error_message = response.data.message;
+                // location.reload();
               }
               else
               {
@@ -490,8 +613,17 @@
       //non aktif data jadwal
       deleteData() {
         this.overlay = true;
-        var url = this.$api + "/jadwalRutinPangkalan/delete/" + this.deleteId;
-        this.$http.delete(url)
+        // var url = this.$api + "/jadwalRutinPangkalan/delete/" + this.deleteId;
+        let newData = {
+          grup_pangkalan: this.form.grup_pangkalan,
+          hari_penerimaan_gas: this.form.hari_penerimaan_gas,
+          Pangkalanid_pangkalan: parseInt(this.form.Pangkalanid_pangkalan),
+          alokasi_penerimaan_gas: this.form.alokasi_penerimaan_gas,
+          status_jadwal_rutin_pangkalan: 'D',
+        };
+
+        var url = this.$api + "/jadwalRutinPangkalan/update/" + this.deleteId;
+        this.$http.put(url, newData)
           .then((response) => {
             if(response.data.code === 200)
             {
@@ -557,19 +689,40 @@
         this.readJumlahDriver();
         this.inputType = "Edit";
         this.editId = item.id_jadwal_rutin_pangkalan;
+        //  form edit
         this.form.nama_pangkalan = item.nama_pangkalan;
         this.form.grup_pangkalan = parseInt(item.grup_pangkalan);
         this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
         this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
         this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
         this.form.Pangkalanid_pangkalan = parseInt(item.Pangkalanid_pangkalan);
+        // data sebelumnya
+        this.formBefore.nama_pangkalan = item.nama_pangkalan;
+        this.formBefore.grup_pangkalan = parseInt(item.grup_pangkalan);
+        this.formBefore.hari_penerimaan_gas = item.hari_penerimaan_gas;
+        this.formBefore.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
+        this.formBefore.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
+        this.formBefore.Pangkalanid_pangkalan = parseInt(item.Pangkalanid_pangkalan);
 
         this.dialog = true;
       },
 
-      deleteHandler(id) {
-        this.deleteId = id;
+      deleteHandler(item) {
+        this.deleteId = item.id_jadwal_rutin_pangkalan;
+        this.form.nama_pangkalan = item.nama_pangkalan;
+        this.form.grup_pangkalan = parseInt(item.grup_pangkalan);
+        this.form.hari_penerimaan_gas = item.hari_penerimaan_gas;
+        this.form.alokasi_penerimaan_gas = item.alokasi_penerimaan_gas;
+        this.form.id_jadwal_rutin_pangkalan = item.id_jadwal_rutin_pangkalan;
+        this.form.Pangkalanid_pangkalan = parseInt(item.Pangkalanid_pangkalan);
         this.dialogConfirm = true;
+      },
+
+      closeDialog() {
+        this.resetForm();
+        this.dialogDetail = true;
+        this.dialog = false;
+        this.dialogConfirm = false;
       },
 
       cancel() {
@@ -577,6 +730,7 @@
         this.dialog = false;
         this.inputType = "Tambah";
         this.dialogConfirm = false;
+        this.dialogDetail = false;
       },
 
       resetForm() {
@@ -599,7 +753,8 @@
 
     mounted() {
       localStorage.setItem("menu", "Jadwal Rutin Pangkalan");
-      this.readData();
+      // this.readData();
+      this.readJumlahDriver();
     },
   };
 </script>

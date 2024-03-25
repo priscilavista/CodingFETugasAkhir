@@ -147,7 +147,7 @@
                                     <v-card>
                                         <v-card-title style="width:270px" class="subheading font-weight-bold">
                                             {{ item.nama_driver }}
-                                            <v-tooltip v-if="item.status_gas_tidak_terkirim==='D'" top>
+                                            <v-tooltip v-if="checkItem(item)==1" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-icon v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-left: 15px;font-size: 20px">
                                                         mdi-cart-minus
@@ -342,6 +342,7 @@
                 itemsPerPage: 2,
                 error_message: "",
                 editId: "",
+                today: "",
                 jadwalPerTanggal: [],
                 itemsPerPageArray: [2, 4, 8, 12],
                 isWideScreen: window.innerWidth >= 1000,
@@ -410,6 +411,37 @@
 
             updateItemsPerPage (number) {
                 this.itemsPerPage = number
+            },
+
+            setDate() {
+                this.today = new Date;
+                console.log("today " + this.today);
+                let day = this.today.getDate();
+                let month = this.today.getMonth();
+                console.log("month " + month);
+                let year = this.today.getFullYear();
+                month = month + 1;
+                if(month<10)
+                {
+                    month = "0" + month;
+                }
+                
+                if(day < 10)
+                {
+                    day = "0" + day;
+                }
+                
+                this.today = year + "-" + month + "-" + day;
+                console.log("today " + this.today);
+            },
+
+            checkItem(item)
+            {
+                console.log("cek ", item.tanggal_pengambilan_gas);
+                if(item.status_gas_tidak_terkirim==='D' && item.tanggal_pengambilan_gas <= this.today)
+                    return 1;
+                else
+                    return 0;
             },
 
             readEvent() {
@@ -749,6 +781,7 @@
 
         mounted() {
             this.readEvent();
+            this.setDate();
             this.$refs.calendar.checkChange()
             localStorage.setItem("menu", "Kalender Alokasi Pengambilan Gas");
         },
