@@ -251,6 +251,12 @@
               type="number"
               readonly
             />
+
+            <v-text-field
+              v-model="form.text_status_persetujuan_pangkalan"
+              label="Status Persetujuan"
+              readonly
+            />
           </v-container>
         </v-card-text>
       </v-card>
@@ -282,6 +288,12 @@
               type="number"
             />
 
+            <v-text-field
+              v-if="inputType === 'Edit'"
+              v-model="form.text_status_persetujuan_pangkalan"
+              label="Status Persetujuan"
+              readonly
+            />
             <v-spacer />
             <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
             <v-spacer />
@@ -396,6 +408,7 @@
           id_jadwal_pengambilan_gas: null,
           gas_tidak_terkirim: null,
           status_gas_tidak_terkirim: null,
+          text_status_persetujuan_pangkalan: null,
         },
         alokasiRules: [(v) => !!v || "Alokasi Tidak Boleh Kosong"],
         pangkalanRules: [(v) => !!v || "Pangkalan Tidak Boleh Kosong"],
@@ -723,7 +736,19 @@
         this.form.id_jadwal_pengambilan_gas = parseInt(item.Jadwal_Pengambilan_Gasid_jadwal_pengambilan_gas);
         this.form.gas_tidak_terkirim = item.gas_tidak_terkirim;
         this.form.status_gas_tidak_terkirim = item.status_gas_tidak_terkirim;
-        console.log(this.form.tanggal_penambahan_alokasi);
+        if(this.form.status_persetujuan_pangkalan === 'A')
+        {
+          this.form.text_status_persetujuan_pangkalan = 'Disetujui Pangkalan';
+        }
+        else if(this.form.status_persetujuan_pangkalan === 'P')
+        {
+          this.form.text_status_persetujuan_pangkalan = 'Belum Dikonfirmasi Pangkalan';
+        }
+        else
+        {
+          this.form.text_status_persetujuan_pangkalan = 'Ditolak Pangkalan';
+        }
+        console.log(this.form.text_status_persetujuan_pangkalan);
         
         this.dialog = true;
       },
@@ -752,6 +777,7 @@
           id_jadwal_pengambilan_gas: null,
           gas_tidak_terkirim: null,
           status_gas_tidak_terkirim: null,
+          text_status_persetujuan_pangkalan: null,
         };
       },
     },

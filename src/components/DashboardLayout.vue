@@ -467,6 +467,7 @@
           { title: "Data Transaksi", icon: "mdi-cash-register", to: "/transaksi-page" },
           { title: "Alokasi Pengambilan Gas", icon: "mdi-ballot", to: "/alokasi-pengambilan-gas-page" },
           { title: "Gas Tidak Terkirim", icon: "mdi-cart-minus", to: "/gas-tidak-terkirim-page" },
+          { title: "Gas Bocor", icon: "mdi-gas-station-off", to: "/admin-gas-bocor-page" },
           { title: "Surat Kuasa", icon: "mdi-email-newsletter", to: "/surat-kuasa-pengambilan-gas-page" },
         ],
         routeD: [

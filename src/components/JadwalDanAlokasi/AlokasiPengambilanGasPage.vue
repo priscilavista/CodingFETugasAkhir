@@ -320,7 +320,7 @@
         sppbe: [],
         bulan: [],
         tahun: [],
-        itemId: null,
+        itemId: "",
         search: null,
         alokasis: [],
         dialog: false,

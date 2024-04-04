@@ -192,6 +192,19 @@ const router = new VueRouter({
                   else next({ name: "LoginPage" });
               },
             },
+            //Gas Bocor Admin
+            {
+              path: "/admin-gas-bocor-page",
+              name: "Gas Bocor",
+              meta: { 
+                title: "GasBocorPage" ,
+              },
+              component: importComponent("DataMaster/GasBocorAdminPage"),
+              beforeEnter(to, from, next) {
+                  if (localStorage.getItem("token")) next();
+                  else next({ name: "LoginPage" });
+              },
+            },
             //Kalender Alokasi Pengambilan Gas
             {
               path: "/kalender-alokasi-pengambilan-gas-page",

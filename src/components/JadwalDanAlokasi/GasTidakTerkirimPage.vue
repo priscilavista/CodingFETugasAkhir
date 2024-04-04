@@ -308,6 +308,8 @@
       },
       readJadwalReguler() {
         this.overlay = true;
+        this.jadwalConfirm = [];
+        this.jadwalRequest = [];
 
         var url = this.$api + "/jadwalPengirimanGas/getRequest";
         this.$http.get(url)
@@ -341,17 +343,17 @@
                     alokasi_tambahan: '',
                     status_persetujuan_pangkalan: '',
                 },);
-
-                jadwal.forEach(element => {
-                  if(element.status_gas_tidak_terkirim === 'R')
-                  {
-                    this.jadwalRequest = [...this.jadwalRequest, element];
-                  }
-                  else{
-                    this.jadwalConfirm = [...this.jadwalConfirm, element];
-                  }
-                });
               }
+
+              jadwal.forEach(element => {
+                if(element.status_gas_tidak_terkirim === 'R')
+                {
+                  this.jadwalRequest = [...this.jadwalRequest, element];
+                }
+                else{
+                  this.jadwalConfirm = [...this.jadwalConfirm, element];
+                }
+              });
 
               this.color = "green";
               this.snackbar = true;
@@ -410,17 +412,17 @@
                     id_jadwal_pengiriman_gas: '',
                     Jadwal_Tetap_Pangkalanid_kitir_pangkalan: '',
                 },);
-
-                jadwal.forEach(element => {
-                  if(element.status_gas_tidak_terkirim === 'R')
-                  {
-                    this.jadwalRequest = [...this.jadwalRequest, element];
-                  }
-                  else{
-                    this.jadwalConfirm = [...this.jadwalConfirm, element];
-                  }
-                });
               }
+
+              jadwal.forEach(element => {
+                if(element.status_gas_tidak_terkirim === 'R')
+                {
+                  this.jadwalRequest = [...this.jadwalRequest, element];
+                }
+                else{
+                  this.jadwalConfirm = [...this.jadwalConfirm, element];
+                }
+              });
 
               this.color = "green";
               this.snackbar = true;
