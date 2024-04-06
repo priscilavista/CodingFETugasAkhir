@@ -129,7 +129,7 @@
             </v-app>
         </div>
         
-        <v-dialog v-model="dialogData" persistent max-width="600px">
+        <v-dialog v-model="dialogData" persistent max-width="600px" style="overflow-x: hidden !important;">
             <v-card height="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
@@ -144,7 +144,7 @@
             </v-card>
 
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 2.5%">
-                <v-container fluid>
+                <v-container>
                     <v-data-iterator
                         :items="jadwalPerTanggal"
                         :items-per-page.sync="itemsPerPage"
@@ -285,7 +285,7 @@
                 <v-spacer />
                 <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                    <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
                     </template>
                     <span>Tutup</span>
                 </v-tooltip>
@@ -454,6 +454,14 @@
                     .then((response) => {
                         if(response.data.code == 200)
                         {
+                            this.jadwalPerTanggal = [];
+                            this.jadwalForEvent = [];
+                            this.jadwalAlokasi = [];
+                            this.tempEvents = [];
+                            this.drivers = [];
+                            this.events = [];
+                            this.jadwal = [];
+
                             let temp = response.data.data;
 
                             for (let i = 0; i < temp.length; i++) 
@@ -672,6 +680,7 @@
             },
 
             editHandler(item) {
+                this.dialogData = false;
                 this.dialog = true;
                 this.editId = item.id_jadwal_pengambilan_gas;
                 this.form.id_alokasi_pengambilan_gas = item.id_alokasi_pengambilan_gas;
@@ -721,8 +730,15 @@
             close() {
                 this.resetForm();
 
+                this.itemsPerPage = 2;
                 this.dialogConfirm = false;
                 this.dialogData = false;
+                this.dialog = false;
+            },
+
+            closeDialog() {
+                this.resetForm();
+                this.dialogData = true;
                 this.dialog = false;
             },
 

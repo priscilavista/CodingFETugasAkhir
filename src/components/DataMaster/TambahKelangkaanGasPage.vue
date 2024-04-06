@@ -64,6 +64,31 @@
         </v-container>
       </v-card-text>
     </v-card>
+
+    <v-row v-else align="center" justify="center" class="mt-4">
+      <v-col cols="12" style="height: 570px;" align="center" justify="center" class="mt-2">
+        <v-img 
+          contain
+          width="75%"
+          height="75%"
+          :src="image"
+          style="margin-bottom: 50px"
+        />
+
+        <v-spacer x-large></v-spacer>
+
+        <v-typography 
+          :style="{
+            color: 'var(--Primary-One, #083A50)',
+            fontSize: '22px',
+            fontStyle: 'normal',
+            fontWeight: '525',
+          }"
+        >
+          Stok Gas Masih Tersedia, Mohon Ditransaksikan Dahulu Semua!
+        </v-typography>
+      </v-col>
+    </v-row>
     
     <v-dialog v-model="dialog" persistent max-width="800px">
       <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
@@ -140,6 +165,7 @@
         stock: 0,
         error_message: "",
         kelangkaanGas: new FormData(),
+        image: require("@/assets/in-stock.png"),
         isWideScreen: window.innerWidth >= 1000,
         isMediumScreen: window.innerWidth>= 650 && window.innerWidth < 1000,
         items: [

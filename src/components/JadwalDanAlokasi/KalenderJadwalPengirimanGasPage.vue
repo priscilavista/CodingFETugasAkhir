@@ -1028,10 +1028,10 @@
                 }
                 })
                 .catch((error) => {
-                this.color = "red";
-                this.overlay = false;
-                this.snackbar = true;
-                this.error_message = error.response.data.message;
+                    this.color = "red";
+                    this.overlay = false;
+                    this.snackbar = true;
+                    this.error_message = error.response.data.message;
                 });
             },
 
@@ -1057,11 +1057,6 @@
 
             close() {
                 this.resetForm();
-                this.checkDriver = "";
-                this.inputType = "Tambah";
-                this.pangkalanPerDriver = [];
-                this.readJadwal();
-
                 this.lihatPangkalan = false;
                 this.dialogConfirm = false;
                 this.dialogData = false;

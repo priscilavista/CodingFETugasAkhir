@@ -679,14 +679,15 @@
 
       addHandler(){
         this.readPangkalan();
-        this.readJumlahDriver();
+        // this.readJumlahDriver();
         
         this.dialog = true;
       },
       
       editHandler(item) {
         this.readPangkalan();
-        this.readJumlahDriver();
+        // this.readJumlahDriver();
+        this.dialogDetail = false;
         this.inputType = "Edit";
         this.editId = item.id_jadwal_rutin_pangkalan;
         //  form edit
@@ -720,7 +721,10 @@
 
       closeDialog() {
         this.resetForm();
-        this.dialogDetail = true;
+        if(this.formTitle !== 'Tambah')
+        {
+          this.dialogDetail = true;
+        }
         this.dialog = false;
         this.dialogConfirm = false;
       },

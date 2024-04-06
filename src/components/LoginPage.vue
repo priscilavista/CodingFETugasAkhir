@@ -28,63 +28,65 @@
                         max-width="90%"
                         max-height="100%"
                     >
-                        <v-card-text style="padding: 8%">
-                            <v-row>
-                                <v-col cols="6" />
-                                <v-col cols="6" style="padding: 0">
-                                    <v-img
-                                        contain
-                                        width="90%"
-                                        height="90%"
-                                        :src="image"
-                                        style="margin-left: 15%;"
+                        <v-form ref="form" lazy-validation @submit.prevent="login">
+                            <v-card-text style="padding: 8%">
+                                <v-row>
+                                    <v-col cols="6" />
+                                    <v-col cols="6" style="padding: 0">
+                                        <v-img
+                                            contain
+                                            width="90%"
+                                            height="90%"
+                                            :src="image"
+                                            style="margin-left: 15%;"
+                                        />
+                                    </v-col>
+                                </v-row>
+
+                                    <v-radio-group
+                                        row
+                                        v-model="role"
+                                        style="padding-bottom:20px"
+                                    >
+                                        <div v-for="(role, index) in roleData" :key="index">
+                                            <v-radio :label="role.label" :value="role.value" :key="index" />
+                                        </div>
+                                    </v-radio-group>
+
+                                    <v-text-field
+                                        required
+                                        type="email"
+                                        label="Email"
+                                        v-model="email"
+                                        :rules="emailRules"
+                                        style="margin-top: -10%"
+                                        @keydown.enter="login"
                                     />
-                                </v-col>
-                            </v-row>
+                                    
+                                    <v-text-field
+                                        counter
+                                        required
+                                        label="Password"
+                                        v-model="password"
+                                        :rules="passwordRules"
+                                        :type="showPassword ? 'text' : 'password'"
+                                        @click:append="showPassword = !showPassword"
+                                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                                        @keydown.enter="login"
+                                    />
+                            </v-card-text>
 
-                            <v-form ref="form" lazy-validation @submit.prevent="login">
-                                <v-radio-group
-                                    row
-                                    v-model="role"
-                                    style="padding-bottom:20px"
+                            <v-card-actions style="padding: 0% 8% 8% 8%">
+                                <v-btn
+                                    depressed
+                                    @click="login"
+                                    class="blue white--text justify-center align-center"
+                                    style="width: 100%; font-size: 90%; border: 10%; border-radius: 10px; font-weight: 4%; font-family: Calibri;"
                                 >
-                                    <div v-for="(role, index) in roleData" :key="index">
-                                        <v-radio :label="role.label" :value="role.value" :key="index" />
-                                    </div>
-                                </v-radio-group>
-
-                                <v-text-field
-                                    required
-                                    type="email"
-                                    label="Email"
-                                    v-model="email"
-                                    :rules="emailRules"
-                                    style="margin-top: -10%"
-                                />
-                                
-                                <v-text-field
-                                    counter
-                                    required
-                                    label="Password"
-                                    v-model="password"
-                                    :rules="passwordRules"
-                                    :type="showPassword ? 'text' : 'password'"
-                                    @click:append="showPassword = !showPassword"
-                                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                                />
-                            </v-form>
-                        </v-card-text>
-
-                        <v-card-actions style="padding: 0% 8% 8% 8%">
-                            <v-btn
-                                depressed
-                                @click="login"
-                                class="blue white--text justify-center align-center"
-                                style="width: 100%; font-size: 90%; border: 10%; border-radius: 10px; font-weight: 4%; font-family: Calibri;"
-                            >
-                                Masuk
-                            </v-btn>
-                        </v-card-actions>
+                                    Masuk
+                                </v-btn>
+                            </v-card-actions>
+                        </v-form>
 
                         <v-overlay :value="overlay">
                             <v-progress-circular indeterminate size="64" />

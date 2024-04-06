@@ -19,7 +19,7 @@
       <h3 style="float:left">Gas Tidak Terkirim</h3>
     </div>
 
-    <v-container style="padding: 0px 0px 12px 0px; margin-left:0px">
+    <div style="padding: 0px 0px 12px 0px; margin-left:0px">
       <v-row>
         <v-col
           cols="12"
@@ -31,7 +31,7 @@
               <h3 style="font-size:20px; color:#ffffff">Harus Diproses</h3>
             </v-card-title>
           </v-card>
-          <v-card fill-height class="flex-item mx-auto" elevation="5">
+          <v-card fill-height max-width="fit-content" class="flex-item mx-auto" elevation="5">
             <v-card-title class="text-right" style="display: inherit;">
               <v-text-field
                 v-if="isWideScreen"
@@ -66,7 +66,7 @@
                     <span v-bind="attrs" v-on="on" style="cursor: pointer">
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-bind="attrs" v-on="on" color="primary" @click="confirmHandler(item)" style="margin-right: 15px;">
+                          <v-icon v-bind="attrs" v-on="on" color="primary" @click="confirmHandler(item)" style="margin-right: 6px;">
                             mdi-check
                           </v-icon>
                         </template>
@@ -87,6 +87,7 @@
             </v-data-table>
           </v-card>
         </v-col>
+
         <v-col
           cols="12"
           sm="6"
@@ -130,7 +131,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
 
     <v-dialog v-model="dialogConfirm" persistent max-width="400px">
       <v-card>
@@ -251,10 +252,10 @@
           },
           { text: "Pangkalan", value: "nama_pangkalan" },
           { text: "Driver", value: "nama_driver" },
-          { text: "Jumlah Tidak Terkirim", value: "gas_tidak_terkirim" },
           { text: "Jumlah Alokasi", value: "total_alokasi_penerimaan_gas" },
-          { text: "Konfirmasi", value: "actions", sortable: false },
+          { text: "Jumlah Tidak Terkirim", value: "gas_tidak_terkirim" },
           { text: "Jenis", value: "jenis_alokasi_pengambilan_gas" },
+          { text: "Konfirmasi", value: "actions", sortable: false },
         ],
         headers2: [
           {

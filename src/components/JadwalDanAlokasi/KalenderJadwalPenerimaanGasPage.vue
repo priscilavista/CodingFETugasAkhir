@@ -119,7 +119,7 @@
                     <v-spacer />
                     <v-tooltip left>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-bind="attrs" v-on="on" @click="dialog = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                            <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
                         </template>
                         <span>Tutup</span>
                     </v-tooltip>
@@ -282,7 +282,7 @@
                 <v-spacer />
                 <v-tooltip left>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" @click="close" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                    <v-icon v-bind="attrs" v-on="on" @click="closeDialog" style="font-size: 28px" link color="error">mdi-close</v-icon>
                     </template>
                     <span>Tutup</span>
                 </v-tooltip>
@@ -626,6 +626,7 @@
             },
 
             editHandler(item) {
+                this.dialog = false;
                 if(item.jenis_alokasi === 'Reguler')
                 {
                     this.editId = item.id_jadwal_pengiriman_gas;
@@ -758,6 +759,12 @@
 
                 this.dialogRequest = false;
                 this.dialog = false;
+            },
+
+            closeDialog() {
+
+                this.dialogRequest = false;
+                this.dialog = true;
             },
 
             resetForm()

@@ -50,7 +50,7 @@
       </v-card-text>
     </v-card>
 
-    <v-container style="padding: 25px 0px 12px 0px; margin-left:0px">
+    <div style="padding: 25px 0px 12px 0px; margin-left:0px">
       <v-row>
         <v-col
           cols="12"
@@ -154,7 +154,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
 
     <v-dialog v-model="dialog" persistent max-width="800px">
       <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">

@@ -1,18 +1,5 @@
 <template>
   <v-main class="list" style="margin: auto;">
-    <v-alert
-      v-model="alert"
-      dismissible
-      color="primary"
-      border="left"
-      elevation="2"
-      colored-border
-      icon="mdi-bell"
-      style="align:right; padding:5px 15px 5px 15px; text-align: left; margin-top:-5px"
-    >
-      Anda menerima <strong>{{ permintaanFakultatif }}</strong> permintaan alokasi fakultatif.
-    </v-alert>
-
     <v-breadcrumbs
       :items="items"
       divider="/"
@@ -31,7 +18,20 @@
       <h3 style="float:left">Alokasi Fakultatif</h3>
     </div>
 
-    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
+    <v-alert
+      v-model="alert"
+      dismissible
+      color="primary"
+      border="left"
+      elevation="2"
+      colored-border
+      icon="mdi-bell"
+      style="align:right; padding:5px 15px 5px 15px; text-align: left; margin-top:-5px"
+    >
+      Anda menerima <strong>{{ permintaanFakultatif }}</strong> permintaan alokasi fakultatif.
+    </v-alert>
+
+    <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 2.5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
           v-if="isWideScreen"

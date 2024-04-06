@@ -21,7 +21,7 @@
       <v-spacer />
     </div>
 
-    <v-container style="padding: 0px 0px 12px 0px; margin-left:0px">
+    <div style="padding: 0px 0px 12px 0px; margin-left:0px">
       <v-row>
         <v-col
           cols="12"
@@ -109,7 +109,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </div>
 
     <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }}</v-snackbar>
 
