@@ -119,7 +119,7 @@
                     <v-spacer />
                     <v-tooltip left>
                         <template v-slot:activator="{ on, attrs }">
-                            <v-icon v-bind="attrs" v-on="on" @click="dialog = false" style="font-size: 28px" link color="error">mdi-close</v-icon>
+                            <v-icon v-bind="attrs" v-on="on" @click="dialog = false; itemsPerPage = 2" style="font-size: 28px" link color="error">mdi-close</v-icon>
                         </template>
                         <span>Tutup</span>
                     </v-tooltip>

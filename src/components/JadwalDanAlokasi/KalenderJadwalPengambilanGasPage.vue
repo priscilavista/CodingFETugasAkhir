@@ -129,7 +129,7 @@
             </v-app>
         </div>
         
-        <v-dialog v-model="dialogData" persistent max-width="600px" style="overflow-x: hidden !important;">
+        <v-dialog v-model="dialogData" persistent width="600px">
             <v-card height="30%" style="background: #196b4d; border-radius: 4px 4px 0px 0px">
                 <v-card-title>
                     <h3 style="font-size:20px; color:#ffffff">Detail Jadwal</h3>
@@ -144,7 +144,7 @@
             </v-card>
 
             <v-card style="border-radius: 0px 0px 4px 4px; padding-bottom: 2.5%">
-                <v-container>
+                <v-container fluid>
                     <v-data-iterator
                         :items="jadwalPerTanggal"
                         :items-per-page.sync="itemsPerPage"
@@ -162,7 +162,7 @@
                                     lg="6"
                                 >
                                     <v-card>
-                                        <v-card-title style="width:400px" class="subheading font-weight-bold">
+                                        <v-card-title style="width:270px" class="subheading font-weight-bold">
                                             {{ item.nama_pegawai }}
                                             <v-tooltip top>
                                                 <template v-slot:activator="{ on, attrs }">
