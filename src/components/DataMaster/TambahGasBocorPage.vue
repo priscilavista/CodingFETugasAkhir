@@ -98,7 +98,7 @@
                     <span v-bind="attrs" v-on="on" style="cursor: pointer">
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-show="item.status_tabung == 'C'" v-bind="attrs" v-on="on" @click="updateHandler(item)" color="primary" style="margin-right: 15px;">
+                          <v-icon v-show="item.status_tabung == 'C'" v-bind="attrs" v-on="on" @click="updateHandler(item)" color="primary" style="margin-right: 15px; font-size: 20px">
                             mdi-check
                           </v-icon>
                         </template>

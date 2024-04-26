@@ -91,7 +91,7 @@
                     <td>
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-bind="attrs" v-on="on" small @click="detailHandler(item.day,grup.nomor)" color="primary" style="margin-right: 5px;">mdi-arrow-expand</v-icon>
+                          <v-icon v-bind="attrs" v-on="on" small @click="detailHandler(item.day,grup.nomor)" color="primary" style="margin-right: 5px; font-size: 20px">mdi-arrow-expand</v-icon>
                         </template>
                         <span>Detail Data</span>
                       </v-tooltip>
@@ -205,7 +205,7 @@
       </v-card>
     </v-dialog>
     
-    <v-dialog v-model="dialogDetail" persistent max-width="800px">
+    <v-dialog v-model="dialogDetail" persistent max-width="1000px">
       <v-card>
         <v-card height="20%" style="background: #196b4d; border-radius: 4px 4px 0px 0px;margin-bottom:20px">
           <v-card-title >
@@ -219,7 +219,7 @@
             </v-tooltip>
           </v-card-title>
         </v-card>
-        <v-card class="flex-item mx-auto" elevation="5" width="80%">
+        <v-card class="flex-item mx-auto" elevation="5" width="90%">
           <v-card-title class="text-right" style="display: inherit;">
             <v-text-field
               v-if="isWideScreen"
@@ -244,13 +244,13 @@
                   <span v-bind="attrs" v-on="on" style="cursor: pointer">
                     <v-tooltip top>
                       <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" v-on="on" small @click="editHandler(item)" color="primary" style="margin-right: 5px;">mdi-pencil</v-icon>
+                        <v-icon v-bind="attrs" v-on="on" small @click="editHandler(item)" color="primary" style="margin-right: 5px; font-size: 20px">mdi-pencil</v-icon>
                       </template>
                       <span>Edit Data</span>
                     </v-tooltip>
                     <v-tooltip top>
                       <template v-slot:activator="{ on, attrs }">
-                        <v-icon v-bind="attrs" v-on="on" small @click="deleteHandler(item)" color="error" style="margin-left:5px">mdi-delete</v-icon>
+                        <v-icon v-bind="attrs" v-on="on" small @click="deleteHandler(item)" color="error" style="margin-left:5px; font-size: 20px">mdi-delete</v-icon>
                       </template>
                       <span>Hapus Data</span>
                     </v-tooltip>

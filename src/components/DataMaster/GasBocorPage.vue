@@ -56,7 +56,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-show="item.status_tabung==='R'" v-bind="attrs" v-on="on" color="primary" @click="deleteHandler(item)" style="margin-right: 15px;">
+                    <v-icon v-show="item.status_tabung==='R'" v-bind="attrs" v-on="on" color="primary" @click="deleteHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-check
                     </v-icon>
                   </template>
@@ -64,7 +64,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-show="item.status_tabung==='R'" v-bind="attrs" v-on="on" color="primary" @click="rejectHandler(item)" style="margin-right: 15px;">
+                    <v-icon v-show="item.status_tabung==='R'" v-bind="attrs" v-on="on" color="primary" @click="rejectHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-close
                     </v-icon>
                   </template>

@@ -151,7 +151,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px;">
+                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="editHandler(item)" color="primary" style="margin-right: 15px; font-size: 20px">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -159,7 +159,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error">
+                    <v-icon v-if="checkDate(item)==1" v-bind="attrs" v-on="on" @click="deleteHandler(item)" color="error" style="font-size: 20px">
                       mdi-file-document-remove
                     </v-icon>
                   </template>

@@ -84,7 +84,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-arrow-expand
                     </v-icon>
                   </template>
@@ -133,7 +133,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-pencil
                     </v-icon>
                   </template>
@@ -141,7 +141,7 @@
                 </v-tooltip>
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" @click="deleteHandler(item.id_alokasi_fakultatif)" color="error">
+                    <v-icon v-bind="attrs" v-on="on" @click="deleteHandler(item.id_alokasi_fakultatif)" color="error" style="font-size: 20px">
                       mdi-file-document-remove
                     </v-icon>
                   </template>
@@ -190,7 +190,7 @@
               <span v-bind="attrs" v-on="on" style="cursor: pointer">
                 <v-tooltip top>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px;">
+                    <v-icon v-bind="attrs" v-on="on" color="primary" @click="editHandler(item)" style="margin-right: 15px; font-size: 20px">
                       mdi-arrow-expand
                     </v-icon>
                   </template>

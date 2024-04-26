@@ -34,7 +34,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -53,7 +53,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -72,7 +72,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -92,7 +92,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -133,7 +133,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -152,7 +152,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -171,7 +171,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -191,7 +191,7 @@
                   style="margin-top: 10px"
                 >
                   <v-list-item-icon v-if="isCurrentRoute(item.to)">
-                    <v-icon dark>{{ item.icon }}</v-icon>
+                    <v-icon dark style="font-size: 20px">{{ item.icon }}</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content style="text-align: left">
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -220,7 +220,7 @@
             style="cursor: pointer"
             class=""
           >
-            <v-icon size="20" @click="getDataUser" link color="ffffff" class="mr-2">mdi-account-circle</v-icon>
+            <v-icon size="20" style="font-size: 20px" @click="getDataUser" link color="ffffff" class="mr-2">mdi-account-circle</v-icon>
           </span>
         </template> 
 
@@ -235,7 +235,7 @@
             style="cursor: pointer"
             class=""
           >
-            <v-icon size="20" @click="dialogPassword = true" link color="ffffff" class="mr-2">mdi-lock-reset</v-icon>
+            <v-icon size="20" style="font-size: 20px" @click="dialogPassword = true" link color="ffffff" class="mr-2">mdi-lock-reset</v-icon>
           </span>
         </template> 
 
@@ -250,7 +250,7 @@
             style="cursor: pointer"
             class=""
           >
-            <v-icon size="20" @click="dialogLogout = true" link color="ffffff">mdi-logout</v-icon>
+            <v-icon size="20" style="font-size: 20px" @click="dialogLogout = true" link color="ffffff">mdi-logout</v-icon>
           </span>
         </template> 
 
