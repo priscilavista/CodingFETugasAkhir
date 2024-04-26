@@ -458,7 +458,6 @@
                             this.jadwalForEvent = [];
                             this.jadwalAlokasi = [];
                             this.tempEvents = [];
-                            this.drivers = [];
                             this.events = [];
                             this.jadwal = [];
 
