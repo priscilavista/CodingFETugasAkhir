@@ -288,9 +288,7 @@
     methods: {
         setDate() {
         this.today = new Date;
-        console.log("today " + this.today);
         let day = this.today.getDate();
-        console.log("day " + day);
         let month = this.today.getMonth();
         let year = this.today.getFullYear();
         if(month<10)
@@ -305,7 +303,6 @@
         }
         
         this.today = year + "-" + month + "-" + day;
-        console.log(this.today);
       },
       readJadwalReguler() {
         this.overlay = true;

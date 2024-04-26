@@ -243,7 +243,6 @@
             if(response.data.code === 200)
             {
                 this.stock = response.data.data.stok_akhir_bulan_pangkalan;
-                console.log("cek stok ", this.stock);
                 this.overlay = false;
             }
             else

@@ -505,9 +505,7 @@
 
             setDate() {
                 this.today = new Date;
-                console.log("today " + this.today);
                 let day = this.today.getDate();
-                console.log("day " + day);
                 let month = this.today.getMonth();
                 let nextMonth = month;
                 let year = this.today.getFullYear();
@@ -540,8 +538,6 @@
                 
                 this.today = year + "-" + month + "-" + day;
                 this.minDate = nextYear + "-" + nextMonth + "-01";
-                console.log("today " + this.today);
-                console.log("minDate " + this.minDate);
             },
 
             eventHandler(event) {
@@ -551,12 +547,7 @@
                 this.temp_tanggal = event.tanggal;
                 var days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
                 this.hariJadwalPengirimanGas = days[new Date(event.tanggal).getDay()];
-                console.log(this.hariJadwalPengirimanGas);
                 this.readTotalAlokasiHarian(this.hariJadwalPengirimanGas);
-                console.log(this.total_alokasi_harian);
-                console.log(event.jumlah_alokasi);
-                console.log(event.tanggal);
-                console.log(this.minDate);
 
                 if(event.jumlah_alokasi>this.total_alokasi_harian && event.tanggal>=this.minDate)
                     this.buttonEdit = true;
@@ -867,7 +858,6 @@
                     {
                         let temp = response.data.data;
                         this.grup_pangkalan = temp;
-                        console.log("grup ", this.grup_pangkalan[0].grup_pangkalan);
                         
                         this.color = "green";
                         this.snackbar = true;

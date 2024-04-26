@@ -430,9 +430,7 @@
 
       setDate() {
         this.today = new Date;
-        console.log("today " + this.today);
         let day = this.today.getDate();
-        console.log("day " + day);
         let month = this.today.getMonth();
         let nextMonth = month;
         let year = this.today.getFullYear();
@@ -466,9 +464,6 @@
         this.today = year + "-" + month + "-" + day;
         this.minDateMessage = "01/" + nextMonth + "/" + nextYear;
         this.minDate = nextYear + "-" + nextMonth + "-01";
-        console.log("today " + this.today);
-        console.log("minDateMessage " + this.minDateMessage);
-        console.log("minDate " + this.minDate);
       },
 
       readData() {
@@ -748,7 +743,6 @@
         {
           this.form.text_status_persetujuan_pangkalan = 'Ditolak Pangkalan';
         }
-        console.log(this.form.text_status_persetujuan_pangkalan);
         
         this.dialog = true;
       },

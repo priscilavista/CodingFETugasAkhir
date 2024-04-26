@@ -415,10 +415,8 @@
 
             setDate() {
                 this.today = new Date;
-                console.log("today " + this.today);
                 let day = this.today.getDate();
                 let month = this.today.getMonth();
-                console.log("month " + month);
                 let year = this.today.getFullYear();
                 month = month + 1;
                 if(month<10)
@@ -432,12 +430,10 @@
                 }
                 
                 this.today = year + "-" + month + "-" + day;
-                console.log("today " + this.today);
             },
 
             checkItem(item)
             {
-                console.log("cek ", item.tanggal_pengambilan_gas);
                 if(item.status_gas_tidak_terkirim==='D' && item.tanggal_pengambilan_gas <= this.today)
                     return 1;
                 else

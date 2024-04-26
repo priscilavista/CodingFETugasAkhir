@@ -493,7 +493,6 @@
         this.form.alokasi_pengambilan_gas = item.alokasi_pengambilan_gas;
         this.form.id_jadwal_pengambilan_gas = item.id_jadwal_pengambilan_gas;
         this.form.jenis_alokasi_pengambilan_gas = item.jenis_alokasi_pengambilan_gas;
-        console.log(this.form)
         this.dialog = true;
       },
 

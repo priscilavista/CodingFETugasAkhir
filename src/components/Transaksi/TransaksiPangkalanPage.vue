@@ -377,9 +377,7 @@
 
       setDate() {
         this.today = new Date;
-        console.log("today " + this.today);
         let day = this.today.getDate();
-        console.log("day " + day);
         let month = this.today.getMonth();
         let nextMonth = month;
         let year = this.today.getFullYear();
@@ -413,9 +411,6 @@
         this.today = year + "-" + month + "-" + day;
         this.minDate = year + "-" + month + "-01";
         this.maxDate = nextYear + "-" + nextMonth + "-01";
-        console.log("today " + this.today);
-        console.log("maxDate " + this.maxDate);
-        console.log("minDate " + this.minDate);
       },
 
       checkDate(item)
@@ -445,7 +440,6 @@
             {
               var res = response.data.data;
               this.transaksis = res;
-              console.log(this.transaksis[0].tanggal_transaksi);
               this.color = "green";
               this.snackbar = true;
               this.overlay = false;
