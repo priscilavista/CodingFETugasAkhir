@@ -531,9 +531,34 @@
             },
 
             viewDay ({ date }) {
-                this.dialog=true;
-                this.readSPPBE();
-                this.form.tanggal_pengambilan_gas = date;
+                let today = new Date;
+                let month = today.getMonth();
+                let nextMonth = month;
+                let year = today.getFullYear();
+                let nextYear = year;
+                if(month!=11)
+                {
+                    nextMonth = nextMonth + 2;
+
+                    if(nextMonth<10)
+                    {
+                        nextMonth = "0" + nextMonth;
+                    }
+                }
+                else
+                {
+                    nextMonth = "0" + 1;
+                    nextYear = year + 1;
+                }
+                
+                let minDate = nextYear + "-" + nextMonth + "-01";
+
+                if(date >= minDate)
+                {
+                    this.dialog=true;
+                    this.readSPPBE();
+                    this.form.tanggal_pengambilan_gas = date;
+                }
             },
 
             readEvent() {
