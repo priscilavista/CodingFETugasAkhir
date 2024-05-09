@@ -169,6 +169,7 @@
             sortable: true,
             value: "tanggal_pengisian_data",
           },
+          { text: "Pangkalan", value: "nama_pangkalan" },
           { text: "Nomor Tabung", value: "nomor_tabung" },
           { text: "Status", value: "status_note" },
         ],

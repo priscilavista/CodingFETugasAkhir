@@ -668,7 +668,7 @@
           return 1;
         }
 
-        if(this.form.tanggal_transaksi < this.minDate)
+        if(this.form.tanggal_pengambilan_gas < this.minDate)
         {
           return 2;
         }

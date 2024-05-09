@@ -415,7 +415,7 @@
 
       checkDate(item)
       {
-        if(item.tanggal_transaksi >= this.minDate || item.tanggal_transaksi < this.maxDate)
+        if(item.tanggal_transaksi >= this.minDate && item.tanggal_transaksi < this.maxDate)
         {
           return 1;
         }
