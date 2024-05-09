@@ -607,7 +607,7 @@
 
             readSPPBE() {
                 this.overlay = true;
-                var url = this.$api + "/sppbe/getAll";
+                var url = this.$api + "/sppbe/getAllActive";
                 this.$http.get(url)
                     .then((response) => {
                         if(response.data.code === 200)
