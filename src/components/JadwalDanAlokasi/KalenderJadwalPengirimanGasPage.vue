@@ -1008,6 +1008,7 @@
                     this.resetForm();
                     this.close();
                     this.eventHandler(this.checkEvent);
+                    location.reload();
                 }
                 else
                 {

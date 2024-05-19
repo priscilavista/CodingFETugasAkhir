@@ -346,10 +346,15 @@
             },
 
             getDataTotalTransaksiManajer() {
+                let today = new Date;
+                let year = today.getFullYear();
+                var body = { 
+                    'tahun': year
+                };
                 var url = this.$api;
 
-                url = url + "/transaksi/getAll";
-                this.$http.get(url)
+                url = url + "/transaksi/postDashboardManajer";
+                this.$http.post(url, body)
                     .then((response) => {
                         if(response.data.code == 200)
                         {
@@ -603,17 +608,33 @@
 
                                 var tempDate = new Date(element.tanggal_pengambilan_gas).setHours(0,0,0,0);
                                 if(tempDate === date)
-                                {
-                                    tempList = [
-                                        ...tempList,
-                                        {
-                                            'jenis_kegiatan': 'Pengiriman',
-                                            'lokasi_kegiatan': element.nama_pangkalan,
-                                            'jumlah_gas': element.alokasi_penerimaan_gas,
-                                            'tanggal_kegiatan': element.tanggal_pengambilan_gas,
-                                            'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
-                                        }
-                                    ]
+                                {   
+                                    if(element.jenis_alokasi_pengambilan_gas == 'Reguler')
+                                    {
+                                        tempList = [
+                                            ...tempList,
+                                            {
+                                                'jenis_kegiatan': 'Pengiriman',
+                                                'lokasi_kegiatan': element.nama_pangkalan,
+                                                'jumlah_gas': element.alokasi_penerimaan_gas,
+                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                                'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
+                                            }
+                                        ]
+                                    }
+                                    else
+                                    {
+                                        tempList = [
+                                            ...tempList,
+                                            {
+                                                'jenis_kegiatan': 'Pengiriman',
+                                                'lokasi_kegiatan': element.nama_pangkalan,
+                                                'jumlah_gas': element.alokasi_tambahan,
+                                                'tanggal_kegiatan': element.tanggal_pengambilan_gas,
+                                                'jenis_alokasi': element.jenis_alokasi_pengambilan_gas,
+                                            }
+                                        ]
+                                    }
                                 }
                             });
 

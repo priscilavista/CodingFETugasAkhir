@@ -502,6 +502,7 @@
           newPassword: null,
           nomor_telepon: null,
           tanggal_lahir: null,
+          nomor_ktp: null,
         },
         namaRules: [(v) => !!v || "Nama Tidak Boleh Kosong"],
         roleRules: [(v) => !!v || "Jabatan Tidak Boleh Kosong"],
@@ -538,6 +539,7 @@
                 this.form.email = res.email_pegawai;
                 this.form.nomor_telepon = res.nomor_telepon_pegawai;
                 this.form.tanggal_lahir = res.tanggal_lahir_pegawai;
+                this.form.nomor_ktp = res.nomor_ktp_pegawai;
                 this.dialogProfil = true;
               }
               else
@@ -600,6 +602,7 @@
               nomor_telepon_pegawai: this.form.nomor_telepon,
               tanggal_lahir_pegawai: this.form.tanggal_lahir,
               email_pegawai: this.form.email,
+              nomor_ktp_pegawai: this.form.nomor_ktp,
             };
           }
           else if(this.jabatan === 'pangkalan')
@@ -776,6 +779,7 @@
           oldPassword: null,
           newPassword: null,
           nomor_telepon: null,
+          nomor_ktp: null,
         };
       },
     },

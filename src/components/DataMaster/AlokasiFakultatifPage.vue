@@ -295,7 +295,7 @@
               readonly
             />
             <v-spacer />
-            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="save">Simpan</v-btn>
+            <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="setForm">Simpan</v-btn>
             <v-spacer />
           </v-container>
         </v-card-text>
@@ -610,7 +610,7 @@
             status_gas_tidak_terkirim: 'D',
           };
 
-          var url = this.$api + "/alokasiPengambilanGas/update/" + this.editId;
+          var url = this.$api + "/alokasiFakultatif/update/" + this.editId;
           this.$http.put(url, newData)
             .then((response) => {
               if(response.data.code === 200)
