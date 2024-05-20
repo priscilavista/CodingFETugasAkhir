@@ -1,14 +1,14 @@
 <template>
     <v-row>
         <v-col
-            cols="8"
+            cols="12"
             sm="8"
             md="8"
             lg="8"
         >
             <v-row>
                 <v-col
-                    cols="6"
+                    cols="12"
                     sm="6"
                     md="6"
                     lg="6"
@@ -31,7 +31,7 @@
                 </v-col>
 
                 <v-col
-                    cols="6"
+                    cols="12"
                     sm="6"
                     md="6"
                     lg="6"
@@ -109,12 +109,12 @@
                     md="12"
                     lg="12"
                 >
-                    <v-card height="540px" style="display: flex !important; flex-direction: column;">
+                    <v-card style="display: flex !important; flex-direction: column;">
                         <v-card-title class="indigo white--text">
                             <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-history</v-icon>
                             <span class="text-h6 font-weight-light">Daftar Kegiatan yang Akan Datang - {{ monthNow }}</span>
                         </v-card-title>
-                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-4">
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
@@ -122,7 +122,7 @@
                                     :items-per-page="5"
                                     :headers="headers" 
                                     :items="dataRiwayat"
-                                    height="385px"
+                                    height="350px"
                                     fixed-header
                                 />
                             </template>
@@ -133,7 +133,7 @@
         </v-col>
 
         <v-col
-            cols="4"
+            cols="12"
             sm="4"
             md="4"
             lg="4"

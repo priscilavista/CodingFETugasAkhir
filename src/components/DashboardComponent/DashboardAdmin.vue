@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col
-            cols="6"
+            cols="12"
             sm="6"
             md="6"
             lg="6"
@@ -47,7 +47,6 @@
 
                     <v-card
                         class="mx-auto mt-5" 
-                        height="450px"
                         style="display: flex !important; flex-direction: column;"
                     >
                         <v-card-title class="indigo white--text text-h5">
@@ -55,15 +54,15 @@
                             <span class="text-h6 font-weight-light">Daftar Kegiatan Hari Ini</span>
                         </v-card-title>
 
-                        <v-card-text class="mt-3">
+                        <v-card-text style="flex-grow: 1; overflow: auto;" class="mt-3">
                             <template>
                                 <v-data-table
                                     id="customStyleTable"
-                                    class="elevation-1"
                                     :items-per-page="5"
+                                    class="elevation-1"
                                     :headers="headers"
                                     :items="dataRiwayat"
-                                    height="300px"
+                                    height="350px"
                                     fixed-header
                                 />
                             </template>
@@ -74,12 +73,12 @@
         </v-col>
 
         <v-col
-            cols="6"
+            cols="12"
             sm="6"
             md="6"
             lg="6"
         >
-            <v-card style="display: flex !important; flex-direction: column;" height="666.5px">
+            <v-card style="display: flex !important; flex-direction: column;" height="100%">
                 <v-card-title class="indigo white--text text-h5">
                     <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-card-account-details-outline</v-icon>
                     <span class="text-h6 font-weight-light">Informasi Driver</span>
@@ -90,7 +89,7 @@
                     justify="space-between"
                     style="flex-grow: 1; overflow: auto;"
                 >
-                    <v-col cols="5">
+                    <v-col cols="12" sm="5" md="5" lg="5">
                         <v-treeview
                             :active.sync="active"
                             :items="items"
@@ -102,16 +101,16 @@
                             transition
                         >
                             <template v-slot:prepend="{ item }">
-                                <v-icon v-if="!item.children" style="margin-right: -40px;">
+                                <v-icon v-if="!item.children">
                                     mdi-account-circle
                                 </v-icon>
                             </template>
                         </v-treeview>
                     </v-col>
 
-                    <v-divider vertical />
+                    <!-- <v-divider vertical /> -->
 
-                    <v-col class="d-flex">
+                    <v-col cols="12" sm="7" md="7" lg="7" class="d-flex">
                         <v-scroll-y-transition mode="out-in">
                             <div
                                 v-if="!selected"
@@ -150,44 +149,44 @@
                                     tag="v-card-text"
                                 >
                                     <v-col
-                                        class="text-right mr-4 mb-2"
+                                        class="text-right"
                                         tag="strong"
                                         cols="5"
                                     >
                                         Email:
                                     </v-col>
 
-                                    <v-col>{{ selected.email_pegawai }}</v-col>
+                                    <v-col style="padding:12px 0px 12px 0px">{{ selected.email_pegawai }}</v-col>
 
                                     <v-col
-                                        class="text-right mr-4 mb-2"
+                                        class="text-right"
                                         tag="strong"
                                         cols="5"
                                     >
                                         Nomor Telepon:
                                     </v-col>
 
-                                    <v-col>{{ selected.nomor_telepon_pegawai }}</v-col>
+                                    <v-col style="padding:12px 0px 12px 0px">{{ selected.nomor_telepon_pegawai }}</v-col>
 
                                     <v-col
-                                        class="text-right mr-4 mb-2"
+                                        class="text-right"
                                         tag="strong"
                                         cols="5"
                                     >
                                         Total Pengambilan:
                                     </v-col>
 
-                                    <v-col>{{ selected.jumlah_pengambilan }}</v-col>
+                                    <v-col style="padding-left:0px" class="mr-8">{{ selected.jumlah_pengambilan }}</v-col>
 
                                     <v-col
-                                        class="text-right mr-4 mb-2"
+                                        class="text-right"
                                         tag="strong"
                                         cols="5"
                                     >
                                         Total Pengiriman:
                                     </v-col>
 
-                                    <v-col>{{ selected.jumlah_pengiriman }}</v-col>
+                                    <v-col style="padding-left:0px">{{ selected.jumlah_pengiriman }}</v-col>
                                 </v-row>
                             </v-card>
                         </v-scroll-y-transition>
@@ -303,3 +302,9 @@
         }
     }
 </script>
+
+<style>
+.v-card__subtitle, .v-card__text, .v-card__title {
+    padding: 16px 4px 4px 4px;
+}
+</style>

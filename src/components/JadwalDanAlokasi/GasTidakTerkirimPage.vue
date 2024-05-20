@@ -55,6 +55,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers"
               :items="jadwalRequest"
               :search="search"
@@ -70,7 +74,7 @@
                             mdi-check
                           </v-icon>
                         </template>
-                        <span>Terima Alokasi Fakultatif</span>
+                        <span>Terima Gas Tidak Terkirim</span>
                       </v-tooltip>
                       <v-tooltip top>
                         <template v-slot:activator="{ on, attrs }">
@@ -78,7 +82,7 @@
                             mdi-close
                           </v-icon>
                         </template>
-                        <span>Tolak Alokasi Fakultatif</span>
+                        <span>Tolak Gas Tidak Terkirim</span>
                       </v-tooltip>
                     </span>
                   </template>
@@ -122,6 +126,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers2"
               :items="jadwalConfirm"
               :search="search"

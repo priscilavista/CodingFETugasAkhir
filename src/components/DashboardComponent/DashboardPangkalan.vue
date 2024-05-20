@@ -1,12 +1,12 @@
 <template>
     <v-row>
         <v-col
-            cols="8"
+            cols="12"
             sm="8"
             md="8"
             lg="8"
         >
-            <v-card style="display: flex !important; flex-direction: column;" height="650px">
+            <v-card style="display: flex !important; flex-direction: column;">
                 <v-card-title class="indigo white--text text-h5">
                     <v-icon medium left style="vertical-align: middle; color: #ffffff;">mdi-calendar-search</v-icon>
                     <span class="text-h6 font-weight-light">Jadwal Mingguan Pangkalan</span>
@@ -14,7 +14,7 @@
 
                 <v-card-text>
                     <template>
-                        <v-row class="mt-3">
+                        <v-row class="mt-3 ml-3 mr-3 mb-3">
                             <jadwal-table 
                                 :heights="'175px'" 
                                 :backgroundColor="{ 'background-color': 'red' }" 
@@ -40,7 +40,7 @@
                             />
                         </v-row>
                         
-                        <v-row class="mt-2">
+                        <v-row class="mt-3 ml-3 mr-3 mb-3">
                             <jadwal-table 
                                 :heights="'175px'" 
                                 :backgroundColor="{ 'background-color': '#00AFFF' }" 
@@ -71,7 +71,7 @@
         </v-col>
 
         <v-col
-            cols="4"
+            cols="12"
             sm="4"
             md="4"
             lg="4"

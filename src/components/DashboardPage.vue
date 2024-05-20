@@ -8,18 +8,8 @@
 
         <v-spacer />
         
-        <div v-if="isWideScreen" style="margin-bottom: 50px">
+        <div style="margin-bottom: 50px">
             <h3 style="float:left;">Dashboard</h3>
-            <v-spacer />
-        </div>
-        
-        <div v-else-if="isMediumScreen" style="margin-bottom: 125px">
-            <h3 style="float:left">Dashboard</h3>
-            <v-spacer />
-        </div>
-        
-        <div v-else style="margin-bottom: 175px">
-            <h3 style="float:left">Dashboard</h3>
             <v-spacer />
         </div>
         

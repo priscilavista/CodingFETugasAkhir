@@ -48,7 +48,7 @@
       </v-btn>
     </div>
 
-    <h3 style="margin-bottom:-30px">Disetujui Pangkalan</h3>
+    <h3 style="margin-bottom:-3%">Disetujui Pangkalan</h3>
     <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
@@ -73,6 +73,10 @@
       </v-card-title>
 
       <v-data-table
+        id="customStyleTable"
+        class="elevation-1"
+        :items-per-page="5"
+        height="350px"
         :headers="headers"
         :items="fakultatifA"
         :search="search"
@@ -97,7 +101,7 @@
       </v-data-table>
     </v-card>
 
-    <h3 style="margin-bottom:-30px; padding-top:50px">Belum Dikonfirmasi Pangkalan</h3>
+    <h3 style="margin-bottom:-3%; padding-top:5%">Belum Dikonfirmasi Pangkalan</h3>
     <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
@@ -122,6 +126,10 @@
       </v-card-title>
 
       <v-data-table
+        id="customStyleTable"
+        class="elevation-1"
+        :items-per-page="5"
+        height="350px"
         :headers="headers"
         :items="fakultatifP"
         :search="search"
@@ -154,7 +162,7 @@
       </v-data-table>
     </v-card>
 
-    <h3 style="margin-bottom:-30px;padding-top:50px">Ditolak Pangkalan</h3>
+    <h3 style="margin-bottom:-3%;padding-top:5%">Ditolak Pangkalan</h3>
     <v-card fill-height class="flex-item mx-auto" elevation="5" style="margin-top: 5%">
       <v-card-title class="text-right" style="display: inherit;">
         <v-text-field
@@ -179,6 +187,10 @@
       </v-card-title>
 
       <v-data-table
+        id="customStyleTable"
+        class="elevation-1"
+        :items-per-page="5"
+        height="350px"
         :headers="headers"
         :items="fakultatifD"
         :search="search"

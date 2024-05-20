@@ -140,9 +140,13 @@
       </v-card-title>
 
       <v-data-table
+        id="customStyleTable"
+        class="elevation-1"
+        :items-per-page="5"
         :headers="headers"
         :items="transaksis"
         :search="search"
+        height="350px"
         style="padding: 10px 20px 20px 20px"
       >
         <template v-slot:[`item.actions`]="{ item }">

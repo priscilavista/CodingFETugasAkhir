@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col
-                cols="4"
+                cols="12"
                 sm="4"
                 md="4"
                 lg="4"
@@ -25,7 +25,7 @@
             </v-col>
 
             <v-col
-                cols="4"
+                cols="12"
                 sm="4"
                 md="4"
                 lg="4"
@@ -48,7 +48,7 @@
             </v-col>
             
             <v-col
-                cols="4"
+                cols="12"
                 sm="4"
                 md="4"
                 lg="4"
@@ -75,7 +75,7 @@
 
         <v-row style="margin-top: 10px;">
             <v-col
-                cols="6"
+                cols="12"
                 sm="6"
                 md="6"
                 lg="6"
@@ -113,14 +113,14 @@
             </v-col>
 
             <v-col
-                cols="6"
+                cols="12"
                 sm="6"
                 md="6"
                 lg="6"
             >
                 <v-row>
                     <v-col
-                        cols="6"
+                        cols="12"
                         sm="6"
                         md="6"
                         lg="6"
@@ -150,7 +150,7 @@
                     </v-col>
                     
                     <v-col
-                        cols="6"
+                        cols="12"
                         sm="6"
                         md="6"
                         lg="6"

@@ -44,7 +44,7 @@
           />
 
           <v-spacer />
-          <v-btn small color="primary" dark style="float:right; margin-top: 3%" @click="handleDialog()">Simpan</v-btn>
+          <v-btn small color="primary" dark style="float:right" @click="handleDialog()">Simpan</v-btn>
           <v-spacer />
         </v-container>
       </v-card-text>
@@ -87,6 +87,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers"
               :items="onGoingGasBocor"
               :search="search"
@@ -145,6 +149,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers"
               :items="finishedGasBocor"
               :search="search"

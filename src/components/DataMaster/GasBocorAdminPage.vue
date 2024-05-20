@@ -58,6 +58,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers"
               :items="onGoingGasBocor"
               :search="search"
@@ -100,6 +104,10 @@
             </v-card-title>
 
             <v-data-table
+              id="customStyleTable"
+              class="elevation-1"
+              :items-per-page="5"
+              height="350px"
               :headers="headers"
               :items="finishedGasBocor"
               :search="search"
